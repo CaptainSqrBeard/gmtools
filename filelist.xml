@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentpackage name="GM Tools" modversion="1.0.3" corepackage="False" gameversion="0.17.16.0">
+  <Other file="%ModDir%/Lua/ForcedAutorun/init.lua" />
+  <Other file="%ModDir%/Lua/Scripts/_UTILS.lua" />
+  <Other file="%ModDir%/Lua/Scripts/adminpm.lua" />
+  <Other file="%ModDir%/Lua/Scripts/help.lua" />
+  <Other file="%ModDir%/Lua/Scripts/item.lua" />
+  <Other file="%ModDir%/Lua/Scripts/other.lua" />
+</contentpackage>

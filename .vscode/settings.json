@@ -1,0 +1,25 @@
+{
+    "Lua.diagnostics.globals": [
+        "SERVER",
+        "CLIENT",
+        "Timer",
+        "Game",
+        "Color",
+        "GameMain",
+        "ChatMessage",
+        "ChatMessageType",
+        "Item",
+        "Entity",
+        "Client",
+        "Hook",
+        "ClientPermissions",
+        "ServerLog",
+        "ServerLogMessageType",
+        "File",
+        "JobPrefab",
+        "JobVariant",
+        "AfflictionPrefab",
+        "CauseOfDeathType",
+        "Character"
+    ]
+}
