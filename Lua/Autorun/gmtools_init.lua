@@ -6,6 +6,7 @@ GMT.ChatCommands = {}
 
 if SERVER then
     -- Base
+    require("GMT_Scripts._UTILS.lang")
     require("GMT_Scripts._UTILS.utils")
     require("GMT_Scripts._UTILS.command")
     require("GMT_Scripts._UTILS.config")
@@ -13,6 +14,10 @@ if SERVER then
     require("GMT_Scripts._UTILS.playerdb")
     require("GMT_Scripts._UTILS.permissions")
     require("GMT_Scripts.hooks")
+
+    -- Load config and lang
+    GMT.Config.Load()
+    GMT.LangFiles.Load(GMT.Config.Vars.language)
 
     -- Console commands
     require("GMT_Scripts.help")
@@ -32,9 +37,12 @@ if SERVER then
     -- Debug
     require("GMT_Scripts.debug")
 
-    -- Load config and playerdata
-    GMT.Config.Load()
+    -- Load playerdata
     GMT.PlayerData.Load()
+
+    -- Checking Player Commands in config after adding them
+    GMT.CheckPlayerCommands()
+    
 
 
     Timer.Wait(function ()

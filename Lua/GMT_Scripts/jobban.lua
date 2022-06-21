@@ -1,6 +1,6 @@
-GMT.AddCommand("jobban","Bans job for player, so he can't play on it",false,function(client,cursor,args)
+GMT.AddCommand("jobban",GMT.Lang("Help_Jobban"),false,function(client,cursor,args)
     if #args < 2 then
-        GMT.SendConsoleMessage("GMTools: Not enough arguments",client,Color(255,0,0,255))
+        GMT.SendConsoleMessage("GMTools: "..GMT.Lang("Error_NotEnoughArguments"),client,Color(255,0,0,255))
             return
     end
 
@@ -15,7 +15,7 @@ GMT.AddCommand("jobban","Bans job for player, so he can't play on it",false,func
     if player == nil then
         steam_id = string.match(args[1],'%d+')
         if steam_id:len() ~= 17 then
-            GMT.SendConsoleMessage("GMTools: Unknown player",client,Color(255,0,0,255))
+            GMT.SendConsoleMessage("GMTools: "..GMT.Lang("Error_PlayerNotFound"),client,Color(255,0,0,255))
             return
         end
     end
@@ -73,16 +73,16 @@ GMT.AddCommand("jobban","Bans job for player, so he can't play on it",false,func
         GMT.PlayerData.JobBanSteam(steam_id,job,duration,reason)
     end
 end,{
-{name="player",desc="Name/ID/SteamID of player"},
-{name="job",desc="Job that will be banned for this player"},
-{name="duration",desc="Duration of job-ban. Leave empty to permanent ban"},
-{name="reason",desc="Reason, why player has been job-banned."}
+{name="player",desc=GMT.Lang("Args_Jobban_player")},
+{name="job",desc=GMT.Lang("Args_Jobban_job")},
+{name="duration",desc=GMT.Lang("Args_Jobban_duration")},
+{name="reason",desc=GMT.Lang("Args_Jobban_reason")}
 
 })
 
-GMT.AddCommand("unjobban","Un-Bans job for player",false,function(client,cursor,args)
+GMT.AddCommand("unjobban",GMT.Lang("Help_UnJobban"),false,function(client,cursor,args)
     if #args == 0 then
-        GMT.SendConsoleMessage("GMTools: Not enough arguments",client,Color(255,0,0,255))
+        GMT.SendConsoleMessage("GMTools: "..GMT.Lang("Error_NotEnoughArguments"),client,Color(255,0,0,255))
             return
     end
 
@@ -94,7 +94,7 @@ GMT.AddCommand("unjobban","Un-Bans job for player",false,function(client,cursor,
     if player == nil then
         steam_id = string.match(args[1],'%d+')
         if steam_id:len() ~= 17 then
-            GMT.SendConsoleMessage("GMTools: Unknown player",client,Color(255,0,0,255))
+            GMT.SendConsoleMessage("GMTools: "..GMT.Lang("Error_PlayerNotFound"),client,Color(255,0,0,255))
             return
         end
     else
@@ -131,6 +131,6 @@ GMT.AddCommand("unjobban","Un-Bans job for player",false,function(client,cursor,
     --
 
 end,{
-{name="player",desc="Name/ID/SteamID of player"},
-{name="job",desc="Job that will be unbanned for this player"}
+{name="player",desc=GMT.Lang("Args_UnJobban_player")},
+{name="job",desc=GMT.Lang("Args_UnJobban_job")}
 })

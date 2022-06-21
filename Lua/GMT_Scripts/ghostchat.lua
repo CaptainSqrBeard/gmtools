@@ -1,4 +1,4 @@
-GMT.AddCommand("see_ghostchat","Make you see messages from dead, even if you not a ghost",false,function(client,cursor,args)
+GMT.AddCommand("see_ghostchat",GMT.Lang("Help_SeeGhostChat"),false,function(client,cursor,args)
     if GMT.Player.ProcessCooldown(client,2) then return end
     local target
 
@@ -39,11 +39,12 @@ GMT.AddCommand("see_ghostchat","Make you see messages from dead, even if you not
         GMT.SendConsoleMessage("GM-Tools: Forced Ghost Chat DISABLED for "..target.Name,client,Color(255,0,255,255))
     end
     
-end,{{name="status",desc="Can be true (only enable), false (only disable) or switch (switch between on/off)"},{name="target",desc="Player to toggle this abillity"}})
+end,{{name="status",desc=GMT.Lang("Args_SeeGhostChat_status")},
+{name="target",desc=GMT.Lang("Args_SeeGhostChat_target")}})
 
 
 
-GMT.AddCommand("deadmsg","Sends message in ghost chat",false,function(client,cursor,args)
+GMT.AddCommand("deadmsg",GMT.Lang("Help_DeadMsg"),false,function(client,cursor,args)
     if GMT.Player.ProcessCooldown(client,2) then return end
     if not Game.RoundStarted then
         GMT.SendConsoleMessage("GMTools: This command work only in round and you are alive",client,Color(255,0,128,255))
@@ -79,10 +80,10 @@ GMT.AddCommand("deadmsg","Sends message in ghost chat",false,function(client,cur
         end
 
     end
-end,{{name="msg",desc="A message to send in ghost chat"}})
+end,{{name="msg",desc=GMT.Lang("Args_DeadMsg_msg")}})
 
 
-GMT.AddChatCommand("dead","Sends message in ghost chat",function (client,args)
+GMT.AddChatCommand("dead",GMT.Lang("Help_DeadMsg"),function (client,args)
     if GMT.Player.ProcessCooldown(client,2) then return end
     if not GMT.HasPermission(client,".deadmsg") then
         local chatMsg = ChatMessage.Create("GM-Tools","You don't have permission for this command", ChatMessageType.Dead, nil, nil)
@@ -105,7 +106,7 @@ GMT.AddChatCommand("dead","Sends message in ghost chat",function (client,args)
         msg = msg..args[i].." "
     end
     if string.len(msg) > 200 then
-        GMT.SendConsoleMessage("GMTools: Message is too big!",client,Color(255,0,128,255))
+        GMT.SendConsoleMessage("GMTools: "..GMT.Lang("Error_TooLongMessage"),client,Color(255,0,128,255))
     end
 
     -- For sender

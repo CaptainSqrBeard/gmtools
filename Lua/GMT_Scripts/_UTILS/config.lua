@@ -38,13 +38,7 @@ parameter_load["player_commands"] = function (line)
     local list = GMT.Split(line,";")
     local out = {}
     for i, cmd in ipairs(list) do
-        if GMT.Contains(GMT.AllCommands,cmd) then
-            table.insert(out,cmd)
-        else
-            for i, client in ipairs(Client.ClientList) do
-                GMT.SendConsoleMessage('GM-Tools: Warning! Unknown GM-Tools command "'..cmd..'" in config at parameter "player_commands". Ignoring this.',client,Color(255,64,0,255))
-            end
-        end
+        table.insert(out,cmd)
     end
     GMT.Config.Vars.player_commands = out
 end
@@ -74,7 +68,7 @@ parameter_save["lowest_job"] = function ()
     return GMT.Config.Vars.lowest_job
 end
 parameter_save["language"] = function ()
-    return GMT.Config.Vars.lowest_job
+    return GMT.Config.Vars.language
 end
 
 
@@ -158,4 +152,20 @@ function GMT.Config.Save()
         txt = txt..k..":"..parameter_save[k]().."\n"
     end
     File.Write(path.."config.txt",txt)
+end
+
+
+
+function GMT.CheckPlayerCommands()
+    local out = {}
+    for i, cmd in ipairs(GMT.Config.Vars.player_commands) do
+        if GMT.Contains(GMT.AllCommands,cmd) then
+            table.insert(out,cmd)
+        else
+            for i, client in ipairs(Client.ClientList) do
+                GMT.SendConsoleMessage('GM-Tools: Warning! Unknown GM-Tools command "'..cmd..'" in config at parameter "player_commands". Ignoring it.',client,Color(255,64,0,255))
+            end
+        end
+    end
+    GMT.Config.Vars.player_commands = out
 end

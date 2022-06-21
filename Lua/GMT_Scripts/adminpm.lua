@@ -1,4 +1,4 @@
-GMT.AddCommand("adminpm","Sends private message to player",false,function(client,cursor,args)
+GMT.AddCommand("adminpm",GMT.Lang("Help_AdminPM"),false,function(client,cursor,args)
     if GMT.Player.ProcessCooldown(client,3) then return end
     if #args < 2 then
         GMT.SendConsoleMessage("GMTools: Not enough arguments provided",client,Color(255,0,128,255))
@@ -7,7 +7,7 @@ GMT.AddCommand("adminpm","Sends private message to player",false,function(client
 
     local r_client = GMT.GetClientByString(args[1])
     if r_client == nil then
-        GMT.SendConsoleMessage("GMTools: Player not found",client,Color(255,0,128,255))
+        GMT.SendConsoleMessage("GMTools: "..GMT.Lang("Error_PlayerNotFound"),client,Color(255,0,128,255))
         return
     end
 
@@ -16,7 +16,7 @@ GMT.AddCommand("adminpm","Sends private message to player",false,function(client
         msg = msg..args[i].." "
     end
     if string.len(msg) > 200 then
-        GMT.SendConsoleMessage("GMTools: Message is too big!",client,Color(255,0,128,255))
+        GMT.SendConsoleMessage("GMTools: "..GMT.Lang("Error_TooLongMessage"),client,Color(255,0,128,255))
     end
 
     -- For sender
@@ -42,10 +42,10 @@ GMT.AddCommand("adminpm","Sends private message to player",false,function(client
         end
     end
 end,{
-{name="target",desc="Who will get private message"},
-{name="msg",desc="Message to send"}})
+{name="target",desc=GMT.Lang("Args_AdminPM_target")},
+{name="msg",desc=GMT.Lang("Args_AdminPM_msg")}})
 
-GMT.AddCommand("ahelp","Sends private message to admins",false,function(client,cursor,args)
+GMT.AddCommand("ahelp",GMT.Lang("Help_AHelp"),false,function(client,cursor,args)
     if GMT.Config.Vars.ahelp_enabled == false then
         GMT.SendConsoleMessage("GMTools: .ahelp is currently disabled",client,Color(255,0,0,255))
         return
@@ -65,7 +65,7 @@ GMT.AddCommand("ahelp","Sends private message to admins",false,function(client,c
         msg = msg..args[i].." "
     end
     if string.len(msg) > 200 then
-        GMT.SendConsoleMessage("GMTools: Message is too big!",client,Color(255,0,128,255))
+        GMT.SendConsoleMessage("GMTools: "..GMT.Lang("Error_TooLongMessage"),client,Color(255,0,128,255))
     end
 
     -- For sender
@@ -84,9 +84,9 @@ GMT.AddCommand("ahelp","Sends private message to admins",false,function(client,c
             Game.SendDirectChatMessage(chatMsg, cl)
         end
     end
-end)
+end,{{name="msg",desc=GMT.Lang("Args_AHelp_msg")}})
 
-GMT.AddCommand("toggle_ahelp","Disables/enables .ahelp",false,function(client,cursor,args)
+GMT.AddCommand("toggle_ahelp",GMT.Lang("Help_ToggleAHelp"),false,function(client,cursor,args)
     local status = GMT.Config.Vars.ahelp_enabled
     -- Getting Status
     if args[1] == "true" then
@@ -108,4 +108,4 @@ GMT.AddCommand("toggle_ahelp","Disables/enables .ahelp",false,function(client,cu
     end
     
     GMT.Config.Save()
-end,{{name="status",desc="Can be true (only enable), false (only disable) or switch (switch between on/off)"}})
+end,{{name="status",desc=GMT.Lang("Args_ToggleAHelp_status")}})

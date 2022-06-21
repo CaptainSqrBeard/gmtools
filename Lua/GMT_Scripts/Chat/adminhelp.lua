@@ -1,4 +1,4 @@
-GMT.AddChatCommand("ahelp","Sends private message to admins",function (client,args)
+GMT.AddChatCommand("ahelp",GMT.Lang("Help_AHelp"),function (client,args)
     if GMT.Player.ProcessCooldown(client,3) then return end
     if GMT.Config.Vars.ahelp_enabled == false then
         local chatMsg = ChatMessage.Create("ADMIN HELP","AHelp is currently disabled", ChatMessageType.Error, nil, nil)

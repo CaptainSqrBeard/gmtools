@@ -1,4 +1,4 @@
-GMT.AddCommand("cls","Clears console",false,function(client,cursor,args)
+GMT.AddCommand("cls",GMT.Lang("Help_Cls"),false,function(client,cursor,args)
     if GMT.Player.ProcessCooldown(client,4) then
         return
     end
@@ -9,7 +9,7 @@ GMT.AddCommand("cls","Clears console",false,function(client,cursor,args)
     GMT.SendConsoleMessage(cls,client,Color(0,0,0,0))
 end)
 
-GMT.AddCommand("ping","Pong!",false,function(client,cursor,args)
+GMT.AddCommand("ping",GMT.Lang("Help_Ping"),false,function(client,cursor,args)
     if GMT.Player.ProcessCooldown(client,1) then
         return
     end
@@ -18,7 +18,7 @@ GMT.AddCommand("ping","Pong!",false,function(client,cursor,args)
 end)
 
 
-GMT.AddCommand("list","Sends list of players on server",false,function(client,cursor,args)
+GMT.AddCommand("list",GMT.Lang("Help_List"),false,function(client,cursor,args)
     if GMT.Player.ProcessCooldown(client,4) then
         return
     end

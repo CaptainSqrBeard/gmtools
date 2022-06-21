@@ -1,4 +1,4 @@
-GMT.AddCommand("help","Sends information about commands.",false,function(client,cursor,args)
+GMT.AddCommand("help",GMT.Lang("Help_Help"),false,function(client,cursor,args)
     if GMT.Player.ProcessCooldown(client,4) then
         return
     end
@@ -44,4 +44,4 @@ GMT.AddCommand("help","Sends information about commands.",false,function(client,
         GMT.SendConsoleMessage("Game Master Tools",client,Color(255,255,255,158))
     end
 
-end,{{name="command",desc="Input name of command to get more info about it, or type 'all' to get command list"}})
+end,{{name="command",desc=GMT.Lang("Args_Help_command")}})

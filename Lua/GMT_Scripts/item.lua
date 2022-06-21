@@ -1,4 +1,4 @@
-GMT.AddCommand("nearitems","Shows information about all items around cursor",false,function(client,cursor,args)
+GMT.AddCommand("nearitems","Help_NearItems",false,function(client,cursor,args)
     if GMT.Player.ProcessCooldown(client,4) then return end
     local size = 100
     local ignore_wires = true
@@ -63,13 +63,13 @@ GMT.AddCommand("nearitems","Shows information about all items around cursor",fal
         GMT.SendConsoleMessage("* "..inv.count.." Item(s) in container with ID "..owner.ID.." ("..owner_name..")",client)
     end
 end,{
-{name="size",desc="Searching range, shaped as rectangle. Default: 100"},
-{name="ignore_wires",desc="If true, command will ignore wires on walls. If false, it will not. Default: true"}})
+{name="size",desc=GMT.Lang("Args_NearItems_size")},
+{name="ignore_wires",desc=GMT.Lang("Args_NearItems_ignorewires")}})
 
 
 
 
-GMT.AddCommand("deleteitem","Deletes items and everything inside it (If it is container)",false,function(client,cursor,args)
+GMT.AddCommand("deleteitem",GMT.Lang("Help_DeleteItem"),false,function(client,cursor,args)
     if #args == 0 then
         GMT.SendConsoleMessage("GMTools: No arguments provided",client,Color(255,0,128,255))
         return
@@ -96,12 +96,12 @@ GMT.AddCommand("deleteitem","Deletes items and everything inside it (If it is co
 
     local name = item.Prefab.Identifier.Value
     GMT.SendConsoleMessage("GMTools: Succesfully deleted item '"..name.."' at ID: "..id,client,Color(255,0,255,255))
-end,{{name="id",desc="ID of item to delete"}})
+end,{{name="id",desc=GMT.Lang("Args_DeleteItem_id")}})
 
 
 
 
-GMT.AddCommand("itemdata","Outputs item data (Condition, Tags, etc.)",false,function(client,cursor,args)
+GMT.AddCommand("itemdata",GMT.Lang("Help_ItemData"),false,function(client,cursor,args)
     if #args == 0 then
         GMT.SendConsoleMessage("GMTools: No arguments provided",client,Color(255,0,128,255))
         return
@@ -160,5 +160,5 @@ GMT.AddCommand("itemdata","Outputs item data (Condition, Tags, etc.)",false,func
         GMT.SendConsoleMessage("GMTools: Unknown parameter at argument #2",client,Color(255,0,0,255))
     end
 end,{
-{name="id",desc="ID of item"},
-{name="data",desc="Data"}})
+{name="id",desc=GMT.Lang("Args_ItemData_id")},
+{name="data",desc=GMT.Lang("Args_ItemData_data")}})

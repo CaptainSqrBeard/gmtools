@@ -79,14 +79,14 @@ end)
 
 
 
-GMT.AddCommand("smite","We do a little trolling (Doing funi things with players)",false,function(client,cursor,args)
+GMT.AddCommand("smite",GMT.Lang("Help_Smite"),false,function(client,cursor,args)
     local player = GMT.GetClientByString(args[2])
     if args[2] == nil then
         player = client
     else
         player = GMT.GetClientByString(args[2])
         if player == nil then
-            GMT.SendConsoleMessage("GM-Tools: Player not found",client)
+            GMT.SendConsoleMessage("GM-Tools: "..GMT.Lang("Error_PlayerNotFound"),client)
             return
         end
     end
@@ -99,5 +99,5 @@ GMT.AddCommand("smite","We do a little trolling (Doing funi things with players)
 
     smite.func(client, player)
 end,{
-{name="mode",desc="Smite to do. Type \"help\" here to get list of smites"},
-{name="client",desc="Who will suffer"}})
+{name="smite",desc=GMT.Lang("Args_Smite_smite")},
+{name="client",desc=GMT.Lang("Args_Smite_client")}})
