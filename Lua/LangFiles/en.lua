@@ -78,7 +78,14 @@ lang_files["Error_BadArgument"] = "Bad Argument {1}"
 lang_files["Error_PlayerNotFound"] = "Player not found"
 
 ---- Command output
--- Admin Chat
-
+-- AdminPM & AHelp
+lang_files["CMD_AdminPM_from"] = "from"
+lang_files["CMD_AdminPM_to"] = "to"
+lang_files["CMD_AdminPM_you"] = "You"
+lang_files["CMD_AdminPM_include_you"] = "Include you"
+lang_files["CMD_AdminPM_admins"] = "Admins"
+lang_files["CMD_AdminPM_pm"] = "Private Message"
+lang_files["CMD_AdminPM_note"] = "For anwser type \".ahelp <msg>\" in console or chat"
+lang_files["CMD_AdminPM_disabled"] = "AHelp is currently disabled"
 
 return lang_files

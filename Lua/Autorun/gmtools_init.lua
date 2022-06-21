@@ -31,7 +31,6 @@ if SERVER then
     require("GMT_Scripts.adminchat")
 
     -- Chat commands
-    require("GMT_Scripts.Chat.adminhelp")
     require("GMT_Scripts.Chat.other")
 
     -- Debug

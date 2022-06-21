@@ -30,7 +30,7 @@ GMT.AddChatCommand("admin",GMT.Lang("Help_AdminChat"),function (client,args)
 end)
 
 GMT.AddCommand("adminchat",GMT.Lang("Help_AdminChat"),false,function(client,cursor,args)
-    if GMT.Player.ProcessCooldown(client,2) then return end
+    if GMT.Player.ProcessCooldown(client,1) then return end
 
     local msg = ""
     for i = 1, #args, 1 do

@@ -32,6 +32,8 @@ function GMT.Lang(text,vars)
     end
 end
 
+--function GMT.Lang(text,vars) return "TEST" end
+
 function GMT.Array()
     return lang_files
 end
