@@ -7,7 +7,7 @@ GMT.AddCommand("nearitems",GMT.Lang("Help_NearItems"),false,function(client,curs
     if args[1] ~= nil then
         size = tonumber(args[1])
         if size == nil then
-            GMT.SendConsoleMessage("GMTools:",client,Color(255,0,128,255))
+            GMT.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_NearItems_badrange"),client,Color(255,0,128,255))
             return
         end
     end
@@ -15,7 +15,7 @@ GMT.AddCommand("nearitems",GMT.Lang("Help_NearItems"),false,function(client,curs
     if args[2] ~= nil and string.lower(args[2]) == "false" then
         ignore_wires = false
     elseif args[2] ~= nil and string.lower(args[2]) ~= "true" then
-        GMT.SendConsoleMessage("GMTools: ",client,Color(255,0,128,255))
+        GMT.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_NearItems_badwires"),client,Color(255,0,128,255))
         return
     end
 

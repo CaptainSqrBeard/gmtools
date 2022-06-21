@@ -120,7 +120,7 @@ lang_files["CMD_Help_gmt"] = "Game Master Tools"
 
 -- Near Items
 lang_files["CMD_NearItems_badrange"] = "Given size is not a number"
-lang_files["CMD_NearItems_badwires"] = "Wrong value in second argument"
+lang_files["CMD_NearItems_badwires"] = "Wrong value in second argument. Type 'true' or 'false'"
 lang_files["CMD_NearItems_nearitems"] = "Items near cursor (Range: {1})"
 lang_files["CMD_NearItems_unknown"] = "Unknown"
 lang_files["CMD_NearItems_item"] = "* Item: \'{1}\' ID {2} ({3}%)"
