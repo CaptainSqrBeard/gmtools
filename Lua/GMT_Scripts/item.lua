@@ -1,4 +1,4 @@
-GMT.AddCommand("nearitems","Help_NearItems",false,function(client,cursor,args)
+GMT.AddCommand("nearitems",GMT.Lang("Help_NearItems"),false,function(client,cursor,args)
     if GMT.Player.ProcessCooldown(client,4) then return end
     local size = 100
     local ignore_wires = true
@@ -7,7 +7,7 @@ GMT.AddCommand("nearitems","Help_NearItems",false,function(client,cursor,args)
     if args[1] ~= nil then
         size = tonumber(args[1])
         if size == nil then
-            GMT.SendConsoleMessage("GMTools: Given size is not a number",client,Color(255,0,128,255))
+            GMT.SendConsoleMessage("GMTools:",client,Color(255,0,128,255))
             return
         end
     end
@@ -15,7 +15,7 @@ GMT.AddCommand("nearitems","Help_NearItems",false,function(client,cursor,args)
     if args[2] ~= nil and string.lower(args[2]) == "false" then
         ignore_wires = false
     elseif args[2] ~= nil and string.lower(args[2]) ~= "true" then
-        GMT.SendConsoleMessage("GMTools: Wrong value in second argument",client,Color(255,0,128,255))
+        GMT.SendConsoleMessage("GMTools: ",client,Color(255,0,128,255))
         return
     end
 
@@ -23,7 +23,7 @@ GMT.AddCommand("nearitems","Help_NearItems",false,function(client,cursor,args)
     local output_item = {}
     local output_inv = {}
 
-    GMT.SendConsoleMessage("Items near cursor (Range: "..size..")",client,Color(255,0,255,255))
+    GMT.SendConsoleMessage(GMT.Lang("CMD_NearItems_nearitems",{size}),client,Color(255,0,255,255))
 
     -- lying items
     for i, item in ipairs(Item.ItemList) do
@@ -44,7 +44,7 @@ GMT.AddCommand("nearitems","Help_NearItems",false,function(client,cursor,args)
             else
                 -- Getting lying items
                 local name = item.Prefab.Identifier.Value
-                GMT.SendConsoleMessage("* Item: '"..name.."' ID "..item.ID.." ("..item.Condition.."%)",client)
+                GMT.SendConsoleMessage(GMT.Lang("CMD_NearItems_item",{name,item.ID,item.Condition}),client)
             end
         end
     end
@@ -52,7 +52,7 @@ GMT.AddCommand("nearitems","Help_NearItems",false,function(client,cursor,args)
     --Output items
     for i, inv in pairs(inves) do
         local owner = inv.owner
-        local owner_name = "Unknown"
+        local owner_name = GMT.Lang("CMD_NearItems_unknown")
         
         if not pcall(function ()
             owner_name = "'"..owner.Prefab.Identifier.Value.."'"
@@ -60,7 +60,7 @@ GMT.AddCommand("nearitems","Help_NearItems",false,function(client,cursor,args)
             owner_name = tostring(owner)
         end
 
-        GMT.SendConsoleMessage("* "..inv.count.." Item(s) in container with ID "..owner.ID.." ("..owner_name..")",client)
+        GMT.SendConsoleMessage(GMT.Lang("CMD_NearItems_contained_item",{inv.count,owner.ID,owner_name}),client)
     end
 end,{
 {name="size",desc=GMT.Lang("Args_NearItems_size")},
@@ -71,7 +71,7 @@ end,{
 
 GMT.AddCommand("deleteitem",GMT.Lang("Help_DeleteItem"),false,function(client,cursor,args)
     if #args == 0 then
-        GMT.SendConsoleMessage("GMTools: No arguments provided",client,Color(255,0,128,255))
+        GMT.SendConsoleMessage("GMTools: "..GMT.Lang("Error_NotEnoughArguments"),client,Color(255,0,128,255))
         return
     end
 
@@ -79,7 +79,7 @@ GMT.AddCommand("deleteitem",GMT.Lang("Help_DeleteItem"),false,function(client,cu
     
     -- Checking ID
     if id == nil then
-        GMT.SendConsoleMessage("GMTools: Given ID is not a number",client,Color(255,0,128,255))
+        GMT.SendConsoleMessage("GMTools: "..GMT.Lang("Error_bad_id"),client,Color(255,0,128,255))
         return
     end
     id = math.floor(id)
@@ -87,7 +87,7 @@ GMT.AddCommand("deleteitem",GMT.Lang("Help_DeleteItem"),false,function(client,cu
     -- Searching Item
     local item = GMT.GetItemByID(id)
     if item == nil then
-        GMT.SendConsoleMessage("GMTools: Item not found",client,Color(255,0,128,255))
+        GMT.SendConsoleMessage("GMTools: "..GMT.Lang("Error_ItemNotFound"),client,Color(255,0,128,255))
         return
     end
 
@@ -95,7 +95,7 @@ GMT.AddCommand("deleteitem",GMT.Lang("Help_DeleteItem"),false,function(client,cu
     Entity.Spawner.AddItemToRemoveQueue(item)
 
     local name = item.Prefab.Identifier.Value
-    GMT.SendConsoleMessage("GMTools: Succesfully deleted item '"..name.."' at ID: "..id,client,Color(255,0,255,255))
+    GMT.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_DeteteItem_deleted",{name,id}),client,Color(255,0,255,255))
 end,{{name="id",desc=GMT.Lang("Args_DeleteItem_id")}})
 
 
@@ -103,7 +103,7 @@ end,{{name="id",desc=GMT.Lang("Args_DeleteItem_id")}})
 
 GMT.AddCommand("itemdata",GMT.Lang("Help_ItemData"),false,function(client,cursor,args)
     if #args == 0 then
-        GMT.SendConsoleMessage("GMTools: No arguments provided",client,Color(255,0,128,255))
+        GMT.SendConsoleMessage("GMTools: "..GMT.Lang("Error_NotEnoughArguments"),client,Color(255,0,128,255))
         return
     end
 
@@ -111,7 +111,7 @@ GMT.AddCommand("itemdata",GMT.Lang("Help_ItemData"),false,function(client,cursor
     
     -- Checking ID
     if id == nil then
-        GMT.SendConsoleMessage("GMTools: Given ID is not a number",client,Color(255,0,128,255))
+        GMT.SendConsoleMessage("GMTools: "..GMT.Lang("Error_bad_id"),client,Color(255,0,128,255))
         return
     end
     id = math.floor(id)
@@ -119,7 +119,7 @@ GMT.AddCommand("itemdata",GMT.Lang("Help_ItemData"),false,function(client,cursor
     -- Searching Item
     local item = GMT.GetItemByID(id)
     if item == nil then
-        GMT.SendConsoleMessage("GMTools: Item not found",client,Color(255,0,128,255))
+        GMT.SendConsoleMessage("GMTools: "..GMT.Lang("Error_ItemNotFound"),client,Color(255,0,128,255))
         return
     end
 
@@ -127,11 +127,11 @@ GMT.AddCommand("itemdata",GMT.Lang("Help_ItemData"),false,function(client,cursor
     if args[2] == nil then
         local tags_table = {}
 
-        GMT.SendConsoleMessage("Item [ID: "..id.."] \""..item.Prefab.Identifier.Value.."\" data:",client,Color(255,0,255,255))
-        GMT.SendConsoleMessage("* Condition: "..item.Condition.."%",client,Color(255,255,255,255))
-        GMT.SendConsoleMessage("* Tags: \""..item.Tags.."\"",client,Color(255,255,255,255))
+        GMT.SendConsoleMessage(GMT.Lang("CMD_ItemData_header",{id,item.Prefab.Identifier.Value}),client,Color(255,0,255,255))
+        GMT.SendConsoleMessage(GMT.Lang("CMD_ItemData_main_condition",{item.Condition}),client,Color(255,255,255,255))
+        GMT.SendConsoleMessage(GMT.Lang("CMD_ItemData_main_tags",{item.Tags}),client,Color(255,255,255,255))
         if item.OwnInventory ~= nil then
-            GMT.SendConsoleMessage("* Has own inventory: Use \".item "..id.." see_inv\" to Check",client,Color(255,220,255,255))
+            GMT.SendConsoleMessage(GMT.Lang("CMD_ItemData_main_has_inv",{id}),client,Color(255,220,255,255))
         end
         if item.ParentInventory ~= nil then
             local owner = item.ParentInventory.Owner
@@ -141,23 +141,23 @@ GMT.AddCommand("itemdata",GMT.Lang("Help_ItemData"),false,function(client,cursor
             end) then
                 owner_name = tostring(owner)
             end
-            GMT.SendConsoleMessage("* Parent Inventory: "..owner_name.." [ID: "..owner.ID.."]",client,Color(255,220,255,255))
+            GMT.SendConsoleMessage(GMT.Lang("CMD_ItemData_main_contained",{owner_name,owner.ID}),client,Color(255,220,255,255))
         end
     
     -- Tags: Show you condition
     elseif args[2] == "condition" then
-        GMT.SendConsoleMessage("Item [ID: "..id.."] \""..item.Prefab.Identifier.Value.."\" condition is "..item.Condition.."%",client,Color(255,0,255,255))
+        GMT.SendConsoleMessage(GMT.Lang("CMD_ItemData_condition",{item.Prefab.Identifier.Value,id,item.Condition}),client,Color(255,0,255,255))
     
     -- Tags: Show you all tags
     elseif args[2] == "tags" then
-        GMT.SendConsoleMessage("Item [ID: "..id.."] \""..item.Prefab.Identifier.Value.."\" tags:",client,Color(255,0,255,255))
-        GMT.SendConsoleMessage("* Raw: \""..item.Tags.."\"",client,Color(255,255,255,255))
+        GMT.SendConsoleMessage(GMT.Lang("CMD_ItemData_tags",{id,item.Prefab.Identifier.Value}),client,Color(255,0,255,255))
+        GMT.SendConsoleMessage(GMT.Lang("CMD_ItemData_rawtags",{item.Tags}),client,Color(255,255,255,255))
         for i, tag in ipairs(GMT.Split(item.Tags,",")) do
-            GMT.SendConsoleMessage("* "..i..". \""..tag.."\"",client,Color(190,190,190,255))
+            GMT.SendConsoleMessage(GMT.Lang("CMD_ItemData_onetag",{i,tag}),client,Color(190,190,190,255))
         end
     
     else
-        GMT.SendConsoleMessage("GMTools: Unknown parameter at argument #2",client,Color(255,0,0,255))
+        GMT.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_ItemData_UnknownInput"),client,Color(255,0,0,255))
     end
 end,{
 {name="id",desc=GMT.Lang("Args_ItemData_id")},

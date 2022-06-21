@@ -67,7 +67,7 @@ lang_files["Args_UnJobban_player"] = "Name/ID/SteamID of player"
 lang_files["Args_UnJobban_job"] = "Job that will be unbanned for this player. Leave empty to unban all jobs"
 
 -- Smite
-lang_files["Args_Smite_smite"] = "Smite to do. Type \"help\" here to get list of smites"
+lang_files["Args_Smite_smite"] = "Smite to do. Type \".smite help\" to get list of smites"
 lang_files["Args_Smite_client"] = "Who will suffer. Leave empty to smite yourself"
 
 ---- Errors
@@ -76,6 +76,9 @@ lang_files["Error_TooLongMessage"] = "Message is too big!"
 lang_files["Error_NotEnoughArguments"] = "Not Enough Arguments"
 lang_files["Error_BadArgument"] = "Bad Argument {1}"
 lang_files["Error_PlayerNotFound"] = "Player not found"
+lang_files["Error_ItemNotFound"] = "Player not found"
+lang_files["Error_bad_id"] = "Given ID is not a number"
+lang_files["Error_NoControlledChar"] = "Player doesn't have character under control"
 
 ---- Command output
 -- AdminPM & AHelp
@@ -87,5 +90,89 @@ lang_files["CMD_AdminPM_admins"] = "Admins"
 lang_files["CMD_AdminPM_pm"] = "Private Message"
 lang_files["CMD_AdminPM_note"] = "For anwser type \".ahelp <msg>\" in console or chat"
 lang_files["CMD_AdminPM_disabled"] = "AHelp is currently disabled"
+
+-- SaveData
+lang_files["CMD_SaveData_init"] = "Saving GM-Tools data..."
+lang_files["CMD_SaveData_end"] = "Saved GM-Tools data!"
+
+-- ReloadConfig
+lang_files["CMD_ReloadConfig_init"] = "Reloading config..."
+lang_files["CMD_ReloadConfig_end"] = "Config reloaded!"
+
+-- DeadMsg
+lang_files["CMD_DeadMsg_cantspeak"] = "You character already can't speak or dead. Just use chat normally"
+lang_files["CMD_DeadMsg_inround"] = "This command work only in round"
+
+-- SeeGhostChat
+lang_files["CMD_SeeGhostChat_alive"] = "Alive"
+lang_files["CMD_SeeGhostChat_forced"] = "Forced GhostChat"
+
+-- Help
+lang_files["CMD_Help_desc"] = "Description"
+lang_files["CMD_Help_args"] = "Arguments"
+lang_files["CMD_Help_unknown"] = "Unknown command \"{1}\"!"
+lang_files["CMD_Help_list"] = "Help"
+lang_files["CMD_Help_chatlist"] = "Chat Help"
+
+lang_files["CMD_Help_help"] = "Help"
+lang_files["CMD_Help_line"] = "* This server runned with mod \"GM-Tools\"\n* Type \".help all\" if you want get all command list\n* Or type \".help all chat\" to get list of chat commands."
+lang_files["CMD_Help_gmt"] = "Game Master Tools"
+
+-- Near Items
+lang_files["CMD_NearItems_badrange"] = "Given size is not a number"
+lang_files["CMD_NearItems_badwires"] = "Wrong value in second argument"
+lang_files["CMD_NearItems_nearitems"] = "Items near cursor (Range: {1})"
+lang_files["CMD_NearItems_unknown"] = "Unknown"
+lang_files["CMD_NearItems_item"] = "* Item: \'{1}\' ID {2} ({3}%)"
+lang_files["CMD_NearItems_contained_item"] = "* {1} Item(s) in container with ID {2} ({3})"
+
+-- DeleteItem
+lang_files["CMD_DeteteItem_deleted"] = "Succesfully deleted item '{1}' with ID {2}"
+
+-- ItemData
+lang_files["CMD_ItemData_header"] = "Item [ID: {1}] \"{2}\" data:"
+lang_files["CMD_ItemData_main_condition"] = "* Condition: {1}%"
+lang_files["CMD_ItemData_main_tags"] = "* \"Tags: {1}\""
+lang_files["CMD_ItemData_main_has_inv"] = "* Has own inventory  -  Use \".item {1} see_inv\" to check"
+lang_files["CMD_ItemData_main_contained"] = "* Parent Inventory: {1} [ID: {2}]"
+
+lang_files["CMD_ItemData_condition"] = "Item \"{1}\" [ID: {2}] condition is {3}%"
+
+lang_files["CMD_ItemData_tags"] = "Item [ID: {1}] \"{2}\" tags:"
+lang_files["CMD_ItemData_rawtags"] = "Raw: \"{1}\""
+lang_files["CMD_ItemData_onetag"] = "* {1}. \"{2}\""
+
+lang_files["CMD_ItemData_UnknownInput"] = "Unknown parameter at argument #2"
+
+-- Ping
+lang_files["CMD_Ping_pong"] = "Pong!"
+
+-- ClientList
+lang_files["CMD_ClientList_header"] = "Client list:"
+lang_files["CMD_ClientList_client"] = "* Name: {1}, ID: {2}, Character: {3}, SteamID: {4}"
+
+-- Smite
+lang_files["CMD_Smite_gib"] = "Kills players in a bloody epic way :sunglasses:"
+lang_files["CMD_Smite_gigacancer"] = "Gives player giant radiation sickness"
+lang_files["CMD_Smite_drunk"] = "Makes player drunk"
+lang_files["CMD_Smite_orangeboy"] = "Turns player in orangeboy"
+lang_files["CMD_Smite_longstun"] = "Stuns player for 30 seconds"
+lang_files["CMD_Smite_help"] = "Gives list of smites"
+
+lang_files["CMD_Smite_SmiteList"] = "Smite List:"
+
+lang_files["CMD_Smite_Unknown"] = "Unknown smite"
+
+-- Jobban & Unjobban
+lang_files["CMD_Jobban_BanLowest"] = "You can't job-ban the lowest job"
+lang_files["CMD_Jobban_UnknownJob"] = "Unknown job"
+lang_files["CMD_Jobban_NoReason"] = "No reason"
+lang_files["CMD_Jobban_ConsoleOut"] = "Job-banned \"{1}\" for \"{2}\".\nReason: {3}\nDuration: {4}"
+
+lang_files["CMD_UnJobban_All"] = "Removed all job-bans from player {1}"
+lang_files["CMD_UnJobban_Job"] = "Removed job-ban on \"{1}\" for {2}"
+lang_files["CMD_UnJobban_NoBan"] = "Player didn't had job-ban on this job"
+
+lang_files["CMD_Jobban_Box"] = "You have been job-banned!\n\nJob: \"{1}\"\nExpires in: {2}\nReason: \"{3}\"\n"
 
 return lang_files

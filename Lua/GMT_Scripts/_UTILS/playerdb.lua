@@ -157,7 +157,7 @@ function GMT.PlayerData.JobBan(client,job_id,period,reason)
         table.insert(GMT.PlayerData.Players[client.SteamID].Jobbans, {job=job_id,expiresAt=expiresAt,reason=reason})
     end
 
-    local chatMessage = ChatMessage.Create("", "You have been job-banned!\n\nJob: "..job_id.."\nExpires in: "..GMT.GetTimeString(period).."\nReason: \""..reason.."\"\n", ChatMessageType.MessageBox, nil, nil)
+    local chatMessage = ChatMessage.Create("", GMT.Lang("CMD_Jobban_Box",{job_id,GMT.GetTimeString(period),reason}), ChatMessageType.MessageBox, nil, nil)
     chatMessage.Color = Color(255, 60, 60, 255)
     Game.SendDirectChatMessage(chatMessage, client)
     GMT.PlayerData.Save()

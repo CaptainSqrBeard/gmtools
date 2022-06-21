@@ -1,3 +1,4 @@
+-- More easier to edit
 local function sendAHelpToAdmins(sender,recipient,msg)
     GMT.SendConsoleMessage("AHELP "..sender.Name.." --> "..GMT.Lang("CMD_AdminPM_admins").." ("..GMT.Lang("CMD_AdminPM_include_you")..")",recipient,Color(255,0,0,255))
     GMT.SendConsoleMessage("   "..GMT.Lang("CMD_AdminPM_pm")..": \""..msg.."\"",recipient,Color(255,255,255,255))
@@ -10,7 +11,7 @@ end
 
 local function sendAdminPMToPlayer(sender,recipient,msg)
     local chatMsg = ChatMessage.Create("ADMIN PM "..GMT.Lang("CMD_AdminPM_from").." "..sender.Name,
-    "\n"..GMT.ClientLogName(sender).." --> "..GMT.ClientLogName(recipient,recipient.Name.." ("..GMT.Lang("CMD_AdminPM_you")..")").." "..GMT.FormattedText("\n    "..GMT.Lang("CMD_AdminPM_pm")..": \""..msg.."\"",{{name="color",value="#fcf0f0"}}).."\n"..GMT.FormattedText(GMT.Lang("CMD_AdminPM_note"),{{name="color",value="#8a8a8a"}}), ChatMessageType.Error, nil, nil)
+    "\n"..GMT.ClientLogName(sender).." --> "..GMT.ClientLogName(recipient,recipient.Name.." ("..GMT.Lang("CMD_AdminPM_you")..")").." "..GMT.FormattedText("\n   "..GMT.Lang("CMD_AdminPM_pm")..": \""..msg.."\"",{{name="color",value="#fcf0f0"}}).."\n"..GMT.FormattedText(GMT.Lang("CMD_AdminPM_note"),{{name="color",value="#8a8a8a"}}), ChatMessageType.Error, nil, nil)
     Game.SendDirectChatMessage(chatMsg, recipient)
 
     GMT.SendConsoleMessage("ADMINPM "..sender.Name.." --> "..recipient.Name.." ("..GMT.Lang("CMD_AdminPM_you")..")",recipient,Color(255,0,0,255))
@@ -52,7 +53,7 @@ GMT.AddCommand("adminpm",GMT.Lang("Help_AdminPM"),false,function(client,cursor,a
     for i, cl in ipairs(Client.ClientList) do
         if (cl.ID ~= client.ID and cl.ID ~= r_client.ID) and GMT.HasPermission(cl,".adminpm") then
             GMT.SendConsoleMessage("ADMINPM "..client.Name.." --> "..r_client.Name,cl,Color(255,0,0,255))
-            GMT.SendConsoleMessage("   Private message: \""..msg.."\"",cl,Color(255,255,255,255))
+            GMT.SendConsoleMessage("   "..GMT.Lang("CMD_AdminPM_pm")..": \""..msg.."\"",cl,Color(255,255,255,255))
         end
     end
 end,{
@@ -65,7 +66,7 @@ GMT.AddCommand("ahelp",GMT.Lang("Help_AHelp"),false,function(client,cursor,args)
         return
     end
 
-    if GMT.Player.ProcessCooldown(client,GMT.RandomFloat(2,4)) then
+    if GMT.Player.ProcessCooldown(client,2) then
         return
     end
 

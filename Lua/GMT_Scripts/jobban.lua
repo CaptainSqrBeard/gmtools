@@ -7,7 +7,7 @@ GMT.AddCommand("jobban",GMT.Lang("Help_Jobban"),false,function(client,cursor,arg
     local player = GMT.GetClientByString(args[1])
     local job = args[2]
     local duration = 0
-    local reason = "No reason"
+    local reason = GMT.Lang("CMD_Jobban_NoReason")
     
     local steam_id
 
@@ -22,11 +22,11 @@ GMT.AddCommand("jobban",GMT.Lang("Help_Jobban"),false,function(client,cursor,arg
 
     -- Checking job
     if JobPrefab.Get(job) == nil then
-        GMT.SendConsoleMessage("GMTools: Job is not exist",client,Color(255,0,0,255))
+        GMT.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_Jobban_UnknownJob"),client,Color(255,0,0,255))
         return
     end
     if job == GMT.Config.Vars.lowest_job then
-        GMT.SendConsoleMessage("GMTools: You can't job-ban the lowest job",client,Color(255,0,0,255))
+        GMT.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_Jobban_BanLowest"),client,Color(255,0,0,255))
         return
     end
 
@@ -66,10 +66,10 @@ GMT.AddCommand("jobban",GMT.Lang("Help_Jobban"),false,function(client,cursor,arg
     end
     
     if player ~= nil then
-        GMT.SendConsoleMessage("GMTools: Job-banned \""..job.."\" for "..player.Name..".\nReason: "..reason.."\nDuration: "..GMT.GetTimeString(duration),client,Color(255,0,128,255))
+        GMT.SendConsoleMessage(GMT.Lang("CMD_Jobban_ConsoleOut",{job,player.Name,reason,GMT.GetTimeString(duration)}),client,Color(255,0,128,255))
         GMT.PlayerData.JobBan(player,job,duration,reason)
     elseif steam_id ~= nil then
-        GMT.SendConsoleMessage("GMTools: Job-banned \""..job.."\" for "..steam_id..".\nReason: "..reason.."\nDuration: "..GMT.GetTimeString(duration),client,Color(255,0,128,255))
+        GMT.SendConsoleMessage(GMT.Lang("CMD_Jobban_ConsoleOut",{job,steam_id,reason,GMT.GetTimeString(duration)}),client,Color(255,0,128,255))
         GMT.PlayerData.JobBanSteam(steam_id,job,duration,reason)
     end
 end,{
@@ -103,14 +103,14 @@ GMT.AddCommand("unjobban",GMT.Lang("Help_UnJobban"),false,function(client,cursor
 
     -- Checking job
     if job ~= nil and JobPrefab.Get(job) == nil then
-        GMT.SendConsoleMessage("GMTools: Job is not exist",client,Color(255,0,0,255))
+        GMT.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_Jobban_UnknownJob"),client,Color(255,0,0,255))
         return
     end
 
     if job == nil then
         local name = steam_id
         if player ~= nil then name = player.Name end
-        GMT.SendConsoleMessage("GMTools: Removed all job-bans from player "..name,client,Color(255,0,128,255))
+        GMT.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_UnJobban_All",{name}),client,Color(255,0,128,255))
         GMT.PlayerData.Players[steam_id].Jobbans = {}
         GMT.PlayerData.Save()
     else
@@ -121,12 +121,12 @@ GMT.AddCommand("unjobban",GMT.Lang("Help_UnJobban"),false,function(client,cursor
                 -- ТУТ Я ПОШЁЛ КУШАТЬ
                 -- ТУТ Я ПОЕЛ
                 table.remove(GMT.PlayerData.Players[steam_id].Jobbans, i)
-                GMT.SendConsoleMessage("GMTools: Removed job-ban on \""..job.."\" for "..name,client,Color(255,0,128,255))
+                GMT.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_UnJobban_Job",{job,name}),client,Color(255,0,128,255))
                 GMT.PlayerData.Save()
                 return
             end
         end
-        GMT.SendConsoleMessage("GMTools: Player didn't had job-ban on this job",client,Color(255,0,0,255))
+        GMT.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_UnJobban_NoBan"),client,Color(255,0,0,255))
     end
     --
 

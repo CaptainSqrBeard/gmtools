@@ -23,6 +23,7 @@ Hook.Add("chatMessage", "GMT.chatmessage", function(msg, client)
         local name = split[1]
         table.remove(split,1)
 
+        Game.Log("GM-Tools: "..GMT.ClientLogName(client).." executed ChatCommand: \""..msg:sub(1,200).."\"", ServerLogMessageType.ConsoleUsage)
         local status, err = pcall(function ()
             command.func(client,split)
         end)
@@ -39,7 +40,7 @@ Hook.Add("chatMessage", "GMT.chatmessage", function(msg, client)
     if Game.RoundStarted and GMT.CanSpeakGhost(client.Character) then
         for i, cl in ipairs(Client.ClientList) do
             if cl.Character ~= nil and GMT.Player.CanSeeGhostChat(cl) then
-                local chatMsg = ChatMessage.Create(client.Name.." [Forced GhostChat]",msg, ChatMessageType.Dead, nil, nil)
+                local chatMsg = ChatMessage.Create(client.Name.." ["..GMT.Lang("CMD_SeeGhostChat_forced").."]",msg, ChatMessageType.Dead, nil, nil)
                 Game.SendDirectChatMessage(chatMsg, cl)
             end
         end

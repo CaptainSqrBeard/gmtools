@@ -6,24 +6,23 @@ end
 
 
 -- Smites
-addSmite("gib","Kills players in a bloody epic way :sunglasses:",function (executor, client)
+addSmite("gib",GMT.Lang("CMD_Smite_gib"),function (executor, client)
     local char = client.Character
     if char == nil then
-        GMT.SendConsoleMessage("GM-Tools: Player doesn't have character under control", executor, Color(255,0,0,255))
+        GMT.SendConsoleMessage("GM-Tools: "..GMT.Lang("Error_NoControlledChar"), executor, Color(255,0,0,255))
         return
     end
 
-    --TrySeverLimbJoints(limbHit, attack.SeverLimbsProbability, attackResult.Damage, allowBeheading: attacker == null || attacker.IsHuman || attacker.IsPlayer, attacker: attacker);
     char.Kill(CauseOfDeathType.Pressure)
     for i, limb in ipairs(char.AnimController.Limbs) do
         char.TrySeverLimbJoints(limb, 1, 999, true)
     end
 end)
 
-addSmite("gigacancer","Gives player giant radiation sickness",function (executor, client)
+addSmite("gigacancer",GMT.Lang("CMD_Smite_gigacancer"),function (executor, client)
     local char = client.Character
     if char == nil then
-        GMT.SendConsoleMessage("GM-Tools: Player doesn't have character under control", executor, Color(255,0,0,255))
+        GMT.SendConsoleMessage("GM-Tools: "..GMT.Lang("Error_NoControlledChar"), executor, Color(255,0,0,255))
         return
     end
     local limb = char.AnimController.MainLimb
@@ -31,10 +30,10 @@ addSmite("gigacancer","Gives player giant radiation sickness",function (executor
     char.CharacterHealth.ApplyAffliction(limb, rad.Instantiate(200), true)
 end)
 
-addSmite("drunk","Makes player drunk",function (executor, client)
+addSmite("drunk",GMT.Lang("CMD_Smite_drunk"),function (executor, client)
     local char = client.Character
     if char == nil then
-        GMT.SendConsoleMessage("GM-Tools: Player doesn't have character under control", executor, Color(255,0,0,255))
+        GMT.SendConsoleMessage("GM-Tools: "..GMT.Lang("Error_NoControlledChar"), executor, Color(255,0,0,255))
         return
     end
     local limb = char.AnimController.MainLimb
@@ -44,24 +43,22 @@ addSmite("drunk","Makes player drunk",function (executor, client)
     char.CharacterHealth.ApplyAffliction(limb, nausea.Instantiate(100), true)
 end)
 
-addSmite("orangeboy","Turns player in orangeboy",function (executor, client)
+addSmite("orangeboy",GMT.Lang("CMD_Smite_orangeboy"),function (executor, client)
     local char = client.Character
     if char == nil then
-        GMT.SendConsoleMessage("GM-Tools: Player doesn't have character under control", executor, Color(255,0,0,255))
+        GMT.SendConsoleMessage("GM-Tools: "..GMT.Lang("Error_NoControlledChar"), executor, Color(255,0,0,255))
         return
     end
-    local limb = char.AnimController.MainLimb
-    local stun = AfflictionPrefab.Prefabs["stun"]
-    char.CharacterHealth.ApplyAffliction(limb, stun.Instantiate(30), true)
+    char.Kill(CauseOfDeathType.Affliction, AfflictionPrefab.Prefabs["nausea"].Instantiate(100))
 
     local boi = Character.Create("orangeboy", client.Character.WorldPosition,0)
     client.SetClientCharacter(boi)
 end)
 
-addSmite("longstun","Stuns player for 30 seconds",function (executor, client)
+addSmite("longstun",GMT.Lang("CMD_Smite_longstun"),function (executor, client)
     local char = client.Character
     if char == nil then
-        GMT.SendConsoleMessage("GM-Tools: Player doesn't have character under control", executor, Color(255,0,0,255))
+        GMT.SendConsoleMessage("GM-Tools: "..GMT.Lang("Error_NoControlledChar"), executor, Color(255,0,0,255))
         return
     end
     local limb = char.AnimController.MainLimb
@@ -69,8 +66,8 @@ addSmite("longstun","Stuns player for 30 seconds",function (executor, client)
     char.CharacterHealth.ApplyAffliction(limb, stun.Instantiate(30), true)
 end)
 
-addSmite("help","Gives list of smites",function (executor, client)
-    GMT.SendConsoleMessage("Smite list", executor, Color(255,128,0,255))
+addSmite("help",GMT.Lang("CMD_Smite_help"),function (executor, client)
+    GMT.SendConsoleMessage(GMT.Lang("CMD_Smite_SmiteList"), executor, Color(255,128,0,255))
     for name, smite in pairs(smites) do
         GMT.SendConsoleMessage("* "..name.."  >  "..smite.help, executor, Color(255,255,255,255))
     end
@@ -80,6 +77,10 @@ end)
 
 
 GMT.AddCommand("smite",GMT.Lang("Help_Smite"),false,function(client,cursor,args)
+    if #args == 0 then
+        smites["help"].func(client, nil)
+        return
+    end
     local player = GMT.GetClientByString(args[2])
     if args[2] == nil then
         player = client
@@ -93,7 +94,7 @@ GMT.AddCommand("smite",GMT.Lang("Help_Smite"),false,function(client,cursor,args)
 
     local smite = smites[args[1]]
     if smite == nil then
-        GMT.SendConsoleMessage("GMTools: Unknown smite",client,Color(255,0,0,255))
+        GMT.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_Smite_Unknown"),client,Color(255,0,0,255))
         return
     end
 
