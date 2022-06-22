@@ -161,7 +161,7 @@ end
 
 function GMT.GetTimeString(time)
     if time == 0 then
-        return "Permanent"
+        return GMT.Lang("Permanent")
     end
     local days = 0
     local hours = 0
@@ -172,19 +172,19 @@ function GMT.GetTimeString(time)
 
     -- 1 day = 86400 sec
     days = math.floor(time/86400)
-    if days ~= 0 then table.insert(out,days.." days") end
+    if days ~= 0 then table.insert(out,days.." "..GMT.Lang("Days")) end
 
     -- 1 hour = 3600 sec
     hours = math.floor((time/3600)-(days*24))
-    if days ~= 0 then table.insert(out,hours.." hours") end
+    if days ~= 0 then table.insert(out,hours.." "..GMT.Lang("Hours")) end
 
     -- 1 minute = 60000 ms
     minutes = math.floor((time/60)-(hours*60 + days*1440))
-    if minutes ~= 0 then table.insert(out,minutes.." minutes") end
+    if minutes ~= 0 then table.insert(out,minutes.." "..GMT.Lang("Minutes")) end
 
     -- 1 second = 0,01666666666666666666666666666667 minutes
     secnds = math.floor(time-(minutes*60+hours*3600+days*86400))
-    if secnds ~= 0 then table.insert(out,secnds.." seconds") end
+    if secnds ~= 0 then table.insert(out,secnds.." "..GMT.Lang("Seconds")) end
 
     return table.concat(out,", ")
 end

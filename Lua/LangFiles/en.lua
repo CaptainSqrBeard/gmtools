@@ -3,7 +3,7 @@ local lang_files = {}
 ---- Commands description
 lang_files["Help_Help"] = "Sends information about commands."
 lang_files["Help_AdminChat"] = "Sends message in admin chat."
-lang_files["Help_AdminPM"] = "Sends private message to player"
+lang_files["Help_AdminPM"] = "Sends private message to specified player"
 lang_files["Help_AHelp"] = "Sends private message to admins"
 lang_files["Help_ToggleAHelp"] = "Disables/enables .ahelp"
 lang_files["Help_SaveData"] = "Saves GM-Tools data"
@@ -19,6 +19,7 @@ lang_files["Help_Cls"] = "Clears console"
 lang_files["Help_Ping"] = "Pong!"
 lang_files["Help_List"] = "Sends list of players on server"
 lang_files["Help_Smite"] = "We do a little trolling (Doing funi things with players)"
+lang_files["Help_Lang"] = "Globally changes language of mod to specified one"
 
 
 ---- Commands arguments description
@@ -33,10 +34,10 @@ lang_files["Args_AdminPM_msg"] = "Private message to send"
 lang_files["Args_AHelp_msg"] = "Message to admins"
 
 -- ToggleAHelp
-lang_files["Args_ToggleAHelp_status"] = "Can be true (only enable), false (only disable) or switch (switch between on/off)"
+lang_files["Args_ToggleAHelp_status"] = "Can be 'true' (only enable), 'false' (only disable) or 'switch' (switch between on/off)"
 
 -- SeeGhostChat
-lang_files["Args_SeeGhostChat_status"] = "Can be true (only enable), false (only disable) or switch (switch between on/off)"
+lang_files["Args_SeeGhostChat_status"] = "Can be 'true' (only enable), 'false' (only disable) or 'switch' (switch between on/off)"
 lang_files["Args_SeeGhostChat_target"] = "Player to toggle this abillity. Leave empty to apply it yourself"
 
 -- DeadMsg
@@ -70,13 +71,16 @@ lang_files["Args_UnJobban_job"] = "Job that will be unbanned for this player. Le
 lang_files["Args_Smite_smite"] = "Smite to do. Type \".smite help\" to get list of smites"
 lang_files["Args_Smite_client"] = "Who will suffer. Leave empty to smite yourself"
 
+-- Lang
+lang_files["Args_Lang_language"] = "Language to change. Use \".lang all\" to get list of languages"
+
 ---- Errors
 lang_files["Error_NotEnoughPermissions"] = "You don't have permission for this command"
 lang_files["Error_TooLongMessage"] = "Message is too big!"
 lang_files["Error_NotEnoughArguments"] = "Not Enough Arguments"
 lang_files["Error_BadArgument"] = "Bad Argument {1}"
 lang_files["Error_PlayerNotFound"] = "Player not found"
-lang_files["Error_ItemNotFound"] = "Player not found"
+lang_files["Error_ItemNotFound"] = "Item not found"
 lang_files["Error_bad_id"] = "Given ID is not a number"
 lang_files["Error_NoControlledChar"] = "Player doesn't have character under control"
 
@@ -113,7 +117,7 @@ lang_files["CMD_AdminPM_NoMessage"] = "No message provided"
 -- ToggleAHelp
 lang_files["CMD_ToggleAHelp_enabled"] = ".ahelp now ENABLED"
 lang_files["CMD_ToggleAHelp_disabled"] = ".ahelp now DISABLED"
-lang_files["CMD_ToggleAHelp_badargument"] = "Bad argument. Argument #1 accepts only these values: true, false or switch."
+lang_files["CMD_ToggleAHelp_badargument"] = "Bad argument. Argument #1 accepts only these values: 'true', 'false' or 'switch'."
 
 
 -- SaveData
@@ -199,5 +203,50 @@ lang_files["CMD_UnJobban_Job"] = "Removed job-ban on \"{1}\" for {2}"
 lang_files["CMD_UnJobban_NoBan"] = "Player didn't had job-ban on this job"
 
 lang_files["CMD_Jobban_Box"] = "You have been job-banned!\n\nJob: \"{1}\"\nExpires in: {2}\nReason: \"{3}\"\n"
+lang_files["CMD_Jobban_Reminder"] = "You can't play on this job, because you have Job-Ban on it\n\nExpires in: {1}\"\nReason: \"{2}\"\n\nIf you anyways will pick this job, you will be forced to play on \"{3}\""
+lang_files["CMD_Jobban_ForcedPlay"] = "You have job-ban on job that you picked. You forced to play on \"{1}\""
+
+-- Lang
+lang_files["CMD_Lang_changed"] = "Language changed to \"{1}\". Type \"reloadlua\" to apply changes"
+lang_files["CMD_Lang_unknown"] = "Unknown language. Type \".lang all\" to get list of languages."
+lang_files["CMD_Lang_header"] = "List of languages:"
+lang_files["CMD_Lang_element"] = "* {1}"
+lang_files["CMD_Lang_suggest"] = "You can suggest your translation on GM-Tools discord server"
+
+---- Chat commands
+lang_files["Chat_Error_UnknownCommand"] = "Unknown command \"‖color:#ff9c9c‖{1}‖end‖\". Type \"‖color:#ff9c9c‖.help chat‖end‖\" in console for help"
+
+-- FixMe
+lang_files["HelpChat_FixMe"] = "Creates your data, if it for some reason was not created automaticly"
+lang_files["Chat_FixMe_success"] = "Your data was successfully created"
+lang_files["Chat_FixMe_fail"] = "Your data already exists"
+--lang_files["Chat_FixMe_epicclownvirus3000"] = "Your data was successfully stolen!!!"
+
+-- RestorePerms
+lang_files["HelpChat_RestorePerms"] = "Restores permissions to commands"
+lang_files["Chat_RestorePerms_restored"] = "Your permissions has been successfully restored!"
+
+lang_files["Chat_Help_help"] = "Almost all GM-Tools commands executes from console (F3).\n\nYou need use this command in console for actual help"
+
+-- Help
+lang_files["HelpChat_Help"] = "Says that you need use this command in console"
+
+-- Cls
+lang_files["HelpChat_Cls"] = "Cleans chat"
+
+---- Cooldown warnings
+lang_files["CD_Warn"] = "Warning:\n\"{1}\"\n\nPlease stop it."
+lang_files["CD_Warn_CMDSpam"] = "You using commands too fast"
+lang_files["CD_Warn_CMDSpam_Kick"] = "Kicked for spamming commands"
+
+lang_files["CD_Warn_NameChanging"] = "You changing nickname too fast"
+lang_files["CD_Warn_NameChanging_Kick"] = "Changed nicknames too fast"
+
+-- Time
+lang_files["Permanent"] = "Permanent"
+lang_files["Days"] = "days"
+lang_files["Hours"] = "hours"
+lang_files["Minutes"] = "minutes"
+lang_files["Seconds"] = "seconds"
 
 return lang_files

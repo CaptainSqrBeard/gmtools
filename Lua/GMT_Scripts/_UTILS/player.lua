@@ -27,18 +27,18 @@ function GMT.Player.ProcessCooldown(client,time,warn_msg,kick_msg)
     -- If Client spamming too much
     if GMT.PlayerData[client.ID].Spam >= 5 then
         GMT.PlayerData[client.ID].Spam = 0
-        if kick_msg == nil then kick_msg = "Kicked for spamming commands" end
+        if kick_msg == nil then kick_msg = GMT.Lang("CD_Warn_CMDSpam_Kick") end
         client.Kick("GMTools: "..kick_msg)
         return true
     end
 
     -- If Client triggered CD more than 3 times
     if GMT.PlayerData[client.ID].Spam >= 3 then
-        if warn_msg == nil then warn_msg = "You using commands too fast" end
-        local chatMessage = ChatMessage.Create("", "Warning:\n\""..warn_msg.."\"\n\nPlease stop it.", ChatMessageType.MessageBox, nil, nil)
+        if warn_msg == nil then warn_msg = GMT.Lang("CD_Warn_CMDSpam") end
+        local chatMessage = ChatMessage.Create("", GMT.Lang("CD_Warn",warn_msg), ChatMessageType.MessageBox, nil, nil)
         chatMessage.Color = Color(255, 60, 60, 255)
         Game.SendDirectChatMessage(chatMessage, client)
-        GMT.SendConsoleMessage(" \nWarning:\n\""..warn_msg.."\"\n\nPlease stop it.\n ",client,Color(255, 60, 60, 255))
+        GMT.SendConsoleMessage(GMT.Lang("CD_Warn",warn_msg),client,Color(255, 60, 60, 255))
         return true
     end
 

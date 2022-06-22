@@ -83,7 +83,7 @@ end,{
 GMT.AddCommand("unjobban",GMT.Lang("Help_UnJobban"),false,function(client,cursor,args)
     if #args == 0 then
         GMT.SendConsoleMessage("GMTools: "..GMT.Lang("Error_NotEnoughArguments"),client,Color(255,0,0,255))
-            return
+        return
     end
 
     local player = GMT.GetClientByString(args[1])
