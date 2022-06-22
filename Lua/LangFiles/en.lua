@@ -82,14 +82,39 @@ lang_files["Error_NoControlledChar"] = "Player doesn't have character under cont
 
 ---- Command output
 -- AdminPM & AHelp
-lang_files["CMD_AdminPM_from"] = "from"
-lang_files["CMD_AdminPM_to"] = "to"
-lang_files["CMD_AdminPM_you"] = "You"
-lang_files["CMD_AdminPM_include_you"] = "Include you"
-lang_files["CMD_AdminPM_admins"] = "Admins"
-lang_files["CMD_AdminPM_pm"] = "Private Message"
-lang_files["CMD_AdminPM_note"] = "For anwser type \".ahelp <msg>\" in console or chat"
-lang_files["CMD_AdminPM_disabled"] = "AHelp is currently disabled"
+lang_files["CMD_AdminPM_con_to_other_L1"] = "ADMINPM {1} --> {2}"
+lang_files["CMD_AdminPM_con_to_other_L2"] = "   Private message: \"{1}\""
+
+lang_files["CMD_AdminPM_con_for_admin_L1"] = "ADMINPM {1} (You) --> {2}"
+lang_files["CMD_AdminPM_con_for_admin_L2"] = "   Private message: \"{1}\""
+
+lang_files["CMD_AdminPM_con_for_player_L1"] = "ADMINPM {1} --> {2} (You)"
+lang_files["CMD_AdminPM_con_for_player_L2"] = "   Private message: {1}"
+lang_files["CMD_AdminPM_con_for_player_L3"] = "For anwser type \".ahelp <msg>\" in console or chat"
+lang_files["CMD_AdminPM_msg_for_player_name"] = "ADMIN PM from {1}"
+lang_files["CMD_AdminPM_msg_for_player_text"] = "\n‖metadata:{1}‖{2}‖end‖ --> ‖metadata:{3}‖{4} (You)‖end‖\n   ‖color:#fcf0f0‖Private message: \"{5}\"‖end‖\n‖color:#8a8a8a‖For anwser type \".ahelp <msg>\" in console or chat‖end‖"
+
+--‖color:#ffffff;metadata:1234‖my name is Joe‖end‖
+lang_files["CMD_AHelp_con_for_admin_L1"] = "AHELP {1} --> ADMINS (Include you)"
+lang_files["CMD_AHelp_con_for_admin_L2"] = "   Private message: {1}"
+lang_files["CMD_AHelp_con_for_admin_L3"] = "For anwser type \".adminpm {1} <msg>\" in console"
+lang_files["CMD_AHelp_msg_for_admin_name"] = "ADMIN HELP"
+lang_files["CMD_AHelp_msg_for_admin_text"] = "\nFrom ‖metadata:{1}‖{2}‖end‖ to ‖color:#e1a1a3‖ADMINS (Include you)‖end‖\n   ‖color:#fcf0f0‖Private message: \"{3}\"‖end‖\n‖color:#8a8a8a‖For anwser type \".adminpm {4} <msg>\" in console‖end‖"
+
+lang_files["CMD_AHelp_con_for_player_L1"] = "AHELP {1} (You) --> ADMINS"
+lang_files["CMD_AHelp_con_for_player_L2"] = "   Private message: {1}"
+lang_files["CMD_AHelp_msg_for_player_name"] = "ADMIN HELP"
+lang_files["CMD_AHelp_msg_for_player_text"] = "\nFrom ‖metadata:{1}‖{2} (You)‖end‖ to ‖color:#e1a1a3‖ADMINS‖end‖\n   ‖color:#fcf0f0‖Private message: \"{3}\"‖end‖"
+
+lang_files["CMD_AHelp_disabled"] = "AHelp is currently disabled"
+lang_files["CMD_AdminPM_NoMessage"] = "No message provided"
+
+
+-- ToggleAHelp
+lang_files["CMD_ToggleAHelp_enabled"] = ".ahelp now ENABLED"
+lang_files["CMD_ToggleAHelp_disabled"] = ".ahelp now DISABLED"
+lang_files["CMD_ToggleAHelp_badargument"] = "Bad argument. Argument #1 accepts only these values: true, false or switch."
+
 
 -- SaveData
 lang_files["CMD_SaveData_init"] = "Saving GM-Tools data..."
