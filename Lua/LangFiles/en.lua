@@ -80,9 +80,12 @@ lang_files["Error_TooLongMessage"] = "Message is too big!"
 lang_files["Error_NotEnoughArguments"] = "Not Enough Arguments"
 lang_files["Error_BadArgument"] = "Bad Argument {1}"
 lang_files["Error_PlayerNotFound"] = "Player not found"
+lang_files["Error_CharacterNotFound"] = "Character not found"
 lang_files["Error_ItemNotFound"] = "Item not found"
 lang_files["Error_bad_id"] = "Given ID is not a number"
+lang_files["Error_bad_value"] = "Given value is not a number"
 lang_files["Error_NoControlledChar"] = "Player doesn't have character under control"
+lang_files["Error_bad_boolean"] = "Bad argument. Parameter #1 must be \"true\" or \"false\" or empty"
 
 ---- Command output
 -- AdminPM & AHelp
@@ -161,9 +164,9 @@ lang_files["CMD_DeteteItem_deleted"] = "Succesfully deleted item '{1}' with ID {
 -- ItemData
 lang_files["CMD_ItemData_header"] = "Item [ID: {1}] \"{2}\" data:"
 lang_files["CMD_ItemData_main_condition"] = "* Condition: {1}%"
-lang_files["CMD_ItemData_main_tags"] = "* \"Tags: {1}\""
+lang_files["CMD_ItemData_main_tags"] = "* Tags: \"{1}\""
 lang_files["CMD_ItemData_main_has_inv"] = "* Has own inventory  -  Use \".item {1} see_inv\" to check"
-lang_files["CMD_ItemData_main_contained"] = "* Parent Inventory: {1} [ID: {2}]"
+lang_files["CMD_ItemData_main_contained"] = "* Contained in inventory: {1} [ID: {2}]"
 
 lang_files["CMD_ItemData_condition"] = "Item \"{1}\" [ID: {2}] condition is {3}%"
 
@@ -171,7 +174,51 @@ lang_files["CMD_ItemData_tags"] = "Item [ID: {1}] \"{2}\" tags:"
 lang_files["CMD_ItemData_rawtags"] = "Raw: \"{1}\""
 lang_files["CMD_ItemData_onetag"] = "* {1}. \"{2}\""
 
+lang_files["CMD_ItemData_no_inv"] = "Item doesn't have own inventory"
+lang_files["CMD_ItemData_inventory"] = "Items in '{1}' [ID {2}]"
+lang_files["CMD_ItemData_inv_item"] = "* \"{1}\" ID {2} ({3}%)"
+
 lang_files["CMD_ItemData_UnknownInput"] = "Unknown parameter at argument #2"
+
+-- ItemEdit
+lang_files["CMD_ItemEdit_c_header"] = "Components of item \"{1}\" ID {2}"
+lang_files["CMD_ItemEdit_c_element"] = "{1}. \"{2}\""
+lang_files["CMD_ItemEdit_badindex"] = "Given index is not a value"
+lang_files["CMD_ItemEdit_outofrange"] = "Index out of range"
+lang_files["CMD_ItemEdit_noactions"] = "This component doesn't have any actions"
+lang_files["CMD_ItemEdit_act_header"] = "Actions of component \"{1}\""
+lang_files["CMD_ItemEdit_act_element"] = "* {1}  >  \"{2}\""
+lang_files["CMD_ItemEdit_badaction"] = "Unknown action"
+
+
+lang_files["CMD_ItemEdit_Quality_level_info"] = "Level of item is {1}/{2}"
+lang_files["CMD_ItemEdit_Quality_level_badlevel"] = "Given level is not a number"
+lang_files["CMD_ItemEdit_Quality_level_outofrange"] = "Given level is out of range. Use value in range 0-3"
+lang_files["CMD_ItemEdit_Quality_level_warn"] = "Desync warning! Clients will see original quality of item"
+
+lang_files["CMD_ItemEdit_Holdable_attach_unable"] = "Item can't be attached to wall"
+lang_files["CMD_ItemEdit_Holdable_attach_attached"] = "Item now attached to wall"
+lang_files["CMD_ItemEdit_Holdable_attach_deattached"] = "Item now deattached from wall"
+
+lang_files["CMD_ItemEdit_PowerContainer_power_info"] = "Contained power is {1} kW / {2} kW"
+lang_files["CMD_ItemEdit_PowerContainer_power_set"] = "Contained power now is {1} kW/ {2} kW"
+
+lang_files["CMD_ItemEdit_PowerContainer_capacity_info"] = "Max capacity is {1} kW"
+lang_files["CMD_ItemEdit_PowerContainer_capacity_set"] = "Max capacity now is {1} kW"
+lang_files["CMD_ItemEdit_PowerContainer_capacity_warn"] = "Desync warning! Clients will see original capacity of item"
+
+lang_files["CMD_ItemEdit_PowerContainer_speed_info"] = "Recharge speed is {1} kW / min"
+lang_files["CMD_ItemEdit_PowerContainer_speed_set"] = "Recharge speed now is {1} kW / min"
+
+lang_files["CMD_ItemEdit_PowerContainer_eff_info"] = "Efficiency is {1} / 1"
+lang_files["CMD_ItemEdit_PowerContainer_eff_set"] = "Efficiency now is {1} / 1"
+
+lang_files["CMD_ItemEdit_PowerTransfer_canoverload_on"] = "Now item can be overloaded"
+lang_files["CMD_ItemEdit_PowerTransfer_canoverload_off"] = "Now item can't be overloaded"
+
+lang_files["CMD_ItemEdit_PowerTransfer_overloadvoltage_info"] = "Overload voltage is x{1} (Than grid load)"
+lang_files["CMD_ItemEdit_PowerTransfer_overloadvoltage_set"] = "Overload voltage now is x{1}  (Than grid load)"
+
 
 -- Ping
 lang_files["CMD_Ping_pong"] = "Pong!"

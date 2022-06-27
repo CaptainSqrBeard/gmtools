@@ -161,8 +161,8 @@ lang_files["CMD_DeteteItem_deleted"] = "Успешно удалён предме
 -- ItemData
 lang_files["CMD_ItemData_header"] = "Предмет [ID: {1}] \"{2}\" data:"
 lang_files["CMD_ItemData_main_condition"] = "* Состояние: {1}%"
-lang_files["CMD_ItemData_main_tags"] = "* \"Тэги: {1}\""
-lang_files["CMD_ItemData_main_has_inv"] = "* Имеет свой инвентарь  -  Use \".item {1} see_inv\" to check"
+lang_files["CMD_ItemData_main_tags"] = "* Тэги: \"{1}\""
+lang_files["CMD_ItemData_main_has_inv"] = "* Имеет свой инвентарь  - Используйте \".item {1} see_inv\" чтобы просмотреть"
 lang_files["CMD_ItemData_main_contained"] = "* Находится в инвентаре: {1} [ID: {2}]"
 
 lang_files["CMD_ItemData_condition"] = "Предмет \"{1}\" [ID: {2}] имеет состояние {3}%"
@@ -170,6 +170,10 @@ lang_files["CMD_ItemData_condition"] = "Предмет \"{1}\" [ID: {2}] име�
 lang_files["CMD_ItemData_tags"] = "Тэги предмета [ID: {1}] \"{2}\":"
 lang_files["CMD_ItemData_rawtags"] = "Изначально: \"{1}\""
 lang_files["CMD_ItemData_onetag"] = "* {1}. \"{2}\""
+
+lang_files["CMD_ItemData_no_inv"] = "У предмета нету своего инвентаря"
+lang_files["CMD_ItemData_inventory"] = "Предметы в '{1}' [ID {2}]"
+lang_files["CMD_ItemData_inv_item"] = "* \"{1}\" ID {2} ({3}%)"
 
 lang_files["CMD_ItemData_UnknownInput"] = "Неизвестный параметр во втором аргументе"
 

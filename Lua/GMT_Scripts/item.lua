@@ -146,7 +146,7 @@ GMT.AddCommand("itemdata",GMT.Lang("Help_ItemData"),false,function(client,cursor
     
     -- Tags: Show you condition
     elseif args[2] == "condition" then
-        GMT.SendConsoleMessage(GMT.Lang("CMD_ItemData_condition",{item.Prefab.Identifier.Value,id,item.Condition}),client,Color(255,0,255,255))
+        GMT.SendConsoleMessage(GMT.Lang("CMD_ItemData_condition",{item.Prefab.Identifier.Value,item.ID,item.Condition}),client,Color(255,0,255,255))
     
     -- Tags: Show you all tags
     elseif args[2] == "tags" then
@@ -155,6 +155,17 @@ GMT.AddCommand("itemdata",GMT.Lang("Help_ItemData"),false,function(client,cursor
         for i, tag in ipairs(GMT.Split(item.Tags,",")) do
             GMT.SendConsoleMessage(GMT.Lang("CMD_ItemData_onetag",{i,tag}),client,Color(190,190,190,255))
         end
+
+    elseif args[2] == "see_inv" then
+        if item.OwnInventory == nil then
+            GMT.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_ItemData_no_inv",{item.Prefab.Identifier.Value,id}),client,Color(255,0,0,255))
+            return
+        end
+
+        GMT.SendConsoleMessage(GMT.Lang("CMD_ItemData_inventory",{item.Prefab.Identifier.Value,id}),client,Color(255,0,255,255))
+        for i_item in item.OwnInventory.AllItems do
+            GMT.SendConsoleMessage(GMT.Lang("CMD_ItemData_inv_item",{i_item.Prefab.Identifier.value,i_item.ID,i_item.Condition}),client,Color(190,190,190,255))
+        end
     
     else
         GMT.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_ItemData_UnknownInput"),client,Color(255,0,0,255))
@@ -162,3 +173,6 @@ GMT.AddCommand("itemdata",GMT.Lang("Help_ItemData"),false,function(client,cursor
 end,{
 {name="id",desc=GMT.Lang("Args_ItemData_id")},
 {name="data",desc=GMT.Lang("Args_ItemData_data")}})
+
+
+

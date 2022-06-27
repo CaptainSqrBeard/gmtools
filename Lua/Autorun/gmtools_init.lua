@@ -22,6 +22,7 @@ if SERVER then
     -- Console commands
     require("GMT_Scripts.help")
     require("GMT_Scripts.item")
+    require("GMT_Scripts.itemedit")
     require("GMT_Scripts.adminpm")
     require("GMT_Scripts.other")
     require("GMT_Scripts.ghostchat")

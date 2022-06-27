@@ -6,4 +6,5 @@
   <Other file="%ModDir%/Lua/Scripts/help.lua" />
   <Other file="%ModDir%/Lua/Scripts/item.lua" />
   <Other file="%ModDir%/Lua/Scripts/other.lua" />
+  <Item file="%ModDir%/dor.xml" />
 </contentpackage>

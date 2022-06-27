@@ -40,6 +40,21 @@ function GMT.GetClientByString(string)
     end
 end
 
+function GMT.GetCharacterByString(string)
+    if string == nil then
+        return nil
+    end
+    local number = tonumber(string)
+    for i, char in ipairs(Client.CharacterList) do
+        if char.Name == string then
+            return char
+        end
+        if number ~= nil and char.ID == number then
+            return char
+        end
+    end
+end
+
 function GMT.RandomFloat(min,max)
     return math.random()*(max-min)+min
 end
