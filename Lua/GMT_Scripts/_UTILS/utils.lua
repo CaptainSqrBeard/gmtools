@@ -45,7 +45,7 @@ function GMT.GetCharacterByString(string)
         return nil
     end
     local number = tonumber(string)
-    for i, char in ipairs(Client.CharacterList) do
+    for i, char in ipairs(Character.CharacterList) do
         if char.Name == string then
             return char
         end

@@ -219,7 +219,56 @@ lang_files["CMD_ItemEdit_PowerTransfer_canoverload_off"] = "Now item can't be ov
 lang_files["CMD_ItemEdit_PowerTransfer_overloadvoltage_info"] = "Overload voltage is x{1} (Than grid load)"
 lang_files["CMD_ItemEdit_PowerTransfer_overloadvoltage_set"] = "Overload voltage now is x{1}  (Than grid load)"
 
+lang_files["CMD_ItemEdit_Engine_force_info"] = "Current engine force is {1}%"
+lang_files["CMD_ItemEdit_Engine_force_set"] = "Now current engine force is {1}%"
 
+lang_files["CMD_ItemEdit_Engine_maxforce_info"] = "Engine max force is {1}"
+lang_files["CMD_ItemEdit_Engine_maxforce_set"] = "Now engine max force is {1}"
+
+lang_files["CMD_ItemEdit_Deconstructor_speed_info"] = "Deconstructor speed multiplier is x{1}"
+lang_files["CMD_ItemEdit_Deconstructor_speed_set"] = "Deconstructor speed multiplier now is x{1}"
+lang_files["CMD_ItemEdit_Deconstructor_speed_warn"] = "Desync warning! Clients will see that progress bar fills with original speed"
+
+lang_files["CMD_ItemEdit_Fabricator_skill_info"] = "Fabricator skill multiplier is x{1}"
+lang_files["CMD_ItemEdit_Fabricator_skill_set"] = "Fabricator skill multiplier now is x{1}"
+lang_files["CMD_ItemEdit_Fabricator_skill_warn"] = "Desync warning! Clients will see that they need original skill to craft (Time while crafting will be synced)"
+
+lang_files["CMD_ItemEdit_OxygenGenerator_produce_info"] = "Oxygen produce is {1}"
+lang_files["CMD_ItemEdit_OxygenGenerator_produce_set"] = "Oxygen produce now is {1}"
+
+lang_files["CMD_ItemEdit_Pump_maxflow_info"] = "Max flow is {1}"
+lang_files["CMD_ItemEdit_Pump_maxflow_set"] = "Max flow now is {1}"
+lang_files["CMD_ItemEdit_Pump_maxflow_warn"] = "Desync warning! Clients will see that item will pump with original speed and sometimes pumped hulls will change water level"
+
+lang_files["CMD_ItemEdit_Pump_percentage_info"] = "Flow percentage is {1}%"
+lang_files["CMD_ItemEdit_Pump_percentage_set"] = "Flow percentage now is {1}%"
+
+lang_files["CMD_ItemEdit_Reactor_toggle_on"] = "Reactor is now enabled"
+lang_files["CMD_ItemEdit_Reactor_toggle_off"] = "Reactor is now disabled"
+
+lang_files["CMD_ItemEdit_Reactor_maxpower_info"] = "Max power is {1} kW"
+lang_files["CMD_ItemEdit_Reactor_maxpower_set"] = "Max power is now {1} kW"
+
+lang_files["CMD_ItemEdit_Reactor_meltdowndelay_info"] = "Meltdown delay is {1} seconds"
+lang_files["CMD_ItemEdit_Reactor_meltdowndelay_set"] = "Meltdown delay is now {1} seconds"
+
+lang_files["CMD_ItemEdit_Reactor_firedelay_info"] = "Fire delay is {1} seconds"
+lang_files["CMD_ItemEdit_Reactor_firedelay_set"] = "Fire delay is now {1} seconds"
+
+lang_files["CMD_ItemEdit_Reactor_fissionrate_info"] = "Fission rate is {1}%"
+lang_files["CMD_ItemEdit_Reactor_fissionrate_set"] = "Fission rate is now {1}%"
+
+lang_files["CMD_ItemEdit_Reactor_turbineoutput_info"] = "Turbine output is {1}%"
+lang_files["CMD_ItemEdit_Reactor_turbineoutput_set"] = "Turbine output is now {1}%"
+
+lang_files["CMD_ItemEdit_Reactor_fuelrate_info"] = "Fuel Consumption rate is {1} / sec"
+lang_files["CMD_ItemEdit_Reactor_fuelrate_set"] = "Fuel Consumption rate is now {1} / sec"
+
+lang_files["CMD_ItemEdit_Reactor_auto_on"] = "Automatic control is now enabled"
+lang_files["CMD_ItemEdit_Reactor_auto_off"] = "Automatic control is now disabled"
+
+lang_files["CMD_ItemEdit_Vent_oxygen_info"] = "Vent has {1} u. oxygen"
+lang_files["CMD_ItemEdit_Vent_oxygen_set"] = "Vent now has {1} u. oxygen"
 -- Ping
 lang_files["CMD_Ping_pong"] = "Pong!"
 
