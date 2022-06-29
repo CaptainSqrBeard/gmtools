@@ -177,6 +177,113 @@ lang_files["CMD_ItemData_inv_item"] = "* \"{1}\" ID {2} ({3}%)"
 
 lang_files["CMD_ItemData_UnknownInput"] = "Неизвестный параметр во втором аргументе"
 
+-- ItemEdit
+lang_files["CMD_ItemEdit_c_header"] = "Компоненты \"{1}\" ID {2}"
+lang_files["CMD_ItemEdit_c_element"] = "{1}. \"{2}\""
+lang_files["CMD_ItemEdit_badindex"] = "Указанный индекс не является числом"
+lang_files["CMD_ItemEdit_nocomponent"] = "Компонент не найден. Введите имя компонента или его позицию в списке"
+lang_files["CMD_ItemEdit_noactions"] = "Этот компонент не имеет никаких действий"
+lang_files["CMD_ItemEdit_act_header"] = "Действия для компонента \"{1}\""
+lang_files["CMD_ItemEdit_act_element"] = "* {1}  >  \"{2}\""
+lang_files["CMD_ItemEdit_badaction"] = "Неизвестное действие"
+
+
+lang_files["CMD_ItemEdit_Quality_level_Help"] = "Изменяет уровень предмета (Небольшой рассинхрон)"
+lang_files["CMD_ItemEdit_Quality_level_info"] = "Уровень предмета {1}/{2}"
+lang_files["CMD_ItemEdit_Quality_level_badlevel"] = "Указанный уровень не является числом"
+lang_files["CMD_ItemEdit_Quality_level_outofrange"] = "Указанный уровень выходит за диапазон. Используйте числа в диапазоне 0-3"
+lang_files["CMD_ItemEdit_Quality_level_warn"] = "Внимание, рассинхронизация! Клиенты будут видеть исходный уровень предмета"
+
+lang_files["CMD_ItemEdit_Holdable_pick_Help"] = "Заставляет персонажа поднять предмет"
+
+lang_files["CMD_ItemEdit_Holdable_attach_Help"] = "Прикрепляет или открепляет предмет от стены"
+lang_files["CMD_ItemEdit_Holdable_attach_unable"] = "Предмет не может быть прикреплён"
+lang_files["CMD_ItemEdit_Holdable_attach_attached"] = "Предмет теперь прикреплён к стене"
+lang_files["CMD_ItemEdit_Holdable_attach_deattached"] = "Предмет теперь откреплён от стены"
+
+lang_files["CMD_ItemEdit_PowerContainer_power_Help"] = "Изменяет кол-во энергии внутри батареи"
+lang_files["CMD_ItemEdit_PowerContainer_power_info"] = "Внутри батареи {1} кВ / {2} кВ"
+lang_files["CMD_ItemEdit_PowerContainer_power_set"] = "Теперь внутри батареи {1} кВ/ {2} кВ"
+
+lang_files["CMD_ItemEdit_PowerContainer_capacity_Help"] = "Изменяет вместительность батареи (Небольшой рассинхрон)"
+lang_files["CMD_ItemEdit_PowerContainer_capacity_info"] = "Вместительность батареи {1} кВ"
+lang_files["CMD_ItemEdit_PowerContainer_capacity_set"] = "Теперь местительность батареи {1} кВ"
+lang_files["CMD_ItemEdit_PowerContainer_capacity_warn"] = "Внимание, рассинхронизация! Клиенты будут видеть оригинальную вместительность предмета"
+
+lang_files["CMD_ItemEdit_PowerTransfer_canoverload_Help"] = "Переключает повреждения от перенапряжения"
+lang_files["CMD_ItemEdit_PowerTransfer_canoverload_on"] = "Теперь предмет может быть перегружен"
+lang_files["CMD_ItemEdit_PowerTransfer_canoverload_off"] = "Теперь предмет не может быть перегружен"
+
+lang_files["CMD_ItemEdit_Engine_force_Help"] = "Изменяет силу с которой будет работать двигатель"
+lang_files["CMD_ItemEdit_Engine_force_info"] = "Текущая сила двигателя {1}%"
+lang_files["CMD_ItemEdit_Engine_force_set"] = "Теперь сила двигателя {1}%"
+
+lang_files["CMD_ItemEdit_Engine_maxforce_Help"] = "Изменяет максимальную силу двигателя"
+lang_files["CMD_ItemEdit_Engine_maxforce_info"] = "Максимальная сила двигателя {1}"
+lang_files["CMD_ItemEdit_Engine_maxforce_set"] = "Теперь максимальная сила двигателя {1}"
+
+lang_files["CMD_ItemEdit_Deconstructor_speed_Help"] = "Изменяет множитель скорости (Средний рассинхрон)"
+lang_files["CMD_ItemEdit_Deconstructor_speed_info"] = "Множитель скорости деконструктора x{1}"
+lang_files["CMD_ItemEdit_Deconstructor_speed_set"] = "Множитель скорости деконструктора теперь x{1}"
+lang_files["CMD_ItemEdit_Deconstructor_speed_warn"] = "Внимание, рассинхронизация! Клиенты будут видеть, что прогресс-бар будет заполнятся с обычной скоростью"
+
+lang_files["CMD_ItemEdit_Fabricator_skill_Help"] = "Изменяет множитель требуемого навыка (Средний рассинхрон)"
+lang_files["CMD_ItemEdit_Fabricator_skill_info"] = "Множитель требуемого навыка x{1}"
+lang_files["CMD_ItemEdit_Fabricator_skill_set"] = "Теперь множитель требуемого навыка x{1}"
+lang_files["CMD_ItemEdit_Fabricator_skill_warn"] = "Внимание, рассинхронизация! Клиенты будут видеть что им нужен исходное кол-во навыка для крафта (Время во-время крафта будет синхронизировано)"
+
+lang_files["CMD_ItemEdit_OxygenGenerator_produce_Help"] = "Изменяет производительность кислорода"
+lang_files["CMD_ItemEdit_OxygenGenerator_produce_info"] = "Производительность кислорода {1}"
+lang_files["CMD_ItemEdit_OxygenGenerator_produce_set"] = "Теперь производительность кислорода {1}"
+
+lang_files["CMD_ItemEdit_Pump_maxflow_Help"] = "Изменяет максимальную пропускную способность насоса"
+lang_files["CMD_ItemEdit_Pump_maxflow_info"] = "Максимальная пропускную способность насоса {1}"
+lang_files["CMD_ItemEdit_Pump_maxflow_set"] = "Теперь максимальная пропускную способность насоса {1}"
+lang_files["CMD_ItemEdit_Pump_maxflow_warn"] = "Внимание, рассинхронизация! Клиенты будут видеть что насос будет качать с исходной скоростью, а комнаты будут переодически менять свой уровень воды"
+
+lang_files["CMD_ItemEdit_Pump_percentage_Help"] = "Меняет как сильно помпа будет работать"
+lang_files["CMD_ItemEdit_Pump_percentage_info"] = "Текущая сила насоса {1}%"
+lang_files["CMD_ItemEdit_Pump_percentage_set"] = "Теперь сила насоса {1}%"
+
+lang_files["CMD_ItemEdit_Reactor_toggle_Help"] = "Переключает реактор"
+lang_files["CMD_ItemEdit_Reactor_toggle_on"] = "Реактор включён"
+lang_files["CMD_ItemEdit_Reactor_toggle_off"] = "Реактор отключён"
+
+lang_files["CMD_ItemEdit_Reactor_maxpower_Help"] = "Изменяет производительность реактора"
+lang_files["CMD_ItemEdit_Reactor_maxpower_info"] = "Максимальная производительность {1} кВ"
+lang_files["CMD_ItemEdit_Reactor_maxpower_set"] = "Теперь максимальная производительность {1} кВ"
+
+lang_files["CMD_ItemEdit_Reactor_meltdowndelay_Help"] = "Изменяет задержку плавления реактора"
+lang_files["CMD_ItemEdit_Reactor_meltdowndelay_info"] = "Задержка плавления реактора {1} секунд"
+lang_files["CMD_ItemEdit_Reactor_meltdowndelay_set"] = "Теперь задержка плавления реактора {1} секунд"
+
+lang_files["CMD_ItemEdit_Reactor_firedelay_Help"] = "Изменяет задержку пожара реактора"
+lang_files["CMD_ItemEdit_Reactor_firedelay_info"] = "Задержка пожара реактора {1} секунд"
+lang_files["CMD_ItemEdit_Reactor_firedelay_set"] = "Теперь задержка пожара реактора {1} seconds"
+
+lang_files["CMD_ItemEdit_Reactor_fissionrate_Help"] = "Изменяет скорость расщепления реактора"
+lang_files["CMD_ItemEdit_Reactor_fissionrate_info"] = "Скорость расщепления {1}%"
+lang_files["CMD_ItemEdit_Reactor_fissionrate_set"] = "Теперь скорость расщепления {1}%"
+
+lang_files["CMD_ItemEdit_Reactor_turbineoutput_Help"] = "Изменяет выработку электроэнергии реактора"
+lang_files["CMD_ItemEdit_Reactor_turbineoutput_info"] = "Выработка электроэнергии {1}%"
+lang_files["CMD_ItemEdit_Reactor_turbineoutput_set"] = "Теперь выработка электроэнергии {1}%"
+
+lang_files["CMD_ItemEdit_Reactor_fuelrate_Help"] = "Изменяет потребление топлива реактором"
+lang_files["CMD_ItemEdit_Reactor_fuelrate_info"] = "Потребление топлива {1}% / сек."
+lang_files["CMD_ItemEdit_Reactor_fuelrate_set"] = "Теперь потребление топлива {1}% / сек."
+
+lang_files["CMD_ItemEdit_Reactor_auto_Help"] = "Переключает автоматический контроль реактора"
+lang_files["CMD_ItemEdit_Reactor_auto_on"] = "Автоматический контроль включен"
+lang_files["CMD_ItemEdit_Reactor_auto_off"] = "Автоматический контроль выключен"
+
+lang_files["CMD_ItemEdit_Vent_oxygen_Help"] = "Изменяет кол-во кислорода внутри"
+lang_files["CMD_ItemEdit_Vent_oxygen_info"] = "Вентиляция имеет {1} ед. кислорода"
+lang_files["CMD_ItemEdit_Vent_oxygen_set"] = "Теперь вентиляция имеет {1} ед. кислорода"
+
+lang_files["CMD_ItemEdit_DockingPort_dock_Help"] = "Пытается пристыковаться к другому порту рядом"
+lang_files["CMD_ItemEdit_DockingPort_dock_error"] = "Нет доступных стыковочный портов"
+
 -- Ping
 lang_files["CMD_Ping_pong"] = "Понг!"
 

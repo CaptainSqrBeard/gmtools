@@ -27,6 +27,7 @@ if SERVER then
     require("GMT_Scripts.Moderation.adminpm")
     require("GMT_Scripts.Moderation.adminchat")
     require("GMT_Scripts.Moderation.ghostchat")
+    require("GMT_Scripts.Moderation.permissions")
     require("GMT_Scripts.Moderation.jobban")
     require("GMT_Scripts.Moderation.smite")
     require("GMT_Scripts.Moderation.adminchat")
@@ -57,6 +58,7 @@ if SERVER then
         -- Add all connected clients
         for i, cl in ipairs(Client.ClientList) do
             GMT.Player.AddInMemory(cl)
+            GMT.RestorePerms(cl)
         end
         print("\n"..table.concat(init,"\n").."\n ")
     end, 1000)

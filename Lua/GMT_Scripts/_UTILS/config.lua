@@ -79,7 +79,7 @@ end
 
 function GMT.Config.LoadDefault()
     GMT.Config.Vars = {}
-    GMT.Config.Vars.player_commands = {".list",".help",".ping",".ahelp",".cls"}
+    GMT.Config.Vars.player_commands = {".list",".help",".ping",".ahelp",".cls",".clock"}
     GMT.Config.Vars.ahelp_enabled = true
     GMT.Config.Vars.lowest_job = "assistant"
     GMT.Config.Vars.language = "en"

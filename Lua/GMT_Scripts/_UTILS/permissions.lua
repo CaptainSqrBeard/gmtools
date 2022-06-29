@@ -3,8 +3,10 @@ function GMT.RestorePerms(client)
     local list = {}
     local add_list = {}
 
+    GMT.PlayerData.Create(client)
+
     for i, cmd in ipairs(Game.Commands) do
-        if GMT.Contains(playerCommands, cmd.names[1]) then
+        if GMT.Contains(playerCommands, cmd.names[1]) or GMT.Contains(GMT.PlayerData.Players[client.SteamID].Permissions, cmd.names[1]) then
             table.insert(add_list,cmd)
         end
     end

@@ -16,6 +16,9 @@ lang_files["Help_ItemData"] = "Outputs item data (Condition, Tags, etc.)"
 lang_files["Help_ItemEdit"] = "Edit values of component"
 lang_files["Help_Jobban"] = "Bans job for player, so he can't play on it"
 lang_files["Help_UnJobban"] = "Un-Bans job for player"
+lang_files["Help_GivePerm"] = "Gives player permissions to GM-Tools commands"
+lang_files["Help_RevokePerm"] = "Revokes permissions to GM-Tools commands from player"
+lang_files["Help_PermList"] = "Sends list of permitted commands to player"
 lang_files["Help_Cls"] = "Clears console"
 lang_files["Help_Ping"] = "Pong!"
 lang_files["Help_List"] = "Sends list of players on server"
@@ -336,6 +339,24 @@ lang_files["CMD_UnJobban_NoBan"] = "Player didn't had job-ban on this job"
 lang_files["CMD_Jobban_Box"] = "You have been job-banned!\n\nJob: \"{1}\"\nExpires in: {2}\nReason: \"{3}\"\n"
 lang_files["CMD_Jobban_Reminder"] = "You can't play on this job, because you have Job-Ban on it\n\nExpires in: {1}\"\nReason: \"{2}\"\n\nIf you anyways will pick this job, you will be forced to play on \"{3}\""
 lang_files["CMD_Jobban_ForcedPlay"] = "You have job-ban on job that you picked. You forced to play on \"{1}\""
+
+-- GivePerm
+lang_files["CMD_GivePerm_header"] = "Giving permissions to {1}:"
+lang_files["CMD_GivePerm_alreadyhas"] = "* (!) Player already has permission to command \"{1}\""
+lang_files["CMD_GivePerm_notexists"] = "* (!) Command \"{1}\" not exists or is not GM-Tools command"
+lang_files["CMD_GivePerm_added"] = "* Player now has permission to use command \"{1}\""
+lang_files["CMD_GivePerm_all"] = "Granted all permissions to player {1}"
+
+-- RevokePerm
+lang_files["CMD_RevokePerm_header"] = "Revoking permissions from {1}:"
+lang_files["CMD_RevokePerm_donthave"] = "* (!) Player already don't have permission to command \"{1}\""
+lang_files["CMD_RevokePerm_notexists"] = "* (!) Command \"{1}\" not exists or is not GM-Tools command"
+lang_files["CMD_RevokePerm_revoked"] = "* Revoked permission to command \"{1}\""
+lang_files["CMD_RevokePerm_all"] = "Revoked all permissions from player {1}"
+
+-- PermList
+lang_files["CMD_PermList_header"] = "{1}\' Permissions:"
+lang_files["CMD_PermList_item"] = "* {1}"
 
 -- Lang
 lang_files["CMD_Lang_changed"] = "Language changed to \"{1}\". Type \"reloadlua\" to apply changes"

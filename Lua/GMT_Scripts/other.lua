@@ -59,3 +59,17 @@ GMT.AddCommand("lang",GMT.Lang("Help_Lang"),false,function(client,cursor,args)
         GMT.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_Lang_unknown"),client,Color(255,0,0,255))
     end
 end,{{name="language",desc=GMT.Lang("Args_Lang_language")}})
+
+GMT.AddCommand("clock",GMT.Lang("Help_Clock"),false,function(client,cursor,args)
+    if GMT.Player.ProcessCooldown(client,3) then
+        return
+    end
+    local clock = ""..
+    "      11  12  1\n"..
+    " 10       ^       2\n"..
+    "9          |->     3\n"..
+    " 8                 4\n"..
+    "      7   6   5\n"
+    GMT.SendConsoleMessage(clock,client,Color(255,250,204,255))
+    
+end)

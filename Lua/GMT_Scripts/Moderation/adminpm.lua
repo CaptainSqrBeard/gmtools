@@ -3,7 +3,7 @@ local function sendAHelpToAdmins(sender,recipient,msg)
     GMT.SendConsoleMessage(GMT.Lang("CMD_AHelp_con_for_admin_L2",{msg}),recipient,Color(255,255,255,255))
     GMT.SendConsoleMessage(GMT.Lang("CMD_AHelp_con_for_admin_L3"),recipient,Color(255,255,255,255))
 
-    local chatMsg = ChatMessage.Create(GMT.Lang("CMD_AHelp_msg_for_admin_name"), GMT.Lang("CMD_AdminPM_msg_for_admin_text",{sender.SteamID,sender.SteamID,msg,sender.ID}), ChatMessageType.Error, nil, nil)
+    local chatMsg = ChatMessage.Create(GMT.Lang("CMD_AHelp_msg_for_admin_name"), GMT.Lang("CMD_AHelp_msg_for_admin_text",{sender.SteamID,sender.Name,msg,sender.ID}), ChatMessageType.Error, nil, nil)
     Game.SendDirectChatMessage(chatMsg, recipient)
 end
 
