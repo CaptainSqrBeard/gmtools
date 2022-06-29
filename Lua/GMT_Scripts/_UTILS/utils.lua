@@ -46,12 +46,21 @@ function GMT.GetCharacterByString(string)
     end
     local number = tonumber(string)
     for i, char in ipairs(Character.CharacterList) do
+        -- Checking character
         if char.Name == string then
             return char
         end
         if number ~= nil and char.ID == number then
             return char
         end
+    end
+    -- Checking client for character
+    local client = GMT.GetClientByString(string)
+    if client == nil then
+        return nil
+    end
+    if client.Character ~= nil and not client.Character.IsDead then
+        return client.Character
     end
 end
 

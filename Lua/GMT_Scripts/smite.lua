@@ -76,7 +76,7 @@ end)
 
 
 
-GMT.AddCommand("smite",GMT.Lang("Help_Smite"),false,function(client,cursor,args)
+GMT.AddCommand("smite",GMT.Lang("Help_Smite"),true,function(client,cursor,args)
     if #args == 0 then
         smites["help"].func(client, nil)
         return

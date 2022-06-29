@@ -1,4 +1,4 @@
-GMT.AddCommand("nearitems",GMT.Lang("Help_NearItems"),false,function(client,cursor,args)
+GMT.AddCommand("nearitems",GMT.Lang("Help_NearItems"),true,function(client,cursor,args)
     if GMT.Player.ProcessCooldown(client,4) then return end
     local size = 100
     local ignore_wires = true
@@ -69,7 +69,7 @@ end,{
 
 
 
-GMT.AddCommand("deleteitem",GMT.Lang("Help_DeleteItem"),false,function(client,cursor,args)
+GMT.AddCommand("deleteitem",GMT.Lang("Help_DeleteItem"),true,function(client,cursor,args)
     if #args == 0 then
         GMT.SendConsoleMessage("GMTools: "..GMT.Lang("Error_NotEnoughArguments"),client,Color(255,0,128,255))
         return
@@ -101,7 +101,7 @@ end,{{name="id",desc=GMT.Lang("Args_DeleteItem_id")}})
 
 
 
-GMT.AddCommand("itemdata",GMT.Lang("Help_ItemData"),false,function(client,cursor,args)
+GMT.AddCommand("itemdata",GMT.Lang("Help_ItemData"),true,function(client,cursor,args)
     if #args == 0 then
         GMT.SendConsoleMessage("GMTools: "..GMT.Lang("Error_NotEnoughArguments"),client,Color(255,0,128,255))
         return

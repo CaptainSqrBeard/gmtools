@@ -13,6 +13,7 @@ lang_files["Help_DeadMsg"] = "Sends message in ghost chat"
 lang_files["Help_NearItems"] = "Shows information about all items around cursor"
 lang_files["Help_DeleteItem"] = "Deletes items and everything inside it"
 lang_files["Help_ItemData"] = "Outputs item data (Condition, Tags, etc.)"
+lang_files["Help_ItemEdit"] = "Edit values of component"
 lang_files["Help_Jobban"] = "Bans job for player, so he can't play on it"
 lang_files["Help_UnJobban"] = "Un-Bans job for player"
 lang_files["Help_Cls"] = "Clears console"
@@ -56,6 +57,12 @@ lang_files["Args_DeleteItem_id"] = "ID of item to delete"
 -- ItemData
 lang_files["Args_ItemData_id"] = "ID of item"
 lang_files["Args_ItemData_data"] = "Data"
+
+-- ItemEdit
+lang_files["Args_ItemEdit_id"] = "ID of item"
+lang_files["Args_ItemEdit_component"] = "Name of component or position in list. Leave empty to get list of components"
+lang_files["Args_ItemEdit_action"] = "Action to do with this component. Leave empty to get list of actions"
+lang_files["Args_ItemEdit_args"] = "Parameters for action"
 
 -- Jobban
 lang_files["Args_Jobban_player"] = "Name/ID/SteamID of player"
@@ -184,91 +191,113 @@ lang_files["CMD_ItemData_UnknownInput"] = "Unknown parameter at argument #2"
 lang_files["CMD_ItemEdit_c_header"] = "Components of item \"{1}\" ID {2}"
 lang_files["CMD_ItemEdit_c_element"] = "{1}. \"{2}\""
 lang_files["CMD_ItemEdit_badindex"] = "Given index is not a value"
-lang_files["CMD_ItemEdit_outofrange"] = "Index out of range"
+lang_files["CMD_ItemEdit_nocomponent"] = "Component not found. Type name of component or position in list"
 lang_files["CMD_ItemEdit_noactions"] = "This component doesn't have any actions"
 lang_files["CMD_ItemEdit_act_header"] = "Actions of component \"{1}\""
 lang_files["CMD_ItemEdit_act_element"] = "* {1}  >  \"{2}\""
 lang_files["CMD_ItemEdit_badaction"] = "Unknown action"
 
 
+lang_files["CMD_ItemEdit_Quality_level_Help"] = "Changes level of item (Small Desync)"
 lang_files["CMD_ItemEdit_Quality_level_info"] = "Level of item is {1}/{2}"
 lang_files["CMD_ItemEdit_Quality_level_badlevel"] = "Given level is not a number"
 lang_files["CMD_ItemEdit_Quality_level_outofrange"] = "Given level is out of range. Use value in range 0-3"
 lang_files["CMD_ItemEdit_Quality_level_warn"] = "Desync warning! Clients will see original quality of item"
 
+lang_files["CMD_ItemEdit_Holdable_pick_Help"] = "Makes character pick up item"
+
+lang_files["CMD_ItemEdit_Holdable_attach_Help"] = "Attaches or unattaches items from wall"
 lang_files["CMD_ItemEdit_Holdable_attach_unable"] = "Item can't be attached to wall"
 lang_files["CMD_ItemEdit_Holdable_attach_attached"] = "Item now attached to wall"
 lang_files["CMD_ItemEdit_Holdable_attach_deattached"] = "Item now deattached from wall"
 
+lang_files["CMD_ItemEdit_PowerContainer_power_Help"] = "Changes power inside batteries"
 lang_files["CMD_ItemEdit_PowerContainer_power_info"] = "Contained power is {1} kW / {2} kW"
 lang_files["CMD_ItemEdit_PowerContainer_power_set"] = "Contained power now is {1} kW/ {2} kW"
 
+lang_files["CMD_ItemEdit_PowerContainer_capacity_Help"] = "Changes batteries capacity (Small Desync)"
 lang_files["CMD_ItemEdit_PowerContainer_capacity_info"] = "Max capacity is {1} kW"
 lang_files["CMD_ItemEdit_PowerContainer_capacity_set"] = "Max capacity now is {1} kW"
 lang_files["CMD_ItemEdit_PowerContainer_capacity_warn"] = "Desync warning! Clients will see original capacity of item"
 
+lang_files["CMD_ItemEdit_PowerContainer_speed_Help"] = "Changes power inside batteries"
 lang_files["CMD_ItemEdit_PowerContainer_speed_info"] = "Recharge speed is {1} kW / min"
 lang_files["CMD_ItemEdit_PowerContainer_speed_set"] = "Recharge speed now is {1} kW / min"
 
-lang_files["CMD_ItemEdit_PowerContainer_eff_info"] = "Efficiency is {1} / 1"
-lang_files["CMD_ItemEdit_PowerContainer_eff_set"] = "Efficiency now is {1} / 1"
-
+lang_files["CMD_ItemEdit_PowerTransfer_canoverload_Help"] = "Toggles damage from overload"
 lang_files["CMD_ItemEdit_PowerTransfer_canoverload_on"] = "Now item can be overloaded"
 lang_files["CMD_ItemEdit_PowerTransfer_canoverload_off"] = "Now item can't be overloaded"
 
-lang_files["CMD_ItemEdit_PowerTransfer_overloadvoltage_info"] = "Overload voltage is x{1} (Than grid load)"
-lang_files["CMD_ItemEdit_PowerTransfer_overloadvoltage_set"] = "Overload voltage now is x{1}  (Than grid load)"
-
+lang_files["CMD_ItemEdit_Engine_force_Help"] = "Changes how hard engine will work"
 lang_files["CMD_ItemEdit_Engine_force_info"] = "Current engine force is {1}%"
 lang_files["CMD_ItemEdit_Engine_force_set"] = "Now current engine force is {1}%"
 
+lang_files["CMD_ItemEdit_Engine_maxforce_Help"] = "Changes engine max speed"
 lang_files["CMD_ItemEdit_Engine_maxforce_info"] = "Engine max force is {1}"
 lang_files["CMD_ItemEdit_Engine_maxforce_set"] = "Now engine max force is {1}"
 
+lang_files["CMD_ItemEdit_Deconstructor_speed_Help"] = "Changes speed multiplier (Medium Desync)"
 lang_files["CMD_ItemEdit_Deconstructor_speed_info"] = "Deconstructor speed multiplier is x{1}"
 lang_files["CMD_ItemEdit_Deconstructor_speed_set"] = "Deconstructor speed multiplier now is x{1}"
 lang_files["CMD_ItemEdit_Deconstructor_speed_warn"] = "Desync warning! Clients will see that progress bar fills with original speed"
 
+lang_files["CMD_ItemEdit_Fabricator_skill_Help"] = "Changes required skill multiplier (Medium Desync)"
 lang_files["CMD_ItemEdit_Fabricator_skill_info"] = "Fabricator skill multiplier is x{1}"
 lang_files["CMD_ItemEdit_Fabricator_skill_set"] = "Fabricator skill multiplier now is x{1}"
 lang_files["CMD_ItemEdit_Fabricator_skill_warn"] = "Desync warning! Clients will see that they need original skill to craft (Time while crafting will be synced)"
 
+lang_files["CMD_ItemEdit_OxygenGenerator_produce_Help"] = "Changes oxygen produce"
 lang_files["CMD_ItemEdit_OxygenGenerator_produce_info"] = "Oxygen produce is {1}"
 lang_files["CMD_ItemEdit_OxygenGenerator_produce_set"] = "Oxygen produce now is {1}"
 
+lang_files["CMD_ItemEdit_Pump_maxflow_Help"] = "Changes pump max flow"
 lang_files["CMD_ItemEdit_Pump_maxflow_info"] = "Max flow is {1}"
 lang_files["CMD_ItemEdit_Pump_maxflow_set"] = "Max flow now is {1}"
 lang_files["CMD_ItemEdit_Pump_maxflow_warn"] = "Desync warning! Clients will see that item will pump with original speed and sometimes pumped hulls will change water level"
 
+lang_files["CMD_ItemEdit_Pump_percentage_Help"] = "Changes how hard pump will work"
 lang_files["CMD_ItemEdit_Pump_percentage_info"] = "Flow percentage is {1}%"
 lang_files["CMD_ItemEdit_Pump_percentage_set"] = "Flow percentage now is {1}%"
 
+lang_files["CMD_ItemEdit_Reactor_toggle_Help"] = "Toggles reactor"
 lang_files["CMD_ItemEdit_Reactor_toggle_on"] = "Reactor is now enabled"
 lang_files["CMD_ItemEdit_Reactor_toggle_off"] = "Reactor is now disabled"
 
+lang_files["CMD_ItemEdit_Reactor_maxpower_Help"] = "Changes reactor max power"
 lang_files["CMD_ItemEdit_Reactor_maxpower_info"] = "Max power is {1} kW"
 lang_files["CMD_ItemEdit_Reactor_maxpower_set"] = "Max power is now {1} kW"
 
+lang_files["CMD_ItemEdit_Reactor_meltdowndelay_Help"] = "Changes reactor meltdown delay"
 lang_files["CMD_ItemEdit_Reactor_meltdowndelay_info"] = "Meltdown delay is {1} seconds"
 lang_files["CMD_ItemEdit_Reactor_meltdowndelay_set"] = "Meltdown delay is now {1} seconds"
 
+lang_files["CMD_ItemEdit_Reactor_firedelay_Help"] = "Changes reactor fire delay"
 lang_files["CMD_ItemEdit_Reactor_firedelay_info"] = "Fire delay is {1} seconds"
 lang_files["CMD_ItemEdit_Reactor_firedelay_set"] = "Fire delay is now {1} seconds"
 
+lang_files["CMD_ItemEdit_Reactor_fissionrate_Help"] = "Changes reactor current fission rate"
 lang_files["CMD_ItemEdit_Reactor_fissionrate_info"] = "Fission rate is {1}%"
 lang_files["CMD_ItemEdit_Reactor_fissionrate_set"] = "Fission rate is now {1}%"
 
+lang_files["CMD_ItemEdit_Reactor_turbineoutput_Help"] = "Changes reactor current turbine output"
 lang_files["CMD_ItemEdit_Reactor_turbineoutput_info"] = "Turbine output is {1}%"
 lang_files["CMD_ItemEdit_Reactor_turbineoutput_set"] = "Turbine output is now {1}%"
 
-lang_files["CMD_ItemEdit_Reactor_fuelrate_info"] = "Fuel Consumption rate is {1} / sec"
-lang_files["CMD_ItemEdit_Reactor_fuelrate_set"] = "Fuel Consumption rate is now {1} / sec"
+lang_files["CMD_ItemEdit_Reactor_fuelrate_Help"] = "Changes reactor fuel consumption rate"
+lang_files["CMD_ItemEdit_Reactor_fuelrate_info"] = "Fuel Consumption rate is {1}% / sec"
+lang_files["CMD_ItemEdit_Reactor_fuelrate_set"] = "Fuel Consumption rate is now {1}% / sec"
 
+lang_files["CMD_ItemEdit_Reactor_auto_Help"] = "Toggles reactor automatic control"
 lang_files["CMD_ItemEdit_Reactor_auto_on"] = "Automatic control is now enabled"
 lang_files["CMD_ItemEdit_Reactor_auto_off"] = "Automatic control is now disabled"
 
+lang_files["CMD_ItemEdit_Vent_oxygen_Help"] = "Changes amount of oxygen inside vent"
 lang_files["CMD_ItemEdit_Vent_oxygen_info"] = "Vent has {1} u. oxygen"
 lang_files["CMD_ItemEdit_Vent_oxygen_set"] = "Vent now has {1} u. oxygen"
+
+lang_files["CMD_ItemEdit_DockingPort_dock_Help"] = "Tries to dock or undock other docking port near"
+lang_files["CMD_ItemEdit_DockingPort_dock_error"] = "No avaible docking ports"
+
 -- Ping
 lang_files["CMD_Ping_pong"] = "Pong!"
 

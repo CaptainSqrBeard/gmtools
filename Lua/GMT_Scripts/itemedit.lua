@@ -26,7 +26,7 @@ newAction("Door", "open", "Opens or closes door",function (client, item, compone
 end)
 
 -- Quality
-newAction("Quality", "level", "Changes level of item (Medium desync)",function (client, item, component, args)
+newAction("Quality", "level", GMT.Lang("CMD_ItemEdit_Quality_level_Help"),function (client, item, component, args)
     --QualityLevel
     if args[1] == nil then
         GMT.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_ItemEdit_Quality_level_info",{component.QualityLevel,component.MaxQuality}),client,Color(255,0,128,255))
@@ -45,19 +45,6 @@ newAction("Quality", "level", "Changes level of item (Medium desync)",function (
     end
 end)
 
--- i hate syncing
-newAction("Quality", "sync", "test",function (client, item, component, args)
-    --local eventData = Item.ComponentStateEventData.__new(component, component.ServerGetEventData())
-    --if not component.ValidateEventData(component) then return end
-    --Networking.CreateEntityEvent(item, eventData)
-
-    print(component)
-    item.CreateServerEvent(component, component)
-
-    --local property = item.SerializableProperties[Identifier("SpriteColor")]
-    --print(property)
-    --Networking.CreateEntityEvent(item, Item.ChangePropertyEventData.__new(property))
-end)
 newAction("Holdable", "list", "test",function (client, item, component, args)
     for k, val in pairs(item.SerializableProperties) do
         print(k)
@@ -66,7 +53,7 @@ end)
 
 
 -- Holdable
-newAction("Holdable", "pick", "Makes player pick item",function (client, item, component, args)
+newAction("Holdable", "pick", GMT.Lang("CMD_ItemEdit_Holdable_pick_Help"),function (client, item, component, args)
     local char = GMT.GetCharacterByString(args[1])
     if char == nil then
         GMT.SendConsoleMessage("GMTools: "..GMT.Lang("Error_CharacterNotFound"),client,Color(255,0,0,255))
@@ -75,7 +62,7 @@ newAction("Holdable", "pick", "Makes player pick item",function (client, item, c
     component.Pick(char)
 end)
 
-newAction("Holdable", "attach", "Attach or deattach items from wall",function (client, item, component, args)
+newAction("Holdable", "attach", GMT.Lang("CMD_ItemEdit_Holdable_attach_Help"),function (client, item, component, args)
     if not component.Attachable then
         GMT.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_ItemEdit_Holdable_attach_unable"),client,Color(255,0,0,255))
         return
@@ -91,7 +78,7 @@ end)
 
 
 -- PowerContainer
-newAction("PowerContainer", "power", "Changes contained power in battery",function (client, item, component, args)
+newAction("PowerContainer", "power", GMT.Lang("CMD_ItemEdit_PowerContainer_power_Help"),function (client, item, component, args)
     if args[1] == nil then
         GMT.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_ItemEdit_PowerContainer_power_info",{component.Charge,component.Capacity}),client,Color(255,0,255,255))
         return
@@ -106,7 +93,7 @@ newAction("PowerContainer", "power", "Changes contained power in battery",functi
         
 end)
 
-newAction("PowerContainer", "capacity", "Changes max power for battery (Small desync)",function (client, item, component, args)
+newAction("PowerContainer", "capacity", GMT.Lang("CMD_ItemEdit_PowerContainer_capacity_Help"),function (client, item, component, args)
     if args[1] == nil then
         GMT.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_ItemEdit_PowerContainer_capacity_info",{component.Capacity}),client,Color(255,0,255,255))
         return
@@ -126,7 +113,7 @@ newAction("PowerContainer", "capacity", "Changes max power for battery (Small de
 end)
 
 -- PowerTransfer
-newAction("PowerTransfer", "can_overload", "Toggles damage from overload",function (client, item, component, args)
+newAction("PowerTransfer", "can_overload", GMT.Lang("CMD_ItemEdit_PowerTransfer_canoverload_Help"),function (client, item, component, args)
     if args[1] == nil then
         component.CanBeOverloaded = not component.CanBeOverloaded
     elseif args[1] == "true" then
@@ -145,22 +132,8 @@ newAction("PowerTransfer", "can_overload", "Toggles damage from overload",functi
     end
 end)
 
-newAction("PowerTransfer", "overload_voltage", "How much power need to be supplied to overload. e.x: 2 means twice more than grid load",function (client, item, component, args)
-    if args[1] == nil then
-        GMT.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_ItemEdit_PowerTransfer_overloadvoltage_info",{component.OverloadVoltage}),client,Color(255,0,255,255))
-        return
-    end
-    local number = tonumber(args[1])
-    if number == nil then
-        GMT.SendConsoleMessage("GMTools: "..GMT.Lang("Error_bad_value"),client,Color(255,0,0,255))
-        return
-    end
-    component.OverloadVoltage = number
-    GMT.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_ItemEdit_PowerTransfer_overloadvoltage_set",{component.OverloadVoltage}),client,Color(255,0,255,255))
-end)
-
 -- Engine
-newAction("Engine", "force", "Changes current force",function (client, item, component, args)
+newAction("Engine", "force", GMT.Lang("CMD_ItemEdit_Engine_force_Help"),function (client, item, component, args)
     if args[1] == nil then
         GMT.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_ItemEdit_Engine_force_info",{component.Force}),client,Color(255,0,255,255))
         return
@@ -175,7 +148,7 @@ newAction("Engine", "force", "Changes current force",function (client, item, com
     item.CreateServerEvent(component, component)
 end)
 
-newAction("Engine", "max_force", "Changes max force",function (client, item, component, args)
+newAction("Engine", "max_force", GMT.Lang("CMD_ItemEdit_Engine_maxforce_Help"),function (client, item, component, args)
     if args[1] == nil then
         GMT.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_ItemEdit_Engine_maxforce_info",{component.MaxForce}),client,Color(255,0,255,255))
         return
@@ -190,7 +163,7 @@ newAction("Engine", "max_force", "Changes max force",function (client, item, com
 end)
 
 -- Deconstructor
-newAction("Deconstructor", "speed", "Speed multiplier for deconstructing",function (client, item, component, args)
+newAction("Deconstructor", "speed", GMT.Lang("CMD_ItemEdit_Deconstructor_speed_Help"),function (client, item, component, args)
     if args[1] == nil then
         GMT.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_ItemEdit_Deconstructor_speed_info",{component.DeconstructionSpeed}),client,Color(255,0,255,255))
         return
@@ -206,8 +179,8 @@ newAction("Deconstructor", "speed", "Speed multiplier for deconstructing",functi
     item.CreateServerEvent(component, component)
 end)
 
--- OxygenGenerator
-newAction("Fabricator", "skill", "Skill requirment multiplier for crafting (Medium desync)",function (client, item, component, args)
+-- Fabricator
+newAction("Fabricator", "skill", GMT.Lang("CMD_ItemEdit_Fabricator_skill_Help"),function (client, item, component, args)
     if args[1] == nil then
         GMT.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_ItemEdit_Fabricator_skill_info",{component.SkillRequirementMultiplier}),client,Color(255,0,255,255))
         return
@@ -223,7 +196,7 @@ newAction("Fabricator", "skill", "Skill requirment multiplier for crafting (Medi
 end)
 
 -- OxygenGenerator
-newAction("OxygenGenerator", "produce", "How much oxygen will produce generator",function (client, item, component, args)
+newAction("OxygenGenerator", "produce", GMT.Lang("CMD_ItemEdit_OxygenGenerator_produce_Help"),function (client, item, component, args)
     if args[1] == nil then
         GMT.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_ItemEdit_OxygenGenerator_produce_info",{component.GeneratedAmount}),client,Color(255,0,255,255))
         return
@@ -238,7 +211,7 @@ newAction("OxygenGenerator", "produce", "How much oxygen will produce generator"
 end)
 
 -- Pump
-newAction("Pump", "maxflow", "How fast the item can pump water (Medium desync)",function (client, item, component, args)
+newAction("Pump", "maxflow", GMT.Lang("CMD_ItemEdit_Pump_maxflow_Help"),function (client, item, component, args)
     if args[1] == nil then
         GMT.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_ItemEdit_Pump_maxflow_info",{component.MaxFlow}),client,Color(255,0,255,255))
         return
@@ -253,7 +226,7 @@ newAction("Pump", "maxflow", "How fast the item can pump water (Medium desync)",
     GMT.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_ItemEdit_Pump_maxflow_warn"),client,Color(255,0,128,255))
 end)
 
-newAction("Pump", "percentage", "How hard pump will work in percentages",function (client, item, component, args)
+newAction("Pump", "percentage", GMT.Lang("CMD_ItemEdit_Pump_percentage_Help"),function (client, item, component, args)
     if args[1] == nil then
         GMT.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_ItemEdit_Pump_percentage_info",{component.FlowPercentage}),client,Color(255,0,255,255))
         return
@@ -269,7 +242,7 @@ newAction("Pump", "percentage", "How hard pump will work in percentages",functio
 end)
 
 -- Reactor
-newAction("Reactor", "toggle", "Enables/Disables Reactor",function (client, item, component, args)
+newAction("Reactor", "toggle", GMT.Lang("CMD_ItemEdit_Reactor_toggle_Help"),function (client, item, component, args)
     if args[1] == nil then
         component.PowerOn = not component.PowerOn
     elseif args[1] == "true" then
@@ -288,7 +261,7 @@ newAction("Reactor", "toggle", "Enables/Disables Reactor",function (client, item
     end
     item.CreateServerEvent(component, component)
 end)
-newAction("Reactor", "auto", "Enables/Disables Reactor Automatic Control",function (client, item, component, args)
+newAction("Reactor", "auto", GMT.Lang("CMD_ItemEdit_Reactor_auto_Help"),function (client, item, component, args)
     if args[1] == nil then
         component.AutoTemp = not component.AutoTemp
     elseif args[1] == "true" then
@@ -307,7 +280,7 @@ newAction("Reactor", "auto", "Enables/Disables Reactor Automatic Control",functi
     end
     item.CreateServerEvent(component, component)
 end)
-newAction("Reactor", "maxpower", "How much power the reactor generates when operating at full capacity.",function (client, item, component, args)
+newAction("Reactor", "maxpower", GMT.Lang("CMD_ItemEdit_Reactor_maxpower_Help"),function (client, item, component, args)
     if args[1] == nil then
         GMT.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_ItemEdit_Reactor_maxpower_info",{component.MaxPowerOutput}),client,Color(255,0,255,255))
         return
@@ -322,7 +295,7 @@ newAction("Reactor", "maxpower", "How much power the reactor generates when oper
     item.CreateServerEvent(component, component)
 end)
 
-newAction("Reactor", "meltdown_delay", "How long the temperature has to stay critical until a meltdown occurs.",function (client, item, component, args)
+newAction("Reactor", "meltdown_delay", GMT.Lang("CMD_ItemEdit_Reactor_meltdowndelay_Help"),function (client, item, component, args)
     if args[1] == nil then
         GMT.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_ItemEdit_Reactor_meltdowndelay_info",{component.MeltdownDelay}),client,Color(255,0,255,255))
         return
@@ -336,7 +309,7 @@ newAction("Reactor", "meltdown_delay", "How long the temperature has to stay cri
     GMT.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_ItemEdit_Reactor_meltdowndelay_set",{component.MeltdownDelay}),client,Color(255,0,255,255))
 end)
 
-newAction("Reactor", "fire_delay", "How long the temperature has to stay critical until the reactor catches fire.",function (client, item, component, args)
+newAction("Reactor", "fire_delay", GMT.Lang("CMD_ItemEdit_Reactor_firedelay_Help"),function (client, item, component, args)
     if args[1] == nil then
         GMT.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_ItemEdit_Reactor_firedelay_info",{component.FireDelay}),client,Color(255,0,255,255))
         return
@@ -350,7 +323,7 @@ newAction("Reactor", "fire_delay", "How long the temperature has to stay critica
     GMT.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_ItemEdit_Reactor_firedelay_set",{component.FireDelay}),client,Color(255,0,255,255))
 end)
 
-newAction("Reactor", "fission", "Current fission rate of the reactor",function (client, item, component, args)
+newAction("Reactor", "fission", GMT.Lang("CMD_ItemEdit_Reactor_fissionrate_Help"),function (client, item, component, args)
     if args[1] == nil then
         GMT.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_ItemEdit_Reactor_fissionrate_info",{component.FissionRate}),client,Color(255,0,255,255))
         return
@@ -365,7 +338,7 @@ newAction("Reactor", "fission", "Current fission rate of the reactor",function (
     item.CreateServerEvent(component, component)
 end)
 
-newAction("Reactor", "turbine", "Current turbine output of the reactor",function (client, item, component, args)
+newAction("Reactor", "turbine", GMT.Lang("CMD_ItemEdit_Reactor_fissionrate_Help"),function (client, item, component, args)
     if args[1] == nil then
         GMT.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_ItemEdit_Reactor_turbineoutput_info",{component.TurbineOutput}),client,Color(255,0,255,255))
         return
@@ -380,7 +353,7 @@ newAction("Reactor", "turbine", "Current turbine output of the reactor",function
     item.CreateServerEvent(component, component)
 end)
 
-newAction("Reactor", "fuelrate", "How fast the condition of the contained fuel rods deteriorates per second.",function (client, item, component, args)
+newAction("Reactor", "fuelrate", GMT.Lang("CMD_ItemEdit_Reactor_fuelrate_Help"),function (client, item, component, args)
     if args[1] == nil then
         GMT.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_ItemEdit_Reactor_fuelrate_info",{component.FuelConsumptionRate}),client,Color(255,0,255,255))
         return
@@ -395,7 +368,7 @@ newAction("Reactor", "fuelrate", "How fast the condition of the contained fuel r
 end)
 
 -- Vent
-newAction("Vent", "oxygen", "Amount of oxygen in vent",function (client, item, component, args)
+newAction("Vent", "oxygen", GMT.Lang("CMD_ItemEdit_Vent_oxygen_Help"),function (client, item, component, args)
     if args[1] == nil then
         GMT.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_ItemEdit_Vent_oxygen_info",{component.OxygenFlow}),client,Color(255,0,255,255))
         return
@@ -409,7 +382,14 @@ newAction("Vent", "oxygen", "Amount of oxygen in vent",function (client, item, c
     GMT.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_ItemEdit_Vent_oxygen_set",{component.OxygenFlow}),client,Color(255,0,255,255))
 end)
 
-
+-- DockingPort
+newAction("DockingPort", "dock", "Try dock/undock",function (client, item, component, args)
+    local docked = not component.Docked
+    component.Docked = docked
+    if component.Docked ~= docked then
+        GMT.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_ItemEdit_DockingPort_dock_error"),client,Color(255,0,0,255))
+    end
+end)
 
 
 
@@ -418,7 +398,7 @@ end)
 
 
 -- ITEM EDIT MOST COOLEST COMMAND !!!
-GMT.AddCommand("itemedit",GMT.Lang("Help_ItemEdit"),false,function(client,cursor,args)
+GMT.AddCommand("itemedit",GMT.Lang("Help_ItemEdit"),true,function(client,cursor,args)
     if #args == 0 then
         GMT.SendConsoleMessage("GMTools: "..GMT.Lang("Error_NotEnoughArguments"),client,Color(255,0,0,255))
         return
@@ -448,16 +428,21 @@ GMT.AddCommand("itemedit",GMT.Lang("Help_ItemEdit"),false,function(client,cursor
         end
     else
         local index = tonumber(args[2])
-        if id == nil then
-            GMT.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_ItemEdit_badindex"),client,Color(255,0,0,255))
-            return
-        end
-        if item.Components[index] == nil then
-            GMT.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_ItemEdit_outofrange"),client,Color(255,0,0,255))
+        if index ~= nil then index = math.floor(index) end
+        local component
+        -- Try get component by Index
+        if item.Components[index] ~= nil then
+            component = item.Components[index]
+        -- Try get component by Name
+        elseif item.GetComponentString(args[2]) ~= nil then
+            component = item.GetComponentString(args[2])
+        else
+        -- Component not found
+            GMT.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_ItemEdit_nocomponent"),client,Color(255,0,0,255))
             return
         end
 
-        local category = item.Components[index].Name
+        local category = component.Name
         if actions[category] == nil then
             GMT.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_ItemEdit_noactions"),client,Color(255,0,0,255))
             return
@@ -484,10 +469,10 @@ GMT.AddCommand("itemedit",GMT.Lang("Help_ItemEdit"),false,function(client,cursor
             table.insert(a_args, args[i])
         end
         --(client, item, component, args)
-        func(client, item, item.Components[index], a_args)
+        func(client, item, component, a_args)
     end
 end,{
 {name="id",desc=GMT.Lang("Args_ItemEdit_id")},
-{name="index",desc=GMT.Lang("Args_ItemEdit_component")},
-{name="action",desc=GMT.Lang("Args_ItemData_action")},
-{name="args",desc=GMT.Lang("Args_ItemData_args")}})
+{name="component",desc=GMT.Lang("Args_ItemEdit_component")},
+{name="action",desc=GMT.Lang("Args_ItemEdit_action")},
+{name="args",desc=GMT.Lang("Args_ItemEdit_args")}})
