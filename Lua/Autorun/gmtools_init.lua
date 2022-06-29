@@ -21,21 +21,22 @@ if SERVER then
 
     -- Console commands
     require("GMT_Scripts.help")
-    require("GMT_Scripts.item")
-    require("GMT_Scripts.itemedit")
-    require("GMT_Scripts.adminpm")
-    require("GMT_Scripts.other")
-    require("GMT_Scripts.ghostchat")
+    require("GMT_Scripts.Objects.item")
+    require("GMT_Scripts.Objects.itemedit")
+    require("GMT_Scripts.Moderation.adminpm")
+    require("GMT_Scripts.Moderation.adminchat")
+    require("GMT_Scripts.Moderation.ghostchat")
+    require("GMT_Scripts.Moderation.jobban")
+    require("GMT_Scripts.Moderation.smite")
+    require("GMT_Scripts.Moderation.adminchat")
     require("GMT_Scripts.config")
-    require("GMT_Scripts.jobban")
-    require("GMT_Scripts.smite")
-    require("GMT_Scripts.adminchat")
+    require("GMT_Scripts.other")
 
     -- Chat commands
     require("GMT_Scripts.Chat.other")
 
     -- Debug
-    require("GMT_Scripts.debug")
+    --require("GMT_Scripts.debug")
 
     -- Load playerdata
     GMT.PlayerData.Load()
