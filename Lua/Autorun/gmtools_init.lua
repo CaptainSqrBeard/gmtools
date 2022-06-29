@@ -23,6 +23,7 @@ if SERVER then
     require("GMT_Scripts.help")
     require("GMT_Scripts.Objects.item")
     require("GMT_Scripts.Objects.itemedit")
+    require("GMT_Scripts.Objects.character")
     require("GMT_Scripts.Moderation.adminpm")
     require("GMT_Scripts.Moderation.adminchat")
     require("GMT_Scripts.Moderation.ghostchat")

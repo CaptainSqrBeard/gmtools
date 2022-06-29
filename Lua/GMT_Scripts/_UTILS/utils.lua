@@ -64,6 +64,14 @@ function GMT.GetCharacterByString(string)
     end
 end
 
+function GMT.GetCharacterClient(id)
+    for i, cl in ipairs(Client.ClientList) do
+        if cl.Character.ID == id then
+            return cl
+        end
+    end
+end
+
 function GMT.RandomFloat(min,max)
     return math.random()*(max-min)+min
 end

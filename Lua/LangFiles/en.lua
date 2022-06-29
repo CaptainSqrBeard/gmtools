@@ -157,7 +157,12 @@ lang_files["CMD_Help_help"] = "Help"
 lang_files["CMD_Help_line"] = "* This server runned with mod \"GM-Tools\"\n* Type \".help all\" if you want get all command list\n* Or type \".help all chat\" to get list of chat commands."
 lang_files["CMD_Help_gmt"] = "Game Master Tools"
 
--- Near Items
+-- NearChars
+lang_files["CMD_NearChars_badrange"] = "Given size is not a number"
+lang_files["CMD_NearChars_nearchars"] = "Characters near cursor (Range: {1})"
+lang_files["CMD_NearChars_char"] = "* Character \"{1}\" ID {2}"
+
+-- NearItems
 lang_files["CMD_NearItems_badrange"] = "Given size is not a number"
 lang_files["CMD_NearItems_badwires"] = "Wrong value in second argument. Type 'true' or 'false'"
 lang_files["CMD_NearItems_nearitems"] = "Items near cursor (Range: {1})"
@@ -315,6 +320,7 @@ lang_files["CMD_Smite_help"] = "Gives list of smites"
 
 lang_files["CMD_Smite_SmiteList"] = "Smite List:"
 
+lang_files["CMD_Smite_NoCharacter"] = "You don't have character under control"
 lang_files["CMD_Smite_Unknown"] = "Unknown smite"
 
 -- Jobban & Unjobban
