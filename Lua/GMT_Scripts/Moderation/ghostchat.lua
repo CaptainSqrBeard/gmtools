@@ -24,7 +24,7 @@ GMT.AddCommand("see_ghostchat",GMT.Lang("Help_SeeGhostChat"),false,function(clie
         elseif args[1] == "switch" then
             status = not status
         else
-            GMT.SendConsoleMessage("GMTools: Bad argument. Argument #1 accepts only these values: true, false or switch.",client,Color(255,0,128,255))
+            GMT.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_SeeGhostchat_badargument"),client,Color(255,0,0,255))
             return
         end
     else
@@ -47,11 +47,7 @@ end,{{name="status",desc=GMT.Lang("Args_SeeGhostChat_status")},
 GMT.AddCommand("deadmsg",GMT.Lang("Help_DeadMsg"),false,function(client,cursor,args)
     if GMT.Player.ProcessCooldown(client,2) then return end
     if not Game.RoundStarted then
-        GMT.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_DeadMsg_inround"),client,Color(255,0,128,255))
-        return
-    end
-    if GMT.CanSpeakGhost(client.Character) then
-        GMT.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_DeadMsg_cantspeak"),client,Color(255,0,128,255))
+        GMT.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_DeadMsg_inround"),client,Color(255,0,0,255))
         return
     end
 
@@ -59,26 +55,34 @@ GMT.AddCommand("deadmsg",GMT.Lang("Help_DeadMsg"),false,function(client,cursor,a
     for i = 1, #args, 1 do
         msg = msg..args[i].." "
     end
+    for i = 1, msg:len(), 1 do
+        if msg:sub(i,i) ~= " " then
+            msg = msg:sub(i, msg:len() )
+            break
+        end
+    end
     if string.len(msg) > 200 then
-        GMT.SendConsoleMessage("GMTools: "..GMT.Lang("Error_TooLongMessage"),client,Color(255,0,128,255))
+        GMT.SendConsoleMessage("GMTools: "..GMT.Lang("Error_TooLongMessage"),client,Color(255,0,0,255))
+        return
+    end
+    if msg:len() == 0 then
+        GMT.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_AdminPM_NoMessage"),client,Color(255,0,0,255))
+        return
     end
 
     -- For sender
-    local chatMsg = ChatMessage.Create(client.Character.Name.." ("..GMT.Lang("CMD_AdminPM_you")..")", msg, ChatMessageType.Dead, nil, nil)
+    local chatMsg = ChatMessage.Create(nil, msg, ChatMessageType.Dead, client.Character, client)
     Game.SendDirectChatMessage(chatMsg, client)
 
     -- For ghosts
     for i, cl in ipairs(Client.ClientList) do
         if cl.ID ~= client.ID then
-            if cl.Character == nil or cl.Character.IsDead then
-                local chatMsg = ChatMessage.Create(client.Character.Name.." ("..GMT.Lang("CMD_SeeGhostChat_alive")..")",msg, ChatMessageType.Dead, nil, nil)
-                Game.SendDirectChatMessage(chatMsg, cl)
-            elseif GMT.Player.CanSeeGhostChat(cl) then
-                local chatMsg = ChatMessage.Create(client.Character.Name.."("..GMT.Lang("CMD_SeeGhostChat_alive")..") ["..GMT.Lang("CMD_SeeGhostChat_forced").."]",msg, ChatMessageType.Dead, nil, nil)
+            if cl.Character == nil or cl.Character.IsDead or GMT.Player.CanSeeGhostChat(cl) then
+                local chatMsg = ChatMessage.Create(nil, msg, ChatMessageType.Dead, client.Character, client)
                 Game.SendDirectChatMessage(chatMsg, cl)
             end
         end
-
+        
     end
 end,{{name="msg",desc=GMT.Lang("Args_DeadMsg_msg")}})
 
@@ -86,17 +90,12 @@ end,{{name="msg",desc=GMT.Lang("Args_DeadMsg_msg")}})
 GMT.AddChatCommand("dead",GMT.Lang("Help_DeadMsg"),function (client,args)
     if GMT.Player.ProcessCooldown(client,2) then return end
     if not GMT.HasPermission(client,".deadmsg") then
-        local chatMsg = ChatMessage.Create("GM-Tools",GMT.Lang("Error_NotEnoughPermissions"), ChatMessageType.Dead, nil, nil)
+        local chatMsg = ChatMessage.Create("GM-Tools",GMT.FormattedText(GMT.Lang("Error_NotEnoughPermissions"),{{name="color",value="#b1cbfc"}}), ChatMessageType.Dead, nil, nil)
         Game.SendDirectChatMessage(chatMsg, client)
         return
     end
     if not Game.RoundStarted then
-        local chatMsg = ChatMessage.Create("GM-Tools",GMT.Lang("CMD_DeadMsg_inround"), ChatMessageType.Dead, nil, nil)
-        Game.SendDirectChatMessage(chatMsg, client)
-        return
-    end
-    if GMT.CanSpeakGhost(client.Character) then
-        local chatMsg = ChatMessage.Create("GM-Tools",GMT.Lang("CMD_DeadMsg_cantspeak"), ChatMessageType.Dead, nil, nil)
+        local chatMsg = ChatMessage.Create("GM-Tools",GMT.FormattedText(GMT.Lang("CMD_DeadMsg_inround"),{{name="color",value="#b1cbfc"}}), ChatMessageType.Dead, nil, nil)
         Game.SendDirectChatMessage(chatMsg, client)
         return
     end
@@ -105,22 +104,32 @@ GMT.AddChatCommand("dead",GMT.Lang("Help_DeadMsg"),function (client,args)
     for i = 1, #args, 1 do
         msg = msg..args[i].." "
     end
+    for i = 1, msg:len(), 1 do
+        if msg:sub(i,i) ~= " " then
+            msg = msg:sub(i, msg:len() )
+            break
+        end
+    end
     if string.len(msg) > 200 then
-        GMT.SendConsoleMessage("GMTools: "..GMT.Lang("Error_TooLongMessage"),client,Color(255,0,128,255))
+        local chatMsg = ChatMessage.Create("GM-Tools",GMT.FormattedText(GMT.Lang("Error_TooLongMessage"),{{name="color",value="#b1cbfc"}}), ChatMessageType.Dead, nil, nil)
+        Game.SendDirectChatMessage(chatMsg, client)
+        return
+    end
+    if msg:len() == 0 then
+        local chatMsg = ChatMessage.Create("GM-Tools",GMT.FormattedText(GMT.Lang("Error_NoMessage"),{{name="color",value="#b1cbfc"}}), ChatMessageType.Dead, nil, nil)
+        Game.SendDirectChatMessage(chatMsg, client)
+        return
     end
 
     -- For sender
-    local chatMsg = ChatMessage.Create(client.Character.Name.." (You)", msg, ChatMessageType.Dead, nil, nil)
+    local chatMsg = ChatMessage.Create(nil, msg, ChatMessageType.Dead, client.Character, client)
     Game.SendDirectChatMessage(chatMsg, client)
 
     -- For ghosts
     for i, cl in ipairs(Client.ClientList) do
         if cl.ID ~= client.ID then
-            if cl.Character == nil or cl.Character.IsDead then
-                local chatMsg = ChatMessage.Create(client.Character.Name.." (Alive)",msg, ChatMessageType.Dead, nil, nil)
-                Game.SendDirectChatMessage(chatMsg, cl)
-            elseif GMT.Player.CanSeeGhostChat(cl) then
-                local chatMsg = ChatMessage.Create(client.Character.Name.." (Alive) [Forced GhostChat]",msg, ChatMessageType.Dead, nil, nil)
+            if cl.Character == nil or cl.Character.IsDead or GMT.Player.CanSeeGhostChat(cl) then
+                local chatMsg = ChatMessage.Create(nil, msg, ChatMessageType.Dead, client.Character, client)
                 Game.SendDirectChatMessage(chatMsg, cl)
             end
         end

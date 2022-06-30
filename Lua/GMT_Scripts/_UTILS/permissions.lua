@@ -20,14 +20,34 @@ function GMT.RestorePerms(client)
 end
 
 function GMT.HasPermission(client,command)
+    -- Host has permission to everything
+    if not Game.IsDedicated and client.ID == 1 then
+        return true
+    end
+
     local playerCommands = GMT.Config.Vars.player_commands
     if not client.HasPermission(ClientPermissions.ConsoleCommands) then return false end
-    if client.HasPermission(ClientPermissions.All) then return true end
 
     if GMT.Contains(playerCommands,command) then return true end
 
     for cmd in client.PermittedConsoleCommands do
         if cmd == GMT.GetCommandByString(command) then return true end
     end
+    return false
+end
+
+function GMT.HasGMTPermission(client,command)
+    -- Host has permission to everything
+    if not Game.IsDedicated and client.ID == 1 then
+        return true
+    end
+
+    local playerCommands = GMT.Config.Vars.player_commands
+    if not client.HasPermission(ClientPermissions.ConsoleCommands) then return false end
+
+    if GMT.Contains(playerCommands,command) then return true end
+
+    GMT.PlayerData.Create(client)
+    if GMT.Contains(GMT.PlayerData.Players[client.SteamID].Permissions, command) then return true end
     return false
 end

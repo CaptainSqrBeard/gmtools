@@ -90,10 +90,8 @@ end
 
 function GMT.GetCommandByString(string)
     for i_1, cmd in ipairs(Game.Commands) do
-        for i_2, name in ipairs(cmd.names) do
-            if name == string then
-                return cmd
-            end
+        if cmd.names[1] == string then
+            return cmd
         end
     end
 end

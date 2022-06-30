@@ -10,10 +10,11 @@ lang_files["Help_SaveData"] = "Saves GM-Tools data"
 lang_files["Help_ReloadConfig"] = "Reloads GM-Tools config."
 lang_files["Help_SeeGhostChat"] = "Make you see messages from dead, even if you not a ghost"
 lang_files["Help_DeadMsg"] = "Sends message in ghost chat"
-lang_files["Help_NearItems"] = "Shows information about all items around cursor"
+lang_files["Help_NearItems"] = "Shows list of all items around cursor"
 lang_files["Help_DeleteItem"] = "Deletes items and everything inside it"
 lang_files["Help_ItemData"] = "Outputs item data (Condition, Tags, etc.)"
-lang_files["Help_ItemEdit"] = "Edit values of component"
+lang_files["Help_ItemEdit"] = "Edit values of item component"
+lang_files["Help_NearChars"] = "Shows list of all characters around cursor"
 lang_files["Help_Jobban"] = "Bans job for player, so he can't play on it"
 lang_files["Help_UnJobban"] = "Un-Bans job for player"
 lang_files["Help_GivePerm"] = "Gives player permissions to GM-Tools commands"
@@ -24,6 +25,7 @@ lang_files["Help_Ping"] = "Pong!"
 lang_files["Help_List"] = "Sends list of players on server"
 lang_files["Help_Smite"] = "We do a little trolling (Doing funi things with players)"
 lang_files["Help_Lang"] = "Globally changes language of mod to specified one"
+lang_files["Help_Clock"] = "Clockface"
 
 
 ---- Commands arguments description
@@ -77,6 +79,17 @@ lang_files["Args_Jobban_reason"] = "Reason, why player has been job-banned."
 lang_files["Args_UnJobban_player"] = "Name/ID/SteamID of player"
 lang_files["Args_UnJobban_job"] = "Job that will be unbanned for this player. Leave empty to unban all jobs"
 
+-- GivePerm
+lang_files["Args_GivePerm_player"] = "Name/ID/SteamID of player"
+lang_files["Args_GivePerm_commands"] = "Commands to grant. You can specify multiply commands like that: \"giveperm 1 .adminpm .adminchat .smite\""
+
+-- RevokePerm
+lang_files["Args_RevokePerm_player"] = "Name/ID/SteamID of player"
+lang_files["Args_RevokePerm_commands"] = "Commands to revoke. You can specify multiply commands like that: \"giveperm 1 .adminpm .adminchat .smite\""
+
+-- PermList
+lang_files["Args_PermList_player"] = "Name/ID/SteamID of player. Leave empty to check yourself."
+
 -- Smite
 lang_files["Args_Smite_smite"] = "Smite to do. Type \".smite help\" to get list of smites"
 lang_files["Args_Smite_client"] = "Who will suffer. Leave empty to smite yourself"
@@ -87,6 +100,7 @@ lang_files["Args_Lang_language"] = "Language to change. Use \".lang all\" to get
 ---- Errors
 lang_files["Error_NotEnoughPermissions"] = "You don't have permission for this command"
 lang_files["Error_TooLongMessage"] = "Message is too big!"
+lang_files["Error_NoMessage"] = "No message provided"
 lang_files["Error_NotEnoughArguments"] = "Not Enough Arguments"
 lang_files["Error_BadArgument"] = "Bad Argument {1}"
 lang_files["Error_PlayerNotFound"] = "Player not found"
@@ -141,13 +155,11 @@ lang_files["CMD_SaveData_end"] = "Saved GM-Tools data!"
 lang_files["CMD_ReloadConfig_init"] = "Reloading config..."
 lang_files["CMD_ReloadConfig_end"] = "Config reloaded!"
 
--- DeadMsg
-lang_files["CMD_DeadMsg_cantspeak"] = "You character already can't speak or dead. Just use chat normally"
-lang_files["CMD_DeadMsg_inround"] = "This command work only in round"
+-- SeeGhostchat
+lang_files["CMD_SeeGhostchat_badargument"] = "Bad argument. Argument #1 accepts only these values: 'true', 'false' or 'switch'."
 
--- SeeGhostChat
-lang_files["CMD_SeeGhostChat_alive"] = "Alive"
-lang_files["CMD_SeeGhostChat_forced"] = "Forced GhostChat"
+-- DeadMsg
+lang_files["CMD_DeadMsg_inround"] = "This command work only in round"
 
 -- Help
 lang_files["CMD_Help_desc"] = "Description"
@@ -363,7 +375,7 @@ lang_files["CMD_Lang_changed"] = "Language changed to \"{1}\". Type \"reloadlua\
 lang_files["CMD_Lang_unknown"] = "Unknown language. Type \".lang all\" to get list of languages."
 lang_files["CMD_Lang_header"] = "List of languages:"
 lang_files["CMD_Lang_element"] = "* {1}"
-lang_files["CMD_Lang_suggest"] = "You can suggest your translation on GM-Tools discord server"
+lang_files["CMD_Lang_suggest"] = "You can suggest your translation on mod page"
 
 ---- Chat commands
 lang_files["Chat_Error_UnknownCommand"] = "Unknown command \"‖color:#ff9c9c‖{1}‖end‖\". Type \"‖color:#ff9c9c‖.help chat‖end‖\" in console for help"

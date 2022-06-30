@@ -53,7 +53,7 @@ GMT.AddCommand("giveperm",GMT.Lang("Help_GivePerm"),false,function (client,curso
     GMT.PlayerData.Save()
 end,{
     {name="player",desc=GMT.Lang("Args_GivePerm_player")},
-    {name="permissions",desc=GMT.Lang("Args_GivePerm_permissions")}
+    {name="commands",desc=GMT.Lang("Args_GivePerm_commands")}
 })
 
 GMT.AddCommand("revokeperm",GMT.Lang("Help_RevokePerm"),false,function (client,cursor,args)
@@ -114,7 +114,7 @@ GMT.AddCommand("revokeperm",GMT.Lang("Help_RevokePerm"),false,function (client,c
     GMT.PlayerData.Save()
 end,{
     {name="player",desc=GMT.Lang("Args_RevokePerm_player")},
-    {name="permissions",desc=GMT.Lang("Args_RevokePerm_permissions")}
+    {name="commands",desc=GMT.Lang("Args_RevokePerm_commands")}
 })
 
 GMT.AddCommand("permlist",GMT.Lang("Help_PermList"),false,function (client,cursor,args)

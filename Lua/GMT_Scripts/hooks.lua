@@ -37,10 +37,25 @@ Hook.Add("chatMessage", "GMT.chatmessage", function(msg, client)
     end
 
     -- Ghost Chat
-    if Game.RoundStarted and GMT.CanSpeakGhost(client.Character) then
+    if (Game.RoundStarted) and (msg:sub(1,2) == "d;" or msg:sub(1,5) == "dead;" or GMT.CanSpeakGhost(client.Character)) then
+        local out_msg = msg
+
+        -- Removing dead chat prefix and spaces at start of the message
+        if out_msg:sub(1,2) == "d;" then
+            out_msg = out_msg:sub(3, out_msg:len() )
+        elseif msg:sub(1,5) == "dead;" then
+            out_msg = out_msg:sub(6, out_msg:len() )
+        end
+        for i = 1, out_msg:len(), 1 do
+            if out_msg:sub(i,i) ~= " " then
+                out_msg = out_msg:sub(i, out_msg:len() )
+                break
+            end
+        end
+
         for i, cl in ipairs(Client.ClientList) do
-            if cl.Character ~= nil and GMT.Player.CanSeeGhostChat(cl) then
-                local chatMsg = ChatMessage.Create(client.Name.." ["..GMT.Lang("CMD_SeeGhostChat_forced").."]",msg, ChatMessageType.Dead, nil, nil)
+            if (cl.Character ~= nil and not cl.Character.IsDead) and (GMT.Player.CanSeeGhostChat(cl)) then
+                local chatMsg = ChatMessage.Create(nil, out_msg, ChatMessageType.Dead, client.Character, client)
                 Game.SendDirectChatMessage(chatMsg, cl)
             end
         end
