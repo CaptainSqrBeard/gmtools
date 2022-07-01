@@ -1,5 +1,5 @@
 -- launch automaticly when true
-local DEV_MODE = true
+local DEV_MODE = false
 
 local mods = Game.GetEnabledContentPackages()
 local launched = false

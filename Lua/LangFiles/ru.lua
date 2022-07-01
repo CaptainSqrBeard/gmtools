@@ -191,7 +191,7 @@ lang_files["CMD_DeteteItem_deleted"] = "Успешно удалён предме
 lang_files["CMD_ItemData_header"] = "Предмет [ID: {1}] \"{2}\" data:"
 lang_files["CMD_ItemData_main_condition"] = "* Состояние: {1}%"
 lang_files["CMD_ItemData_main_tags"] = "* Тэги: \"{1}\""
-lang_files["CMD_ItemData_main_has_inv"] = "* Имеет свой инвентарь  - Используйте \".item {1} see_inv\" чтобы просмотреть"
+lang_files["CMD_ItemData_main_has_inv"] = "* Имеет свой инвентарь  - Используйте \".itemdata {1} see_inv\" чтобы просмотреть"
 lang_files["CMD_ItemData_main_contained"] = "* Находится в инвентаре: {1} [ID: {2}]"
 
 lang_files["CMD_ItemData_condition"] = "Предмет \"{1}\" [ID: {2}] имеет состояние {3}%"

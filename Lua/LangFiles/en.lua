@@ -192,7 +192,7 @@ lang_files["CMD_DeteteItem_deleted"] = "Succesfully deleted item '{1}' with ID {
 lang_files["CMD_ItemData_header"] = "Item [ID: {1}] \"{2}\" data:"
 lang_files["CMD_ItemData_main_condition"] = "* Condition: {1}%"
 lang_files["CMD_ItemData_main_tags"] = "* Tags: \"{1}\""
-lang_files["CMD_ItemData_main_has_inv"] = "* Has own inventory  -  Use \".item {1} see_inv\" to check"
+lang_files["CMD_ItemData_main_has_inv"] = "* Has own inventory  -  Use \".itemdata {1} see_inv\" to check"
 lang_files["CMD_ItemData_main_contained"] = "* Contained in inventory: {1} [ID: {2}]"
 
 lang_files["CMD_ItemData_condition"] = "Item \"{1}\" [ID: {2}] condition is {3}%"
@@ -202,10 +202,31 @@ lang_files["CMD_ItemData_rawtags"] = "Raw: \"{1}\""
 lang_files["CMD_ItemData_onetag"] = "* {1}. \"{2}\""
 
 lang_files["CMD_ItemData_no_inv"] = "Item doesn't have own inventory"
+lang_files["CMD_ItemData_container"] = "Container {1}:"
 lang_files["CMD_ItemData_inventory"] = "Items in '{1}' [ID {2}]"
 lang_files["CMD_ItemData_inv_item"] = "* \"{1}\" ID {2} ({3}%)"
+lang_files["CMD_ItemData_inv_item_winv"] = "* \"{1}\" ID {2} ({3}%) - Has own inventory (.itemdata {2} see_inv)"
 
 lang_files["CMD_ItemData_UnknownInput"] = "Unknown parameter at argument #2"
+
+-- HumanList
+lang_files["CMD_HumanList_header"] = "Human list:"
+lang_files["CMD_HumanList_char"] = "* \"{1}\" ID {2}"
+
+-- CharData
+lang_files["CMD_CharData_header"] = "Character [ID: {1}] \"{2}\" data:"
+lang_files["CMD_CharData_main_species"] = "* Species name: \"{1}\""
+lang_files["CMD_CharData_main_health"] = "* Health: {1}/{2}"
+lang_files["CMD_CharData_main_has_inv"] = "* Has inventory - Use \".chardata {1} see_inv\" to check"
+lang_files["CMD_CharData_main_controlled"] = "* Controlled by player \"{1}\" ID {2}"
+lang_files["CMD_CharData_main_uncontrolled"] = "* Doesn't controlled by anyone"
+
+lang_files["CMD_CharData_inv_header"] = "Items in character \"{1}\" [ID {2}] inventory:"
+lang_files["CMD_CharData_no_inv"] = "Character doesn't have own inventory"
+lang_files["CMD_CharData_inv_item"] = "* Item \'{1}\' ID {2}"
+lang_files["CMD_CharData_inv_iteminv"] = "* Item \'{1}\' ID {2} - Has own inventory (.itemdata {2} see_inv)"
+
+lang_files["CMD_CharData_UnknownInput"] = "Unknown parameter at argument #2"
 
 -- ItemEdit
 lang_files["CMD_ItemEdit_c_header"] = "Components of item \"{1}\" ID {2}"

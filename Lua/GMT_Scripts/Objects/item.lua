@@ -125,8 +125,6 @@ GMT.AddCommand("itemdata",GMT.Lang("Help_ItemData"),true,function(client,cursor,
 
     -- No parameter: Show everything
     if args[2] == nil then
-        local tags_table = {}
-
         GMT.SendConsoleMessage(GMT.Lang("CMD_ItemData_header",{id,item.Prefab.Identifier.Value}),client,Color(255,0,255,255))
         GMT.SendConsoleMessage(GMT.Lang("CMD_ItemData_main_condition",{item.Condition}),client,Color(255,255,255,255))
         GMT.SendConsoleMessage(GMT.Lang("CMD_ItemData_main_tags",{item.Tags}),client,Color(255,255,255,255))
@@ -162,10 +160,27 @@ GMT.AddCommand("itemdata",GMT.Lang("Help_ItemData"),true,function(client,cursor,
             return
         end
 
-        GMT.SendConsoleMessage(GMT.Lang("CMD_ItemData_inventory",{item.Prefab.Identifier.Value,id}),client,Color(255,0,255,255))
-        for i_item in item.OwnInventory.AllItems do
-            GMT.SendConsoleMessage(GMT.Lang("CMD_ItemData_inv_item",{i_item.Prefab.Identifier.value,i_item.ID,i_item.Condition}),client,Color(190,190,190,255))
+        -- Item can have multiply containers (Like deconstructor)
+        local item_containers = {}
+        for i, component in ipairs(item.Components) do
+            if component.Name == "ItemContainer" then
+                table.insert(item_containers, component)
+            end
         end
+        
+        GMT.SendConsoleMessage(GMT.Lang("CMD_ItemData_inventory",{item.Prefab.Identifier.Value,id}),client,Color(255,0,255,255))
+        for i, container in ipairs(item_containers) do
+            GMT.SendConsoleMessage(GMT.Lang("CMD_ItemData_container",{i}),client,Color(255,220,255,255))
+            for i_item in container.Inventory.AllItems do
+                if i_item.OwnInventory ~= nil then
+                    GMT.SendConsoleMessage(GMT.Lang("CMD_ItemData_inv_item_winv",{i_item.Prefab.Identifier.value,i_item.ID,i_item.Condition}),client,Color(255,255,255,255))
+                else
+                    GMT.SendConsoleMessage(GMT.Lang("CMD_ItemData_inv_item",{i_item.Prefab.Identifier.value,i_item.ID,i_item.Condition}),client,Color(255,255,255,255))
+                end
+                
+            end
+        end
+        
     
     else
         GMT.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_ItemData_UnknownInput"),client,Color(255,0,0,255))

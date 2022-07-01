@@ -165,6 +165,15 @@ function GMT.GetItemByID(id)
     return nil
 end
 
+function GMT.GetCharacterByID(id)
+    for i, char in ipairs(Character.CharacterList) do
+        if char.ID == id then
+            return char
+        end
+    end
+    return nil
+end
+
 function GMT.InRange(value,min,max)
     if value <= max and value >= min then
         return true
