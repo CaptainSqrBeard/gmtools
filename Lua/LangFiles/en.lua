@@ -210,6 +210,7 @@ lang_files["CMD_ItemData_UnknownInput"] = "Unknown parameter at argument #2"
 -- ItemEdit
 lang_files["CMD_ItemEdit_c_header"] = "Components of item \"{1}\" ID {2}"
 lang_files["CMD_ItemEdit_c_element"] = "{1}. \"{2}\""
+lang_files["CMD_ItemEdit_c_basic"] = "0. \"Basic\""
 lang_files["CMD_ItemEdit_badindex"] = "Given index is not a value"
 lang_files["CMD_ItemEdit_nocomponent"] = "Component not found. Type name of component or position in list"
 lang_files["CMD_ItemEdit_noactions"] = "This component doesn't have any actions"
@@ -217,6 +218,32 @@ lang_files["CMD_ItemEdit_act_header"] = "Actions of component \"{1}\""
 lang_files["CMD_ItemEdit_act_element"] = "* {1}  >  \"{2}\""
 lang_files["CMD_ItemEdit_badaction"] = "Unknown action"
 
+lang_files["CMD_ItemEdit_basic_header"] = "Basic actions for \'{1}\' ID {2}"
+lang_files["CMD_ItemEdit_basic_element"] = "* {1}  >  \"{2}\""
+
+lang_files["CMD_ItemEdit_Basic_condition_Help"] = "Changes condition of item"
+lang_files["CMD_ItemEdit_Basic_condition_info"] = "Condition is {1}%"
+lang_files["CMD_ItemEdit_Basic_condition_set"] = "Condition now is {1}%"
+
+lang_files["CMD_ItemEdit_Basic_tags_Help"] = "Changes tags of item"
+lang_files["CMD_ItemEdit_Basic_tags_info"] = "Tags is \"{1}\""
+lang_files["CMD_ItemEdit_Basic_tags_set"] = "Now tags is \"{1}\""
+
+lang_files["CMD_ItemEdit_Basic_colorsprite_Help"] = "Changes sprite color of item"
+lang_files["CMD_ItemEdit_Basic_colorsprite_info"] = "Color is {1}"
+lang_files["CMD_ItemEdit_Basic_colorsprite_set"] = "Now color is {1}"
+
+lang_files["CMD_ItemEdit_Basic_colorinv_Help"] = "Changes inventory color of item"
+lang_files["CMD_ItemEdit_Basic_colorinv_info"] = "Color is {1}"
+lang_files["CMD_ItemEdit_Basic_colorinv_set"] = "Now color is {1}"
+
+lang_files["CMD_ItemEdit_Basic_color_Help"] = "Changes color of item"
+lang_files["CMD_ItemEdit_Basic_color_info"] = "Color is {1}"
+lang_files["CMD_ItemEdit_Basic_color_set"] = "Now color is {1}"
+
+lang_files["CMD_ItemEdit_Basic_scale_Help"] = "Changes scale of item"
+lang_files["CMD_ItemEdit_Basic_scale_info"] = "Scale is {1}x"
+lang_files["CMD_ItemEdit_Basic_scale_set"] = "Now scale is {1}"
 
 lang_files["CMD_ItemEdit_Quality_level_Help"] = "Changes level of item (Small Desync)"
 lang_files["CMD_ItemEdit_Quality_level_info"] = "Level of item is {1}/{2}"

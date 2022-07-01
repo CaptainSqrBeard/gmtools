@@ -383,7 +383,7 @@ newAction("Vent", "oxygen", GMT.Lang("CMD_ItemEdit_Vent_oxygen_Help"),function (
 end)
 
 -- DockingPort
-newAction("DockingPort", "dock", "Try dock/undock",function (client, item, component, args)
+newAction("DockingPort", "dock", GMT.Lang("CMD_ItemEdit_DockingPort_dock_Help"),function (client, item, component, args)
     local docked = not component.Docked
     component.Docked = docked
     if component.Docked ~= docked then
@@ -391,11 +391,141 @@ newAction("DockingPort", "dock", "Try dock/undock",function (client, item, compo
     end
 end)
 
+-----------------------
 
+local basicActions = {}
+local function newBasicAction(name,helpstring,func)
+    basicActions[name] = {help=helpstring,func=func}
+end
 
+newBasicAction("condition",GMT.Lang("CMD_ItemEdit_Basic_condition_Help"),function (client, item, args)
+    if args[1] == nil then
+        GMT.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_ItemEdit_Basic_condition_info",{item.Condition}),client,Color(255,0,255,255))
+        return
+    end
+    local number = tonumber(args[1])
+    if number == nil then
+        GMT.SendConsoleMessage("GMTools: "..GMT.Lang("Error_bad_value"),client,Color(255,0,0,255))
+        return
+    end
+    item.Condition = number
+    GMT.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_ItemEdit_Basic_condition_set",{item.Condition}),client,Color(255,0,255,255))
+end)
 
+newBasicAction("tags",GMT.Lang("CMD_ItemEdit_Basic_tags_Help"),function (client, item, args)
+    if args[1] == nil then
+        GMT.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_ItemEdit_Basic_tags_info",{item.Tags}),client,Color(255,0,255,255))
+        return
+    end
+    item.Tags = args[1]
+    GMT.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_ItemEdit_Basic_tags_set",{item.Tags}),client,Color(255,0,255,255))
+    local property = item.SerializableProperties[Identifier("Tags")]
+    Networking.CreateEntityEvent(item, Item.ChangePropertyEventData.__new(property))
+end)
 
+newBasicAction("scale",GMT.Lang("CMD_ItemEdit_Basic_scale_Help"),function (client, item, args)
+    if args[1] == nil then
+        GMT.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_ItemEdit_Basic_scale_info",{item.Scale}),client,Color(255,0,255,255))
+        return
+    end
+    local number = tonumber(args[1])
+    if number == nil then
+        GMT.SendConsoleMessage("GMTools: "..GMT.Lang("Error_bad_value"),client,Color(255,0,0,255))
+        return
+    end
+    item.Scale = number
+    GMT.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_ItemEdit_Basic_scale_set",{item.Scale}),client,Color(255,0,255,255))
+    local property = item.SerializableProperties[Identifier("Scale")]
+    Networking.CreateEntityEvent(item, Item.ChangePropertyEventData.__new(property))
+end)
 
+LuaUserData.MakeMethodAccessible(Descriptors["Barotrauma.Item"], "set_InventoryIconColor")
+newBasicAction("color",GMT.Lang("CMD_ItemEdit_Basic_color_Help"),function (client, item, args)
+    if args[1] == nil then
+        GMT.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_ItemEdit_Basic_color_info",{tostring(item.SpriteColor)}),client,Color(255,0,255,255))
+        return
+    end
+    ---- Color assembly
+    -- Red
+    local r = tonumber(args[1])
+    if r == nil then r = 255 end
+    -- Green (or *Saul*)
+    local g = tonumber(args[2])
+    if g == nil then g = 255 end
+    -- Blue
+    local b = tonumber(args[3])
+    if b == nil then b = 255 end
+    -- Alpha
+    local a = tonumber(args[4])
+    if a == nil then a = 255 end
+
+    local color = Color(r,g,b,a)
+
+    item.SpriteColor = color
+    item.set_InventoryIconColor(color)
+    
+    GMT.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_ItemEdit_Basic_color_set",{tostring(item.SpriteColor)}),client,Color(255,0,255,255))
+    local property = item.SerializableProperties[Identifier("SpriteColor")]
+    Networking.CreateEntityEvent(item, Item.ChangePropertyEventData.__new(property))
+    local property = item.SerializableProperties[Identifier("InventoryIconColor")]
+    Networking.CreateEntityEvent(item, Item.ChangePropertyEventData.__new(property))
+end)
+
+newBasicAction("color_inv",GMT.Lang("CMD_ItemEdit_Basic_colorinv_Help"),function (client, item, args)
+    if args[1] == nil then
+        GMT.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_ItemEdit_Basic_colorinv_info",{tostring(item.InventoryIconColor)}),client,Color(255,0,255,255))
+        return
+    end
+    ---- Color assembly
+    -- Red
+    local r = tonumber(args[1])
+    if r == nil then r = 255 end
+    -- Green (or *Saul*)
+    local g = tonumber(args[2])
+    if g == nil then g = 255 end
+    -- Blue
+    local b = tonumber(args[3])
+    if b == nil then b = 255 end
+    -- Alpha
+    local a = tonumber(args[4])
+    if a == nil then a = 255 end
+
+    local color = Color(r,g,b,a)
+
+    item.set_InventoryIconColor(color)
+    
+    GMT.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_ItemEdit_Basic_colorinv_set",{tostring(item.InventoryIconColor)}),client,Color(255,0,255,255))
+    local property = item.SerializableProperties[Identifier("InventoryIconColor")]
+    Networking.CreateEntityEvent(item, Item.ChangePropertyEventData.__new(property))
+end)
+
+newBasicAction("color_sprite",GMT.Lang("CMD_ItemEdit_Basic_colorsprite_Help"),function (client, item, args)
+    if args[1] == nil then
+        GMT.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_ItemEdit_Basic_colorsprite_info",{tostring(item.SpriteColor)}),client,Color(255,0,255,255))
+        return
+    end
+    ---- Color assembly
+    -- Red
+    local r = tonumber(args[1])
+    if r == nil then r = 255 end
+    -- Green (or *Saul*)
+    local g = tonumber(args[2])
+    if g == nil then g = 255 end
+    -- Blue
+    local b = tonumber(args[3])
+    if b == nil then b = 255 end
+    -- Alpha
+    local a = tonumber(args[4])
+    if a == nil then a = 255 end
+
+    local color = Color(r,g,b,a)
+
+    item.SpriteColor = color
+    
+    GMT.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_ItemEdit_Basic_colorsprite_set",{tostring(item.SpriteColor)}),client,Color(255,0,255,255))
+    local property = item.SerializableProperties[Identifier("SpriteColor")]
+    Networking.CreateEntityEvent(item, Item.ChangePropertyEventData.__new(property))
+end)
 
 -- ITEM EDIT MOST COOLEST COMMAND !!!
 GMT.AddCommand("itemedit",GMT.Lang("Help_ItemEdit"),true,function(client,cursor,args)
@@ -426,6 +556,32 @@ GMT.AddCommand("itemedit",GMT.Lang("Help_ItemEdit"),true,function(client,cursor,
         for i, component in ipairs(item.Components) do
             GMT.SendConsoleMessage(GMT.Lang("CMD_ItemEdit_c_element",{i,component.Name}),client,Color(255,255,255,255))
         end
+        GMT.SendConsoleMessage(GMT.Lang("CMD_ItemEdit_c_basic"),client,Color(128,128,128,255))
+    
+    elseif args[2] == "0" or args[2] == "Basic" then
+        -- Basic actions
+        if args[3] == nil then
+            GMT.SendConsoleMessage(GMT.Lang("CMD_ItemEdit_basic_header",{item.Prefab.Identifier.Value, item.ID}),client,Color(255,0,128,255))
+            for k, act in pairs(basicActions) do
+                GMT.SendConsoleMessage(GMT.Lang("CMD_ItemEdit_basic_element",{k,act.help}),client,Color(255,255,255,255))
+            end
+            return
+        end
+
+        local action = string.lower(args[3])
+        if basicActions[action] == nil then
+            GMT.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_ItemEdit_badaction"),client,Color(255,0,0,255))
+            return
+        end
+
+        local func = basicActions[action].func
+        local a_args = {}
+        for i = 4, #args, 1 do
+            table.insert(a_args, args[i])
+        end
+        --(client, item, args)
+        func(client, item, a_args)
+
     else
         local index = tonumber(args[2])
         if index ~= nil then index = math.floor(index) end

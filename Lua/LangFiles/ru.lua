@@ -97,12 +97,16 @@ lang_files["Args_Smite_client"] = "Кто будет страдать. Оста�
 ---- Errors
 lang_files["Error_NotEnoughPermissions"] = "У вас недостаточно прав для исполнения этой команды"
 lang_files["Error_TooLongMessage"] = "Сообщение слишком большое!"
+lang_files["Error_NoMessage"] = "Не указано сообщение"
 lang_files["Error_NotEnoughArguments"] = "Недостаточно аргументов"
 lang_files["Error_BadArgument"] = "Неверный аргумент {1}"
 lang_files["Error_PlayerNotFound"] = "Игрок не найден"
+lang_files["Error_CharacterNotFound"] = "Персонаж не найден"
 lang_files["Error_ItemNotFound"] = "Предмет не найден"
 lang_files["Error_bad_id"] = "Указанный ID не является числом"
+lang_files["Error_bad_value"] = "Указанное значение не является числом"
 lang_files["Error_NoControlledChar"] = "Игрок не имеет персонажа под контролем"
+lang_files["Error_bad_boolean"] = "Неверный аргумент. Параметр #1 должен быть \"true\" или \"false\" или пустым"
 
 -- Lang
 lang_files["Args_Lang_language"] = "Язык для смены. Используйте \".lang all\" чтобы посмотреть список всех языков"
@@ -167,10 +171,15 @@ lang_files["CMD_Help_help"] = "Хелп"
 lang_files["CMD_Help_line"] = "* Этот сервер запущен с модом \"GM-Tools\"\n* Введите \".help all\" если хотите получить список команд\n* Или введите \".help all chat\" чтобы получить список команд в чате."
 lang_files["CMD_Help_gmt"] = "Game Master Tools"
 
+-- NearChars
+lang_files["CMD_NearChars_badrange"] = "Указанный размер не является числом"
+lang_files["CMD_NearChars_nearchars"] = "Персонажи у курсора (Радиус: {1})"
+lang_files["CMD_NearChars_char"] = "* Персонаж \"{1}\" ID {2}"
+
 -- Near Items
 lang_files["CMD_NearItems_badrange"] = "Указанный размер не является числом"
 lang_files["CMD_NearItems_badwires"] = "Неверное значение во втором аргументе. Введите 'true' или 'false'"
-lang_files["CMD_NearItems_nearitems"] = "Предметы у курсора (Range: {1})"
+lang_files["CMD_NearItems_nearitems"] = "Предметы у курсора (Радиус: {1})"
 lang_files["CMD_NearItems_unknown"] = "Неизвестно"
 lang_files["CMD_NearItems_item"] = "* Предмет: \'{1}\' ID {2} ({3}%)"
 lang_files["CMD_NearItems_contained_item"] = "* {1} Предмет(ов) в контейнере с ID {2} ({3})"
@@ -200,13 +209,39 @@ lang_files["CMD_ItemData_UnknownInput"] = "Неизвестный парамет
 -- ItemEdit
 lang_files["CMD_ItemEdit_c_header"] = "Компоненты \"{1}\" ID {2}"
 lang_files["CMD_ItemEdit_c_element"] = "{1}. \"{2}\""
+lang_files["CMD_ItemEdit_c_basic"] = "0. \"Basic\""
 lang_files["CMD_ItemEdit_badindex"] = "Указанный индекс не является числом"
 lang_files["CMD_ItemEdit_nocomponent"] = "Компонент не найден. Введите имя компонента или его позицию в списке"
 lang_files["CMD_ItemEdit_noactions"] = "Этот компонент не имеет никаких действий"
 lang_files["CMD_ItemEdit_act_header"] = "Действия для компонента \"{1}\""
 lang_files["CMD_ItemEdit_act_element"] = "* {1}  >  \"{2}\""
 lang_files["CMD_ItemEdit_badaction"] = "Неизвестное действие"
+lang_files["CMD_ItemEdit_basic_header"] = "Базовые действия для \'{1}\' ID {2}"
+lang_files["CMD_ItemEdit_basic_element"] = "* {1}  >  \"{2}\""
 
+lang_files["CMD_ItemEdit_Basic_condition_Help"] = "Изменяет состояние предмета"
+lang_files["CMD_ItemEdit_Basic_condition_info"] = "Состояние {1}%"
+lang_files["CMD_ItemEdit_Basic_condition_set"] = "Теперь состояние {1}%"
+
+lang_files["CMD_ItemEdit_Basic_tags_Help"] = "Изменяет теги предмета"
+lang_files["CMD_ItemEdit_Basic_tags_info"] = "Теги \"{1}\""
+lang_files["CMD_ItemEdit_Basic_tags_set"] = "Теперь теги \"{1}\""
+
+lang_files["CMD_ItemEdit_Basic_colorsprite_Help"] = "Изменяет цвет спрайта предмета"
+lang_files["CMD_ItemEdit_Basic_colorsprite_info"] = "Цвет {1}"
+lang_files["CMD_ItemEdit_Basic_colorsprite_set"] = "Теперь цвет {1}"
+
+lang_files["CMD_ItemEdit_Basic_colorinv_Help"] = "Изменяет цвет предмета в инвентаре"
+lang_files["CMD_ItemEdit_Basic_colorinv_info"] = "Цвет {1}"
+lang_files["CMD_ItemEdit_Basic_colorinv_set"] = "Теперь цвет {1}"
+
+lang_files["CMD_ItemEdit_Basic_color_Help"] = "Изменяет цвет предмета"
+lang_files["CMD_ItemEdit_Basic_color_info"] = "Цвет {1}"
+lang_files["CMD_ItemEdit_Basic_color_set"] = "Теперь цвет {1}"
+
+lang_files["CMD_ItemEdit_Basic_scale_Help"] = "Изменяет размер предмета"
+lang_files["CMD_ItemEdit_Basic_scale_info"] = "Размер {1}x"
+lang_files["CMD_ItemEdit_Basic_scale_set"] = "Теперь размер {1}"
 
 lang_files["CMD_ItemEdit_Quality_level_Help"] = "Изменяет уровень предмета (Небольшой рассинхрон)"
 lang_files["CMD_ItemEdit_Quality_level_info"] = "Уровень предмета {1}/{2}"
