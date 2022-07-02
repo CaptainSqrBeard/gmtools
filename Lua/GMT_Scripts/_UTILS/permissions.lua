@@ -51,3 +51,13 @@ function GMT.HasGMTPermission(client,command)
     if GMT.Contains(GMT.PlayerData.Players[client.SteamID].Permissions, command) then return true end
     return false
 end
+
+function GMT.HasGMTPermissionOffline(steamid,command)
+    local playerCommands = GMT.Config.Vars.player_commands
+
+    if GMT.Contains(playerCommands,command) then return true end
+
+    GMT.PlayerData.CreateSteam("Unknown", steamid)
+    if GMT.Contains(GMT.PlayerData.Players[steamid].Permissions, command) then return true end
+    return false
+end

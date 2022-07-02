@@ -81,6 +81,17 @@ lang_files["Args_UnJobban_job"] = "Профессия которая будет 
 
 -- GivePerm
 lang_files["Args_GivePerm_player"] = "Имя/ID/SteamID игрока"
+lang_files["Args_GivePerm_commands"] = "Выдать права на команду. Вы можете указать несколько команд вот так: \"giveperm 1 .adminpm .adminchat .smite\". Используйте \"all\" чтобы выдать весь доступ"
+
+-- RevokePerm
+lang_files["Args_RevokePerm_player"] = "Имя/ID/SteamID игрока"
+lang_files["Args_RevokePerm_commands"] = "Забрать права на команду. Вы можете указать несколько команд вот так: \"giveperm 1 .adminpm .adminchat .smite\". Используйте \"all\" чтобы забрать весь доступ"
+
+-- PermList
+lang_files["Args_PermList_player"] = "Имя/ID/SteamID игрока. Оставьте поле пустым чтобы применить на себя."
+
+-- GivePerm
+lang_files["Args_GivePerm_player"] = "Имя/ID/SteamID игрока"
 lang_files["Args_GivePerm_commands"] = "Команды для выдачи. Вы можете указать несколько команд сразу вот так: \"giveperm 1 .adminpm .adminchat .smite\""
 
 -- RevokePerm
@@ -188,7 +199,7 @@ lang_files["CMD_NearItems_contained_item"] = "* {1} Предмет(ов) в ко
 lang_files["CMD_DeteteItem_deleted"] = "Успешно удалён предмет '{1}' с ID {2}"
 
 -- ItemData
-lang_files["CMD_ItemData_header"] = "Предмет [ID: {1}] \"{2}\" data:"
+lang_files["CMD_ItemData_header"] = "Информация предмета [ID: {1}] \"{2}\":"
 lang_files["CMD_ItemData_main_condition"] = "* Состояние: {1}%"
 lang_files["CMD_ItemData_main_tags"] = "* Тэги: \"{1}\""
 lang_files["CMD_ItemData_main_has_inv"] = "* Имеет свой инвентарь  - Используйте \".itemdata {1} see_inv\" чтобы просмотреть"
@@ -201,10 +212,31 @@ lang_files["CMD_ItemData_rawtags"] = "Изначально: \"{1}\""
 lang_files["CMD_ItemData_onetag"] = "* {1}. \"{2}\""
 
 lang_files["CMD_ItemData_no_inv"] = "У предмета нету своего инвентаря"
+lang_files["CMD_ItemData_container"] = "Контейнер {1}:"
 lang_files["CMD_ItemData_inventory"] = "Предметы в '{1}' [ID {2}]"
 lang_files["CMD_ItemData_inv_item"] = "* \"{1}\" ID {2} ({3}%)"
+lang_files["CMD_ItemData_inv_item_winv"] = "* \"{1}\" ID {2} ({3}%) - Имеет свой инвентарь (.itemdata {2} see_inv)"
 
 lang_files["CMD_ItemData_UnknownInput"] = "Неизвестный параметр во втором аргументе"
+
+-- HumanList
+lang_files["CMD_HumanList_header"] = "Список людей:"
+lang_files["CMD_HumanList_char"] = "* \"{1}\" ID {2}"
+
+-- CharData
+lang_files["CMD_CharData_header"] = "Информация персонажа [ID: {1}] \"{2}\":"
+lang_files["CMD_CharData_main_species"] = "* Вид: \"{1}\""
+lang_files["CMD_CharData_main_health"] = "* Здоровье: {1}/{2}"
+lang_files["CMD_CharData_main_has_inv"] = "* Имеет инвентарь - Используйте \".chardata {1} see_inv\" чтобы проверить"
+lang_files["CMD_CharData_main_controlled"] = "* Контроллируется игроком \"{1}\" ID {2}"
+lang_files["CMD_CharData_main_uncontrolled"] = "* Никем не контролируется"
+
+lang_files["CMD_CharData_inv_header"] = "Предметы у персонажа \"{1}\" [ID {2}] в инвентаре:"
+lang_files["CMD_CharData_no_inv"] = "Character doesn't have own inventory"
+lang_files["CMD_CharData_inv_item"] = "* Предмет \'{1}\' ID {2}"
+lang_files["CMD_CharData_inv_iteminv"] = "* Предмет \'{1}\' ID {2} - Имеет свой инвентарь (.itemdata {2} see_inv)"
+
+lang_files["CMD_CharData_UnknownInput"] = "Неизвестный параметр во втором аргументе"
 
 -- ItemEdit
 lang_files["CMD_ItemEdit_c_header"] = "Компоненты \"{1}\" ID {2}"
@@ -362,6 +394,7 @@ lang_files["CMD_Smite_Unknown"] = "Неизвестный вид наказан�
 lang_files["CMD_Jobban_BanLowest"] = "Вы не можете забанить самую низкую профессию"
 lang_files["CMD_Jobban_UnknownJob"] = "Неизвестная профессия"
 lang_files["CMD_Jobban_NoReason"] = "Без причины"
+lang_files["CMD_Jobban_AdminIssue"] = "Вы не можете забанить профессию игроку с доступом к команде \".jobban\""
 lang_files["CMD_Jobban_ConsoleOut"] = "Забанена профессия \"{1}\" для игрока \"{2}\".\nПричина: {3}\nДлительность: {4}"
 
 lang_files["CMD_UnJobban_All"] = "Разблокированы все профессии у игрока {1}"
@@ -371,6 +404,24 @@ lang_files["CMD_UnJobban_NoBan"] = "Игрок не имел блокировк�
 lang_files["CMD_Jobban_Box"] = "Вы были забанены по профессии!\n\nПрофессия: \"{1}\"\nОкончание через: {2}\nПричина: \"{3}\"\n"
 lang_files["CMD_Jobban_Reminder"] = "Вы не можете играть на этой профессии, потому-что у вас есть блокировка на ней\n\nОкончание через: {1}\nПричина: \"{2}\"\n\nЕсли вы всё-равно выберете эту профессию, вы будете играть на \"{3}\""
 lang_files["CMD_Jobban_ForcedPlay"] = "Вы имеете блокировку на профессии, которую выбрали. Вы будете играть на \"{1}\""
+
+-- GivePerm
+lang_files["CMD_GivePerm_header"] = "Выдаются права для {1}:"
+lang_files["CMD_GivePerm_alreadyhas"] = "* (!) Игрок уже имеет разрешение на команду \"{1}\""
+lang_files["CMD_GivePerm_notexists"] = "* (!) Команда \"{1}\" не существует или не является командой GM-Tools"
+lang_files["CMD_GivePerm_added"] = "* Выдано право на команду \"{1}\""
+lang_files["CMD_GivePerm_all"] = "Выданы все права на команды игроку {1}"
+
+-- RevokePerm
+lang_files["CMD_RevokePerm_header"] = "Отбираются права у {1}:"
+lang_files["CMD_RevokePerm_donthave"] = "* (!) Игрок итак не имеет разрешения на команду \"{1}\""
+lang_files["CMD_RevokePerm_notexists"] = "* (!) Команда \"{1}\" не существует или не является командой GM-Tools"
+lang_files["CMD_RevokePerm_revoked"] = "* Отобрано право на команду \"{1}\""
+lang_files["CMD_RevokePerm_all"] = "Отобраны все права у игрока {1}"
+
+-- PermList
+lang_files["CMD_PermList_header"] = "Доступные команды \"{1}\":"
+lang_files["CMD_PermList_item"] = "* {1}"
 
 -- Lang
 lang_files["CMD_Lang_changed"] = "Язык изменён на \"{1}\". Используйте команду \"reloadlua\" чтобы принять изменения"

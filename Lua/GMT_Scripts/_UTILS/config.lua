@@ -9,13 +9,34 @@
 -- File.Write('LocalMods/Test')
 -- File.Exists('LocalMods/Test')
 
+local default = 
+"ahelp_enabled:true\n"..
+"player_commands:.list;.help;.ping;.ahelp;.cls\n"..
+"lowest_job:assistant\n"..
+"language:en\n"
+
 GMT.Config = {}
 GMT.Config.Vars = {}
 local path = "LocalMods/_GMT_Config/"
 
-local default = 
-"ahelp_enabled:true\n"..
-"player_commands:.list;.help;.ping;.ahelp;.cls\n"
+function GMT.Config.CheckFiles()
+    if not File.DirectoryExists(path) then
+        File.CreateDirectory(path)
+        File.Write(path.."config.txt", default)
+        File.Write(path.."players.txt", '')
+        return true
+    end
+    if not File.Exists(path.."players.txt") then
+        File.Write(path.."players.txt", default)
+        return true
+    end
+    if not File.Exists(path.."config.txt") then
+        File.Write(path.."config.txt", default)
+        return true
+    end
+    return false
+end
+GMT.Config.CheckFiles()
 
 local parameter_load = {}
 local parameter_save = {}
@@ -109,6 +130,9 @@ end
 function GMT.Config.Load()
     GMT.Config.LoadDefault()
 
+    if GMT.Config.CheckFiles() then
+        return
+    end
     if File.Exists(path.."config.txt") then
         local lines = GMT.Split(File.Read(path.."config.txt"),'\n')
         for i, line in ipairs(lines) do
@@ -147,6 +171,7 @@ end
 
 
 function GMT.Config.Save()
+    GMT.Config.CheckFiles()
     local txt = ""
     for k, val in pairs(GMT.Config.Vars) do
         txt = txt..k..":"..parameter_save[k]().."\n"

@@ -1,5 +1,5 @@
 GMT.AddCommand("nearitems",GMT.Lang("Help_NearItems"),true,function(client,cursor,args)
-    if GMT.Player.ProcessCooldown(client,4) then return end
+    if GMT.Player.ProcessCooldown(client,3) then return end
     local size = 100
     local ignore_wires = true
 

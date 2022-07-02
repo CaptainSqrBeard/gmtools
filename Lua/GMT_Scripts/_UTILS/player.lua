@@ -35,10 +35,10 @@ function GMT.Player.ProcessCooldown(client,time,warn_msg,kick_msg)
     -- If Client triggered CD more than 3 times
     if GMT.PlayerData[client.ID].Spam >= 3 then
         if warn_msg == nil then warn_msg = GMT.Lang("CD_Warn_CMDSpam") end
-        local chatMessage = ChatMessage.Create("", GMT.Lang("CD_Warn",warn_msg), ChatMessageType.MessageBox, nil, nil)
+        local chatMessage = ChatMessage.Create("", GMT.Lang("CD_Warn",{warn_msg}), ChatMessageType.MessageBox, nil, nil)
         chatMessage.Color = Color(255, 60, 60, 255)
         Game.SendDirectChatMessage(chatMessage, client)
-        GMT.SendConsoleMessage(GMT.Lang("CD_Warn",warn_msg),client,Color(255, 60, 60, 255))
+        GMT.SendConsoleMessage(GMT.Lang("CD_Warn",{warn_msg}),client,Color(255, 60, 60, 255))
         return true
     end
 

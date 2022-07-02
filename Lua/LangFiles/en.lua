@@ -390,6 +390,7 @@ lang_files["CMD_Smite_Unknown"] = "Unknown smite"
 lang_files["CMD_Jobban_BanLowest"] = "You can't job-ban the lowest job"
 lang_files["CMD_Jobban_UnknownJob"] = "Unknown job"
 lang_files["CMD_Jobban_NoReason"] = "No reason"
+lang_files["CMD_Jobban_AdminIssue"] = "You can't job-ban player with permission to command \".jobban\""
 lang_files["CMD_Jobban_ConsoleOut"] = "Job-banned \"{1}\" for \"{2}\".\nReason: {3}\nDuration: {4}"
 
 lang_files["CMD_UnJobban_All"] = "Removed all job-bans from player {1}"

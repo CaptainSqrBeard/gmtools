@@ -18,6 +18,14 @@ GMT.AddCommand("jobban",GMT.Lang("Help_Jobban"),false,function(client,cursor,arg
             GMT.SendConsoleMessage("GMTools: "..GMT.Lang("Error_PlayerNotFound"),client,Color(255,0,0,255))
             return
         end
+    else
+        steam_id = player.SteamID
+    end
+
+    -- Can't jobban player with permission to jobban
+    if GMT.HasGMTPermissionOffline(steam_id, ".jobban") then
+        GMT.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_Jobban_AdminIssue"),client,Color(255,0,0,255))
+        return
     end
 
     -- Checking job

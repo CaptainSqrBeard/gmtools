@@ -40,24 +40,15 @@ GMT.AddCommand("chardata",GMT.Lang("Help_CharData"),true,function(client,cursor,
         return
     end
 
-    local id = tonumber(args[1])
-    
-    -- Checking ID
-    if id == nil then
-        GMT.SendConsoleMessage("GMTools: "..GMT.Lang("Error_bad_id"),client,Color(255,0,128,255))
-        return
-    end
-    id = math.floor(id)
-
     -- Searching Character
-    local char = GMT.GetCharacterByID(id)
+    local char = GMT.GetCharacterByString(args[1])
     if char == nil then
         GMT.SendConsoleMessage("GMTools: "..GMT.Lang("Error_CharacterNotFound"),client,Color(255,0,128,255))
         return
     end
 
     if args[2] == nil then
-        GMT.SendConsoleMessage(GMT.Lang("CMD_CharData_header",{id,char.Name}),client,Color(255,0,255,255))
+        GMT.SendConsoleMessage(GMT.Lang("CMD_CharData_header",{char.Name,char.ID}),client,Color(255,0,255,255))
         GMT.SendConsoleMessage(GMT.Lang("CMD_CharData_main_species",{char.SpeciesName.Value}),client,Color(255,255,255,255))
         GMT.SendConsoleMessage(GMT.Lang("CMD_CharData_main_health",{char.Vitality, char.MaxVitality}),client,Color(255,255,255,255))
         local cl = GMT.GetCharacterClient(char.ID)
@@ -77,7 +68,7 @@ GMT.AddCommand("chardata",GMT.Lang("Help_CharData"),true,function(client,cursor,
             return
         end
 
-        GMT.SendConsoleMessage(GMT.Lang("CMD_CharData_inv_header",{id,char.Name}),client,Color(255,0,255,255))
+        GMT.SendConsoleMessage(GMT.Lang("CMD_CharData_inv_header",{char.Name,char.ID}),client,Color(255,0,255,255))
         for item in char.Inventory.AllItems do
             if item.OwnInventory ~= nil then
                 GMT.SendConsoleMessage(GMT.Lang("CMD_CharData_inv_iteminv",{item.Prefab.Identifier.Value, item.ID}),client,Color(255,220,255,255))

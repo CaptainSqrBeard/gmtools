@@ -60,6 +60,7 @@ local function get_category(line)
 end
 
 function GMT.PlayerData.Load()
+    GMT.Config.CheckFiles()
     if File.Exists(path.."players.txt") then
         local lines = GMT.Split(File.Read(path.."players.txt"),'\n')
         local category_reader = nil
@@ -98,6 +99,7 @@ function GMT.PlayerData.Load()
 end
 
 function GMT.PlayerData.Save()
+    GMT.Config.CheckFiles()
     local txt = ""
     for k, player in pairs(GMT.PlayerData.Players) do
         txt = txt.."&"..k..";"..player.Name.."\n!permissions\n"
@@ -113,6 +115,7 @@ function GMT.PlayerData.Save()
 end
 
 function GMT.PlayerData.Create(client)
+    GMT.Config.CheckFiles()
     if GMT.PlayerData.Players[client.SteamID] == nil then
         GMT.PlayerData.Players[client.SteamID] = {Name=client.Name,Permissions={},Jobbans={}}
         return true
@@ -121,6 +124,7 @@ function GMT.PlayerData.Create(client)
 end
 
 function GMT.PlayerData.CreateSteam(name, steam)
+    GMT.Config.CheckFiles()
     if GMT.PlayerData.Players[steam] == nil then
         GMT.PlayerData.Players[steam] = {Name=name,Permissions={},Jobbans={}}
         return true
@@ -131,6 +135,7 @@ end
 
 
 function GMT.PlayerData.JobBan(client,job_id,period,reason)
+    GMT.Config.CheckFiles()
     if job_id == GMT.Config.Vars.lowest_job then
         return false
     end
