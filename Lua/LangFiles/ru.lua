@@ -3,8 +3,8 @@ local lang_files = {}
 ---- Commands description
 lang_files["Help_Help"] = "Выдаёт список команд и информацию о них"
 lang_files["Help_AdminChat"] = "Отправляет сообщение в чат админов"
-lang_files["Help_AdminPM"] = "Отправляет приватное сообщение указанному игроку"
-lang_files["Help_AHelp"] = "Отправляет приватное сообщение админам"
+lang_files["Help_AdminPM"] = "Отправляет приватное сообщение указанному игроку. Игроки смогут ответить через \".ahelp\""
+lang_files["Help_AHelp"] = "Отправляет приватное сообщение админам. Публична"
 lang_files["Help_ToggleAHelp"] = "Переключает работу .ahelp"
 lang_files["Help_SaveData"] = "Сохраняет память GM-Tools"
 lang_files["Help_ReloadConfig"] = "Перезагружает конфиг GM-Tools"
@@ -16,7 +16,7 @@ lang_files["Help_ItemData"] = "Выдаёт информацию о предме
 lang_files["Help_ItemEdit"] = "Изменяет значения компонентов предмета"
 lang_files["Help_NearChars"] = "Выдаёт список всех персонажей рядом с курсором"
 lang_files["Help_Jobban"] = "Банит профессию у игрока, чтобы он не мог на ней играть"
-lang_files["Help_UnJobban"] = "Разбанивает проффесии у игрока"
+lang_files["Help_UnJobban"] = "Разбанивает профессии у игрока"
 lang_files["Help_GivePerm"] = "Дает разрешение игроку на использование команд GM-Tools"
 lang_files["Help_RevokePerm"] = "Забирает у игрока разрешения на использование команд GM-Tools"
 lang_files["Help_PermList"] = "Выдаёт список разрешённых команд игроку"
@@ -24,7 +24,7 @@ lang_files["Help_Cls"] = "Очищает консоль"
 lang_files["Help_Ping"] = "Понг!"
 lang_files["Help_List"] = "Выдаёт список игроков на сервере"
 lang_files["Help_Smite"] = "Выполняет небольшое количество троллинга по отношению к указанному игроку :)"
-lang_files["Help_Lang"] = "Глобально меняет язык мода на указанный"
+lang_files["Help_Lang"] = "Меняет язык мода на указанный"
 lang_files["Help_Clock"] = "Циферблат"
 
 

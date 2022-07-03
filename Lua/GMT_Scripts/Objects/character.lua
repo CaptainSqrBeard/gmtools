@@ -58,7 +58,7 @@ GMT.AddCommand("chardata",GMT.Lang("Help_CharData"),true,function(client,cursor,
             GMT.SendConsoleMessage(GMT.Lang("CMD_CharData_main_uncontrolled"),client,Color(255,255,255,255))
         end
         if char.Inventory ~= nil then
-            GMT.SendConsoleMessage(GMT.Lang("CMD_CharData_main_has_inv",{id}),client,Color(255,255,255,255))
+            GMT.SendConsoleMessage(GMT.Lang("CMD_CharData_main_has_inv",{char.ID}),client,Color(255,255,255,255))
         end
 
         
