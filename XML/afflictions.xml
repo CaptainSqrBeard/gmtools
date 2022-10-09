@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Afflictions>
+  <Affliction
+    name=""
+    identifier="gmtbwoink"
+    description=""
+    type="sound"
+    limbspecific="true"
+    activationthreshold="0"
+    showiconthreshold="1000"
+    showicontoothersthreshold="1000"
+    showinhealthscannerthreshold="1000"
+    treatmentthreshold="20"
+    maxstrength="1">
+    <Effect minstrength="0" maxstrength="1"
+      strengthchange="-10">
+      <StatusEffect target="Character">
+        <Sound file="%ModDir%/XML/bwoink.ogg" volume="2"/>
+      </StatusEffect>
+    </Effect>
+    <icon texture="Content/UI/MainIconsAtlas.png" sourcerect="256,640,128,128" color="150,26,26,255" origin="0,0"/>
+      
+  </Affliction>
+</Afflictions>

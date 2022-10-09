@@ -26,4 +26,6 @@
   <Other file="%ModDir%/Lua/GMT_Scripts/other.lua" />
   <Other file="%ModDir%/Lua/LangFiles/en.lua" />
   <Other file="%ModDir%/Lua/LangFiles/ru.lua" />
+  <Afflictions file="%ModDir%/XML/afflictions.xml" />
+  <Sounds file="%ModDir%/XML/sounds.xml" />
 </contentpackage>

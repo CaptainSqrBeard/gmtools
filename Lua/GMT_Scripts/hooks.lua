@@ -1,5 +1,5 @@
 Hook.Add("client.connected", "GMT.client_connect", function(client)
-    if not Game.IsDedicated and client.ID == 1 then
+    if not Game.IsDedicated and client.SessionId == 1 then
         -- All perms to host
         GMT.PlayerData.Players[client.SteamID].Permissions = GMT.AllCommands
         GMT.PlayerData.Save()

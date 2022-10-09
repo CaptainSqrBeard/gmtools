@@ -15,7 +15,7 @@ local function test(client, name)
         if client.SteamID ~= 0 then
             retVal = retVal.."metadata:"..client.SteamID.."|"
         else
-            retVal = retVal.."metadata:"..client.ID.."|"
+            retVal = retVal.."metadata:"..client.SessionId.."|"
         end
 
         if name ~= nil then

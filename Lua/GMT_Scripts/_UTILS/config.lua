@@ -13,7 +13,8 @@ local default =
 "ahelp_enabled:true\n"..
 "player_commands:.list;.help;.ping;.ahelp;.cls\n"..
 "lowest_job:assistant\n"..
-"language:en\n"
+"language:en\n"..
+"do_bwoink:true"
 
 GMT.Config = {}
 GMT.Config.Vars = {}
@@ -73,6 +74,19 @@ end
 parameter_load["language"] = function (line)
     GMT.Config.Vars.language = line
 end
+parameter_load["do_bwoink"] = function (line)
+    if line == "false" then
+        GMT.Config.Vars.do_bwoink = false
+    elseif line == "true" then
+        GMT.Config.Vars.do_bwoink = true
+    else
+        GMT.Config.Vars.do_bwoink = true
+        for i, client in ipairs(Client.ClientList) do
+            GMT.SendConsoleMessage('GM-Tools: Warning! Unknown value in config at parameter "do_bwoink". Using default value',client,Color(255,64,0,255))
+            return false
+        end
+    end
+end
 
 -- For saving files
 parameter_save["ahelp_enabled"] = function ()
@@ -91,6 +105,13 @@ end
 parameter_save["language"] = function ()
     return GMT.Config.Vars.language
 end
+parameter_save["do_bwoink"] = function ()
+    if GMT.Config.Vars.do_bwoink == true then
+        return "true"
+    else
+        return "false"
+    end
+end
 
 
 
@@ -104,6 +125,7 @@ function GMT.Config.LoadDefault()
     GMT.Config.Vars.ahelp_enabled = true
     GMT.Config.Vars.lowest_job = "assistant"
     GMT.Config.Vars.language = "en"
+    GMT.Config.Vars.do_bwoink = true
 end
 
 local function read_value(line)

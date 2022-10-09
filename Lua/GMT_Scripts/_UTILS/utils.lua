@@ -34,7 +34,7 @@ function GMT.GetClientByString(string)
         if cl.SteamID == string then
             return cl
         end
-        if number ~= nil and cl.ID == number then
+        if number ~= nil and cl.SessionId == number then
             return cl
         end
     end
@@ -66,7 +66,7 @@ end
 
 function GMT.GetCharacterClient(id)
     for i, cl in ipairs(Client.ClientList) do
-        if cl.Character.ID == id then
+        if cl.Character.SessionId == id then
             return cl
         end
     end
@@ -117,7 +117,7 @@ function GMT.ClientLogName(client, name)
         if client.SteamID ~= 0 then
             retVal = retVal.."metadata:"..client.SteamID.."‖"
         else
-            retVal = retVal.."metadata:"..client.ID.."‖"
+            retVal = retVal.."metadata:"..client.SessionId.."‖"
         end
 
         if name ~= nil then

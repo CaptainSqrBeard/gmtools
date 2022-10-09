@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sounds>
+  <bwoink file="%ModDir%/XML/bwoink.ogg" />
+</sounds>

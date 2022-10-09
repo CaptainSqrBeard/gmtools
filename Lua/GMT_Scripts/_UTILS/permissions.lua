@@ -21,7 +21,7 @@ end
 
 function GMT.HasPermission(client,command)
     -- Host has permission to everything
-    if not Game.IsDedicated and client.ID == 1 then
+    if not Game.IsDedicated and client.SessionId == 1 then
         return true
     end
 
@@ -38,7 +38,7 @@ end
 
 function GMT.HasGMTPermission(client,command)
     -- Host has permission to everything
-    if not Game.IsDedicated and client.ID == 1 then
+    if not Game.IsDedicated and client.SessionId == 1 then
         return true
     end
 

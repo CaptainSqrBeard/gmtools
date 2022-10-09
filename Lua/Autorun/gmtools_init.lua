@@ -1,6 +1,7 @@
 GMT_PATH = table.pack(...)[1]
 
 GMT = {}
+GMT.ForcedLaunch = false
 GMT.HelpData = {}
 GMT.ChatCommands = {}
 

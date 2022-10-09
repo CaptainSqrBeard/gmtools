@@ -31,7 +31,7 @@ GMT.AddCommand("list",GMT.Lang("Help_List"),false,function(client,cursor,args)
         else
             name = "None"
         end
-        GMT.SendConsoleMessage(GMT.Lang("CMD_ClientList_client",{cl.Name,cl.ID,name,cl.SteamID}),client)
+        GMT.SendConsoleMessage(GMT.Lang("CMD_ClientList_client",{cl.Name,cl.SessionId,name,cl.SteamID}),client)
     end
 end)
 

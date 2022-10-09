@@ -32,7 +32,7 @@ if SERVER then
             Game.SendDirectChatMessage(msg, client)
             return
         end
-        if not Game.IsDedicated and client.ID ~= 1 then
+        if not Game.IsDedicated and client.SessionId ~= 1 then
             local msg = ChatMessage.Create("", "This command can be executed only by host", ChatMessageType.Console, nil, nil, nil, Color(255,0,0,255))
             Game.SendDirectChatMessage(msg, client)
             return
@@ -43,6 +43,7 @@ if SERVER then
             Game.SendDirectChatMessage(msg, client)
         end
         require("Autorun.gmtools_init")
+        GMT.ForcedLaunch = true
         launched = true
     end)
 end

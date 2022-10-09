@@ -6,6 +6,7 @@ lang_files["Help_AdminChat"] = "Sends message in admin chat. Everyone with permi
 lang_files["Help_AdminPM"] = "Sends private message to specified player. They can anwser through \"ahelp\""
 lang_files["Help_AHelp"] = "Sends private message to admins. Public command"
 lang_files["Help_ToggleAHelp"] = "Disables/enables .ahelp"
+lang_files["Help_ToggleBwoink"] = "Disables/enables the \"bwoink\" sound for player that get admin message"
 lang_files["Help_SaveData"] = "Saves GM-Tools data"
 lang_files["Help_ReloadConfig"] = "Reloads GM-Tools config."
 lang_files["Help_SeeGhostChat"] = "Make you see messages from dead, even if you not a ghost"
@@ -41,6 +42,9 @@ lang_files["Args_AHelp_msg"] = "Message to admins"
 
 -- ToggleAHelp
 lang_files["Args_ToggleAHelp_status"] = "Can be 'true' (only enable), 'false' (only disable) or 'switch' (switch between on/off)"
+
+-- ToggleBwoink
+lang_files["Args_ToggleBwoink_status"] = "Can be 'true' (only enable), 'false' (only disable) or 'switch' (switch between on/off)"
 
 -- SeeGhostChat
 lang_files["Args_SeeGhostChat_status"] = "Can be 'true' (only enable), 'false' (only disable) or 'switch' (switch between on/off)"
@@ -145,6 +149,11 @@ lang_files["CMD_AdminPM_NoMessage"] = "No message provided"
 lang_files["CMD_ToggleAHelp_enabled"] = ".ahelp now ENABLED"
 lang_files["CMD_ToggleAHelp_disabled"] = ".ahelp now DISABLED"
 lang_files["CMD_ToggleAHelp_badargument"] = "Bad argument. Argument #1 accepts only these values: 'true', 'false' or 'switch'."
+
+-- ToggleBwoink
+lang_files["CMD_ToggleBwoink_enabled"] = "\"Bwoink\" sound now ENABLED"
+lang_files["CMD_ToggleBwoink_disabled"] = "\"Bwoink\" sound now DISABLED"
+lang_files["CMD_ToggleBwoink_badargument"] = "Bad argument. Argument #1 accepts only these values: 'true', 'false' or 'switch'."
 
 
 -- SaveData

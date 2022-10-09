@@ -32,10 +32,10 @@ GMT.AddCommand("see_ghostchat",GMT.Lang("Help_SeeGhostChat"),false,function(clie
     end
 
     if status == true then
-        GMT.PlayerData[target.ID].SeeGhostChat = true
+        GMT.PlayerData[target.SessionId].SeeGhostChat = true
         GMT.SendConsoleMessage("GM-Tools: Forced Ghost Chat ENABLED for "..target.Name,client,Color(255,0,255,255))
     elseif status == false then
-        GMT.PlayerData[target.ID].SeeGhostChat = false
+        GMT.PlayerData[target.SessionId].SeeGhostChat = false
         GMT.SendConsoleMessage("GM-Tools: Forced Ghost Chat DISABLED for "..target.Name,client,Color(255,0,255,255))
     end
     
@@ -76,7 +76,7 @@ GMT.AddCommand("deadmsg",GMT.Lang("Help_DeadMsg"),false,function(client,cursor,a
 
     -- For ghosts
     for i, cl in ipairs(Client.ClientList) do
-        if cl.ID ~= client.ID then
+        if cl.SessionId ~= client.SessionId then
             if cl.Character == nil or cl.Character.IsDead or GMT.Player.CanSeeGhostChat(cl) then
                 local chatMsg = ChatMessage.Create(nil, msg, ChatMessageType.Dead, client.Character, client)
                 Game.SendDirectChatMessage(chatMsg, cl)
@@ -127,7 +127,7 @@ GMT.AddChatCommand("dead",GMT.Lang("Help_DeadMsg"),function (client,args)
 
     -- For ghosts
     for i, cl in ipairs(Client.ClientList) do
-        if cl.ID ~= client.ID then
+        if cl.SessionId ~= client.SessionId then
             if cl.Character == nil or cl.Character.IsDead or GMT.Player.CanSeeGhostChat(cl) then
                 local chatMsg = ChatMessage.Create(nil, msg, ChatMessageType.Dead, client.Character, client)
                 Game.SendDirectChatMessage(chatMsg, cl)
