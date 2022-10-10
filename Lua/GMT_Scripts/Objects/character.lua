@@ -53,7 +53,7 @@ GMT.AddCommand("chardata",GMT.Lang("Help_CharData"),true,function(client,cursor,
         GMT.SendConsoleMessage(GMT.Lang("CMD_CharData_main_health",{char.Vitality, char.MaxVitality}),client,Color(255,255,255,255))
         local cl = GMT.GetCharacterClient(char.ID)
         if cl ~= nil then
-            GMT.SendConsoleMessage(GMT.Lang("CMD_CharData_main_controlled",{cl.Name, cl.ID}),client,Color(255,255,255,255))
+            GMT.SendConsoleMessage(GMT.Lang("CMD_CharData_main_controlled",{cl.Name, cl.SessionId}),client,Color(255,255,255,255))
         else
             GMT.SendConsoleMessage(GMT.Lang("CMD_CharData_main_uncontrolled"),client,Color(255,255,255,255))
         end

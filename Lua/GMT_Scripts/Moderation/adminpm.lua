@@ -57,7 +57,7 @@ GMT.AddCommand("adminpm",GMT.Lang("Help_AdminPM"),false,function(client,cursor,a
 
     -- For other admins
     for i, cl in ipairs(Client.ClientList) do
-        if (cl.SessionId ~= client.SessionId and cl.SessionId ~= r_client.ID) and GMT.HasPermission(cl,".adminpm") then
+        if (cl.SessionId ~= client.SessionId and cl.SessionId ~= r_client.SessionId) and GMT.HasPermission(cl,".adminpm") then
             GMT.SendConsoleMessage(GMT.Lang("CMD_AdminPM_con_to_other_L1",{client.Name,r_client.Name}),cl,Color(255,0,0,255))
             GMT.SendConsoleMessage(GMT.Lang("CMD_AdminPM_con_to_other_L2",{msg}),cl,Color(255,255,255,255))
         end
