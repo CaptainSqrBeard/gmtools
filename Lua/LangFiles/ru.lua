@@ -283,6 +283,10 @@ lang_files["CMD_ItemEdit_Basic_scale_Help"] = "Изменяет размер п�
 lang_files["CMD_ItemEdit_Basic_scale_info"] = "Размер {1}x"
 lang_files["CMD_ItemEdit_Basic_scale_set"] = "Теперь размер {1}"
 
+lang_files["CMD_ItemEdit_Basic_interactable_Help"] = "Делает предмет неинтерактивным и наоборот. Предметы внутри хранилищ становятся заблокированными"
+lang_files["CMD_ItemEdit_Basic_interactable_on"] = "Теперь предмет интерактивен"
+lang_files["CMD_ItemEdit_Basic_interactable_off"] = "Теперь предмет неинтерактивен"
+
 lang_files["CMD_ItemEdit_Quality_level_Help"] = "Изменяет уровень предмета (Небольшой рассинхрон)"
 lang_files["CMD_ItemEdit_Quality_level_info"] = "Уровень предмета {1}/{2}"
 lang_files["CMD_ItemEdit_Quality_level_badlevel"] = "Указанный уровень не является числом"

@@ -439,6 +439,28 @@ newBasicAction("scale",GMT.Lang("CMD_ItemEdit_Basic_scale_Help"),function (clien
     Networking.CreateEntityEvent(item, Item.ChangePropertyEventData.__new(property))
 end)
 
+newBasicAction("interactable",GMT.Lang("CMD_ItemEdit_Basic_interactable_Help"),function (client, item, args)
+    if args[1] == nil then
+        item.NonInteractable = not item.NonInteractable
+    elseif args[1] == "true" then
+        item.NonInteractable = false
+    elseif args[1] == "false" then
+        item.NonInteractable = true
+    else
+        GMT.SendConsoleMessage("GMTools: "..GMT.Lang("Error_bad_boolean"),client,Color(255,0,0,255))
+        return
+    end
+
+    if item.NonInteractable then
+        GMT.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_ItemEdit_Basic_interactable_off"),client,Color(255,0,255,255))
+    else
+        GMT.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_ItemEdit_Basic_interactable_on"),client,Color(255,0,255,255))
+    end
+
+    local property = item.SerializableProperties[Identifier("NonInteractable")]
+    Networking.CreateEntityEvent(item, Item.ChangePropertyEventData.__new(property))
+end)
+
 LuaUserData.MakeMethodAccessible(Descriptors["Barotrauma.Item"], "set_InventoryIconColor")
 newBasicAction("color",GMT.Lang("CMD_ItemEdit_Basic_color_Help"),function (client, item, args)
     if args[1] == nil then

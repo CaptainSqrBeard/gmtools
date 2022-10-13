@@ -275,6 +275,10 @@ lang_files["CMD_ItemEdit_Basic_scale_Help"] = "Changes scale of item"
 lang_files["CMD_ItemEdit_Basic_scale_info"] = "Scale is {1}x"
 lang_files["CMD_ItemEdit_Basic_scale_set"] = "Now scale is {1}"
 
+lang_files["CMD_ItemEdit_Basic_interactable_Help"] = "Makes item non-interactable and vice-versa. Items that was in container appears to be locked"
+lang_files["CMD_ItemEdit_Basic_interactable_on"] = "Now item is interactable"
+lang_files["CMD_ItemEdit_Basic_interactable_off"] = "Now item is non-interactable"
+
 lang_files["CMD_ItemEdit_Quality_level_Help"] = "Changes level of item (Small Desync)"
 lang_files["CMD_ItemEdit_Quality_level_info"] = "Level of item is {1}/{2}"
 lang_files["CMD_ItemEdit_Quality_level_badlevel"] = "Given level is not a number"
