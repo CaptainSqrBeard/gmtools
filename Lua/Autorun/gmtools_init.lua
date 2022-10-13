@@ -1,3 +1,8 @@
+-- Launching second GM-Tools can occur some bugs
+if GMT ~= nil then
+    return
+end
+
 GMT_PATH = table.pack(...)[1]
 
 GMT = {}

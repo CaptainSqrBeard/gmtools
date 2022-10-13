@@ -2,9 +2,10 @@
 local DEV_MODE = false
 
 local mods = Game.GetEnabledContentPackages()
-local launched = false
+local path = table.pack(...)[1]
+
 for i, mod in ipairs(mods) do
-    if mod.name == "GM Tools" then
+    if path.."/filelist.xml" == mod.Path then
         return
     end
 end
@@ -27,7 +28,7 @@ if SERVER then
 
     Game.AddCommand(".gmtools_forcedrun", "Run in force mode", function () end, nil, false)
     Game.AssignOnClientRequestExecute(".gmtools_forcedrun", function (client,cursor,args)
-        if launched then
+        if GMT ~= nil then
             local msg = ChatMessage.Create("", "GM-Tools already launched", ChatMessageType.Console, nil, nil, nil, Color(255,0,0,255))
             Game.SendDirectChatMessage(msg, client)
             return
@@ -38,12 +39,11 @@ if SERVER then
             return
         end
 
-        for key, client in pairs(Client.ClientList) do
+        for key, cl in pairs(Client.ClientList) do
             local msg = ChatMessage.Create("", "Launching GMTools in force mod...", ChatMessageType.Console, nil, nil, nil, Color(255,0,255,255))
-            Game.SendDirectChatMessage(msg, client)
+            Game.SendDirectChatMessage(msg, cl)
         end
         require("Autorun.gmtools_init")
         GMT.ForcedLaunch = true
-        launched = true
     end)
 end

@@ -1,9 +1,8 @@
 GMT.Player = {}
-GMT.PlayerData = {}
 
 function GMT.Player.AddInMemory(client)
     if GMT.PlayerData[client.SessionId] == nil then
-        GMT.PlayerData[client.SessionId] = {SeeGhostChat=false,Cooldown=Timer.Time,Spam=0}
+        GMT.PlayerData[client.SessionId] = {SeeGhostChat=false, Cooldown=Timer.Time, Spam=0}
         return true
     end
     return false

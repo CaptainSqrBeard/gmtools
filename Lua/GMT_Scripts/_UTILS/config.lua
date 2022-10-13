@@ -28,7 +28,7 @@ function GMT.Config.CheckFiles()
         return true
     end
     if not File.Exists(path.."players.txt") then
-        File.Write(path.."players.txt", default)
+        File.Write(path.."players.txt", '')
         return true
     end
     if not File.Exists(path.."config.txt") then

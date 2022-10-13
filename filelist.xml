@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<contentpackage name="GM Tools" modversion="1.0.4" corepackage="False" steamworkshopid="2829470717" gameversion="0.19.11.0">
+<contentpackage name="GM Tools" modversion="1.0.7" corepackage="False" steamworkshopid="2829470717" gameversion="0.19.11.0">
   <Other file="%ModDir%/Lua/ForcedAutorun/init.lua" />
   <Other file="%ModDir%/Lua/Autorun/gmtools_init.lua" />
   <Other file="%ModDir%/Lua/GMT_Scripts/_UTILS/command.lua" />
