@@ -66,7 +66,7 @@ end
 
 function GMT.GetCharacterClient(id)
     for i, cl in ipairs(Client.ClientList) do
-        if cl.Character.SessionId == id then
+        if cl.Character.ID == id then
             return cl
         end
     end
