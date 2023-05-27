@@ -420,7 +420,7 @@ newBasicAction("tags",GMT.Lang("CMD_ItemEdit_Basic_tags_Help"),function (client,
     item.Tags = args[1]
     GMT.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_ItemEdit_Basic_tags_set",{item.Tags}),client,Color(255,0,255,255))
     local property = item.SerializableProperties[Identifier("Tags")]
-    Networking.CreateEntityEvent(item, Item.ChangePropertyEventData.__new(property))
+    Networking.CreateEntityEvent(item, Item.ChangePropertyEventData.__new(property, item))
 end)
 
 newBasicAction("scale",GMT.Lang("CMD_ItemEdit_Basic_scale_Help"),function (client, item, args)
@@ -436,7 +436,7 @@ newBasicAction("scale",GMT.Lang("CMD_ItemEdit_Basic_scale_Help"),function (clien
     item.Scale = number
     GMT.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_ItemEdit_Basic_scale_set",{item.Scale}),client,Color(255,0,255,255))
     local property = item.SerializableProperties[Identifier("Scale")]
-    Networking.CreateEntityEvent(item, Item.ChangePropertyEventData.__new(property))
+    Networking.CreateEntityEvent(item, Item.ChangePropertyEventData.__new(property, item))
 end)
 
 newBasicAction("interactable",GMT.Lang("CMD_ItemEdit_Basic_interactable_Help"),function (client, item, args)
@@ -458,7 +458,7 @@ newBasicAction("interactable",GMT.Lang("CMD_ItemEdit_Basic_interactable_Help"),f
     end
 
     local property = item.SerializableProperties[Identifier("NonInteractable")]
-    Networking.CreateEntityEvent(item, Item.ChangePropertyEventData.__new(property))
+    Networking.CreateEntityEvent(item, Item.ChangePropertyEventData.__new(property, item))
 end)
 
 LuaUserData.MakeMethodAccessible(Descriptors["Barotrauma.Item"], "set_InventoryIconColor")
@@ -488,9 +488,9 @@ newBasicAction("color",GMT.Lang("CMD_ItemEdit_Basic_color_Help"),function (clien
     
     GMT.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_ItemEdit_Basic_color_set",{tostring(item.SpriteColor)}),client,Color(255,0,255,255))
     local property = item.SerializableProperties[Identifier("SpriteColor")]
-    Networking.CreateEntityEvent(item, Item.ChangePropertyEventData.__new(property))
+    Networking.CreateEntityEvent(item, Item.ChangePropertyEventData.__new(property, item))
     local property = item.SerializableProperties[Identifier("InventoryIconColor")]
-    Networking.CreateEntityEvent(item, Item.ChangePropertyEventData.__new(property))
+    Networking.CreateEntityEvent(item, Item.ChangePropertyEventData.__new(property, item))
 end)
 
 newBasicAction("color_inv",GMT.Lang("CMD_ItemEdit_Basic_colorinv_Help"),function (client, item, args)
@@ -518,7 +518,7 @@ newBasicAction("color_inv",GMT.Lang("CMD_ItemEdit_Basic_colorinv_Help"),function
     
     GMT.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_ItemEdit_Basic_colorinv_set",{tostring(item.InventoryIconColor)}),client,Color(255,0,255,255))
     local property = item.SerializableProperties[Identifier("InventoryIconColor")]
-    Networking.CreateEntityEvent(item, Item.ChangePropertyEventData.__new(property))
+    Networking.CreateEntityEvent(item, Item.ChangePropertyEventData.__new(property, item))
 end)
 
 newBasicAction("color_sprite",GMT.Lang("CMD_ItemEdit_Basic_colorsprite_Help"),function (client, item, args)
@@ -546,7 +546,7 @@ newBasicAction("color_sprite",GMT.Lang("CMD_ItemEdit_Basic_colorsprite_Help"),fu
     
     GMT.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_ItemEdit_Basic_colorsprite_set",{tostring(item.SpriteColor)}),client,Color(255,0,255,255))
     local property = item.SerializableProperties[Identifier("SpriteColor")]
-    Networking.CreateEntityEvent(item, Item.ChangePropertyEventData.__new(property))
+    Networking.CreateEntityEvent(item, Item.ChangePropertyEventData.__new(property, item))
 end)
 
 -- ITEM EDIT MOST COOLEST COMMAND !!!

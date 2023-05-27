@@ -6,7 +6,7 @@ lang_files["Help_AdminChat"] = "Sends message in admin chat. Everyone with permi
 lang_files["Help_AdminPM"] = "Sends private message to specified player. They can anwser through \"ahelp\""
 lang_files["Help_AHelp"] = "Sends private message to admins. Public command"
 lang_files["Help_ToggleAHelp"] = "Disables/enables .ahelp"
-lang_files["Help_ToggleBwoink"] = "Disables/enables the \"bwoink\" sound for player that get admin message"
+lang_files["Help_ToggleBwoink"] = "Disables/enables the \"bwoink\" sound for players that get admin message"
 lang_files["Help_SaveData"] = "Saves GM-Tools data"
 lang_files["Help_ReloadConfig"] = "Reloads GM-Tools config."
 lang_files["Help_SeeGhostChat"] = "Make you see messages from dead, even if you not a ghost"
@@ -16,6 +16,8 @@ lang_files["Help_DeleteItem"] = "Deletes items and everything inside it"
 lang_files["Help_ItemData"] = "Outputs item data (Condition, Tags, etc.)"
 lang_files["Help_ItemEdit"] = "Edit values of item components"
 lang_files["Help_NearChars"] = "Shows list of all characters around cursor"
+lang_files["Help_HumanList"] = "Shows list of humans on map"
+lang_files["Help_CharData"] = "Show information about character"
 lang_files["Help_Jobban"] = "Bans job for player, so he can't play on it"
 lang_files["Help_UnJobban"] = "Un-Bans job for player"
 lang_files["Help_GivePerm"] = "Gives player permissions to GM-Tools commands"
@@ -24,9 +26,9 @@ lang_files["Help_PermList"] = "Sends list of permitted commands to player"
 lang_files["Help_Cls"] = "Clears console"
 lang_files["Help_Ping"] = "Pong!"
 lang_files["Help_List"] = "Sends list of players on server"
-lang_files["Help_Smite"] = "We do a little trolling (Doing funi things with players)"
+lang_files["Help_Smite"] = "Applies a little amount of trolling. Use it on rule-breakers if you want punish them without banning :)"
 lang_files["Help_Lang"] = "Changes language of mod to specified one"
-lang_files["Help_Clock"] = "Clockface"
+lang_files["Help_Clock"] = "Just a clockface"
 
 
 ---- Commands arguments description
@@ -96,7 +98,7 @@ lang_files["Args_PermList_player"] = "Name/ID/SteamID of player. Leave empty to 
 
 -- Smite
 lang_files["Args_Smite_smite"] = "Smite to do. Type \".smite help\" to get list of smites"
-lang_files["Args_Smite_client"] = "Who will suffer. Leave empty to smite yourself"
+lang_files["Args_Smite_client"] = "Who will suffer."
 
 -- Lang
 lang_files["Args_Lang_language"] = "Language to change. Use \".lang all\" to get list of languages"

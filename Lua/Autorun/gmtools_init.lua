@@ -71,6 +71,6 @@ if SERVER then
 
 end
 
-if CLIENT then 
+if CLIENT then
     --print("Client-Side Lua")
 end

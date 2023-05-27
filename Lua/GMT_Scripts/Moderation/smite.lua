@@ -67,11 +67,8 @@ GMT.AddCommand("smite",GMT.Lang("Help_Smite"),true,function(client,cursor,args)
             return
         end
     else
-        char = client.Character
-        if char == nil or char.IsDead then
-            GMT.SendConsoleMessage("GM-Tools: "..GMT.Lang("Error_CharacterNotFound"),client,Color(255,0,0,255))
-            return
-        end
+        GMT.SendConsoleMessage("GMTools: "..GMT.Lang("Error_NotEnoughArguments"),client,Color(255,0,0,255))
+        return
     end
 
     local smite = smites[args[1]]

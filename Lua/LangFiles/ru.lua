@@ -16,6 +16,8 @@ lang_files["Help_DeleteItem"] = "Удаляет предмет и всё что 
 lang_files["Help_ItemData"] = "Выдаёт информацию о предмете (Состояние, Тэги, и т.д.)"
 lang_files["Help_ItemEdit"] = "Изменяет значения компонентов предмета"
 lang_files["Help_NearChars"] = "Выдаёт список всех персонажей рядом с курсором"
+lang_files["Help_HumanList"] = "Выдаёт список всех персонажей-людей на карте"
+lang_files["Help_CharData"] = "Выдаёт информацию о персонаже"
 lang_files["Help_Jobban"] = "Банит профессию у игрока, чтобы он не мог на ней играть"
 lang_files["Help_UnJobban"] = "Разбанивает профессии у игрока"
 lang_files["Help_GivePerm"] = "Дает разрешение игроку на использование команд GM-Tools"
@@ -24,9 +26,9 @@ lang_files["Help_PermList"] = "Выдаёт список разрешённых 
 lang_files["Help_Cls"] = "Очищает консоль"
 lang_files["Help_Ping"] = "Понг!"
 lang_files["Help_List"] = "Выдаёт список игроков на сервере"
-lang_files["Help_Smite"] = "Выполняет небольшое количество троллинга по отношению к указанному игроку :)"
+lang_files["Help_Smite"] = "Выполняет небольшое количество троллинга по отношению к указанному игроку. Используйте, если хотите наказать нарушителя без банов :)"
 lang_files["Help_Lang"] = "Меняет язык мода на указанный"
-lang_files["Help_Clock"] = "Циферблат"
+lang_files["Help_Clock"] = "Просто циферблат"
 
 
 ---- Commands arguments description
@@ -107,7 +109,7 @@ lang_files["Args_PermList_player"] = "Имя/ID/SteamID игрока. Остав
 
 -- Smite
 lang_files["Args_Smite_smite"] = "Вид наказания. Введите \".smite help\" чтобы получить список наказаний"
-lang_files["Args_Smite_client"] = "Кто будет страдать. Оставьте поле пустым, если страдать будете вы"
+lang_files["Args_Smite_client"] = "Кто будет страдать."
 
 ---- Errors
 lang_files["Error_NotEnoughPermissions"] = "У вас недостаточно прав для исполнения этой команды"
