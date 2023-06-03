@@ -45,16 +45,27 @@ addSmite("longstun",GMT.Lang("CMD_Smite_longstun"),function (executor, char)
 end)
 
 addSmite("help",GMT.Lang("CMD_Smite_help"),function (executor, char)
-    GMT.SendConsoleMessage(GMT.Lang("CMD_Smite_SmiteList"), executor, Color(255,128,0,255))
-    for name, smite in pairs(smites) do
-        GMT.SendConsoleMessage("* "..name.."  >  "..smite.help, executor, Color(255,255,255,255))
+    if executor ~= nil then
+        GMT.SendConsoleMessage(GMT.Lang("CMD_Smite_SmiteList"), executor, Color(255,128,0,255))
+        for name, smite in pairs(smites) do
+            GMT.SendConsoleMessage("* "..name.."  >  "..smite.help, executor, Color(255,255,255,255))
+        end
+    else
+        GMT.NewConsoleMessage(GMT.Lang("CMD_Smite_SmiteList"), Color(255,128,0,255), false)
+        for name, smite in pairs(smites) do
+            GMT.NewConsoleMessage("* "..name.."  >  "..smite.help, Color(255,255,255,255), false)
+        end
     end
 end)
 
 
 
 
-GMT.AddCommand("smite",GMT.Lang("Help_Smite"),true,function(client,cursor,args)
+GMT.AddCommand("smite",GMT.Lang("Help_Smite"),true,nil,{
+{name="smite",desc=GMT.Lang("Args_Smite_smite")},
+{name="client",desc=GMT.Lang("Args_Smite_client")}})
+
+GMT.AssignClientCommand("smite",function(client,cursor,args)
     if #args == 0 then
         smites["help"].func(client, nil)
         return
@@ -78,6 +89,30 @@ GMT.AddCommand("smite",GMT.Lang("Help_Smite"),true,function(client,cursor,args)
     end
 
     smite.func(client, char)
-end,{
-{name="smite",desc=GMT.Lang("Args_Smite_smite")},
-{name="client",desc=GMT.Lang("Args_Smite_client")}})
+end)
+
+GMT.AssignServerCommand("smite",function(args)
+    if #args == 0 then
+        smites["help"].func(nil, nil)
+        return
+    end
+    local char
+    if args[2] ~= nil then
+        char = GMT.GetCharacterByString(args[2])
+        if char == nil or char.IsDead then
+            GMT.NewConsoleMessage("GM-Tools: "..GMT.Lang("Error_CharacterNotFound"),Color(255,0,0,255),false)
+            return
+        end
+    else
+        GMT.NewConsoleMessage("GMTools: "..GMT.Lang("Error_NotEnoughArguments"),Color(255,0,0,255),false)
+        return
+    end
+
+    local smite = smites[args[1]]
+    if smite == nil then
+        GMT.NewConsoleMessage("GMTools: "..GMT.Lang("CMD_Smite_Unknown"),Color(255,0,0,255),false)
+        return
+    end
+
+    smite.func(nil, char)
+end)

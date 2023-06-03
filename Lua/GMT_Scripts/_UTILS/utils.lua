@@ -1,3 +1,7 @@
+function GMT.NewConsoleMessage(msg, color, isError)
+    DebugConsole.NewMessage(msg, color, isError)
+end
+
 function GMT.ThrowError(text,level)
     if level == nil then level = 0 end
     error("GM-Tools Custom Error: "..text,3+level)
@@ -6,6 +10,17 @@ end
 function GMT.SendConsoleMessage(text,client,color)
     local msg = ChatMessage.Create("", text, ChatMessageType.Console, nil, nil, nil, color)
     Game.SendDirectChatMessage(msg, client)
+end
+
+-- This also checks if client is null and if it is - shows message in server console
+function GMT.SendPotentiallyServerConsoleMessage(text,client,color)
+    if client ~= nil then
+        local msg = ChatMessage.Create("", text, ChatMessageType.Console, nil, nil, nil, color)
+        Game.SendDirectChatMessage(msg, client)
+    else
+        GMT.NewConsoleMessage(text, color, false)
+    end
+    
 end
 
 function GMT.CheckFArgs(value,vtype,canBeNil)
@@ -156,6 +171,18 @@ function GMT.Union(array1,array2)
     return array1
 end
 
+function GMT.Filter(array,filter)
+    local output = {}
+
+    for i, item in ipairs(array) do
+        if not GMT.Contains(filter,item) then
+            table.insert(output,item)
+        end
+    end
+
+    return output
+end
+
 function GMT.GetItemByID(id)
     for i, item in ipairs(Item.ItemList) do
         if item.ID == id then
@@ -179,6 +206,10 @@ function GMT.InRange(value,min,max)
         return true
     end
     return false
+end
+
+function GMT.SquaredDistance(x1,y1,x2,y2)
+    return (x2-x1)^2+(y2-y1)^2
 end
 
 function GMT.CanSpeakGhost(char)

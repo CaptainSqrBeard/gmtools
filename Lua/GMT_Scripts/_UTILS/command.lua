@@ -58,7 +58,6 @@ function GMT.AddCommand(name,help,isCheat,func,help_args,getValidArgs)
     if (GMT.CheckFArgs(name,"string")) or
     (GMT.CheckFArgs(help,"string")) or
     (GMT.CheckFArgs(isCheat,"boolean",true)) or
-    (GMT.CheckFArgs(func,"function")) or
     (GMT.CheckFArgs(help_args,"table",true))
     then
         GMT.ThrowError("Bad Argument")
@@ -68,8 +67,43 @@ function GMT.AddCommand(name,help,isCheat,func,help_args,getValidArgs)
     table.insert(GMT.AllCommands,"."..name)
 
     Game.AddCommand("."..name, help, function () end, getValidArgs, isCheat)
-    Game.AssignOnClientRequestExecute("."..name, func) -- function(client,cursor,args) end
+    if type(func) == "function" then
+        GMT.AssignClientCommand(name, func) -- function(client,cursor,args) end
+    end
 end
+
+
+--[[ GMT.AssignClientCommand
+"Assigns client usage in console"
+* name: Name of the command (String)
+* func: Function to execute (Function)
+--]]
+function GMT.AssignClientCommand(name,func)
+    if (GMT.CheckFArgs(name,"string")) or
+    (GMT.CheckFArgs(func,"function"))
+    then
+        GMT.ThrowError("Bad Argument")
+    end
+
+    Game.AssignOnClientRequestExecute("."..name, func) -- function(args) end
+end
+
+--[[ GMT.AssignServerCommand
+"Assigns server usage in server console (For dedicated servers)"
+* name: Name of the command (String)
+* func: Function to execute (Function)
+--]]
+function GMT.AssignServerCommand(name,func)
+    if (GMT.CheckFArgs(name,"string")) or
+    (GMT.CheckFArgs(func,"function"))
+    then
+        GMT.ThrowError("Bad Argument")
+    end
+
+    Game.AssignOnExecute("."..name, func) -- function(args) end
+end
+
+
 
 --[[ GMT.AddChatCommand
 "Adds new command into chat"

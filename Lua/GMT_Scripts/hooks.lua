@@ -40,7 +40,6 @@ Hook.Add("chatMessage", "GMT.chatmessage", function(msg, client)
                 GMT.SendConsoleMessage("An Error has occured in ChatCommand \""..name.."\":\n"..err,cl,Color(255,0,0,255))
             end
         end
-
         return true -- Prevent sending message
     end
 
@@ -69,18 +68,9 @@ Hook.Add("chatMessage", "GMT.chatmessage", function(msg, client)
         end
 
     end
-
-    
 end)
 
 Hook.Add("tryChangeClientName", "GMT.character_change", function(client,newName,newJob,newTeam)
-    if client.Name ~= newName then
-        if GMT.Player.ProcessCooldown(client,4,GMT.Lang("CD_Warn_NameChanging"),GMT.Lang("CD_Warn_NameChanging_Kick")) then
-            return false
-        end
-        Game.Log("GM-Tools: "..GMT.ClientLogName(client).." changed nickname to "..GMT.ClientLogName(client,newName), ServerLogMessageType.ConsoleUsage)
-    end
-
     if client.PreferredJob ~= newJob then
         local hasBan, expiresAt, reason = GMT.PlayerData.GetJobBanInfo(client,newJob.Value)
         if hasBan then

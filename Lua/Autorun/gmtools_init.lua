@@ -27,14 +27,30 @@ if SERVER then
 
     -- Console commands
     require("GMT_Scripts.help")
-    require("GMT_Scripts.Objects.item")
-    require("GMT_Scripts.Objects.itemedit")
-    require("GMT_Scripts.Objects.character")
-    require("GMT_Scripts.Moderation.adminpm")
+
+    require("GMT_Scripts.Objects.Item.deleteitem")
+    require("GMT_Scripts.Objects.Item.itemdata")
+    require("GMT_Scripts.Objects.Item.itemedit")
+    require("GMT_Scripts.Objects.Item.nearitems")
+
+    require("GMT_Scripts.Objects.Character.chardata")
+    require("GMT_Scripts.Objects.Character.humanlist")
+    require("GMT_Scripts.Objects.Character.nearchars")
+
+    require("GMT_Scripts.Moderation.AdminPM.ahelp")
+    require("GMT_Scripts.Moderation.AdminPM.adminpm")
+    require("GMT_Scripts.Moderation.AdminPM.toggles")
+
     require("GMT_Scripts.Moderation.adminchat")
     require("GMT_Scripts.Moderation.ghostchat")
-    require("GMT_Scripts.Moderation.permissions")
-    require("GMT_Scripts.Moderation.jobban")
+
+    require("GMT_Scripts.Moderation.Permissions.giveperm")
+    require("GMT_Scripts.Moderation.Permissions.revokeperm")
+    require("GMT_Scripts.Moderation.Permissions.permlist")
+
+    require("GMT_Scripts.Moderation.Jobban.jobban")
+    require("GMT_Scripts.Moderation.Jobban.unjobban")
+
     require("GMT_Scripts.Moderation.smite")
     require("GMT_Scripts.Moderation.adminchat")
     require("GMT_Scripts.config")

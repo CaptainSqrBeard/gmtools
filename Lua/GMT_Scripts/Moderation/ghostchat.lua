@@ -1,5 +1,4 @@
 GMT.AddCommand("see_ghostchat",GMT.Lang("Help_SeeGhostChat"),false,function(client,cursor,args)
-    if GMT.Player.ProcessCooldown(client,2) then return end
     local target
 
     -- Getting Target
@@ -45,7 +44,6 @@ end,{{name="status",desc=GMT.Lang("Args_SeeGhostChat_status")},
 
 
 GMT.AddCommand("deadmsg",GMT.Lang("Help_DeadMsg"),false,function(client,cursor,args)
-    if GMT.Player.ProcessCooldown(client,2) then return end
     if not Game.RoundStarted then
         GMT.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_DeadMsg_inround"),client,Color(255,0,0,255))
         return
@@ -88,7 +86,6 @@ end,{{name="msg",desc=GMT.Lang("Args_DeadMsg_msg")}})
 
 
 GMT.AddChatCommand("dead",GMT.Lang("Help_DeadMsg"),function (client,args)
-    if GMT.Player.ProcessCooldown(client,2) then return end
     if not GMT.HasPermission(client,".deadmsg") then
         local chatMsg = ChatMessage.Create("GM-Tools",GMT.FormattedText(GMT.Lang("Error_NotEnoughPermissions"),{{name="color",value="#b1cbfc"}}), ChatMessageType.Dead, nil, nil)
         Game.SendDirectChatMessage(chatMsg, client)

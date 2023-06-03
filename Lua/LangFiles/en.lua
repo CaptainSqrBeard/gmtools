@@ -116,6 +116,10 @@ lang_files["Error_bad_id"] = "Given ID is not a number"
 lang_files["Error_bad_value"] = "Given value is not a number"
 lang_files["Error_NoControlledChar"] = "Player doesn't have character under control"
 lang_files["Error_bad_boolean"] = "Bad argument. Parameter #1 must be \"true\" or \"false\" or empty"
+lang_files["Error_bad_console"] = "This command doesn't work in console"
+
+---- Misc
+lang_files["Console"] = "Console"
 
 ---- Command output
 -- AdminPM & AHelp
@@ -448,13 +452,12 @@ lang_files["Chat_Error_UnknownCommand"] = "Unknown command \"‖color:#ff9c9c‖
 lang_files["HelpChat_FixMe"] = "Creates your data, if it for some reason was not created automaticly"
 lang_files["Chat_FixMe_success"] = "Your data was successfully created"
 lang_files["Chat_FixMe_fail"] = "Your data already exists"
+
+lang_files["HelpChat_FixMe"] = "Tries to fix problems that could occur with player permissions."
+lang_files["Chat_FixMe_attempt"] = "We tried to fix errors. Hope this has worked."
 --lang_files["Chat_FixMe_epicclownvirus3000"] = "Your data was successfully stolen!!!"
 
--- RestorePerms
-lang_files["HelpChat_RestorePerms"] = "Restores permissions to commands"
-lang_files["Chat_RestorePerms_restored"] = "Your permissions has been successfully restored!"
-
-lang_files["Chat_Help_help"] = "Almost all GM-Tools commands executes from console (F3).\n\nYou need use this command in console for actual help"
+lang_files["Chat_Help_help"] = "Most GM-Tools commands executes from console (F3).\n\nYou need use this command in console for actual help.\n\nIf it doesn't work, then try use \".fixme\" in chat before."
 
 -- Help
 lang_files["HelpChat_Help"] = "Says that you need use this command in console"
