@@ -16,6 +16,12 @@ lang_files["Help_DeleteItem"] = "Deletes items and everything inside it"
 lang_files["Help_ItemData"] = "Outputs item data (Condition, Tags, etc.)"
 lang_files["Help_ItemEdit"] = "Edit values of item components"
 lang_files["Help_NearChars"] = "Shows list of all characters around cursor"
+lang_files["Help_SubmarineData"] = "Outputs submarine data"
+lang_files["Help_SubmarineGodmode"] = "Toggles specific submarine godmode"
+lang_files["Help_SubmarineList"] = "Shows list of submarines"
+lang_files["Help_SubmarineLock"] = "Locks position of specific submarine"
+lang_files["Help_SubmarineTeleport"] = "Teleports specific submarine"
+lang_files["Help_SubmarineAddTurretAI"] = "Creates a turret AI on submarine. Warning: This action is permanent!"
 lang_files["Help_HumanList"] = "Shows list of humans on map"
 lang_files["Help_CharData"] = "Show information about character"
 lang_files["Help_Jobban"] = "Bans job for player, so he can't play on it"
@@ -59,7 +65,7 @@ lang_files["Args_DeadMsg_msg"] = "A message to send in ghost chat"
 lang_files["Args_Help_command"] = "Input name of command to get more info about it, or type 'all' to get command list"
 
 -- NearItems
-lang_files["Args_NearItems_size"] = "Searching range, shaped as rectangle. Default: 100"
+lang_files["Args_NearItems_size"] = "Searching range, shaped as circle. Default: 100"
 lang_files["Args_NearItems_ignorewires"] = "If true, command will ignore wires on walls. If false, it will not. Default: true"
 
 -- DeleteItem
@@ -74,6 +80,30 @@ lang_files["Args_ItemEdit_id"] = "ID of item"
 lang_files["Args_ItemEdit_component"] = "Name of component or position in list. Leave empty to get list of components"
 lang_files["Args_ItemEdit_action"] = "Action to do with this component. Leave empty to get list of actions"
 lang_files["Args_ItemEdit_args"] = "Parameters for action"
+
+-- NearChars
+lang_files["Args_NearChars_size"] = "Searching range, shaped as circle. Default: 100"
+
+-- CharData
+lang_files["Args_CharData_character"] = "ID/Name of character"
+
+-- SubData
+lang_files["Args_SubmarineData_submarine"] = "ID of submarine"
+
+-- SubTp
+lang_files["Args_SubmarineTp_submarine"] = "ID of submarine"
+lang_files["Args_SubmarineTp_position"] = "Position to teleport on. If unspecified, submarine will teleport on cursor. Can be 'cursor', 'start', 'end' or X;Y."
+
+-- SubLock
+lang_files["Args_SubmarineLock_submarine"] = "ID of submarine"
+lang_files["Args_SubmarineLock_axis"] = "Axis to toggle lock onto. Can be 'x', 'y', 'xy'. Default: 'xy'"
+
+-- SubGodmode
+lang_files["Args_SubmarineGodmode_submarine"] = "ID of submarine"
+lang_files["Args_SubmarineGodmode_value"] = "Enable, disable or switch the godmode to submarine. Can be 'true', 'false' or 'switch'. If unspecified, godmode will be switched."
+
+-- SubLock
+lang_files["Args_SubmarineAddTurretAI_submarine"] = "ID of submarine"
 
 -- Jobban
 lang_files["Args_Jobban_player"] = "Name/ID/SteamID of player"
@@ -98,7 +128,7 @@ lang_files["Args_PermList_player"] = "Name/ID/SteamID of player. Leave empty to 
 
 -- Smite
 lang_files["Args_Smite_smite"] = "Smite to do. Type \".smite help\" to get list of smites"
-lang_files["Args_Smite_client"] = "Who will suffer."
+lang_files["Args_Smite_character"] = "Who will suffer."
 
 -- Lang
 lang_files["Args_Lang_language"] = "Language to change. Use \".lang all\" to get list of languages"
@@ -106,11 +136,13 @@ lang_files["Args_Lang_language"] = "Language to change. Use \".lang all\" to get
 ---- Errors
 lang_files["Error_NotEnoughPermissions"] = "You don't have permission for this command"
 lang_files["Error_TooLongMessage"] = "Message is too big!"
+lang_files["Error_LevelIsNotLoaded"] = "Level is not loaded"
 lang_files["Error_NoMessage"] = "No message provided"
 lang_files["Error_NotEnoughArguments"] = "Not Enough Arguments"
 lang_files["Error_BadArgument"] = "Bad Argument {1}"
 lang_files["Error_PlayerNotFound"] = "Player not found"
 lang_files["Error_CharacterNotFound"] = "Character not found"
+lang_files["Error_SubmarineNotFound"] = "Submarine not found"
 lang_files["Error_ItemNotFound"] = "Item not found"
 lang_files["Error_bad_id"] = "Given ID is not a number"
 lang_files["Error_bad_value"] = "Given value is not a number"
@@ -190,7 +222,7 @@ lang_files["CMD_Help_gmt"] = "Game Master Tools"
 -- NearChars
 lang_files["CMD_NearChars_badrange"] = "Given size is not a number"
 lang_files["CMD_NearChars_nearchars"] = "Characters near cursor (Range: {1})"
-lang_files["CMD_NearChars_char"] = "* Character \"{1}\" ID {2}"
+lang_files["CMD_NearChars_char"] = "* Character \"{1}\", ID: {2}, Team: {3}"
 
 -- NearItems
 lang_files["CMD_NearItems_badrange"] = "Given size is not a number"
@@ -226,12 +258,13 @@ lang_files["CMD_ItemData_UnknownInput"] = "Unknown parameter at argument #2"
 
 -- HumanList
 lang_files["CMD_HumanList_header"] = "Human list:"
-lang_files["CMD_HumanList_char"] = "* \"{1}\" ID {2}"
+lang_files["CMD_HumanList_char"] = "* \"{1}\", ID: {2}, Team: {3}"
 
 -- CharData
 lang_files["CMD_CharData_header"] = "Character [ID: {1}] \"{2}\" data:"
 lang_files["CMD_CharData_main_species"] = "* Species name: \"{1}\""
 lang_files["CMD_CharData_main_health"] = "* Health: {1}/{2}"
+lang_files["CMD_CharData_main_team"] = "* Team: \"{1}\""
 lang_files["CMD_CharData_main_has_inv"] = "* Has inventory - Use \".chardata {1} see_inv\" to check"
 lang_files["CMD_CharData_main_controlled"] = "* Controlled by player \"{1}\" ID {2}"
 lang_files["CMD_CharData_main_uncontrolled"] = "* Doesn't controlled by anyone"
@@ -392,6 +425,50 @@ lang_files["CMD_Ping_pong"] = "Pong!"
 lang_files["CMD_ClientList_header"] = "Client list:"
 lang_files["CMD_ClientList_client"] = "* Name: {1}, ID: {2}, Character: {3}, SteamID: {4}"
 
+-- Sublist
+lang_files["CMD_SubmarineList_header"] = "Submarine list:"
+lang_files["CMD_SubmarineList_sub"] = "{1}. \"{2}\" ({3})"
+
+lang_files["CMD_SubmarineList_respawn_shuttle"] = "Respawn Shuttle"
+lang_files["CMD_SubmarineList_mainsub"] = "Main Sub"
+
+-- Subdata
+lang_files["CMD_SubmarineData_header"] = "Data of submarine #{1}"
+lang_files["CMD_SubmarineData_name"] = "* Name: {1}"
+lang_files["CMD_SubmarineData_mainsub"] = "* The main sub"
+lang_files["CMD_SubmarineData_shuttle"] = "* The respawn shuttle"
+lang_files["CMD_SubmarineData_team"] = "* Team: {1}"
+lang_files["CMD_SubmarineData_type"] = "* Type: {1}"
+lang_files["CMD_SubmarineData_class"] = "* Class: {1}"
+lang_files["CMD_SubmarineData_locked"] = "* Position locked on: {1}"
+lang_files["CMD_SubmarineData_unlocked"] = "* Position unlocked"
+lang_files["CMD_SubmarineData_position"] = "* Position: ({1}; {2})"
+lang_files["CMD_SubmarineData_velocity"] = "* Velocity: ({1}; {2})"
+lang_files["CMD_SubmarineData_depth"] = "* Real World Depth: {1}m/{2}m"
+
+-- Subtp
+lang_files["CMD_SubmarineTp_Success"] = "Teleported {1} from ({2}; {3}) to ({4}; {5})"
+lang_files["CMD_SubmarineTp_UnknownType"] = "Unknown teleport position provided"
+lang_files["CMD_SubmarineTp_NoPosition"] = "Provide teleport postion (start, end, X;Y)"
+lang_files["CMD_SubmarineTp_NoCursor"] = "Position of cursor cannot be used from server console"
+
+-- Sublock
+lang_files["CMD_SubmarineLocked_FullLock"] = "Locked sub on both axes"
+lang_files["CMD_SubmarineLocked_FullUnlock"] = "Unlocked sub on both axes"
+lang_files["CMD_SubmarineLocked_XLock"] = "Locked sub on X axis"
+lang_files["CMD_SubmarineLocked_XUnlock"] = "Unlocked sub on X axis"
+lang_files["CMD_SubmarineLocked_YLock"] = "Locked sub on Y axis"
+lang_files["CMD_SubmarineLocked_YUnlock"] = "Unlocked sub on Y axis"
+
+-- SubGodmode
+lang_files["CMD_SubmarineGodmode_Enabled"] = "Enabled godmode for submarine \"{1}\""
+lang_files["CMD_SubmarineGodmode_Disabled"] = "Disabled godmode for submarine \"{1}\""
+lang_files["CMD_SubmarineGodmode_BadArgument"] = "Bad argument. Argument #2 accepts only these values: 'true', 'false' or 'switch'."
+
+-- SubAddTurretAI
+lang_files["CMD_SubmarineAddTurretAI_AlreadyHave"] = "Submarine \"{1}\" already have turret AI"
+lang_files["CMD_SubmarineAddTurretAI_Success"] = "Added turret AI to \"{1}\""
+
 -- Smite
 lang_files["CMD_Smite_gib"] = "Kills players in a bloody epic way :sunglasses:"
 lang_files["CMD_Smite_gigacancer"] = "Gives player giant radiation sickness"
@@ -479,5 +556,28 @@ lang_files["Days"] = "days"
 lang_files["Hours"] = "hours"
 lang_files["Minutes"] = "minutes"
 lang_files["Seconds"] = "seconds"
+
+-- Submarine Types
+lang_files["Submarine_types_player"] = "Player Submarine"
+lang_files["Submarine_types_outpost"] = "Outpost"
+lang_files["Submarine_types_outpostmodule"] = "Outpost Module"
+lang_files["Submarine_types_wreck"] = "Wreck"
+lang_files["Submarine_types_beaconstation"] = "Beacon Station"
+lang_files["Submarine_types_enemysubmarine"] = "Enemy Submarine"
+lang_files["Submarine_types_ruin"] = "Ruin"
+lang_files["Submarine_types_custom"] = "Custom #{1}"
+
+-- Submarine Classes
+lang_files["Submarine_classes_undefined"] = "Undefined"
+lang_files["Submarine_classes_scout"] = "Scout"
+lang_files["Submarine_classes_attack"] = "Attack"
+lang_files["Submarine_classes_transport"] = "Transport"
+lang_files["Submarine_classes_custom"] = "Custom #{1}"
+
+lang_files["CharacterTeams_none"] = "None"
+lang_files["CharacterTeams_team1"] = "Team 1"
+lang_files["CharacterTeams_team2"] = "Team 2"
+lang_files["CharacterTeams_friendlynpc"] = "Friendly NPC"
+lang_files["CharacterTeams_custom"] = "Custom #{1}"
 
 return lang_files

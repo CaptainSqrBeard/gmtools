@@ -10,6 +10,9 @@ GMT.PlayerData.Players = {}
 engineer;123456789;using drugs
 ]]
 
+-- honestly i hate how i made it
+-- why it's not just json??
+
 local path = "LocalMods/_GMT_Config/"
 local readers = {}
 readers["permissions"] = function (target,line)

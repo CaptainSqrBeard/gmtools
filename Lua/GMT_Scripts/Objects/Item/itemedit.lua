@@ -46,12 +46,13 @@ newAction("Quality", "level", GMT.Lang("CMD_ItemEdit_Quality_level_Help"),functi
     end
 end)
 
+--[[
 newAction("Holdable", "list", "test",function (client, item, component, args)
     for k, val in pairs(item.SerializableProperties) do
         print(k)
     end
 end)
-
+]]
 
 -- Holdable
 newAction("Holdable", "pick", GMT.Lang("CMD_ItemEdit_Holdable_pick_Help"),function (client, item, component, args)

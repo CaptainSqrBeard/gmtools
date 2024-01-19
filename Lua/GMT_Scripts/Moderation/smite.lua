@@ -63,7 +63,7 @@ end)
 
 GMT.AddCommand("smite",GMT.Lang("Help_Smite"),true,nil,{
 {name="smite",desc=GMT.Lang("Args_Smite_smite")},
-{name="client",desc=GMT.Lang("Args_Smite_client")}})
+{name="character",desc=GMT.Lang("Args_Smite_character")}})
 
 GMT.AssignClientCommand("smite",function(client,cursor,args)
     if #args == 0 then

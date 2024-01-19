@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<contentpackage name="GM Tools" modversion="1.0.8" corepackage="False" steamworkshopid="2829470717" gameversion="1.0.13.2">
+<contentpackage name="GM Tools" modversion="1.0.10" corepackage="False" steamworkshopid="2829470717" gameversion="1.0.21.0">
   <Other file="%ModDir%/Lua/ForcedAutorun/init.lua" />
   <Other file="%ModDir%/Lua/Autorun/gmtools_init.lua" />
   <Other file="%ModDir%/Lua/GMT_Scripts/_UTILS/command.lua" />
@@ -11,14 +11,8 @@
   <Other file="%ModDir%/Lua/GMT_Scripts/_UTILS/utils.lua" />
   <Other file="%ModDir%/Lua/GMT_Scripts/Chat/other.lua" />
   <Other file="%ModDir%/Lua/GMT_Scripts/Moderation/adminchat.lua" />
-  <Other file="%ModDir%/Lua/GMT_Scripts/Moderation/adminpm.lua" />
   <Other file="%ModDir%/Lua/GMT_Scripts/Moderation/ghostchat.lua" />
-  <Other file="%ModDir%/Lua/GMT_Scripts/Moderation/jobban.lua" />
-  <Other file="%ModDir%/Lua/GMT_Scripts/Moderation/permissions.lua" />
   <Other file="%ModDir%/Lua/GMT_Scripts/Moderation/smite.lua" />
-  <Other file="%ModDir%/Lua/GMT_Scripts/Objects/character.lua" />
-  <Other file="%ModDir%/Lua/GMT_Scripts/Objects/item.lua" />
-  <Other file="%ModDir%/Lua/GMT_Scripts/Objects/itemedit.lua" />
   <Other file="%ModDir%/Lua/GMT_Scripts/config.lua" />
   <Other file="%ModDir%/Lua/GMT_Scripts/debug.lua" />
   <Other file="%ModDir%/Lua/GMT_Scripts/help.lua" />

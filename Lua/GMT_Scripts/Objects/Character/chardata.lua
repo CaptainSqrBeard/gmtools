@@ -1,4 +1,5 @@
-GMT.AddCommand("chardata",GMT.Lang("Help_CharData"),true,nil)
+GMT.AddCommand("chardata",GMT.Lang("Help_CharData"),true,nil,{
+    {name="character",desc=GMT.Lang("Args_CharData_character")}})
 
 GMT.AssignClientCommand("chardata",function(client,cursor,args)
     if #args == 0 then
@@ -16,6 +17,7 @@ GMT.AssignClientCommand("chardata",function(client,cursor,args)
     if args[2] == nil then
         GMT.SendConsoleMessage(GMT.Lang("CMD_CharData_header",{char.Name,char.ID}),client,Color(255,0,255,255))
         GMT.SendConsoleMessage(GMT.Lang("CMD_CharData_main_species",{char.SpeciesName.Value}),client,Color(255,255,255,255))
+        GMT.SendConsoleMessage(GMT.Lang("CMD_CharData_main_team",{GMT.GetLocalizedTeam(char.TeamID)}),client,Color(255,255,255,255))
         GMT.SendConsoleMessage(GMT.Lang("CMD_CharData_main_health",{char.Vitality, char.MaxVitality}),client,Color(255,255,255,255))
         local cl = GMT.GetCharacterClient(char.ID)
         if cl ~= nil then

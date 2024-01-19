@@ -17,7 +17,7 @@ GMT.AssignClientCommand("nearchars",function(client,cursor,args)
     for i, char in ipairs(Character.CharacterList) do
         local pos = char.WorldPosition
         if (GMT.SquaredDistance(cursor.x,cursor.y,pos.x,pos.y) < size*size) then
-            GMT.SendConsoleMessage(GMT.Lang("CMD_NearChars_char",{char.Name, char.ID}),client,Color(255,255,255,255))
+            GMT.SendConsoleMessage(GMT.Lang("CMD_NearChars_char",{char.Name, char.ID, GMT.GetLocalizedTeam(char.TeamID)}),client,Color(255,255,255,255))
         end
     end
 end)

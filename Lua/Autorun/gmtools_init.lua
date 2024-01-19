@@ -12,6 +12,7 @@ GMT.ChatCommands = {}
 
 if SERVER then
     -- Base
+    require("GMT_Scripts._UTILS.data")
     require("GMT_Scripts._UTILS.lang")
     require("GMT_Scripts._UTILS.utils")
     require("GMT_Scripts._UTILS.command")
@@ -36,6 +37,13 @@ if SERVER then
     require("GMT_Scripts.Objects.Character.chardata")
     require("GMT_Scripts.Objects.Character.humanlist")
     require("GMT_Scripts.Objects.Character.nearchars")
+    
+    require("GMT_Scripts.Objects.Submarine.sublist")
+    require("GMT_Scripts.Objects.Submarine.subteleport")
+    require("GMT_Scripts.Objects.Submarine.subdata")
+    require("GMT_Scripts.Objects.Submarine.sublock")
+    require("GMT_Scripts.Objects.Submarine.subgodmode")
+    require("GMT_Scripts.Objects.Submarine.subaddturretai")
 
     require("GMT_Scripts.Moderation.AdminPM.ahelp")
     require("GMT_Scripts.Moderation.AdminPM.adminpm")

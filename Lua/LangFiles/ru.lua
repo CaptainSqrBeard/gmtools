@@ -16,6 +16,12 @@ lang_files["Help_DeleteItem"] = "Удаляет предмет и всё что 
 lang_files["Help_ItemData"] = "Выдаёт информацию о предмете (Состояние, Тэги, и т.д.)"
 lang_files["Help_ItemEdit"] = "Изменяет значения компонентов предмета"
 lang_files["Help_NearChars"] = "Выдаёт список всех персонажей рядом с курсором"
+lang_files["Help_SubmarineData"] = "Выдаёт информацию о подлодке"
+lang_files["Help_SubmarineGodmode"] = "Переключает \"режим бога\" у определённой подлодки"
+lang_files["Help_SubmarineList"] = "Показывает список подлодок"
+lang_files["Help_SubmarineLock"] = "Блокирует позицию определённой подлодки"
+lang_files["Help_SubmarineTeleport"] = "Телепортирует определённую подлодку"
+lang_files["Help_SubmarineAddTurretAI"] = "Создаёт ИИ турелей на подлодке. Внимание: Это действие перманентно!"
 lang_files["Help_HumanList"] = "Выдаёт список всех персонажей-людей на карте"
 lang_files["Help_CharData"] = "Выдаёт информацию о персонаже"
 lang_files["Help_Jobban"] = "Банит профессию у игрока, чтобы он не мог на ней играть"
@@ -59,7 +65,7 @@ lang_files["Args_DeadMsg_msg"] = "Сообщение для отправки в 
 lang_files["Args_Help_command"] = "Введите информацию о команде чтобы получить больше информации о ней, или введите 'all' чтобы получить список команд"
 
 -- NearItems
-lang_files["Args_NearItems_size"] = "Радиус поиска, ввиде квадрата. По умолчанию: 100"
+lang_files["Args_NearItems_size"] = "Радиус поиска, в виде круга. По умолчанию: 100"
 lang_files["Args_NearItems_ignorewires"] = "Если 'true', команда будет игнорировать провода на стене. Если 'false', то она не будет. По умолчанию: true"
 
 -- DeleteItem
@@ -74,6 +80,30 @@ lang_files["Args_ItemEdit_id"] = "ID предмета"
 lang_files["Args_ItemEdit_component"] = "Имя компонента или позиция в списке. Оставьте параметр пустым чтобы получить список компонентов предмета"
 lang_files["Args_ItemEdit_action"] = "Исполняемое действие с этим компонентом. Оставьте параметр пустым для списка действий"
 lang_files["Args_ItemEdit_args"] = "Параметры действия"
+
+-- NearChars
+lang_files["Args_NearChars_size"] = "Радиус поиска, в виде круга. По умолчанию: 100"
+
+-- CharData
+lang_files["Args_CharData_character"] = "ID/Имя персонажа"
+
+-- SubData
+lang_files["Args_SubmarineData_submarine"] = "ID подлодки"
+
+-- SubData
+lang_files["Args_SubmarineTp_submarine"] = "ID подлодки"
+lang_files["Args_SubmarineTp_position"] = "Позиция для телепорта. Если не указана, то подлодка телепортируется на курсор. Принимает значения 'cursor', 'start', 'end' или X;Y."
+
+-- SubLock
+lang_files["Args_SubmarineLock_submarine"] = "ID подлодки"
+lang_files["Args_SubmarineLock_axis"] = "Ось для блокировки. Принимает значения 'x', 'y', 'xy'. По умолчанию: 'xy'"
+
+-- SubGodmode
+lang_files["Args_SubmarineGodmode_submarine"] = "ID подлодки"
+lang_files["Args_SubmarineGodmode_value"] = "Включает, выключает или переключает \"режим бога\" у подлодки. Принимает значения 'true', 'false' or 'switch'. Если не указано, то \"режим бога\" будет переключаться."
+
+-- SubLock
+lang_files["Args_SubmarineAddTurretAI_submarine"] = "ID подлодки"
 
 -- Jobban
 lang_files["Args_Jobban_player"] = "Имя/ID/SteamID игрока"
@@ -114,11 +144,13 @@ lang_files["Args_Smite_client"] = "Кто будет страдать."
 ---- Errors
 lang_files["Error_NotEnoughPermissions"] = "У вас недостаточно прав для исполнения этой команды"
 lang_files["Error_TooLongMessage"] = "Сообщение слишком большое!"
+lang_files["Error_LevelIsNotLoaded"] = "Уровень не загружен"
 lang_files["Error_NoMessage"] = "Не указано сообщение"
 lang_files["Error_NotEnoughArguments"] = "Недостаточно аргументов"
 lang_files["Error_BadArgument"] = "Неверный аргумент {1}"
 lang_files["Error_PlayerNotFound"] = "Игрок не найден"
 lang_files["Error_CharacterNotFound"] = "Персонаж не найден"
+lang_files["Error_SubmarineNotFound"] = "Подлодка не найдена"
 lang_files["Error_ItemNotFound"] = "Предмет не найден"
 lang_files["Error_bad_id"] = "Указанный ID не является числом"
 lang_files["Error_bad_value"] = "Указанное значение не является числом"
@@ -199,7 +231,7 @@ lang_files["CMD_Help_gmt"] = "Game Master Tools"
 -- NearChars
 lang_files["CMD_NearChars_badrange"] = "Указанный размер не является числом"
 lang_files["CMD_NearChars_nearchars"] = "Персонажи у курсора (Радиус: {1})"
-lang_files["CMD_NearChars_char"] = "* Персонаж \"{1}\" ID {2}"
+lang_files["CMD_NearChars_char"] = "* \"{1}\", ID {2}, Команда: {3}"
 
 -- Near Items
 lang_files["CMD_NearItems_badrange"] = "Указанный размер не является числом"
@@ -235,7 +267,7 @@ lang_files["CMD_ItemData_UnknownInput"] = "Неизвестный парамет
 
 -- HumanList
 lang_files["CMD_HumanList_header"] = "Список людей:"
-lang_files["CMD_HumanList_char"] = "* \"{1}\" ID {2}"
+lang_files["CMD_HumanList_char"] = "* \"{1}\", ID {2}, Команда: {3}"
 
 -- CharData
 lang_files["CMD_CharData_header"] = "Информация персонажа [ID: {1}] \"{2}\":"
@@ -396,6 +428,50 @@ lang_files["CMD_Ping_pong"] = "Понг!"
 lang_files["CMD_ClientList_header"] = "Список клиентов:"
 lang_files["CMD_ClientList_client"] = "* Имя: {1}, ID: {2}, Персонаж: {3}, SteamID: {4}"
 
+-- Sublist
+lang_files["CMD_SubmarineList_header"] = "Submarine list:"
+lang_files["CMD_SubmarineList_sub"] = "{1}. \"{2}\" ({3})"
+
+lang_files["CMD_SubmarineList_respawn_shuttle"] = "Шаттл возрождения"
+lang_files["CMD_SubmarineList_mainsub"] = "Основная подлодка"
+
+-- Subdata
+lang_files["CMD_SubmarineData_header"] = "Информация о подлодке #{1}"
+lang_files["CMD_SubmarineData_name"] = "* Название: {1}"
+lang_files["CMD_SubmarineData_mainsub"] = "* Основная подлодка"
+lang_files["CMD_SubmarineData_shuttle"] = "* Шаттл возрождения"
+lang_files["CMD_SubmarineData_team"] = "* Команда: {1}"
+lang_files["CMD_SubmarineData_type"] = "* Тип: {1}"
+lang_files["CMD_SubmarineData_class"] = "* Класс: {1}"
+lang_files["CMD_SubmarineData_locked"] = "* Позиция заблокирована по осям: {1}"
+lang_files["CMD_SubmarineData_unlocked"] = "* Позиция разблокирована"
+lang_files["CMD_SubmarineData_position"] = "* Позиция: ({1}; {2})"
+lang_files["CMD_SubmarineData_velocity"] = "* Скорость: ({1}; {2})"
+lang_files["CMD_SubmarineData_depth"] = "* Глубина в реальном мире: {1}m/{2}m"
+
+-- Subtp
+lang_files["CMD_SubmarineTp_Success"] = "Телепортирована {1} с позиции ({2}; {3}) на ({4}; {5})"
+lang_files["CMD_SubmarineTp_UnknownType"] = "Указана неизвестная позиция для телепортации"
+lang_files["CMD_SubmarineTp_NoPosition"] = "Укажите позицию для телепортации (start, end, X;Y)"
+lang_files["CMD_SubmarineTp_NoCursor"] = "Позиция курсора не может быть использована с серверной консоли"
+
+-- Sublock
+lang_files["CMD_SubmarineLocked_FullLock"] = "Подлодка заблокирована на обеих осях"
+lang_files["CMD_SubmarineLocked_FullUnlock"] = "Подлодка разблокирована на обеих осях"
+lang_files["CMD_SubmarineLocked_XLock"] = "Подлодка заблокирована по оси X"
+lang_files["CMD_SubmarineLocked_XUnlock"] = "Подлодка разблокирована по оси X"
+lang_files["CMD_SubmarineLocked_YLock"] = "Подлодка заблокирована по оси Y"
+lang_files["CMD_SubmarineLocked_YUnlock"] = "Подлодка разблокирована по оси Y"
+
+-- SubGodmode
+lang_files["CMD_SubmarineGodmode_Enabled"] = "Включен \"режим бога\" для подлодки \"{1}\""
+lang_files["CMD_SubmarineGodmode_Disabled"] = "Отключен \"режим бога\" для подлодки \"{1}\""
+lang_files["CMD_SubmarineGodmode_BadArgument"] = "Неверный аргумент. Параметр #1 принимает только эти значения: 'true', 'false' или 'switch'."
+
+-- SubAddTurretAI
+lang_files["CMD_SubmarineAddTurretAI_AlreadyHave"] = "Подлодка \"{1}\" уже имеет турельный ИИ"
+lang_files["CMD_SubmarineAddTurretAI_Success"] = "добавлен турельный ИИ для \"{1}\""
+
 -- Smite
 lang_files["CMD_Smite_gib"] = "Убивает игрока мега кроваво и эпично :sunglasses:"
 lang_files["CMD_Smite_gigacancer"] = "Даёт игроку сильное облучение радиацией"
@@ -477,4 +553,28 @@ lang_files["Days"] = "дней"
 lang_files["Hours"] = "часов"
 lang_files["Minutes"] = "минут"
 lang_files["Seconds"] = "секунд"
+
+-- Submarine Types
+lang_files["Submarine_types_player"] = "Подлодка игрока"
+lang_files["Submarine_types_outpost"] = "Аванпост"
+lang_files["Submarine_types_outpostmodule"] = "Модуль аванпоста"
+lang_files["Submarine_types_wreck"] = "Обломок"
+lang_files["Submarine_types_beaconstation"] = "Станция маяка"
+lang_files["Submarine_types_enemysubmarine"] = "Вражеская подлодка"
+lang_files["Submarine_types_ruin"] = "Руины"
+lang_files["Submarine_types_custom"] = "Кастомная #{1}"
+
+-- Submarine Classes
+lang_files["Submarine_classes_undefined"] = "Не указано"
+lang_files["Submarine_classes_scout"] = "Разведка"
+lang_files["Submarine_classes_attack"] = "Боевая"
+lang_files["Submarine_classes_transport"] = "Транспортная"
+lang_files["Submarine_classes_custom"] = "Кастомная #{1}"
+
+lang_files["CharacterTeams_none"] = "Нету"
+lang_files["CharacterTeams_team1"] = "Команда 1"
+lang_files["CharacterTeams_team2"] = "Команда 2"
+lang_files["CharacterTeams_friendlynpc"] = "Дружелюбные NPC"
+lang_files["CharacterTeams_custom"] = "Кастомная #{1}"
+
 return lang_files
