@@ -22,6 +22,7 @@ lang_files["Help_SubmarineList"] = "Shows list of submarines"
 lang_files["Help_SubmarineLock"] = "Locks position of specific submarine"
 lang_files["Help_SubmarineTeleport"] = "Teleports specific submarine"
 lang_files["Help_SubmarineAddTurretAI"] = "Creates a turret AI on submarine. Warning: This action is permanent!"
+lang_files["Help_SubmarineThrow"] = "Changes physical movement vector of specific submarine"
 lang_files["Help_HumanList"] = "Shows list of humans on map"
 lang_files["Help_CharData"] = "Show information about character"
 lang_files["Help_Jobban"] = "Bans job for player, so he can't play on it"
@@ -102,8 +103,13 @@ lang_files["Args_SubmarineLock_axis"] = "Axis to toggle lock onto. Can be 'x', '
 lang_files["Args_SubmarineGodmode_submarine"] = "ID of submarine"
 lang_files["Args_SubmarineGodmode_value"] = "Enable, disable or switch the godmode to submarine. Can be 'true', 'false' or 'switch'. If unspecified, godmode will be switched."
 
--- SubLock
+-- SubAddTurretAi
 lang_files["Args_SubmarineAddTurretAI_submarine"] = "ID of submarine"
+
+-- SubThrow
+lang_files["Args_SubmarineThrow_submarine"] = "ID of submarine"
+lang_files["Args_SubmarineThrow_vector"] = "Motion vector. Can be 'cursor', 'ncursor' или вектор в формате X;Y. 'cursor': Set vector by cursor direction. The further the cursor, the faster the speed. 'ncursor': Set vector by cursor direction but with fixed speed."
+lang_files["Args_SubmarineThrow_mode"] = "'set': (Default) replaces current motion vector with new, 'add': Adds new motion vector to the current one."
 
 -- Jobban
 lang_files["Args_Jobban_player"] = "Name/ID/SteamID of player"
@@ -447,10 +453,17 @@ lang_files["CMD_SubmarineData_velocity"] = "* Velocity: ({1}; {2})"
 lang_files["CMD_SubmarineData_depth"] = "* Real World Depth: {1}m/{2}m"
 
 -- Subtp
-lang_files["CMD_SubmarineTp_Success"] = "Teleported {1} from ({2}; {3}) to ({4}; {5})"
-lang_files["CMD_SubmarineTp_UnknownType"] = "Unknown teleport position provided"
+lang_files["CMD_SubmarineTp_Success"] = "Teleported submarine {1} from ({2}; {3}) to ({4}; {5})"
+lang_files["CMD_SubmarineTp_UnknownType"] = "Unknown teleport position or vector provided"
 lang_files["CMD_SubmarineTp_NoPosition"] = "Provide teleport postion (start, end, X;Y)"
 lang_files["CMD_SubmarineTp_NoCursor"] = "Position of cursor cannot be used from server console"
+
+-- SubThrow
+lang_files["CMD_SubmarineThrow_Set"] = "Set motion of sub {1}: {2}; {3}"
+lang_files["CMD_SubmarineThrow_Add"] = "Added motion to sub {1}: {2}; {3}"
+lang_files["CMD_SubmarineThrow_UnknownTypeVector"] = "Unknown position or vector provided"
+lang_files["CMD_SubmarineThrow_UnknownTypeMode"] = "Unknown mode provided"
+lang_files["CMD_SubmarineThrow_NoCursor"] = "Position of cursor cannot be used from server console"
 
 -- Sublock
 lang_files["CMD_SubmarineLocked_FullLock"] = "Locked sub on both axes"

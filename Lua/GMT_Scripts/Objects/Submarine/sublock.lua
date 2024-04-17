@@ -1,4 +1,4 @@
-
+GMT.SubLocks = {}
 
 GMT.AddCommand("sublock",GMT.Lang("Help_SubmarineLock"),true,nil,{
     {name="submarine",desc=GMT.Lang("Args_SubmarineLock_submarine")},
@@ -17,26 +17,30 @@ GMT.AssignClientCommand("sublock",function(client,cursor,args)
         return
     end
 
+    if GMT.SubLocks[sub] == nil then
+        GMT.SubLocks[sub] = {x = false, y = false}
+    end
+
     if args[2] == nil or args[2] == "xy" then
-        if sub.LockX and sub.LockY then
-            sub.LockX = false
-            sub.LockY = false
+        if GMT.SubLocks[sub].x and GMT.SubLocks[sub].y then
+            GMT.SubLocks[sub].x = false
+            GMT.SubLocks[sub].y = false
             GMT.SendConsoleMessage(GMT.Lang("CMD_SubmarineLocked_FullUnlock"),client,Color(255,0,255,255))
         else
-            sub.LockX = true
-            sub.LockY = true
+            GMT.SubLocks[sub].x = true
+            GMT.SubLocks[sub].y = true
             GMT.SendConsoleMessage(GMT.Lang("CMD_SubmarineLocked_FullLock"),client,Color(255,0,255,255))
         end
     elseif args[2] == "x" then
-        sub.LockX = not sub.LockX
-        if sub.LockX then
+        GMT.SubLocks[sub].x = not GMT.SubLocks[sub].x
+        if GMT.SubLocks[sub].x then
             GMT.SendConsoleMessage(GMT.Lang("CMD_SubmarineLocked_XLock"),client,Color(255,0,255,255))
         else
             GMT.SendConsoleMessage(GMT.Lang("CMD_SubmarineLocked_XUnlock"),client,Color(255,0,255,255))
         end
     elseif args[2] == "y" then
-        sub.LockY = not sub.LockY
-        if sub.LockY then
+        GMT.SubLocks[sub].y = not GMT.SubLocks[sub].y
+        if GMT.SubLocks[sub].y then
             GMT.SendConsoleMessage(GMT.Lang("CMD_SubmarineLocked_YLock"),client,Color(255,0,255,255))
         else
             GMT.SendConsoleMessage(GMT.Lang("CMD_SubmarineLocked_YUnlock"),client,Color(255,0,255,255))
@@ -57,29 +61,59 @@ GMT.AssignServerCommand("sublock",function(args)
         return
     end
 
+    if GMT.SubLocks[sub] == nil then
+        GMT.SubLocks[sub] = {x = false, y = false}
+    end
+
     if args[2] == nil or args[2] == "xy" then
-        if sub.LockX and sub.LockY then
-            sub.LockX = false
-            sub.LockY = false
+        if GMT.SubLocks[sub].x and GMT.SubLocks[sub].y then
+            GMT.SubLocks[sub].x = false
+            GMT.SubLocks[sub].y = false
             GMT.NewConsoleMessage(GMT.Lang("CMD_SubmarineLocked_FullUnlock"),Color(255,0,255,255))
         else
-            sub.LockX = true
-            sub.LockY = true
+            GMT.SubLocks[sub].x = true
+            GMT.SubLocks[sub].y = true
             GMT.NewConsoleMessage(GMT.Lang("CMD_SubmarineLocked_FullLock"),Color(255,0,255,255))
         end
     elseif args[2] == "x" then
-        sub.LockX = not sub.LockX
-        if sub.LockX then
+        GMT.SubLocks[sub].x = not GMT.SubLocks[sub].x
+        if GMT.SubLocks[sub].x then
             GMT.NewConsoleMessage(GMT.Lang("CMD_SubmarineLocked_XLock"),Color(255,0,255,255))
         else
             GMT.NewConsoleMessage(GMT.Lang("CMD_SubmarineLocked_XUnlock"),Color(255,0,255,255))
         end
     elseif args[2] == "y" then
-        sub.LockY = not sub.LockY
-        if sub.LockY then
+        GMT.SubLocks[sub].y = not GMT.SubLocks[sub].y
+        if GMT.SubLocks[sub].y then
             GMT.NewConsoleMessage(GMT.Lang("CMD_SubmarineLocked_YLock"),Color(255,0,255,255))
         else
             GMT.NewConsoleMessage(GMT.Lang("CMD_SubmarineLocked_YUnlock"),Color(255,0,255,255))
         end
     end
 end)
+
+Hook.Add("roundEnd", "gmtools.on_round_end", function ()
+    GMT.SubLocks = {}
+end)
+
+Hook.Patch("Barotrauma.SubmarineBody", "CalculateBuoyancy", function (instance, ptable)
+    if GMT.SubLocks[instance.Submarine] ~= nil and GMT.SubLocks[instance.Submarine].y == true then
+        ptable.PreventExecution = true
+        return Vector2.Zero
+    end
+end, Hook.HookMethodType.Before)
+
+
+Hook.Patch("Barotrauma.Submarine", "Update", function (instance, ptable)
+    if GMT.SubLocks[instance] ~= nil then
+        local patched_x = instance.subBody.Body.LinearVelocity.x
+        local patched_y = instance.subBody.Body.LinearVelocity.y
+        if GMT.SubLocks[instance].x == true then
+            patched_x = 0
+        end
+        if GMT.SubLocks[instance].y == true then
+            patched_y = 0
+        end
+        instance.subBody.Body.LinearVelocity = Vector2(patched_x, patched_y)
+    end
+end, Hook.HookMethodType.After)

@@ -44,6 +44,7 @@ if SERVER then
     require("GMT_Scripts.Objects.Submarine.sublock")
     require("GMT_Scripts.Objects.Submarine.subgodmode")
     require("GMT_Scripts.Objects.Submarine.subaddturretai")
+    require("GMT_Scripts.Objects.Submarine.subthrow")
 
     require("GMT_Scripts.Moderation.AdminPM.ahelp")
     require("GMT_Scripts.Moderation.AdminPM.adminpm")
