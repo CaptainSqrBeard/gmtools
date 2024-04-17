@@ -108,7 +108,7 @@ lang_files["Args_SubmarineAddTurretAI_submarine"] = "ID подлодки"
 
 -- SubThrow
 lang_files["Args_SubmarineThrow_submarine"] = "ID подлодки"
-lang_files["Args_SubmarineThrow_vector"] = "Вектор скорости. Принимает значения 'cursor', 'ncursor' или вектор в формате X;Y. 'cursor': Задаёт вектор по направлению курсора. Чем дальше курсор от подлодки, тем выше скорость. 'ncursor': Задаёт вектор по направлению курсора, но с фиксированной скоростью."
+lang_files["Args_SubmarineThrow_vector"] = "Вектор движения. Принимает значения 'cursor', 'ncursor' или вектор в формате X;Y. 'cursor': Задаёт вектор по направлению курсора. Чем дальше курсор от подлодки, тем выше скорость. 'ncursor': Задаёт вектор по направлению курсора, но с фиксированной скоростью."
 lang_files["Args_SubmarineThrow_mode"] = "'set': (По умолчанию) перезаписывает текущий вектор движения новым, 'add': К текущему вектору движения добавится новый."
 
 -- Jobban
