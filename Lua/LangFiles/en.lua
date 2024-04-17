@@ -264,7 +264,7 @@ lang_files["CMD_HumanList_char"] = "* \"{1}\", ID: {2}, Team: {3}"
 lang_files["CMD_CharData_header"] = "Character [ID: {1}] \"{2}\" data:"
 lang_files["CMD_CharData_main_species"] = "* Species name: \"{1}\""
 lang_files["CMD_CharData_main_health"] = "* Health: {1}/{2}"
-lang_files["CMD_CharData_main_team"] = "* Team: \"{1}\""
+lang_files["CMD_CharData_main_team"] = "* Team: {1}"
 lang_files["CMD_CharData_main_has_inv"] = "* Has inventory - Use \".chardata {1} see_inv\" to check"
 lang_files["CMD_CharData_main_controlled"] = "* Controlled by player \"{1}\" ID {2}"
 lang_files["CMD_CharData_main_uncontrolled"] = "* Doesn't controlled by anyone"
@@ -275,6 +275,28 @@ lang_files["CMD_CharData_inv_item"] = "* Item \'{1}\' ID {2}"
 lang_files["CMD_CharData_inv_iteminv"] = "* Item \'{1}\' ID {2} - Has own inventory (.itemdata {2} see_inv)"
 
 lang_files["CMD_CharData_UnknownInput"] = "Unknown parameter at argument #2"
+
+-- SpawnChar
+lang_files["CMD_SpawnChar_help_header"] = "List of sub-arguments:"
+lang_files["CMD_SpawnChar_help_entry"] = "* -{1} {2} - {3}"
+lang_files["CMD_SpawnChar_help_entry_no_args"] = "* -{1} - {2}"
+
+lang_files["CMD_SpawnChar_error_unknown_species"] = "Unknown species \"{1}\""
+lang_files["CMD_SpawnChar_error_bad_beginning"] = "Bad beginning of sub-arguments"
+lang_files["CMD_SpawnChar_error_unknown_argument"] = "Unknown sub-argument: {1}"
+lang_files["CMD_SpawnChar_in_argument"] = "Argument \"{1}\": {2}"
+
+lang_files["CMD_SpawnChar_no_character_info"] = "Entity has no character info"
+lang_files["CMD_SpawnChar_spawn_cancelled"] = "Spawn was cancelled"
+
+lang_files["CMD_SpawnChar_no_description"] = "No description"
+lang_files["CMD_SpawnChar_desc_name"] = "Changes character name."
+lang_files["CMD_SpawnChar_desc_addhumandata"] = "Adds character data on character. Humans and Human husks have this automaticly. Works unusual with non-human characters"
+lang_files["CMD_SpawnChar_desc_seed"] = "Changes seed of the character. Does not affect on appearance"
+lang_files["CMD_SpawnChar_desc_hairtype"] = "Type of hair that this character will have."
+lang_files["CMD_SpawnChar_desc_beardtype"] = "Type of hair that this character will have."
+lang_files["CMD_SpawnChar_desc_moustachetype"] = "Type of moustaches that this character will have. Note that moustaches are not added into vanilla content"
+lang_files["CMD_SpawnChar_desc_skincolor"] = "Changes skin color"
 
 -- ItemEdit
 lang_files["CMD_ItemEdit_c_header"] = "Components of item \"{1}\" ID {2}"
