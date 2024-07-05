@@ -11,6 +11,13 @@ GMT.HelpData = {}
 GMT.ChatCommands = {}
 
 if SERVER then
+    -- Get current package
+    for i, mod in ipairs(Game.GetEnabledContentPackages()) do
+        if GMT_PATH.."/filelist.xml" == mod.Path then
+            GMT.ContentPackage = mod
+        end
+    end
+
     -- Base
     require("GMT_Scripts._UTILS.data")
     require("GMT_Scripts._UTILS.lang")
@@ -65,6 +72,8 @@ if SERVER then
     require("GMT_Scripts.config")
     require("GMT_Scripts.other")
 
+    require("GMT_Scripts.Api.addons")
+
     -- Chat commands
     require("GMT_Scripts.Chat.other")
 
@@ -76,25 +85,41 @@ if SERVER then
 
     -- Checking Player Commands in config after adding them
     GMT.CheckPlayerCommands()
-    
-
 
     Timer.Wait(function ()
+        -- Init message
         local init = {
             "======== GM-Tools ========",
             "* By CSQRB",
             "Print '.help' to get info",
-            "========================="
         } 
+
+        -- List addons
+        if #GMT.Addons > 0 then
+            table.insert(init, "\nList of addons:")
+            for i, addon in ipairs(GMT.Addons) do
+                table.insert(init, "- \""..addon.ContentPackage.Name.."\" Ver: "..addon.ContentPackage.ModVersion)
+            end
+        end
+
+        -- End init message
+        table.insert(init, "=========================")
+        
+        -- Send message
+        print("\n"..table.concat(init,"\n").."\n ")
+
         -- Add all connected clients
         for i, cl in ipairs(Client.ClientList) do
             GMT.Player.AddInMemory(cl)
             GMT.RestorePerms(cl)
         end
-        print("\n"..table.concat(init,"\n").."\n ")
     end, 1000)
-
 end
+
+Hook.Add("loaded", "gmt_loaded", function ()
+    -- Addons API: Call event so addons can register
+    Hook.Call("gmtools.loaded", {})
+end)
 
 if CLIENT then
     --print("Client-Side Lua")

@@ -48,9 +48,7 @@ GMT.AssignServerCommand("toggle_ahelp", function(args)
     GMT.Config.Save()
 end)
 
-
-
-
+--[[
 GMT.AddCommand("toggle_bwoink",GMT.Lang("Help_ToggleBwoink"),false,nil,{{name="status",desc=GMT.Lang("Args_ToggleBwoink_status")}})
 
 GMT.AssignClientCommand("toggle_bwoink",function(client,cursor,args)
@@ -100,3 +98,4 @@ GMT.AssignServerCommand("toggle_bwoink",function(args)
     
     GMT.Config.Save()
 end)
+--]]

@@ -52,6 +52,10 @@ GMT.AssignClientCommand("adminpm", function(client,cursor,args)
         GMT.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_AdminPM_NoMessage"),client,Color(255,0,0,255))
         return
     end
+    
+    -- Custom event
+    -- gmtools.adminpm.sent(sender, target, message)
+    Hook.Call("gmtools.adminpm.sent", {client, r_client, msg})
 
     -- For sender
     GMT.SendConsoleMessage(GMT.Lang("CMD_AdminPM_con_for_admin_L1",{client.Name,r_client.Name}),client,Color(255,0,0,255))
@@ -64,19 +68,9 @@ GMT.AssignClientCommand("adminpm", function(client,cursor,args)
             GMT.SendConsoleMessage(GMT.Lang("CMD_AdminPM_con_to_other_L2",{msg}),cl,Color(255,255,255,255))
         end
     end
-
     
     -- For recipient
     sendAdminPMToPlayer(client,r_client,msg)
-    if GMT.ForcedLaunch == false and GMT.Config.Vars.do_bwoink == true then -- THE BWOINK SOUND
-        local bwoink_chr = r_client.Character
-
-        -- It will works only if player controls character.
-        if bwoink_chr ~= nil and bwoink_chr.IsDead == false then
-            local bwoinkAff = AfflictionPrefab.Prefabs["gmtbwoink"]
-            r_client.Character.CharacterHealth.ApplyAffliction(bwoink_chr.AnimController.MainLimb, bwoinkAff.Instantiate(1))
-        end
-    end
 end)
 
 GMT.AssignServerCommand("adminpm", function(args)
