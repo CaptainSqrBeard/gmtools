@@ -55,7 +55,7 @@ GMT.AssignClientCommand("adminpm", function(client,cursor,args)
     
     -- Custom event
     -- gmtools.adminpm.sent(sender, target, message)
-    Hook.Call("gmtools.adminpm.sent", {client, r_client, msg})
+    Hook.Call("gmtools.adminpm.sent", client, r_client, msg)
 
     -- For sender
     GMT.SendConsoleMessage(GMT.Lang("CMD_AdminPM_con_for_admin_L1",{client.Name,r_client.Name}),client,Color(255,0,0,255))

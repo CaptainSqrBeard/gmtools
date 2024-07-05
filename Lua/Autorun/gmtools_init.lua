@@ -118,7 +118,7 @@ end
 
 Hook.Add("loaded", "gmt_loaded", function ()
     -- Addons API: Call event so addons can register
-    Hook.Call("gmtools.loaded", {})
+    Hook.Call("gmtools.loaded")
 end)
 
 if CLIENT then
