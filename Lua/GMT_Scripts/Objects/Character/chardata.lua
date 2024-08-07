@@ -16,9 +16,9 @@ GMT.AssignSharedCommand("chardata",function (args, interface)
 
     if args[2] == nil then
         interface.showMessage(GMT.Lang("CMD_CharData_header",{char.Name,char.ID}),Color(255,0,255,255))
-        interface.showMessage(GMT.Lang("CMD_CharData_main_species",{char.SpeciesName.Value}),client,Color(255,255,255,255))
-        interface.showMessage(GMT.Lang("CMD_CharData_main_team",{GMT.GetLocalizedTeam(char.TeamID)}),client,Color(255,255,255,255))
-        interface.showMessage(GMT.Lang("CMD_CharData_main_health",{char.Vitality, char.MaxVitality}),client,Color(255,255,255,255))
+        interface.showMessage(GMT.Lang("CMD_CharData_main_species",{char.SpeciesName.Value}),Color(255,255,255,255))
+        interface.showMessage(GMT.Lang("CMD_CharData_main_team",{GMT.GetLocalizedTeam(char.TeamID)}),Color(255,255,255,255))
+        interface.showMessage(GMT.Lang("CMD_CharData_main_health",{char.Vitality, char.MaxVitality}),Color(255,255,255,255))
         local cl = GMT.GetCharacterClient(char.ID)
         if cl ~= nil then
             interface.showMessage(GMT.Lang("CMD_CharData_main_controlled",{cl.Name, cl.SessionId}),Color(255,255,255,255))
