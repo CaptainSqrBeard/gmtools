@@ -157,7 +157,7 @@ lang_files["Error_bad_boolean"] = "Bad argument. Parameter #1 must be \"true\" o
 lang_files["Error_bad_console"] = "This command doesn't work in console"
 
 ---- Misc
-lang_files["Console"] = "Console"
+lang_files["Console"] = "HOST"
 
 ---- Command output
 -- AdminPM & AHelp
@@ -494,6 +494,7 @@ lang_files["CMD_Smite_SmiteList"] = "Smite List:"
 
 lang_files["CMD_Smite_NoCharacter"] = "You don't have character under control"
 lang_files["CMD_Smite_Unknown"] = "Unknown smite"
+lang_files["CMD_Smite_Applied"] = "Applied smite \"{1}\" to character \"{2}\""
 
 -- Jobban & Unjobban
 lang_files["CMD_Jobban_BanLowest"] = "You can't job-ban the lowest job"
@@ -525,7 +526,7 @@ lang_files["CMD_RevokePerm_revoked"] = "* Revoked permission to command \"{1}\""
 lang_files["CMD_RevokePerm_all"] = "Revoked all permissions from player {1}"
 
 -- PermList
-lang_files["CMD_PermList_header"] = "{1}\' Permissions:"
+lang_files["CMD_PermList_header"] = "{1}\'s Permissions:"
 lang_files["CMD_PermList_item"] = "* {1}"
 
 -- Lang

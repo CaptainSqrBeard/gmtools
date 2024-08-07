@@ -1,5 +1,5 @@
-function GMT.NewConsoleMessage(msg, color, isError)
-    DebugConsole.NewMessage(msg, color, isError)
+function GMT.NewConsoleMessage(msg, color)
+    DebugConsole.NewMessage(msg, color)
 end
 
 function GMT.ThrowError(text,level)
@@ -18,7 +18,7 @@ function GMT.SendPotentiallyServerConsoleMessage(text,client,color)
         local msg = ChatMessage.Create("", text, ChatMessageType.Console, nil, nil, nil, color)
         Game.SendDirectChatMessage(msg, client)
     else
-        GMT.NewConsoleMessage(text, color, false)
+        GMT.NewConsoleMessage(text, color)
     end
     
 end
@@ -229,6 +229,14 @@ function GMT.Split (line, separator)
         table.insert(list, str)
     end
     return list
+end
+
+function GMT.GetJobPrefab(id)
+    if JobPrefab.Prefabs.ContainsKey(id) then
+        return JobPrefab.Prefabs[id]
+    else
+        return nil
+    end
 end
 
 function GMT.GetTimeString(time)

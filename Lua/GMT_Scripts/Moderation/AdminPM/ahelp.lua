@@ -57,7 +57,7 @@ GMT.AssignClientCommand("ahelp",function(client,cursor,args)
 end)
 
 GMT.AssignServerCommand("ahelp",function(args)
-    GMT.NewConsoleMessage("GMTools: "..GMT.Lang("Error_bad_console"),Color(255,0,0,255),false) -- how you will adminPM something that isn't a client?
+    GMT.NewConsoleMessage("GMTools: "..GMT.Lang("Error_bad_console"),Color(255,0,0,255)) -- how you will adminPM something that isn't a client?
 end)
 
 

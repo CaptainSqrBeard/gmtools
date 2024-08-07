@@ -1,12 +1,12 @@
 local smites = {}
 
-local function addSmite(name,help,func)
-    smites[string.lower(name)] = {help=help,func=func}
+local function addSmite(name, help, func)
+    smites[string.lower(name)] = {help=help, func=func}
 end
 
 
 -- Smites
-addSmite("gib",GMT.Lang("CMD_Smite_gib"),function (executor, char)
+addSmite("gib",GMT.Lang("CMD_Smite_gib"), function (char, interface)
 
     char.Kill(CauseOfDeathType.Pressure)
     for i, limb in ipairs(char.AnimController.Limbs) do
@@ -14,13 +14,13 @@ addSmite("gib",GMT.Lang("CMD_Smite_gib"),function (executor, char)
     end
 end)
 
-addSmite("gigacancer",GMT.Lang("CMD_Smite_gigacancer"),function (executor, char)
+addSmite("gigacancer",GMT.Lang("CMD_Smite_gigacancer"), function (char, interface)
     local limb = char.AnimController.MainLimb
     local rad = AfflictionPrefab.Prefabs["radiationsickness"]
     char.CharacterHealth.ApplyAffliction(limb, rad.Instantiate(200), true)
 end)
 
-addSmite("drunk",GMT.Lang("CMD_Smite_drunk"),function (executor, char)
+addSmite("drunk",GMT.Lang("CMD_Smite_drunk"), function (char, interface)
     local limb = char.AnimController.MainLimb
     local drunk = AfflictionPrefab.Prefabs["drunk"]
     local nausea = AfflictionPrefab.Prefabs["nausea"]
@@ -28,7 +28,7 @@ addSmite("drunk",GMT.Lang("CMD_Smite_drunk"),function (executor, char)
     char.CharacterHealth.ApplyAffliction(limb, nausea.Instantiate(100), true)
 end)
 
-addSmite("orangeboy",GMT.Lang("CMD_Smite_orangeboy"),function (executor, char)
+addSmite("orangeboy",GMT.Lang("CMD_Smite_orangeboy"), function (char, interface)
     char.Kill(CauseOfDeathType.Affliction, AfflictionPrefab.Prefabs["nausea"].Instantiate(100))
     local boi = Character.Create("orangeboy", char.WorldPosition,0)
 
@@ -38,81 +38,43 @@ addSmite("orangeboy",GMT.Lang("CMD_Smite_orangeboy"),function (executor, char)
     end
 end)
 
-addSmite("longstun",GMT.Lang("CMD_Smite_longstun"),function (executor, char)
+addSmite("longstun",GMT.Lang("CMD_Smite_longstun"), function (char, interface)
     local limb = char.AnimController.MainLimb
     local stun = AfflictionPrefab.Prefabs["stun"]
     char.CharacterHealth.ApplyAffliction(limb, stun.Instantiate(30), true)
 end)
 
-addSmite("help",GMT.Lang("CMD_Smite_help"),function (executor, char)
-    if executor ~= nil then
-        GMT.SendConsoleMessage(GMT.Lang("CMD_Smite_SmiteList"), executor, Color(255,128,0,255))
-        for name, smite in pairs(smites) do
-            GMT.SendConsoleMessage("* "..name.."  >  "..smite.help, executor, Color(255,255,255,255))
-        end
-    else
-        GMT.NewConsoleMessage(GMT.Lang("CMD_Smite_SmiteList"), Color(255,128,0,255), false)
-        for name, smite in pairs(smites) do
-            GMT.NewConsoleMessage("* "..name.."  >  "..smite.help, Color(255,255,255,255), false)
-        end
-    end
-end)
-
-
-
-
 GMT.AddCommand("smite",GMT.Lang("Help_Smite"),true,nil,{
 {name="smite",desc=GMT.Lang("Args_Smite_smite")},
 {name="character",desc=GMT.Lang("Args_Smite_character")}})
 
-GMT.AssignClientCommand("smite",function(client,cursor,args)
-    if #args == 0 then
-        smites["help"].func(client, nil)
-        return
-    end
-    local char
-    if args[2] ~= nil then
-        char = GMT.GetCharacterByString(args[2])
-        if char == nil or char.IsDead then
-            GMT.SendConsoleMessage("GM-Tools: "..GMT.Lang("Error_CharacterNotFound"),client,Color(255,0,0,255))
-            return
+GMT.AssignSharedCommand("smite",function (args, interface)
+    if #args == 0 or args[1] == "help" then
+        interface.showMessage(GMT.Lang("CMD_Smite_SmiteList"), Color(255,128,0,255))
+        for name, smite in pairs(smites) do
+            interface.showMessage("* "..name.."  >  "..smite.help, Color(255,255,255,255))
         end
-    else
-        GMT.SendConsoleMessage("GMTools: "..GMT.Lang("Error_NotEnoughArguments"),client,Color(255,0,0,255))
         return
     end
 
     local smite = smites[args[1]]
     if smite == nil then
-        GMT.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_Smite_Unknown"),client,Color(255,0,0,255))
+        interface.showMessage("GMTools: "..GMT.Lang("CMD_Smite_Unknown"),Color(255,0,0,255))
         return
     end
-
-    smite.func(client, char)
-end)
-
-GMT.AssignServerCommand("smite",function(args)
-    if #args == 0 then
-        smites["help"].func(nil, nil)
-        return
-    end
+    
     local char
     if args[2] ~= nil then
         char = GMT.GetCharacterByString(args[2])
         if char == nil or char.IsDead then
-            GMT.NewConsoleMessage("GM-Tools: "..GMT.Lang("Error_CharacterNotFound"),Color(255,0,0,255),false)
+            interface.showMessage("GM-Tools: "..GMT.Lang("Error_CharacterNotFound"),Color(255,0,0,255))
             return
         end
     else
-        GMT.NewConsoleMessage("GMTools: "..GMT.Lang("Error_NotEnoughArguments"),Color(255,0,0,255),false)
+        interface.showMessage("GMTools: "..GMT.Lang("Error_NotEnoughArguments"),Color(255,0,0,255))
         return
     end
-
-    local smite = smites[args[1]]
-    if smite == nil then
-        GMT.NewConsoleMessage("GMTools: "..GMT.Lang("CMD_Smite_Unknown"),Color(255,0,0,255),false)
-        return
-    end
-
-    smite.func(nil, char)
+    
+    smite.func(char, interface)
+    interface.showMessage(GMT.Lang("CMD_Smite_Applied",{args[1], char.Name}),Color(255,0,255,255))
 end)

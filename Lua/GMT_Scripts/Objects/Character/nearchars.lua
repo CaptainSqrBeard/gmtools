@@ -23,5 +23,5 @@ GMT.AssignClientCommand("nearchars",function(client,cursor,args)
 end)
 
 GMT.AssignServerCommand("nearchars",function(args)
-    GMT.NewConsoleMessage("GMTools: "..GMT.Lang("Error_bad_console"),Color(255,0,0,255),false)
+    GMT.NewConsoleMessage("GMTools: "..GMT.Lang("Error_bad_console"),Color(255,0,0,255))
 end)

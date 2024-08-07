@@ -1,5 +1,13 @@
 GMT.AllCommands = {}
 
+function GMT.ListAllCommands()
+    local list = {}
+    for i, cmd in ipairs(GMT.AllCommands) do
+        table.insert(list, cmd)
+    end
+    return list
+end
+
 function GMT.SplitCommand(msg)
     local split = {}
     local piece = ""
@@ -103,7 +111,58 @@ function GMT.AssignServerCommand(name,func)
     Game.AssignOnExecute("."..name, func) -- function(args) end
 end
 
+--[[ GMT.AssignSharedCommand
+"Assigns usage in both server console and client console."
+* name: Name of the command (String)
+* func: Function to execute (Function)
+--]]
+function GMT.AssignSharedCommand(name,func)
+    if (GMT.CheckFArgs(name,"string")) or
+    (GMT.CheckFArgs(func,"function"))
+    then
+        GMT.ThrowError("Bad Argument")
+    end
 
+    Game.AssignOnClientRequestExecute("."..name, function (client,cursor,args)
+        local interface = GMT.NewClientCMDInterface(client,cursor)
+        func(args, interface)
+    end)
+
+    Game.AssignOnExecute("."..name, function (args)
+        local interface = GMT.NewServerCMDInterface()
+        func(args, interface)
+    end)
+end
+
+--[[ GMT.NewClientCMDInterface
+"Creates interface to use for clients"
+* client: Executor
+* cursor: World position of cursor
+--]]
+function GMT.NewClientCMDInterface(client,cursor)
+    return {
+        isServer = false,
+        executor = client,
+        cursor = cursor,
+        showMessage = function (text, color)
+            GMT.SendConsoleMessage(text, client, color)
+        end
+    }
+end
+
+--[[ GMT.NewServerCMDInterface
+"Creates interface to use for server console"
+--]]
+function GMT.NewServerCMDInterface()
+    return {
+        isServer = true,
+        executor = nil,
+        cursor = nil,
+        showMessage = function (text, color)
+            GMT.NewConsoleMessage(text, color)
+        end
+    }
+end
 
 --[[ GMT.AddChatCommand
 "Adds new command into chat"

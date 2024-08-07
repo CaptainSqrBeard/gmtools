@@ -165,7 +165,7 @@ lang_files["Error_bad_boolean"] = "Неверный аргумент. Парам
 lang_files["Error_bad_console"] = "Эта команда не работает в консоле"
 
 ---- Misc
-lang_files["Console"] = "Консоль"
+lang_files["Console"] = "ХОСТ"
 
 -- Lang
 lang_files["Args_Lang_language"] = "Язык для смены. Используйте \".lang all\" чтобы посмотреть список всех языков"
@@ -496,6 +496,7 @@ lang_files["CMD_Smite_help"] = "Выдаёт список наказаний"
 lang_files["CMD_Smite_SmiteList"] = "Виды наказаний:"
 
 lang_files["CMD_Smite_Unknown"] = "Неизвестный вид наказания"
+lang_files["CMD_Smite_Applied"] = "Применено наказание \"{1}\" на персонажа \"{2}\""
 
 -- Jobban & Unjobban
 lang_files["CMD_Jobban_BanLowest"] = "Вы не можете забанить самую низкую профессию"
