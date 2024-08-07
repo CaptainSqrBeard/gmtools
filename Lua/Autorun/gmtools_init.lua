@@ -42,6 +42,7 @@ if SERVER then
     require("GMT_Scripts.Objects.Item.nearitems")
 
     require("GMT_Scripts.Objects.Character.chardata")
+    require("GMT_Scripts.Objects.Character.spawnchar")
     require("GMT_Scripts.Objects.Character.humanlist")
     require("GMT_Scripts.Objects.Character.nearchars")
     
