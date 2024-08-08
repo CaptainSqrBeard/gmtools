@@ -5,7 +5,7 @@ GMT.AddCommand("giveperm",GMT.Lang("Help_GivePerm"),false,nil,{
 
 GMT.AssignSharedCommand("giveperm",function (args, interface)
     if #args < 2 then
-        interface.showMessage("GMTools: "..GMT.Lang("Error_NotEnoughArguments"),Color(255,0,0,255))
+        interface.showMessage("GMTools: "..GMT.Lang("Error_NotEnoughArguments").."\n"..GMT.GetCommandUsageHelp("giveperm"),Color(255,0,0,255))
         return
     end
     

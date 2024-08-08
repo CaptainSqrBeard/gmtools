@@ -2,6 +2,8 @@ local lang_files = {}
 GMT.LangFiles = {}
 
 function GMT.LangFiles.Load(lang)
+    GMT.Expect(1, lang, "string")
+
     if lang == "en" then
         lang_files = dofile(GMT_PATH.."/Lua/LangFiles/en.lua")
     elseif lang == "ru" then
@@ -14,6 +16,9 @@ end
 
 
 function GMT.Lang(text,vars)
+    GMT.Expect(1, text, "string")
+    GMT.Expect(1, vars, "table", "nil")
+
     if vars ~= nil and #vars ~= 0 then
         if lang_files[text] == nil then
             return text

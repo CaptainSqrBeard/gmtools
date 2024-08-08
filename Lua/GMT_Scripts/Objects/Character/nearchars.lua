@@ -1,5 +1,5 @@
 GMT.AddCommand("nearchars",GMT.Lang("Help_NearChars"),true,nil,{
-{name="size",desc=GMT.Lang("Args_NearChars_size")}})
+{name="size",desc=GMT.Lang("Args_NearChars_size"),optional=true}})
 
 GMT.AssignClientCommand("nearchars",function(client,cursor,args)
     local size = 100

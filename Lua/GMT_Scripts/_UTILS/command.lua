@@ -9,6 +9,8 @@ function GMT.ListAllCommands()
 end
 
 function GMT.SplitCommand(msg)
+    GMT.Expect(1, msg, "string")
+
     local split = {}
     local piece = ""
     
@@ -62,16 +64,26 @@ end
 * func: Function to execute (Function)
 * help_args: Arguments description in help <cmd> (Table)
 --]]
-function GMT.AddCommand(name,help,isCheat,func,help_args,getValidArgs)
-    if (GMT.CheckFArgs(name,"string")) or
-    (GMT.CheckFArgs(help,"string")) or
-    (GMT.CheckFArgs(isCheat,"boolean",true)) or
-    (GMT.CheckFArgs(help_args,"table",true))
-    then
-        GMT.ThrowError("Bad Argument")
+function GMT.AddCommand(name, help, isCheat, func, help_args, getValidArgs, usage)
+    GMT.Expect(1, name, "string")
+    GMT.Expect(2, help, "string")
+    GMT.Expect(3, isCheat, "boolean", "nil")
+    GMT.Expect(4, func, "function", "nil")
+    GMT.Expect(5, help_args, "table", "nil")
+    GMT.Expect(6, usage, "string", "nil")
+
+    if usage == nil and help_args ~= nil then
+        usage = ""
+        for i, arg in ipairs(help_args) do
+            if arg.optional then
+                usage = usage.." ["..arg.name.."]"
+            else
+                usage = usage.." <"..arg.name..">"
+            end
+        end
     end
 
-    GMT.HelpData[name] = {name=name,help=help,args=help_args}
+    GMT.HelpData[name] = {name=name, help=help, args=help_args, usage=usage}
     table.insert(GMT.AllCommands,"."..name)
 
     Game.AddCommand("."..name, help, function () end, getValidArgs, isCheat)
@@ -87,6 +99,9 @@ end
 * func: Function to execute (Function)
 --]]
 function GMT.AssignClientCommand(name,func)
+    GMT.Expect(1, name, "string")
+    GMT.Expect(2, func, "function")
+
     if (GMT.CheckFArgs(name,"string")) or
     (GMT.CheckFArgs(func,"function"))
     then
@@ -102,6 +117,9 @@ end
 * func: Function to execute (Function)
 --]]
 function GMT.AssignServerCommand(name,func)
+    GMT.Expect(1, name, "string")
+    GMT.Expect(2, func, "function")
+
     if (GMT.CheckFArgs(name,"string")) or
     (GMT.CheckFArgs(func,"function"))
     then
@@ -117,6 +135,9 @@ end
 * func: Function to execute (Function)
 --]]
 function GMT.AssignSharedCommand(name,func)
+    GMT.Expect(1, name, "string")
+    GMT.Expect(2, func, "function")
+    
     if (GMT.CheckFArgs(name,"string")) or
     (GMT.CheckFArgs(func,"function"))
     then
@@ -171,6 +192,10 @@ end
 * func: Function to execute (Function)
 --]]
 function GMT.AddChatCommand(name,help,func)
+    GMT.Expect(1, name, "string")
+    GMT.Expect(2, help, "string")
+    GMT.Expect(3, func, "function")
+
     if (GMT.CheckFArgs(name,"string")) or
     (GMT.CheckFArgs(help,"string")) or
     (GMT.CheckFArgs(func,"function"))
@@ -182,9 +207,20 @@ function GMT.AddChatCommand(name,help,func)
 end
 
 function GMT.GetCommandByString(string)
-    for i_1, cmd in ipairs(Game.Commands) do
+    GMT.Expect(1, string, "string")
+
+    for i, cmd in ipairs(Game.Commands) do
         if cmd.names[1] == string then
             return cmd
         end
     end
+end
+
+function GMT.GetCommandUsageHelp(command)
+    GMT.Expect(1, command, "string")
+
+    if GMT.HelpData[command].usage == nil then
+        return GMT.Lang("Usage").."."..command
+    end
+    return GMT.Lang("Usage").."."..command.." "..GMT.HelpData[command].usage
 end

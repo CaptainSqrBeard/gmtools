@@ -54,6 +54,7 @@ GMT.AssignSharedCommand("smite",function (args, interface)
         for name, smite in pairs(smites) do
             interface.showMessage("* "..name.."  >  "..smite.help, Color(255,255,255,255))
         end
+        interface.showMessage(GMT.GetCommandUsageHelp("smite"), Color(255,196,128,255))
         return
     end
 
@@ -71,7 +72,7 @@ GMT.AssignSharedCommand("smite",function (args, interface)
             return
         end
     else
-        interface.showMessage("GMTools: "..GMT.Lang("Error_NotEnoughArguments"),Color(255,0,0,255))
+        interface.showMessage("GMTools: "..GMT.Lang("Error_NotEnoughArguments").."\n"..GMT.GetCommandUsageHelp("smite"),Color(255,0,0,255))
         return
     end
     

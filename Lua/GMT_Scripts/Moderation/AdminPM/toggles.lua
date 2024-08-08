@@ -1,4 +1,4 @@
-GMT.AddCommand("toggle_ahelp",GMT.Lang("Help_ToggleAHelp"),false,nil,{{name="status",desc=GMT.Lang("Args_ToggleAHelp_status")}})
+GMT.AddCommand("toggle_ahelp",GMT.Lang("Help_ToggleAHelp"),false,nil,{{name="status",desc=GMT.Lang("Args_ToggleAHelp_status"),optional=true}})
 
 GMT.AssignSharedCommand("toggle_ahelp",function (args, interface)
     local status = GMT.Config.Vars.ahelp_enabled

@@ -29,6 +29,8 @@ function GMT.RestorePerms(client)
 end
 
 function GMT.HasPermission(client,command)
+    GMT.Expect(2, command, "string")
+
     -- Host has permission to everything
     if not Game.IsDedicated and client.SessionId == 1 then
         return true
@@ -47,6 +49,8 @@ function GMT.HasPermission(client,command)
 end
 
 function GMT.HasGMTPermission(client,command)
+    GMT.Expect(2, command, "string")
+
     -- Host has permission to everything
     if not Game.IsDedicated and client.SessionId == 1 then
         return true
@@ -64,6 +68,8 @@ function GMT.HasGMTPermission(client,command)
 end
 
 function GMT.HasGMTPermissionOffline(steamid,command)
+    GMT.Expect(2, command, "string")
+    
     local playerCommands = GMT.Config.Vars.player_commands
 
     if GMT.Contains(playerCommands,command) then return true end

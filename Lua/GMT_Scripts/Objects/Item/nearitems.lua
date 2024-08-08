@@ -1,6 +1,6 @@
 GMT.AddCommand("nearitems",GMT.Lang("Help_NearItems"),true,nil,{
-{name="size",desc=GMT.Lang("Args_NearItems_size")},
-{name="ignore_wires",desc=GMT.Lang("Args_NearItems_ignorewires")}})
+{name="size",desc=GMT.Lang("Args_NearItems_size"),optional=true},
+{name="ignore_wires",desc=GMT.Lang("Args_NearItems_ignorewires"),optional=true}})
 
 GMT.AssignClientCommand("nearitems",function(client,cursor,args)
     local size = 100

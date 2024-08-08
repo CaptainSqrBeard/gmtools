@@ -2,12 +2,12 @@
 
 GMT.AddCommand("subthrow",GMT.Lang("Help_SubmarineThrow"),true,nil,{
     {name="submarine",desc=GMT.Lang("Args_SubmarineThrow_submarine")},
-    {name="vector",desc=GMT.Lang("Args_SubmarineThrow_vector")},
-    {name="mode",desc=GMT.Lang("Args_SubmarineThrow_mode")}})
+    {name="vector",desc=GMT.Lang("Args_SubmarineThrow_vector"),optional=true},
+    {name="mode",desc=GMT.Lang("Args_SubmarineThrow_mode"),optional=true}})
 
 GMT.AssignSharedCommand("subthrow",function (args, interface)
     if #args == 0 then
-        interface.showMessage("GMTools: "..GMT.Lang("Error_NotEnoughArguments"),Color(255,0,128,255))
+        interface.showMessage("GMTools: "..GMT.Lang("Error_NotEnoughArguments").."\n"..GMT.GetCommandUsageHelp("subthrow"),Color(255,0,128,255))
         return
     end
 
@@ -41,19 +41,12 @@ GMT.AssignSharedCommand("subthrow",function (args, interface)
             vector = Vector2.Normalize(interface.cursor - sub.WorldPosition)*15
         end
     else
-        local split = GMT.Split(args[2], ";")
-        if #split == 2 then
-            local x = tonumber(split[1])
-            local y = tonumber(split[2])
-            if x ~= nil and y ~= nil then
-                vector = Vector2(x, y)
-            else
-                interface.showMessage("GMTools: "..GMT.Lang("CMD_SubmarineThrow_UnknownTypeVector"),Color(255,0,128,255))
-                return
-            end
-        else
+        local vectorFromString = GMT.GetVector2FromString(args[2])
+        if vectorFromString == nil then
             interface.showMessage("GMTools: "..GMT.Lang("CMD_SubmarineThrow_UnknownTypeVector"),Color(255,0,128,255))
             return
+        else
+            vector = vectorFromString
         end
     end
 

@@ -43,7 +43,7 @@ GMT.AssignSharedCommand("adminpm",function (args, interface)
     end
     msg = msg:sub(1, msg:len()-1)
     if msg:len() == 0 then
-        interface.showMessage("GMTools: "..GMT.Lang("CMD_AdminPM_NoMessage"),Color(255,0,0,255))
+        interface.showMessage("GMTools: "..GMT.Lang("CMD_AdminPM_NoMessage").."\n"..GMT.GetCommandUsageHelp("adminpm"),Color(255,0,0,255))
         return
     end
     

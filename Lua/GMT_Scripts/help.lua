@@ -1,4 +1,4 @@
-GMT.AddCommand("help",GMT.Lang("Help_Help"),false,nil,{{name="command",desc=GMT.Lang("Args_Help_command")}})
+GMT.AddCommand("help",GMT.Lang("Help_Help"),false,nil,{{name="command",desc=GMT.Lang("Args_Help_command"),optional=true}})
 
 GMT.AssignSharedCommand("help",function (args, interface)
     if #args == 1 and string.lower(args[1]) ~= "all" then
@@ -9,6 +9,7 @@ GMT.AssignSharedCommand("help",function (args, interface)
             -- Show info about command
             interface.showMessage("==== "..data.name.." ====",Color(255,0,255,255))
             interface.showMessage(GMT.Lang("CMD_Help_desc")..":   "..data.help,Color(255,255,255,255))
+            interface.showMessage(GMT.GetCommandUsageHelp(command),Color(255,255,255,255))
 
             if data.args ~= nil then
                 local out = {}

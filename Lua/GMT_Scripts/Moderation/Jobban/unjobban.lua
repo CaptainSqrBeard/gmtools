@@ -1,11 +1,11 @@
 GMT.AddCommand("unjobban",GMT.Lang("Help_UnJobban"),false,nil,{
 {name="player",desc=GMT.Lang("Args_UnJobban_player")},
-{name="job",desc=GMT.Lang("Args_UnJobban_job")}
+{name="job",desc=GMT.Lang("Args_UnJobban_job"),optional=true}
 })
 
 GMT.AssignSharedCommand("unjobban",function (args, interface)
     if #args == 0 then
-        interface.showMessage("GMTools: "..GMT.Lang("Error_NotEnoughArguments"),Color(255,0,0,255))
+        interface.showMessage("GMTools: "..GMT.Lang("Error_NotEnoughArguments").."\n"..GMT.GetCommandUsageHelp("unjobban"),Color(255,0,0,255))
         return
     end
 

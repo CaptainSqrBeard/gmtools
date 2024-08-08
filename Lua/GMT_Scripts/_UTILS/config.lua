@@ -1,5 +1,3 @@
--- iller_saver#9057 <-- CEO of SS13 Robust
-
 -- This is my first time that i doing something like this
 
 -- How to do file things:

@@ -21,6 +21,8 @@ GMT.CharacterTeams = {
 }
 
 function GMT.GetLocalizedSubmarineType(index)
+    GMT.Expect(1, index, "number")
+
     if index >= 0 and index <= #GMT.SubmarineTypes-1 then
         return GMT.Lang(GMT.SubmarineTypes[index+1])
     end
@@ -28,6 +30,8 @@ function GMT.GetLocalizedSubmarineType(index)
 end
 
 function GMT.GetLocalizedSubmarineClass(index)
+    GMT.Expect(1, index, "number")
+
     if index >= 0 and index <= #GMT.SubmarineClasses-1 then
         return GMT.Lang(GMT.SubmarineClasses[index+1])
     end
@@ -35,6 +39,8 @@ function GMT.GetLocalizedSubmarineClass(index)
 end
 
 function GMT.GetLocalizedTeam(index)
+    GMT.Expect(1, index, "number")
+    
     if index >= 0 and index <= #GMT.CharacterTeams-1 then
         return GMT.Lang(GMT.CharacterTeams[index+1])
     end

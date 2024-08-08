@@ -3,7 +3,7 @@ GMT.AddCommand("chardata",GMT.Lang("Help_CharData"),true,nil,{
 
 GMT.AssignSharedCommand("chardata",function (args, interface)
     if #args == 0 then
-        interface.showMessage("GMTools: "..GMT.Lang("Error_NotEnoughArguments"),Color(255,0,128,255))
+        interface.showMessage("GMTools: "..GMT.Lang("Error_NotEnoughArguments").."\n"..GMT.GetCommandUsageHelp("chardata"),Color(255,0,128,255))
         return
     end
 

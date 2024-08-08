@@ -3,14 +3,14 @@ local STEAM_ID_LENGTH = 17
 GMT.AddCommand("jobban",GMT.Lang("Help_Jobban"),false,nil,{
 {name="player",desc=GMT.Lang("Args_Jobban_player")},
 {name="job",desc=GMT.Lang("Args_Jobban_job")},
-{name="duration",desc=GMT.Lang("Args_Jobban_duration")},
-{name="reason",desc=GMT.Lang("Args_Jobban_reason")}
+{name="duration",desc=GMT.Lang("Args_Jobban_duration"),optional=true},
+{name="reason",desc=GMT.Lang("Args_Jobban_reason"),optional=true}
 
 })
 
 GMT.AssignSharedCommand("jobban",function (args, interface)
     if #args < 2 then
-        interface.showMessage("GMTools: "..GMT.Lang("Error_NotEnoughArguments"),Color(255,0,0,255))
+        interface.showMessage("GMTools: "..GMT.Lang("Error_NotEnoughArguments").."\n"..GMT.GetCommandUsageHelp("jobban"),Color(255,0,0,255))
             return
     end
 

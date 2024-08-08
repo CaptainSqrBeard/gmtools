@@ -11,6 +11,10 @@ end
 -- Returns true if player on cooldown, false if not.
 -- Also applies cooldown to player
 function GMT.Player.ProcessCooldown(client,time,warn_msg,kick_msg)
+    GMT.Expect(2, time, "number")
+    GMT.Expect(3, warn_msg, "string", "nil")
+    GMT.Expect(4, kick_msg, "string", "nil")
+
     GMT.Player.AddInMemory(client)
     --if client.HasPermission(ClientPermissions.All) then return false end
 

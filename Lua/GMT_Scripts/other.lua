@@ -73,7 +73,7 @@ GMT.AssignSharedCommand("lang",function (args, interface)
         for i, lan in ipairs(lang) do
             interface.showMessage(GMT.Lang("CMD_Lang_element",{lan}),Color(255,255,255,255))
         end
-        interface.showMessage(GMT.Lang("CMD_Lang_suggest"),Color(255,255,255,255))
+        interface.showMessage(GMT.GetCommandUsageHelp("revokeperm").."\n"..GMT.Lang("CMD_Lang_suggest"),Color(255,255,255,255))
         return
     end
 

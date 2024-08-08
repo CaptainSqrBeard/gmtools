@@ -2,11 +2,11 @@ GMT.SubLocks = {}
 
 GMT.AddCommand("sublock",GMT.Lang("Help_SubmarineLock"),true,nil,{
     {name="submarine",desc=GMT.Lang("Args_SubmarineLock_submarine")},
-    {name="axis",desc=GMT.Lang("Args_SubmarineLock_axis")}})
+    {name="axis",desc=GMT.Lang("Args_SubmarineLock_axis"),optional=true}})
 
 GMT.AssignSharedCommand("sublock",function (args, interface)
     if #args == 0 then
-        interface.showMessage("GMTools: "..GMT.Lang("Error_NotEnoughArguments"),Color(255,0,128,255))
+        interface.showMessage("GMTools: "..GMT.Lang("Error_NotEnoughArguments").."\n"..GMT.GetCommandUsageHelp("sublock"),Color(255,0,128,255))
         return
     end
 

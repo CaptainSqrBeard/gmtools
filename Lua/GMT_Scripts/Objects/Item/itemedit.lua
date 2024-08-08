@@ -551,16 +551,15 @@ newBasicAction("color_sprite",GMT.Lang("CMD_ItemEdit_Basic_colorsprite_Help"),fu
     Networking.CreateEntityEvent(item, Item.ChangePropertyEventData.__new(property, item))
 end)
 
--- ITEM EDIT MOST COOLEST COMMAND !!!
 GMT.AddCommand("itemedit",GMT.Lang("Help_ItemEdit"),true,nil,{
 {name="id",desc=GMT.Lang("Args_ItemEdit_id")},
-{name="component",desc=GMT.Lang("Args_ItemEdit_component")},
-{name="action",desc=GMT.Lang("Args_ItemEdit_action")},
-{name="args",desc=GMT.Lang("Args_ItemEdit_args")}})
+{name="component",desc=GMT.Lang("Args_ItemEdit_component"),optional=true},
+{name="action",desc=GMT.Lang("Args_ItemEdit_action"),optional=true},
+{name="args",desc=GMT.Lang("Args_ItemEdit_args"),optional=true}})
 
 GMT.AssignSharedCommand("itemedit",function (args, interface)
     if #args == 0 then
-        interface.showMessage("GMTools: "..GMT.Lang("Error_NotEnoughArguments"),Color(255,0,0,255))
+        interface.showMessage("GMTools: "..GMT.Lang("Error_NotEnoughArguments".."\n"..GMT.GetCommandUsageHelp("itemedit")),Color(255,0,0,255))
         return
     end
 

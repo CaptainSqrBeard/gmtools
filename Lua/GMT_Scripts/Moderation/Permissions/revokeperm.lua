@@ -4,6 +4,11 @@ GMT.AddCommand("revokeperm",GMT.Lang("Help_RevokePerm"),false,nil,{
 })
 
 GMT.AssignSharedCommand("revokeperm",function (args, interface)
+    if #args < 2 then
+        interface.showMessage("GMTools: "..GMT.Lang("Error_NotEnoughArguments").."\n"..GMT.GetCommandUsageHelp("revokeperm"),Color(255,0,0,255))
+        return
+    end
+
     -- Get client
     local r_client = GMT.GetClientByString(args[1])
     if r_client == nil then

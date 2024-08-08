@@ -1,10 +1,10 @@
 GMT.AddCommand("subgodmode",GMT.Lang("Help_SubmarineGodmode"),true,nil,{
     {name="submarine",desc=GMT.Lang("Args_SubmarineGodmode_submarine")},
-    {name="value",desc=GMT.Lang("Args_SubmarineGodmode_value")}})
+    {name="value",desc=GMT.Lang("Args_SubmarineGodmode_value"),optional=true}})
 
 GMT.AssignSharedCommand("subgodmode",function (args, interface)
     if #args == 0 then
-        interface.showMessage("GMTools: "..GMT.Lang("Error_NotEnoughArguments"),Color(255,0,128,255))
+        interface.showMessage("GMTools: "..GMT.Lang("Error_NotEnoughArguments").."\n"..GMT.GetCommandUsageHelp("subgodmode"),Color(255,0,128,255))
         return
     end
 

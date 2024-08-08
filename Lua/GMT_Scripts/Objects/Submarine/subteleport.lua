@@ -2,11 +2,11 @@
 
 GMT.AddCommand("subtp",GMT.Lang("Help_SubmarineTeleport"),true,nil,{
     {name="submarine",desc=GMT.Lang("Args_SubmarineTp_submarine")},
-    {name="position",desc=GMT.Lang("Args_SubmarineTp_position")}})
+    {name="position",desc=GMT.Lang("Args_SubmarineTp_position"),optional=true}})
 
 GMT.AssignSharedCommand("subtp",function (args, interface)
     if #args == 0 then
-        interface.showMessage("GMTools: "..GMT.Lang("Error_NotEnoughArguments"),Color(255,0,128,255))
+        interface.showMessage("GMTools: "..GMT.Lang("Error_NotEnoughArguments").."\n"..GMT.GetCommandUsageHelp("subtp"),Color(255,0,128,255))
         return
     end
 
@@ -54,19 +54,12 @@ GMT.AssignSharedCommand("subtp",function (args, interface)
             endPos.y = endPos.y - (sub.Borders.Height + Level.Loaded.EndOutpost.Borders.Height) / 2;
         end
     else
-        local split = GMT.Split(args[2], ";")
-        if #split == 2 then
-            local x = tonumber(split[1])
-            local y = tonumber(split[2])
-            if x ~= nil and y ~= nil then
-                endPos = Vector2(x, y)
-            else
-                interface.showMessage("GMTools: "..GMT.Lang("CMD_SubmarineTp_UnknownType"),Color(255,0,128,255))
-                return
-            end
-        else
+        local vector2 = GMT.GetVector2FromString(args[2])
+        if vector2 == nil then
             interface.showMessage("GMTools: "..GMT.Lang("CMD_SubmarineTp_UnknownType"),Color(255,0,128,255))
             return
+        else
+            endPos = vector2
         end
     end
 

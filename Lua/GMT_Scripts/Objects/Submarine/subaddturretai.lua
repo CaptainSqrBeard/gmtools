@@ -5,7 +5,7 @@ GMT.AddCommand("subaddturretai",GMT.Lang("Help_SubmarineAddTurretAI"),true,nil,{
 
 GMT.AssignSharedCommand("subaddturretai",function (args, interface)
     if #args == 0 then
-        interface.showMessage("GMTools: "..GMT.Lang("Error_NotEnoughArguments"),Color(255,0,128,255))
+        interface.showMessage("GMTools: "..GMT.Lang("Error_NotEnoughArguments").."\n"..GMT.GetCommandUsageHelp("subaddturretai"),Color(255,0,128,255))
         return
     end
 

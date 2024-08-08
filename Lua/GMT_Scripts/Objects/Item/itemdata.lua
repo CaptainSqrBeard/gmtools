@@ -1,10 +1,10 @@
 GMT.AddCommand("itemdata",GMT.Lang("Help_ItemData"),true,nil,{
 {name="id",desc=GMT.Lang("Args_ItemData_id")},
-{name="data",desc=GMT.Lang("Args_ItemData_data")}})
+{name="data",desc=GMT.Lang("Args_ItemData_data")},optional=true})
 
 GMT.AssignSharedCommand("itemdata",function (args, interface)
     if #args == 0 then
-        interface.showMessage("GMTools: "..GMT.Lang("Error_NotEnoughArguments"),Color(255,0,128,255))
+        interface.showMessage("GMTools: "..GMT.Lang("Error_NotEnoughArguments").."\n"..GMT.GetCommandUsageHelp("itemdata"),Color(255,0,128,255))
         return
     end
 

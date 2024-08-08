@@ -5,7 +5,7 @@ GMT.AddCommand("subdata",GMT.Lang("Help_SubmarineData"),true,nil,{
 
 GMT.AssignSharedCommand("subdata",function (args, interface)
     if #args == 0 then
-        interface.showMessage("GMTools: "..GMT.Lang("Error_NotEnoughArguments"),Color(255,0,128,255))
+        interface.showMessage("GMTools: "..GMT.Lang("Error_NotEnoughArguments").."\n"..GMT.GetCommandUsageHelp("subdata"),Color(255,0,128,255))
         return
     end
 

@@ -4,7 +4,7 @@ end
 
 function GMT.ThrowError(text,level)
     if level == nil then level = 0 end
-    error("GM-Tools Custom Error: "..text,3+level)
+    error("GM-Tools Error: "..text,3+level)
 end
 
 function GMT.SendConsoleMessage(text,client,color)
@@ -37,7 +37,17 @@ function GMT.CheckFArgs(value,vtype,canBeNil)
     end
 end
 
+function GMT.Expect(index, value, ...)
+    local types = {...}
+    local type = type(value)
+    if not GMT.Contains(types, type) then
+        GMT.ThrowError("Bad argument #"..index.." ("..GMT.ConcatStringTable(types, " or ").." expected, got "..type..")", 1)
+    end
+end
+
 function GMT.GetClientByString(string)
+    GMT.Expect(1, string, "string", "nil")
+
     if string == nil then
         return nil
     end
@@ -56,6 +66,8 @@ function GMT.GetClientByString(string)
 end
 
 function GMT.GetCharacterByString(string)
+    GMT.Expect(1, string, "string", "nil")
+
     if string == nil then
         return nil
     end
@@ -80,6 +92,8 @@ function GMT.GetCharacterByString(string)
 end
 
 function GMT.GetCharacterClient(id)
+    GMT.Expect(1, id, "number")
+
     for i, cl in ipairs(Client.ClientList) do
         if cl.Character ~= nil and cl.Character.ID == id then
             return cl
@@ -87,11 +101,34 @@ function GMT.GetCharacterClient(id)
     end
 end
 
+function GMT.GetVector2FromString(string)
+    GMT.Expect(1, string, "string")
+
+    local split = GMT.Split(string, ";")
+    if #split == 2 then
+        local x = tonumber(split[1])
+        local y = tonumber(split[2])
+        if x == nil or y == nil then
+            return nil
+        else
+            return Vector2(x, y)
+        end
+    else
+        return nil
+    end
+end
+
 function GMT.RandomFloat(min,max)
+    GMT.Expect(1, min, "number")
+    GMT.Expect(2, max, "number")
+
     return math.random()*(max-min)+min
 end
 
 function GMT.FormattedText(text, tags)
+    GMT.Expect(1, text, "string")
+    GMT.Expect(2, tags, "table")
+
     local out = "‖"
     if #tags > 0 then
         for i = 1, #tags-1, 1 do
@@ -115,6 +152,8 @@ function GMT.FormattedText(text, tags)
 end
 
 function GMT.BoolReturn(bool,tru,fals)
+    GMT.Expect(1, bool, "boolean")
+
     if bool == true then
         return tru
     else
@@ -163,6 +202,9 @@ function GMT.Contains(array,item)
 end
 
 function GMT.Union(array1,array2)
+    GMT.Expect(1, array1, "table")
+    GMT.Expect(2, array2, "table")
+
     for i, item in ipairs(array2) do
         if not GMT.Contains(array1,item) then
             table.insert(array1,item)
@@ -172,6 +214,8 @@ function GMT.Union(array1,array2)
 end
 
 function GMT.Filter(array,filter)
+    GMT.Expect(1, array, "table")
+
     local output = {}
 
     for i, item in ipairs(array) do
@@ -184,6 +228,7 @@ function GMT.Filter(array,filter)
 end
 
 function GMT.GetItemByID(id)
+    GMT.Expect(1, id, "number")
     for i, item in ipairs(Item.ItemList) do
         if item.ID == id then
             return item
@@ -193,6 +238,7 @@ function GMT.GetItemByID(id)
 end
 
 function GMT.GetCharacterByID(id)
+    GMT.Expect(1, id, "number")
     for i, char in ipairs(Character.CharacterList) do
         if char.ID == id then
             return char
@@ -202,6 +248,10 @@ function GMT.GetCharacterByID(id)
 end
 
 function GMT.InRange(value,min,max)
+    GMT.Expect(1, value, "number")
+    GMT.Expect(2, min, "number")
+    GMT.Expect(3, max, "number")
+
     if value <= max and value >= min then
         return true
     end
@@ -220,6 +270,9 @@ function GMT.CanSpeakGhost(char)
 end
 
 function GMT.Split (line, separator)
+    GMT.Expect(1, line, "string")
+    GMT.Expect(2, separator, "string")
+
     if separator == nil then
         GMT.ThrowError("Separator can't be nil")
     end
@@ -229,6 +282,17 @@ function GMT.Split (line, separator)
         table.insert(list, str)
     end
     return list
+end
+
+function GMT.ConcatStringTable(table, separator)
+    GMT.Expect(1, table, "table")
+    GMT.Expect(2, separator, "string")
+
+    local string = table[1]
+    for i = 2, #table, 1 do
+        string = string..separator..table[i]
+    end
+    return string
 end
 
 function GMT.GetJobPrefab(id)

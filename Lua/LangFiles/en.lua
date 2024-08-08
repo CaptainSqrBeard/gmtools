@@ -154,10 +154,11 @@ lang_files["Error_bad_id"] = "Given ID is not a number"
 lang_files["Error_bad_value"] = "Given value is not a number"
 lang_files["Error_NoControlledChar"] = "Player doesn't have character under control"
 lang_files["Error_bad_boolean"] = "Bad argument. Parameter #1 must be \"true\" or \"false\" or empty"
-lang_files["Error_bad_console"] = "This command doesn't work in console"
+lang_files["Error_bad_console"] = "This command doesn't work in host server console"
 
 ---- Misc
 lang_files["Console"] = "HOST"
+lang_files["Usage"] = "Usage: "
 
 ---- Command output
 -- AdminPM & AHelp
@@ -293,16 +294,20 @@ lang_files["CMD_SpawnChar_error_unknown_argument"] = "Unknown sub-argument: {1}"
 lang_files["CMD_SpawnChar_in_argument"] = "Argument \"{1}\": {2}"
 
 lang_files["CMD_SpawnChar_no_character_info"] = "Entity has no character info"
+lang_files["CMD_SpawnChar_unknown_type"] = "Unknown type"
+lang_files["CMD_SpawnChar_no_pos"] = "Position is not specified; Spawn was cancelled"
+lang_files["CMD_SpawnChar_no_cursor"] = "Position of cursor cannot be used from server console"
 lang_files["CMD_SpawnChar_spawn_cancelled"] = "Spawn was cancelled"
 
 lang_files["CMD_SpawnChar_no_description"] = "No description"
 lang_files["CMD_SpawnChar_desc_name"] = "Changes character name."
 lang_files["CMD_SpawnChar_desc_addhumandata"] = "Adds character data on character. Humans and Human husks have this automaticly. Works unusual with non-human characters"
-lang_files["CMD_SpawnChar_desc_seed"] = "Changes seed of the character. Does not affect on appearance"
+lang_files["CMD_SpawnChar_desc_seed"] = "Changes seed of the character. Does not affect on appearance but on very edge cases"
 lang_files["CMD_SpawnChar_desc_hairtype"] = "Type of hair that this character will have."
 lang_files["CMD_SpawnChar_desc_beardtype"] = "Type of hair that this character will have."
-lang_files["CMD_SpawnChar_desc_moustachetype"] = "Type of moustaches that this character will have. Note that moustaches are not added into vanilla content"
-lang_files["CMD_SpawnChar_desc_skincolor"] = "Changes skin color"
+lang_files["CMD_SpawnChar_desc_moustachetype"] = "Type of moustaches that this character will have. Note that moustaches are not added into vanilla content."
+lang_files["CMD_SpawnChar_desc_skincolor"] = "Changes skin color."
+lang_files["CMD_SpawnChar_desc_pos"] = "Changes spawn position."
 
 -- ItemEdit
 lang_files["CMD_ItemEdit_c_header"] = "Components of item \"{1}\" ID {2}"
