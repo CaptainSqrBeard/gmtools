@@ -332,3 +332,97 @@ function GMT.GetTimeString(time)
 
     return table.concat(out,", ")
 end
+
+function GMT.Trim2(string)
+    if string == '' then
+        return string
+    else
+        local startPos = 1
+        local endPos   = #string
+    
+        while (startPos < endPos and string:byte(startPos) <= 32) do
+            startPos = startPos + 1
+        end
+    
+        if startPos >= endPos then
+            return ''
+        else
+            while (endPos > 0 and string:byte(endPos) <= 32) do
+                endPos = endPos - 1
+            end
+    
+            return string:sub(startPos, endPos)
+        end
+    end
+end
+
+function GMT.Trim(string)
+    return (string.gsub(string, "^%s*(.-)%s*$", "%1"))
+  end
+
+function GMT.ParseTuple(tuple, default)
+    tuple = GMT.Trim(tuple)
+
+    if tuple:sub(1, 1) ~= '(' or tuple:sub(-1, -1) ~= ')' then
+        return default
+    end
+
+    tuple = tuple:sub(2, -2)
+
+    local array = GMT.Split(tuple, ',')
+
+    if #array ~= 2 then
+        return default
+    end
+
+    return GMT.Trim(array[1]), GMT.Trim(array[2])
+end
+
+function GMT.ParseTupleArray(tupleArray, default)
+    local tuples = GMT.Split(tupleArray, ";")
+    local result = {}
+
+    for i, tuple in ipairs(tuples) do
+        table.insert(result, {GMT.ParseTuple(tuple, default)})
+    end
+
+    return result
+end
+
+function GMT.ColorFromStrings(in_r, in_g, in_b, in_a)
+    ---- Color assembly
+    -- Red
+    local r = tonumber(in_r)
+    if r == nil then r = 255 end
+    -- Green (or *Saul*)
+    local g = tonumber(in_g)
+    if g == nil then g = 255 end
+    -- Blue
+    local b = tonumber(in_b)
+    if b == nil then b = 255 end
+    -- Alpha
+    local a = tonumber(in_a)
+    if a == nil then a = 255 end
+
+    return Color(r, g, b, a)
+end
+
+function GMT.ParseHexColor(hex)
+    GMT.Expect(1, hex, "string")
+
+    local length = string.len(hex)
+    if length == 6 then
+        local r = tonumber(string.sub(hex, 1, 2), 16)
+        local g = tonumber(string.sub(hex, 3, 4), 16)
+        local b = tonumber(string.sub(hex, 5, 6), 16)
+        return Color(r, g, b)
+    elseif length == 8 then
+        local r = tonumber(string.sub(hex, 1, 2), 16)
+        local g = tonumber(string.sub(hex, 3, 4), 16)
+        local b = tonumber(string.sub(hex, 5, 6), 16)
+        local a = tonumber(string.sub(hex, 7, 8), 16)
+        return Color(r, g, b, a)
+    else
+        return nil
+    end
+end

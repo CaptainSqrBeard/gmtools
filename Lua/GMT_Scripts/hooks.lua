@@ -86,7 +86,6 @@ Hook.Add("tryChangeClientName", "GMT.character_change", function(client,newName,
             Game.SendDirectChatMessage(chatMessage, client)
             return false
         end
-        
     end
 end)
 
@@ -97,8 +96,5 @@ Hook.Add("jobsAssigned", "GMT.jobs_assigned", function ()
             local chatMsg = ChatMessage.Create("JOB-BAN",GMT.Lang("CMD_Jobban_ForcedPlay",{GMT.Config.Vars.lowest_job}), ChatMessageType.Error, nil, nil)
             Game.SendDirectChatMessage(chatMsg, value)
         end
-        
     end
 end)
-
-

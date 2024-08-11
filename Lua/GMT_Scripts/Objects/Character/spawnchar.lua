@@ -34,7 +34,7 @@ GMT.AssignSharedCommand("spawnchar",function (args, interface)
     local prefab = CharacterPrefab.FindBySpeciesName(id)
     local character_info = nil
     if prefab == nil then
-        interface.showMessage("GMTools: "..GMT.Lang("CMD_SpawnChar_error_unknown_species"),Color(255,0,128,255))
+        interface.showMessage("GMTools: "..GMT.Lang("CMD_SpawnChar_error_unknown_species", {id}),Color(255,0,128,255))
         return
     end
     if id == "humanhusk" or id == "human" then
@@ -61,7 +61,6 @@ GMT.AssignSharedCommand("spawnchar",function (args, interface)
         end
 
         last_arg.func = functionArgs[arg_string].func
-        spawn_args[1] = last_arg
 
         -- Look for arguments
         for i = 3, #args, 1 do
@@ -85,6 +84,7 @@ GMT.AssignSharedCommand("spawnchar",function (args, interface)
 
         -- Execute arguments
         for i, arg in ipairs(spawn_args) do
+            --print(tostring(arg).." "..arg.sub_args[1])
             arg.func(info, arg.sub_args, interface)
 
             if info == nil or info.prevent_spawn then
@@ -103,7 +103,7 @@ GMT.AssignSharedCommand("spawnchar",function (args, interface)
         local char = Character.Create(info.prefab, info.pos, info.seed, info.character_info, 0, false, true, true, nil, true)
 
         for i, action in ipairs(info.post_actions) do
-            action()
+            action(char)
         end
     else
         interface.showMessage("GMTools: "..GMT.Lang("CMD_SpawnChar_spawn_cancelled"),Color(255,231,0,255))
@@ -126,6 +126,7 @@ newArg("name", function (info, args, interface)
 
     -- Set name
     info.character_info.Name = args[1]
+    info.name_overriden = true
 end, "CMD_SpawnChar_desc_name", "<name>")
 
 
@@ -158,8 +159,8 @@ newArg("hairtype", function (info, args, interface)
     index = math.floor(index)
 
     -- Check range
-    if index < 0 or index+1 > #info.character_info.Hairs then
-        interface.showMessage("GMTools: "..GMT.Lang("CMD_SpawnChar_in_argument",{"hairtype", GMT.Lang("Error_OutOfRange")}),Color(255,0,0,255))
+    if not GMT.InRange(index, 1, #info.character_info.Hairs) then
+        interface.showMessage("GMTools: "..GMT.Lang("CMD_SpawnChar_in_argument",{"hairtype", GMT.Lang("Error_OutOfRange", {'1', #info.character_info.Hairs})}),Color(255,0,0,255))
         info.prevent_spawn = true
         return
     end
@@ -192,14 +193,48 @@ newArg("beardtype", function (info, args, interface)
     index = math.floor(index)
 
     -- Check range
-    if index < 0 or index+1 > #info.character_info.Beards then
-        interface.showMessage("GMTools: "..GMT.Lang("CMD_SpawnChar_in_argument",{"beardtype", GMT.Lang("Error_OutOfRange")}),Color(255,0,0,255))
+    if not GMT.InRange(index, 1, #info.character_info.Beards) then
+        interface.showMessage("GMTools: "..GMT.Lang("CMD_SpawnChar_in_argument",{"beardtype", GMT.Lang("Error_OutOfRange", {'1', #info.character_info.Beards})}),Color(255,0,0,255))
         info.prevent_spawn = true
         return
     end
 
     info.character_info.Head.BeardIndex = index
 end, "CMD_SpawnChar_desc_beardtype", "<index>")
+
+
+newArg("accessorytype", function (info, args, interface)
+    -- Check for character data
+    if info.character_info == nil then
+        interface.showMessage("GMTools: "..GMT.Lang("CMD_SpawnChar_in_argument",{"accessorytype", GMT.Lang("CMD_SpawnChar_no_character_info")}),Color(255,231,0,255))
+        return
+    end
+
+    -- Check for arguments
+    if #args == 0 then
+        interface.showMessage("GMTools: "..GMT.Lang("CMD_SpawnChar_in_argument",{"accessorytype", GMT.Lang("Error_NotEnoughArguments")}),Color(255,0,0,255))
+        info.prevent_spawn = true
+        return
+    end
+
+    -- Get index
+    local index = tonumber(args[1])
+    if index == nil then
+        interface.showMessage("GMTools: "..GMT.Lang("CMD_SpawnChar_in_argument",{"accessorytype", GMT.Lang("Error_BadArgument")}),Color(255,0,0,255))
+        info.prevent_spawn = true
+        return
+    end
+    index = math.floor(index)
+
+    -- Check range
+    if not GMT.InRange(index, 1, #info.character_info.FaceAttachments) then
+        interface.showMessage("GMTools: "..GMT.Lang("CMD_SpawnChar_in_argument",{"accessorytype", GMT.Lang("Error_OutOfRange", {'1', #info.character_info.FaceAttachments})}),Color(255,0,0,255))
+        info.prevent_spawn = true
+        return
+    end
+
+    info.character_info.Head.FaceAttachmentIndex = index
+end, "CMD_SpawnChar_desc_accessorytype", "<index>")
 
 
 newArg("moustachetype", function (info, args, interface)
@@ -226,8 +261,8 @@ newArg("moustachetype", function (info, args, interface)
     index = math.floor(index)
 
     -- Check range
-    if index < 0 or index+1 > #info.character_info.Moustaches then
-        interface.showMessage("GMTools: "..GMT.Lang("CMD_SpawnChar_in_argument",{"moustachetype", GMT.Lang("Error_OutOfRange")}),Color(255,0,0,255))
+    if not GMT.InRange(index, 1, #info.character_info.Moustaches) then
+        interface.showMessage("GMTools: "..GMT.Lang("CMD_SpawnChar_in_argument",{"moustachetype", GMT.Lang("Error_OutOfRange", {'1', #info.character_info.Moustaches})}),Color(255,0,0,255))
         info.prevent_spawn = true
         return
     end
@@ -238,13 +273,13 @@ end, "CMD_SpawnChar_desc_moustachetype", "<index>")
 newArg("headtype", function (info, args, interface)
     -- Check for character data
     if info.character_info == nil then
-        interface.showMessage("GMTools: "..GMT.Lang("CMD_SpawnChar_in_argument",{"moustachetype", GMT.Lang("CMD_SpawnChar_no_character_info")}),Color(255,231,0,255))
+        interface.showMessage("GMTools: "..GMT.Lang("CMD_SpawnChar_in_argument",{"headtype", GMT.Lang("CMD_SpawnChar_no_character_info")}),Color(255,231,0,255))
         return
     end
 
     -- Check for arguments
     if #args == 0 then
-        interface.showMessage("GMTools: "..GMT.Lang("CMD_SpawnChar_in_argument",{"moustachetype", GMT.Lang("Error_NotEnoughArguments")}),Color(255,0,0,255))
+        interface.showMessage("GMTools: "..GMT.Lang("CMD_SpawnChar_in_argument",{"headtype", GMT.Lang("Error_NotEnoughArguments")}),Color(255,0,0,255))
         info.prevent_spawn = true
         return
     end
@@ -252,20 +287,59 @@ newArg("headtype", function (info, args, interface)
     -- Get index
     local index = tonumber(args[1])
     if index == nil then
-        interface.showMessage("GMTools: "..GMT.Lang("CMD_SpawnChar_in_argument",{"moustachetype", GMT.Lang("Error_BadArgument")}),Color(255,0,0,255))
+        interface.showMessage("GMTools: "..GMT.Lang("CMD_SpawnChar_in_argument",{"headtype", GMT.Lang("Error_BadArgument")}),Color(255,0,0,255))
         info.prevent_spawn = true
         return
     end
     index = math.floor(index)
 
     -- Check range
-    if index < 0 or index+1 > #info.character_info.Moustaches then
-        interface.showMessage("GMTools: "..GMT.Lang("CMD_SpawnChar_in_argument",{"moustachetype", GMT.Lang("Error_OutOfRange")}),Color(255,0,0,255))
+    if index < 1 then
+        interface.showMessage("GMTools: "..GMT.Lang("CMD_SpawnChar_in_argument",{"headtype", GMT.Lang("Error_OutOfRange_Less", {'1'})}),Color(255,0,0,255))
         info.prevent_spawn = true
         return
     end
 
-    info.character_info.Head.MoustacheIndex = index
+    -- Get head element
+    local headElement
+    local i = 0
+
+    for head in info.prefab.ConfigElement.GetChildElement('Heads').Elements() do
+        i = i + 1
+        if i == index then
+            headElement = head
+            break
+        end
+    end
+
+    if i ~= index then
+        interface.showMessage("GMTools: "..GMT.Lang("CMD_SpawnChar_in_argument",{"headtype", GMT.Lang("Error_OutOfRange", {'1', i})}),Color(255,0,0,255))
+        info.prevent_spawn = true
+        return
+    end
+
+    -- Get head preset
+    local headPreset = CharacterInfo.HeadPreset(info.prefab.CharacterInfoPrefab, headElement)
+
+    -- Replace the entire head info to change head preset (because head preset is read-only 🖕)
+    local oldHeadInfo = info.character_info.Head
+    
+    info.character_info.Head = CharacterInfo.HeadInfo(
+        info.character_info,
+        headPreset,
+        oldHeadInfo.HairIndex,
+        oldHeadInfo.BeardIndex,
+        oldHeadInfo.MoustacheIndex,
+        oldHeadInfo.FaceAttachmentIndex
+    )
+    info.character_info.Head.SkinColor = oldHeadInfo.SkinColor
+    info.character_info.Head.HairColor = oldHeadInfo.HairColor
+    info.character_info.Head.FacialHairColor = oldHeadInfo.FacialHairColor
+
+    -- If name is not overriden, make a new one
+    if not info.name_overriden then
+        info.character_info.Name = info.character_info.GetRandomName(RandSync.Unsynced)
+    end
 end, "CMD_SpawnChar_desc_headtype", "<index>")
 
 newArg("skincolor", function (info, args, interface)
@@ -274,30 +348,116 @@ newArg("skincolor", function (info, args, interface)
         info.prevent_spawn = true
         return
     elseif #args == 1 then
-        -- TODO Index
+        local index = tonumber(args[1])
+        if index == nil then
+            interface.showMessage("GMTools: "..GMT.Lang("CMD_SpawnChar_in_argument",{"skincolor", GMT.Lang("Error_BadArgument")}),Color(255,0,0,255))
+            info.prevent_spawn = true
+            return
+        end
+        
+        local data = GMT.ParseTupleArray(info.prefab.ConfigElement.GetAttribute('skincolors').Value, {"#ffffff", 100})
+        if not GMT.InRange(index, 1, #data) then
+            interface.showMessage("GMTools: "..GMT.Lang("CMD_SpawnChar_in_argument",{"skincolor", GMT.Lang("Error_OutOfRange", {'1', #data})}),Color(255,0,0,255))
+            info.prevent_spawn = true
+            return
+        end
+
+        local new_color = GMT.ParseHexColor(string.sub(data[index][1], 2))
+        if new_color == nil then
+            interface.showMessage("GMTools: "..GMT.Lang("CMD_SpawnChar_in_argument",{"skincolor", GMT.Lang("Error_BadArgument")}),Color(255,0,0,255))
+            info.prevent_spawn = true
+        else
+            info.character_info.Head.SkinColor = GMT.ParseHexColor(string.sub(data[index][1], 2))
+        end
+        
+        return
     elseif #args > 1 and #args <= 3 then
         ---- Color assembly
-        -- Red
-        local r = tonumber(args[1])
-        if r == nil then r = 255 end
-        -- Green (or *Saul*)
-        local g = tonumber(args[2])
-        if g == nil then g = 255 end
-        -- Blue
-        local b = tonumber(args[3])
-        if b == nil then b = 255 end
-
-        info.character_info.Head.SkinColor = Color(r, g, b, 255)
+        info.character_info.Head.SkinColor = GMT.ColorFromStrings(args[1], args[2], args[3])
     else
         interface.showMessage("GMTools: "..GMT.Lang("CMD_SpawnChar_in_argument",{"skincolor", GMT.Lang("Error_BadArgument")}),Color(255,0,0,255))
         info.prevent_spawn = true
         return
     end
-
-    for color in ipairs(info.character_info.SkinColors) do
-        print(color)
-    end
 end, "CMD_SpawnChar_desc_skincolor", "<index> | <r> <g> <b>")
+
+newArg("haircolor", function (info, args, interface)
+    if #args == 0 then
+        interface.showMessage("GMTools: "..GMT.Lang("CMD_SpawnChar_in_argument",{"haircolor", GMT.Lang("Error_NotEnoughArguments")}),Color(255,0,0,255))
+        info.prevent_spawn = true
+        return
+    elseif #args == 1 then
+        local index = tonumber(args[1])
+        if index == nil then
+            interface.showMessage("GMTools: "..GMT.Lang("CMD_SpawnChar_in_argument",{"haircolor", GMT.Lang("Error_BadArgument")}),Color(255,0,0,255))
+            info.prevent_spawn = true
+            return
+        end
+        
+        local data = GMT.ParseTupleArray(info.prefab.ConfigElement.GetAttribute('haircolors').Value, {"#ffffff", 100})
+        if not GMT.InRange(index, 1, #data) then
+            interface.showMessage("GMTools: "..GMT.Lang("CMD_SpawnChar_in_argument",{"haircolor", GMT.Lang("Error_OutOfRange", {'1', #data})}),Color(255,0,0,255))
+            info.prevent_spawn = true
+            return
+        end
+
+        local new_color = GMT.ParseHexColor(string.sub(data[index][1], 2))
+        if new_color == nil then
+            interface.showMessage("GMTools: "..GMT.Lang("CMD_SpawnChar_in_argument",{"haircolor", GMT.Lang("Error_BadArgument")}),Color(255,0,0,255))
+            info.prevent_spawn = true
+        else
+            info.character_info.Head.HairColor = GMT.ParseHexColor(string.sub(data[index][1], 2))
+        end
+        
+        return
+    elseif #args > 1 and #args <= 3 then
+        ---- Color assembly
+        info.character_info.Head.HairColor = GMT.ColorFromStrings(args[1], args[2], args[3])
+    else
+        interface.showMessage("GMTools: "..GMT.Lang("CMD_SpawnChar_in_argument",{"haircolor", GMT.Lang("Error_BadArgument")}),Color(255,0,0,255))
+        info.prevent_spawn = true
+        return
+    end
+end, "CMD_SpawnChar_desc_haircolor", "<index> | <r> <g> <b>")
+
+newArg("beardcolor", function (info, args, interface)
+    if #args == 0 then
+        interface.showMessage("GMTools: "..GMT.Lang("CMD_SpawnChar_in_argument",{"beardcolor", GMT.Lang("Error_NotEnoughArguments")}),Color(255,0,0,255))
+        info.prevent_spawn = true
+        return
+    elseif #args == 1 then
+        local index = tonumber(args[1])
+        if index == nil then
+            interface.showMessage("GMTools: "..GMT.Lang("CMD_SpawnChar_in_argument",{"beardcolor", GMT.Lang("Error_BadArgument")}),Color(255,0,0,255))
+            info.prevent_spawn = true
+            return
+        end
+        
+        local data = GMT.ParseTupleArray(info.prefab.ConfigElement.GetAttribute('facialhaircolors').Value, {"#ffffff", 100})
+        if not GMT.InRange(index, 1, #data) then
+            interface.showMessage("GMTools: "..GMT.Lang("CMD_SpawnChar_in_argument",{"beardcolor", GMT.Lang("Error_OutOfRange", {'1', #data})}),Color(255,0,0,255))
+            info.prevent_spawn = true
+            return
+        end
+
+        local new_color = GMT.ParseHexColor(string.sub(data[index][1], 2))
+        if new_color == nil then
+            interface.showMessage("GMTools: "..GMT.Lang("CMD_SpawnChar_in_argument",{"beardcolor", GMT.Lang("Error_BadArgument")}),Color(255,0,0,255))
+            info.prevent_spawn = true
+        else
+            info.character_info.Head.FacialHairColor = GMT.ParseHexColor(string.sub(data[index][1], 2))
+        end
+        
+        return
+    elseif #args > 1 and #args <= 3 then
+        ---- Color assembly
+        info.character_info.Head.FacialHairColor = GMT.ColorFromStrings(args[1], args[2], args[3])
+    else
+        interface.showMessage("GMTools: "..GMT.Lang("CMD_SpawnChar_in_argument",{"beardcolor", GMT.Lang("Error_BadArgument")}),Color(255,0,0,255))
+        info.prevent_spawn = true
+        return
+    end
+end, "CMD_SpawnChar_desc_beardcolor", "<index> | <r> <g> <b>")
 
 newArg("seed", function (info, args, interface)
     if #args == 0 then
