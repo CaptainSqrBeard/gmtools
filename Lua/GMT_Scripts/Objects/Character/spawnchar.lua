@@ -15,7 +15,7 @@ GMT.AddCommand("spawnchar",GMT.Lang("Help_SpawnChar"),true,nil,{
 
 GMT.AssignSharedCommand("spawnchar",function (args, interface)
     if #args < 1 then
-        interface.showMessage("GMTools: "..GMT.Lang("Error_NotEnoughArguments").."\n"..GMT.GetCommandUsageHelp("spawnchar"),Color(255,0,128,255))
+        interface.showMessage("GMTools: "..GMT.Lang("Error_NotEnoughArguments").."\n"..GMT.GetCommandUsageHelp("spawnchar"),Color(255,0,0,255))
         return
     end
 
@@ -107,6 +107,8 @@ GMT.AssignSharedCommand("spawnchar",function (args, interface)
         for i, action in ipairs(info.post_actions) do
             action(char)
         end
+
+        interface.showMessage(GMT.Lang("CMD_SpawnChar_result", {char.Name, char.ID}),Color(255,0,255,255))
     else
         interface.showMessage("GMTools: "..GMT.Lang("CMD_SpawnChar_spawn_cancelled"),Color(255,231,0,255))
     end
@@ -306,6 +308,12 @@ newArg("headtype", function (info, args, interface)
     local headElement
     local i = 0
 
+    if info.prefab.ConfigElement.GetChildElement('Heads') == nil then
+        interface.showMessage("GMTools: "..GMT.Lang("CMD_SpawnChar_in_argument",{"headtype", GMT.Lang("CMD_SpawnChar_no_heads")}),Color(255,0,0,255))
+        info.prevent_spawn = true
+        return
+    end
+
     for head in info.prefab.ConfigElement.GetChildElement('Heads').Elements() do
         i = i + 1
         if i == index then
@@ -363,7 +371,14 @@ newArg("skincolor", function (info, args, interface)
             return
         end
         
-        local data = GMT.ParseTupleArray(info.prefab.ConfigElement.GetAttribute('skincolors').Value, {"#ffffff", 100})
+        local attribute = info.prefab.ConfigElement.GetAttribute('skincolors')
+        if attribute == nil then
+            interface.showMessage("GMTools: "..GMT.Lang("CMD_SpawnChar_in_argument",{"skincolor", GMT.Lang("CMD_SpawnChar_no_color_skin")}),Color(255,0,0,255))
+            info.prevent_spawn = true
+            return
+        end
+
+        local data = GMT.ParseTupleArray(attribute.Value, {"#ffffff", 100})
         if not GMT.InRange(index, 1, #data) then
             interface.showMessage("GMTools: "..GMT.Lang("CMD_SpawnChar_in_argument",{"skincolor", GMT.Lang("Error_OutOfRange", {'1', #data})}),Color(255,0,0,255))
             info.prevent_spawn = true
@@ -408,7 +423,14 @@ newArg("haircolor", function (info, args, interface)
             return
         end
         
-        local data = GMT.ParseTupleArray(info.prefab.ConfigElement.GetAttribute('haircolors').Value, {"#ffffff", 100})
+        local attribute = info.prefab.ConfigElement.GetAttribute('haircolors')
+        if attribute == nil then
+            interface.showMessage("GMTools: "..GMT.Lang("CMD_SpawnChar_in_argument",{"haircolor", GMT.Lang("CMD_SpawnChar_no_color_hair")}),Color(255,0,0,255))
+            info.prevent_spawn = true
+            return
+        end
+
+        local data = GMT.ParseTupleArray(attribute.Value, {"#ffffff", 100})
         if not GMT.InRange(index, 1, #data) then
             interface.showMessage("GMTools: "..GMT.Lang("CMD_SpawnChar_in_argument",{"haircolor", GMT.Lang("Error_OutOfRange", {'1', #data})}),Color(255,0,0,255))
             info.prevent_spawn = true
@@ -453,7 +475,14 @@ newArg("beardcolor", function (info, args, interface)
             return
         end
         
-        local data = GMT.ParseTupleArray(info.prefab.ConfigElement.GetAttribute('facialhaircolors').Value, {"#ffffff", 100})
+        local attribute = info.prefab.ConfigElement.GetAttribute('facialhaircolors')
+        if attribute == nil then
+            interface.showMessage("GMTools: "..GMT.Lang("CMD_SpawnChar_in_argument",{"beardcolor", GMT.Lang("CMD_SpawnChar_no_color_facial_hair")}),Color(255,0,0,255))
+            info.prevent_spawn = true
+            return
+        end
+
+        local data = GMT.ParseTupleArray(attribute.Value, {"#ffffff", 100})
         if not GMT.InRange(index, 1, #data) then
             interface.showMessage("GMTools: "..GMT.Lang("CMD_SpawnChar_in_argument",{"beardcolor", GMT.Lang("Error_OutOfRange", {'1', #data})}),Color(255,0,0,255))
             info.prevent_spawn = true

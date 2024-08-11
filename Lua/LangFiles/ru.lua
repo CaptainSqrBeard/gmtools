@@ -305,17 +305,22 @@ lang_files["CMD_SpawnChar_help_header"] = "Список аргументов:"
 lang_files["CMD_SpawnChar_help_entry"] = "* -{1} {2}     >     {3}"
 lang_files["CMD_SpawnChar_help_entry_no_args"] = "* -{1}     >     {2}"
 
+lang_files["CMD_SpawnChar_result"] = "Создан персонаж \"{1}\" с ID {2}"
+
 lang_files["CMD_SpawnChar_error_unknown_species"] = "Неизвестные вид \"{1}\""
 lang_files["CMD_SpawnChar_error_bad_beginning"] = "Неверное начало аргументов"
 lang_files["CMD_SpawnChar_error_unknown_argument"] = "Неизвестный аргумент: {1}"
 lang_files["CMD_SpawnChar_in_argument"] = "Argument \"{1}\": {2}"
-
 lang_files["CMD_SpawnChar_no_character_info"] = "Сущность не имеет информации персонажа"
 lang_files["CMD_SpawnChar_unknown_type"] = "Неизвестный тип"
 lang_files["CMD_SpawnChar_no_pos"] = "Позиция не указана; Создание отменено"
 lang_files["CMD_SpawnChar_no_cursor"] = "Позиция курсора не может быть использована из консоли"
 lang_files["CMD_SpawnChar_spawn_cancelled"] = "Создание отменено"
 lang_files["CMD_SpawnChar_color_error"] = "Произошла ошибка при получении цвета"
+lang_files["CMD_SpawnChar_no_heads"] = "Вид не имеет разновидностей головы"
+lang_files["CMD_SpawnChar_no_color_skin"] = "Вид не имеет разновидностей цвета кожи"
+lang_files["CMD_SpawnChar_no_color_hair"] = "Вид не имеет разновидностей цвета волос"
+lang_files["CMD_SpawnChar_no_color_facial_hair"] = "Вид не имеет разновидностей цвета лицевой растительности"
 
 lang_files["CMD_SpawnChar_no_description"] = "Нет описания"
 lang_files["CMD_SpawnChar_desc_name"] = "Меняет имя персонажа."

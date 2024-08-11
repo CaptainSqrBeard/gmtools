@@ -296,11 +296,16 @@ lang_files["CMD_SpawnChar_help_header"] = "List of arguments:"
 lang_files["CMD_SpawnChar_help_entry"] = "* -{1} {2}     >     {3}"
 lang_files["CMD_SpawnChar_help_entry_no_args"] = "* -{1}     >     {2}"
 
+lang_files["CMD_SpawnChar_result"] = "Created character \"{1}\" with ID {2}"
+
 lang_files["CMD_SpawnChar_error_unknown_species"] = "Unknown species \"{1}\""
 lang_files["CMD_SpawnChar_error_bad_beginning"] = "Bad beginning of arguments"
 lang_files["CMD_SpawnChar_error_unknown_argument"] = "Unknown argument: {1}"
 lang_files["CMD_SpawnChar_in_argument"] = "Argument \"{1}\": {2}"
-
+lang_files["CMD_SpawnChar_no_heads"] = "Species don't have any variations of head"
+lang_files["CMD_SpawnChar_no_color_skin"] = "Species don't have any variations of skin color"
+lang_files["CMD_SpawnChar_no_color_hair"] = "Species don't have any variations of hair color"
+lang_files["CMD_SpawnChar_no_color_facial_hair"] = "Species don't have any variations of facial hair color"
 lang_files["CMD_SpawnChar_no_character_info"] = "Entity has no character info"
 lang_files["CMD_SpawnChar_unknown_type"] = "Unknown type"
 lang_files["CMD_SpawnChar_no_pos"] = "Position is not specified; Spawn was cancelled"
