@@ -183,12 +183,10 @@ function GMT.ClientLogName(client, name)
         return retVal
 end
 
-function GMT.IsWire(item)
-    if (item.Prefab.Identifier.Value == "redwire") or
-    (item.Prefab.Identifier.Value == "bluewire") or
-    (item.Prefab.Identifier.Value == "orangewire") or
-    (item.Prefab.Identifier.Value == "redwire")
-    then
+function GMT.IsAttachedWire(item)
+    local component = item.GetComponentString('Wire')
+
+    if component ~= nil and (component.Connections[1] ~= nil or component.Connections[2] ~= nil or #component.GetNodes() > 0) then
         return true
     end
     return false

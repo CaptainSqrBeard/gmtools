@@ -128,7 +128,7 @@ lang_files["Args_UnJobban_job"] = "Профессия которая будет 
 
 -- GivePerm
 lang_files["Args_GivePerm_player"] = "Имя/ID/SteamID игрока"
-lang_files["Args_GivePerm_commands"] = "Выдать права на команду. Вы можете указать несколько команд вот так: \"giveperm 1 .adminpm .adminchat .smite\". Используйте \"all\" чтобы выдать весь доступ"
+lang_files["Args_GivePerm_commands"] = "Выдать права на команду. Используйте \"all\" для выдачи всех прав. Вы можете указать несколько команд таким образом: \"giveperm 1 .adminpm .adminchat .smite\". Используйте \"all\" чтобы выдать весь доступ"
 
 -- RevokePerm
 lang_files["Args_RevokePerm_player"] = "Имя/ID/SteamID игрока"
@@ -586,7 +586,7 @@ lang_files["CMD_PermList_header"] = "Доступные команды \"{1}\":"
 lang_files["CMD_PermList_item"] = "* {1}"
 
 -- Lang
-lang_files["CMD_Lang_changed"] = "Язык изменён на \"{1}\". Используйте команду \"reloadlua\" чтобы принять изменения"
+lang_files["CMD_Lang_changed"] = "Язык изменён на \"{1}\". Используйте команду \"reloadlua\" чтобы принять изменения\nВНИМАНИЕ: Это действие скорей-всего поломает другие Lua моды и сбросит блокировку подлодок."
 lang_files["CMD_Lang_unknown"] = "Неизвестный язык. Введите \".lang all\" чтобы получить список доступных языков."
 lang_files["CMD_Lang_header"] = "Список языков:"
 lang_files["CMD_Lang_element"] = "* {1}"

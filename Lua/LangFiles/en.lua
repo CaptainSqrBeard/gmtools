@@ -128,7 +128,7 @@ lang_files["Args_UnJobban_job"] = "Job that will be unbanned for this player. Le
 
 -- GivePerm
 lang_files["Args_GivePerm_player"] = "Name/ID/SteamID of player"
-lang_files["Args_GivePerm_commands"] = "Commands to grant. You can specify multiply commands like that: \"giveperm 1 .adminpm .adminchat .smite\""
+lang_files["Args_GivePerm_commands"] = "Commands to grant. Use \"all\" to give all permissions. You can specify multiply commands like that: \"giveperm 1 .adminpm .adminchat .smite\""
 
 -- RevokePerm
 lang_files["Args_RevokePerm_player"] = "Name/ID/SteamID of player"
@@ -578,7 +578,7 @@ lang_files["CMD_PermList_header"] = "{1}\'s Permissions:"
 lang_files["CMD_PermList_item"] = "* {1}"
 
 -- Lang
-lang_files["CMD_Lang_changed"] = "Language changed to \"{1}\". Type \"reloadlua\" to apply changes"
+lang_files["CMD_Lang_changed"] = "Language changed to \"{1}\". Type \"reloadlua\" to apply changes.\nWARNING: This action would likely break other Lua mods if executed in round and will reset submarine lock."
 lang_files["CMD_Lang_unknown"] = "Unknown language. Type \".lang all\" to get list of languages."
 lang_files["CMD_Lang_header"] = "List of languages:"
 lang_files["CMD_Lang_element"] = "* {1}"

@@ -30,7 +30,7 @@ GMT.AssignClientCommand("nearitems",function(client,cursor,args)
     for i, item in ipairs(Item.ItemList) do
         local pos = item.WorldPosition
         if (GMT.SquaredDistance(cursor.x,cursor.y,pos.x,pos.y) < size*size) and
-        (not GMT.IsWire(item) or not ignore_wires)
+        (not GMT.IsAttachedWire(item) or not ignore_wires)
         then
             -- Getting items in containers
             if item.ParentInventory ~= nil then
