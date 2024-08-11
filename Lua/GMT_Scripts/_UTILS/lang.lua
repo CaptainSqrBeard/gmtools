@@ -15,6 +15,17 @@ function GMT.LangFiles.Load(lang)
 end
 
 
+function GMT.LangFiles.ListUnspecifiedKeys()
+    local baseLang = dofile(GMT_PATH.."/Lua/LangFiles/en.lua")
+
+    for k, text in pairs(baseLang) do
+        if lang_files[k] == nil then
+            print('Key is unspecified in current language: "'..k..'"')
+        end
+    end
+end
+
+
 function GMT.Lang(text,vars)
     GMT.Expect(1, text, "string")
     GMT.Expect(1, vars, "table", "nil")

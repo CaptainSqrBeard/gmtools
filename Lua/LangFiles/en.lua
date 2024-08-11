@@ -25,6 +25,7 @@ lang_files["Help_SubmarineAddTurretAI"] = "Creates a turret AI on submarine. War
 lang_files["Help_SubmarineThrow"] = "Changes physical movement vector of specific submarine"
 lang_files["Help_HumanList"] = "Shows list of humans on map"
 lang_files["Help_CharData"] = "Show information about character"
+lang_files["Help_SpawnChar"] = "Spawns character with user-defined data."
 lang_files["Help_Jobban"] = "Bans job for player, so he can't play on it"
 lang_files["Help_UnJobban"] = "Un-Bans job for player"
 lang_files["Help_GivePerm"] = "Gives player permissions to GM-Tools commands"
@@ -88,6 +89,10 @@ lang_files["Args_NearChars_size"] = "Searching range, shaped as circle. Default:
 -- CharData
 lang_files["Args_CharData_character"] = "ID/Name of character"
 
+-- SpawnChar
+lang_files["Args_SpawnChar_id"] = "ID of species to spawn. Write \"-h\" or \"-help\" instead to see list of arguments"
+lang_files["Args_SpawnChar_args"] = "Arguments for spawn. You can specify multiple arguments. I.e: \"-skincolor 2 -headtype 14 -haircolor 16\""
+
 -- SubData
 lang_files["Args_SubmarineData_submarine"] = "ID of submarine"
 
@@ -134,7 +139,7 @@ lang_files["Args_PermList_player"] = "Name/ID/SteamID of player. Leave empty to 
 
 -- Smite
 lang_files["Args_Smite_smite"] = "Smite to do. Type \".smite help\" to get list of smites"
-lang_files["Args_Smite_character"] = "Who will suffer."
+lang_files["Args_Smite_character"] = "Character that will suffer."
 
 -- Lang
 lang_files["Args_Lang_language"] = "Language to change. Use \".lang all\" to get list of languages"
@@ -150,6 +155,7 @@ lang_files["Error_PlayerNotFound"] = "Player not found"
 lang_files["Error_CharacterNotFound"] = "Character not found"
 lang_files["Error_SubmarineNotFound"] = "Submarine not found"
 lang_files["Error_ItemNotFound"] = "Item not found"
+lang_files["Error_UnknownJob"] = "Unknown job"
 lang_files["Error_OutOfRange"] = "Given value is out of range between {1} and {2}"
 lang_files["Error_OutOfRange_Less"] = "Given value is less than {1}"
 lang_files["Error_bad_id"] = "Given ID is not a number"
@@ -172,16 +178,16 @@ lang_files["CMD_AdminPM_con_for_admin_L2"] = "   Private message: \"{1}\""
 
 lang_files["CMD_AdminPM_con_for_player_L1"] = "ADMINPM {1} --> {2} (You)"
 lang_files["CMD_AdminPM_con_for_player_L2"] = "   Private message: {1}"
-lang_files["CMD_AdminPM_con_for_player_L3"] = "For anwser type \".ahelp <msg>\" in console or chat"
+lang_files["CMD_AdminPM_con_for_player_L3"] = "To anwser type \".ahelp <msg>\" in console or chat"
 lang_files["CMD_AdminPM_msg_for_player_name"] = "ADMIN PM from {1}"
-lang_files["CMD_AdminPM_msg_for_player_text"] = "\n‖metadata:{1}‖{2}‖end‖ --> ‖metadata:{3}‖{4} (You)‖end‖\n   ‖color:#fcf0f0‖Private message: \"{5}\"‖end‖\n‖color:#8a8a8a‖For anwser type \".ahelp <msg>\" in console or chat‖end‖"
+lang_files["CMD_AdminPM_msg_for_player_text"] = "\n‖metadata:{1}‖{2}‖end‖ --> ‖metadata:{3}‖{4} (You)‖end‖\n   ‖color:#fcf0f0‖Private message: \"{5}\"‖end‖\n‖color:#8a8a8a‖To anwser type \".ahelp <msg>\" in console or chat‖end‖"
 
 --‖color:#ffffff;metadata:1234‖my name is Joe‖end‖
 lang_files["CMD_AHelp_con_for_admin_L1"] = "AHELP {1} --> ADMINS (Include you)"
 lang_files["CMD_AHelp_con_for_admin_L2"] = "   Private message: {1}"
-lang_files["CMD_AHelp_con_for_admin_L3"] = "For anwser type \".adminpm {1} <msg>\" in console"
+lang_files["CMD_AHelp_con_for_admin_L3"] = "To anwser type \".adminpm {1} <msg>\" in console"
 lang_files["CMD_AHelp_msg_for_admin_name"] = "ADMIN HELP"
-lang_files["CMD_AHelp_msg_for_admin_text"] = "\nFrom ‖metadata:{1}‖{2}‖end‖ to ‖color:#e1a1a3‖ADMINS (Include you)‖end‖\n   ‖color:#fcf0f0‖Private message: \"{3}\"‖end‖\n‖color:#8a8a8a‖For anwser type \".adminpm {4} <msg>\" in console‖end‖"
+lang_files["CMD_AHelp_msg_for_admin_text"] = "\nFrom ‖metadata:{1}‖{2}‖end‖ to ‖color:#e1a1a3‖ADMINS (Include you)‖end‖\n   ‖color:#fcf0f0‖Private message: \"{3}\"‖end‖\n‖color:#8a8a8a‖To anwser type \".adminpm {4} <msg>\" in console‖end‖"
 
 lang_files["CMD_AHelp_con_for_player_L1"] = "AHELP {1} (You) --> ADMINS"
 lang_files["CMD_AHelp_con_for_player_L2"] = "   Private message: {1}"
@@ -286,13 +292,13 @@ lang_files["CMD_CharData_inv_iteminv"] = "* Item \'{1}\' ID {2} - Has own invent
 lang_files["CMD_CharData_UnknownInput"] = "Unknown parameter at argument #2"
 
 -- SpawnChar
-lang_files["CMD_SpawnChar_help_header"] = "List of sub-arguments:"
-lang_files["CMD_SpawnChar_help_entry"] = "* -{1} {2} - {3}"
-lang_files["CMD_SpawnChar_help_entry_no_args"] = "* -{1} - {2}"
+lang_files["CMD_SpawnChar_help_header"] = "List of arguments:"
+lang_files["CMD_SpawnChar_help_entry"] = "* -{1} {2}     >     {3}"
+lang_files["CMD_SpawnChar_help_entry_no_args"] = "* -{1}     >     {2}"
 
 lang_files["CMD_SpawnChar_error_unknown_species"] = "Unknown species \"{1}\""
-lang_files["CMD_SpawnChar_error_bad_beginning"] = "Bad beginning of sub-arguments"
-lang_files["CMD_SpawnChar_error_unknown_argument"] = "Unknown sub-argument: {1}"
+lang_files["CMD_SpawnChar_error_bad_beginning"] = "Bad beginning of arguments"
+lang_files["CMD_SpawnChar_error_unknown_argument"] = "Unknown argument: {1}"
 lang_files["CMD_SpawnChar_in_argument"] = "Argument \"{1}\": {2}"
 
 lang_files["CMD_SpawnChar_no_character_info"] = "Entity has no character info"
@@ -304,15 +310,20 @@ lang_files["CMD_SpawnChar_color_error"] = "An error occured while acquiring colo
 
 lang_files["CMD_SpawnChar_no_description"] = "No description"
 lang_files["CMD_SpawnChar_desc_name"] = "Changes character name."
-lang_files["CMD_SpawnChar_desc_addhumandata"] = "Adds character data on character. Humans and Human husks have this automaticly. Works unusual with non-human characters"
-lang_files["CMD_SpawnChar_desc_seed"] = "Changes seed of the character. Does not affect on appearance but on very edge cases"
+lang_files["CMD_SpawnChar_desc_addhumandata"] = "Adds character data on character. Humans and Human husks have this automaticly. Works unusual with non-human characters."
+lang_files["CMD_SpawnChar_desc_ai_seed"] = "Changes AI seed of the character in case you want your characters act somewhat similar."
 lang_files["CMD_SpawnChar_desc_hairtype"] = "Type of hair that this character will have."
 lang_files["CMD_SpawnChar_desc_beardtype"] = "Type of facial hair that this character will have."
+lang_files["CMD_SpawnChar_desc_headtype"] = "Type of head that this character will have. Also affects gender of that character."
 lang_files["CMD_SpawnChar_desc_accessorytype"] = "Accessory that this character will have."
 lang_files["CMD_SpawnChar_desc_moustachetype"] = "Type of moustaches that this character will have. Note that moustaches are not added into vanilla content as they're deprecated."
 lang_files["CMD_SpawnChar_desc_skincolor"] = "Changes skin color."
 lang_files["CMD_SpawnChar_desc_haircolor"] = "Changes hair color."
 lang_files["CMD_SpawnChar_desc_beardcolor"] = "Changes facial hair color."
+lang_files["CMD_SpawnChar_desc_jobloadout"] = "Gives item set of specified job. Note that in vanilla only visible jobs have defined item sets."
+lang_files["CMD_SpawnChar_desc_job"] = "Gives character specified job. Use -jobloadout to give character items of job."
+lang_files["CMD_SpawnChar_desc_team"] = "Team that this character will be in. 0 - None; 1 - Team 1; 2 - Team 2; 3 - Friendly NPC."
+lang_files["CMD_SpawnChar_desc_cancel"] = "Manually cancels spawn of character."
 lang_files["CMD_SpawnChar_desc_pos"] = "Changes spawn position."
 
 -- ItemEdit
@@ -379,7 +390,7 @@ lang_files["CMD_ItemEdit_PowerContainer_capacity_info"] = "Max capacity is {1} k
 lang_files["CMD_ItemEdit_PowerContainer_capacity_set"] = "Max capacity now is {1} kW"
 lang_files["CMD_ItemEdit_PowerContainer_capacity_warn"] = "Desync warning! Clients will see original capacity of item"
 
-lang_files["CMD_ItemEdit_PowerContainer_speed_Help"] = "Changes power inside batteries"
+lang_files["CMD_ItemEdit_PowerContainer_speed_Help"] = "Changes charge speed"
 lang_files["CMD_ItemEdit_PowerContainer_speed_info"] = "Recharge speed is {1} kW / min"
 lang_files["CMD_ItemEdit_PowerContainer_speed_set"] = "Recharge speed now is {1} kW / min"
 
@@ -525,7 +536,6 @@ lang_files["CMD_Smite_help"] = "Gives list of smites"
 
 lang_files["CMD_Smite_SmiteList"] = "Smite List:"
 
-lang_files["CMD_Smite_NoCharacter"] = "You don't have character under control"
 lang_files["CMD_Smite_Unknown"] = "Unknown smite"
 lang_files["CMD_Smite_Applied"] = "Applied smite \"{1}\" to character \"{2}\""
 
@@ -574,14 +584,12 @@ lang_files["Chat_Error_UnknownCommand"] = "Unknown command \"‖color:#ff9c9c‖
 
 -- FixMe
 lang_files["HelpChat_FixMe"] = "Creates your data, if it for some reason was not created automaticly"
-lang_files["Chat_FixMe_success"] = "Your data was successfully created"
-lang_files["Chat_FixMe_fail"] = "Your data already exists"
 
 lang_files["HelpChat_FixMe"] = "Tries to fix problems that could occur with player permissions."
 lang_files["Chat_FixMe_attempt"] = "We tried to fix errors. Hope this has worked."
 --lang_files["Chat_FixMe_epicclownvirus3000"] = "Your data was successfully stolen!!!"
 
-lang_files["Chat_Help_help"] = "Most GM-Tools commands executes from console (F3).\n\nYou need use this command in console for actual help.\n\nIf it doesn't work, then try use \".fixme\" in chat before."
+lang_files["Chat_Help_help"] = "Most GM-Tools commands executes from console (F3).\n\nYou need use this command in console for actual help.\n\nIf it doesn't work, then try use \".fixme\" and try again."
 
 -- Help
 lang_files["HelpChat_Help"] = "Says that you need use this command in console"
