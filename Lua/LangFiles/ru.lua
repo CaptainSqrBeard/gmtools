@@ -240,7 +240,7 @@ lang_files["CMD_Help_list"] = "Список"
 lang_files["CMD_Help_chatlist"] = "Список (Чат)"
 
 lang_files["CMD_Help_help"] = "Хелп"
-lang_files["CMD_Help_line"] = "* Этот сервер запущен с модом \"GM-Tools\"\n* Введите \".help all\" если хотите получить список команд\n* Или введите \".help all chat\" чтобы получить список команд в чате."
+lang_files["CMD_Help_line"] = "* Этот сервер запущен с модом \"GM-Tools\"\n* Введите \".help all\" если хотите получить список команд\n* Введите \".help all chat\" чтобы получить список команд в чате.\n* Введите \".help <command>\" (без точки) чтобы получить больше информации об указанной команде."
 lang_files["CMD_Help_gmt"] = "Game Master Tools"
 
 -- NearChars

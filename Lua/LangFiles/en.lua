@@ -231,7 +231,7 @@ lang_files["CMD_Help_list"] = "Help"
 lang_files["CMD_Help_chatlist"] = "Chat Help"
 
 lang_files["CMD_Help_help"] = "Help"
-lang_files["CMD_Help_line"] = "* This server runned with mod \"GM-Tools\"\n* Type \".help all\" if you want get all command list\n* Or type \".help all chat\" to get list of chat commands."
+lang_files["CMD_Help_line"] = "* This server runned with mod \"GM-Tools\"\n* Type \".help all\" if you want get all command list\n* Type \".help all chat\" to get list of chat commands.\n* Type \".help <command>\" (without dot) to get more info about specified command."
 lang_files["CMD_Help_gmt"] = "Game Master Tools"
 
 -- NearChars
