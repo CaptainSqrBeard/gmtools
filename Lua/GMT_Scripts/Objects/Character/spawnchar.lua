@@ -34,15 +34,19 @@ GMT.AssignSharedCommand("spawnchar",function (args, interface)
     -- Prepare info
     local id = args[1]
     local prefab = CharacterPrefab.FindBySpeciesName(id)
+    local info_prefab = prefab
     local character_info = nil
     if prefab == nil then
         interface.showMessage("GMTools: "..GMT.Lang("CMD_SpawnChar_error_unknown_species", {id}),Color(255,0,128,255))
         return
     end
-    if id == "humanhusk" or id == "human" then
+    if id == "human" then
         character_info = CharacterInfo(CharacterPrefab.HumanSpeciesName)
+    elseif id == "humanhusk" then
+        character_info = CharacterInfo(CharacterPrefab.HumanSpeciesName)
+        info_prefab = CharacterPrefab.FindBySpeciesName(CharacterPrefab.HumanSpeciesName)
     end
-    local info = {prevent_spawn=false, id=id, prefab=prefab, character_info=character_info, pos=interface.cursor, seed="0", post_actions={}}
+    local info = {prevent_spawn=false, id=id, prefab=prefab, info_prefab=info_prefab, character_info=character_info, pos=interface.cursor, seed="0", post_actions={}}
 
     -- Check if any arguments are present
     if #args > 1 then
@@ -305,16 +309,17 @@ newArg("headtype", function (info, args, interface)
     end
 
     -- Get head element
+    local attribute = info.info_prefab.ConfigElement.GetChildElement('Heads')
     local headElement
     local i = 0
 
-    if info.prefab.ConfigElement.GetChildElement('Heads') == nil then
+    if attribute == nil then
         interface.showMessage("GMTools: "..GMT.Lang("CMD_SpawnChar_in_argument",{"headtype", GMT.Lang("CMD_SpawnChar_no_heads")}),Color(255,0,0,255))
         info.prevent_spawn = true
         return
     end
 
-    for head in info.prefab.ConfigElement.GetChildElement('Heads').Elements() do
+    for head in attribute.Elements() do
         i = i + 1
         if i == index then
             headElement = head
@@ -371,7 +376,7 @@ newArg("skincolor", function (info, args, interface)
             return
         end
         
-        local attribute = info.prefab.ConfigElement.GetAttribute('skincolors')
+        local attribute = info.info_prefab.ConfigElement.GetAttribute('skincolors')
         if attribute == nil then
             interface.showMessage("GMTools: "..GMT.Lang("CMD_SpawnChar_in_argument",{"skincolor", GMT.Lang("CMD_SpawnChar_no_color_skin")}),Color(255,0,0,255))
             info.prevent_spawn = true
@@ -423,7 +428,7 @@ newArg("haircolor", function (info, args, interface)
             return
         end
         
-        local attribute = info.prefab.ConfigElement.GetAttribute('haircolors')
+        local attribute = info.info_prefab.ConfigElement.GetAttribute('haircolors')
         if attribute == nil then
             interface.showMessage("GMTools: "..GMT.Lang("CMD_SpawnChar_in_argument",{"haircolor", GMT.Lang("CMD_SpawnChar_no_color_hair")}),Color(255,0,0,255))
             info.prevent_spawn = true
@@ -475,7 +480,7 @@ newArg("beardcolor", function (info, args, interface)
             return
         end
         
-        local attribute = info.prefab.ConfigElement.GetAttribute('facialhaircolors')
+        local attribute = info.info_prefab.ConfigElement.GetAttribute('facialhaircolors')
         if attribute == nil then
             interface.showMessage("GMTools: "..GMT.Lang("CMD_SpawnChar_in_argument",{"beardcolor", GMT.Lang("CMD_SpawnChar_no_color_facial_hair")}),Color(255,0,0,255))
             info.prevent_spawn = true
