@@ -72,7 +72,7 @@ GMT.AddChatCommand("ahelp",GMT.Lang("Help_AHelp"),function (client,args)
     end
 
     if #args == 0 then
-        local chatMsg = ChatMessage.Create("ADMIN HELP",GMT.Lang("CMD_AdminPM_NoMessage").."\n"..GMT.GetCommandUsageHelp("ahelp"), ChatMessageType.Error, nil, nil)
+        local chatMsg = ChatMessage.Create("ADMIN HELP",GMT.Lang("CMD_AdminPM_NoMessage").."\n"..GMT.GetChatCommandUsageHelp(".ahelp"), ChatMessageType.Error, nil, nil)
         Game.SendDirectChatMessage(chatMsg, client)
         return
     end
@@ -101,4 +101,4 @@ GMT.AddChatCommand("ahelp",GMT.Lang("Help_AHelp"),function (client,args)
             sendAHelpToAdmins(client,cl,msg)
         end
     end
-end)
+end,"<msg>")

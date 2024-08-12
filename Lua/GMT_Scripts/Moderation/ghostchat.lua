@@ -169,7 +169,7 @@ GMT.AddChatCommand("dead",GMT.Lang("Help_DeadMsg"),function (client,args)
         return
     end
     if msg:len() == 0 then
-        local chatMsg = ChatMessage.Create("GM-Tools",GMT.FormattedText(GMT.Lang("Error_NoMessage").."\n"..GMT.GetCommandUsageHelp("deadmsg"),{{name="color",value="#b1cbfc"}}), ChatMessageType.Dead, nil, nil)
+        local chatMsg = ChatMessage.Create("GM-Tools",GMT.FormattedText(GMT.Lang("Error_NoMessage").."\n"..GMT.GetChatCommandUsageHelp(".dead"),{{name="color",value="#b1cbfc"}}), ChatMessageType.Dead, nil, nil)
         Game.SendDirectChatMessage(chatMsg, client)
         return
     end
@@ -188,4 +188,4 @@ GMT.AddChatCommand("dead",GMT.Lang("Help_DeadMsg"),function (client,args)
             end
         end
     end
-end)
+end,"<msg>")

@@ -28,13 +28,21 @@ GMT.AssignSharedCommand("help",function (args, interface)
             -- Show list of chat commands
             interface.showMessage("==== "..GMT.Lang("CMD_Help_chatlist").." ====",Color(255,0,255,255))
             for k, cmd in pairs(GMT.ChatCommands) do
-                interface.showMessage("."..cmd.name.."   >        "..cmd.help,Color(255,255,255,255))
+                if cmd.usage == nil then
+                    interface.showMessage("."..cmd.name.."   >        "..cmd.help,Color(255,255,255,255))
+                else
+                    interface.showMessage("."..cmd.name.." "..cmd.usage.."   >        "..cmd.help,Color(255,255,255,255))
+                end
             end
         else
             -- Show list of commands
             interface.showMessage("==== "..GMT.Lang("CMD_Help_list").." ====",Color(255,0,255,255))
             for k, cmd in pairs(GMT.HelpData) do
-                interface.showMessage("."..cmd.name.."   >        "..cmd.help,Color(255,255,255,255))
+                if cmd.usage == nil then
+                    interface.showMessage("."..cmd.name.."   >        "..cmd.help,Color(255,255,255,255))
+                else
+                    interface.showMessage("."..cmd.name.." "..cmd.usage.."   >        "..cmd.help,Color(255,255,255,255))
+                end
             end
         end
     else

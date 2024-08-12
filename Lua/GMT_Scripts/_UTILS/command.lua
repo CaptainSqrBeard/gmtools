@@ -73,12 +73,17 @@ function GMT.AddCommand(name, help, isCheat, func, help_args, getValidArgs, usag
     GMT.Expect(6, usage, "string", "nil")
 
     if usage == nil and help_args ~= nil then
-        usage = ""
-        for i, arg in ipairs(help_args) do
-            if arg.optional then
-                usage = usage.." ["..arg.name.."]"
+        if help_args[1].optional then
+            usage = "["..help_args[1].name.."]"
+        else
+            usage = "<"..help_args[1].name..">"
+        end
+
+        for i = 2, #help_args, 1 do
+            if help_args[i] then
+                usage = usage.." ["..help_args[i].name.."]"
             else
-                usage = usage.." <"..arg.name..">"
+                usage = usage.." <"..help_args[i].name..">"
             end
         end
     end
@@ -191,19 +196,13 @@ end
 * help: Help Text in .help (String)
 * func: Function to execute (Function)
 --]]
-function GMT.AddChatCommand(name,help,func)
+function GMT.AddChatCommand(name,help,func,usage)
     GMT.Expect(1, name, "string")
     GMT.Expect(2, help, "string")
     GMT.Expect(3, func, "function")
+    GMT.Expect(4, usage, "string", "nil")
 
-    if (GMT.CheckFArgs(name,"string")) or
-    (GMT.CheckFArgs(help,"string")) or
-    (GMT.CheckFArgs(func,"function"))
-    then
-        GMT.ThrowError("Bad Argument")
-    end
-
-    GMT.ChatCommands["."..name] = {name=name,func=func,help=help}
+    GMT.ChatCommands["."..name] = {name=name,func=func,help=help,usage=usage}
 end
 
 function GMT.GetCommandByString(string)
@@ -223,4 +222,13 @@ function GMT.GetCommandUsageHelp(command)
         return GMT.Lang("Usage").."."..command
     end
     return GMT.Lang("Usage").."."..command.." "..GMT.HelpData[command].usage
+end
+
+function GMT.GetChatCommandUsageHelp(command)
+    GMT.Expect(1, command, "string")
+
+    if GMT.ChatCommands[command].usage == nil then
+        return GMT.Lang("Usage")..command
+    end
+    return GMT.Lang("Usage")..command.." "..GMT.ChatCommands[command].usage
 end

@@ -351,6 +351,8 @@ newArg("headtype", function (info, args, interface)
     info.character_info.Head.HairColor = oldHeadInfo.HairColor
     info.character_info.Head.FacialHairColor = oldHeadInfo.FacialHairColor
 
+    info.character_info.LoadHeadAttachments()
+
     -- If name is not overriden, make a new one
     if not info.name_overriden then
         info.character_info.Name = info.character_info.GetRandomName(RandSync.Unsynced)
