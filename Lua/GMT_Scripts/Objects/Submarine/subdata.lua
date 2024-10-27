@@ -18,7 +18,7 @@ GMT.AssignSharedCommand("subdata",function (args, interface)
 
     interface.showMessage(GMT.Lang("CMD_SubmarineData_header", {sub_id}),Color(255,0,255,255))
     interface.showMessage(GMT.Lang("CMD_SubmarineData_name", {sub.Info.Name}),Color(255,255,255,255))
-    if sub == Game.RespawnManager.RespawnShuttle then
+    if sub.IsRespawnShuttle then
         interface.showMessage(GMT.Lang("CMD_SubmarineData_shuttle"),Color(255,255,255,255))
     end
     if sub == Submarine.MainSub then
