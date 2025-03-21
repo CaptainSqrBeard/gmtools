@@ -337,6 +337,8 @@ lang_files["CMD_SpawnChar_desc_beardcolor"] = "Меняет цвет лицев�
 lang_files["CMD_SpawnChar_desc_jobloadout"] = "Выдаёт набор предметов указанной профессии. Имейте ввиду что в ванилле, только видимые профессии имеют набор предметов"
 lang_files["CMD_SpawnChar_desc_job"] = "Выдаёт персонажу указанную профессию. Используйте -jobloadout для выдачи предметов профессии."
 lang_files["CMD_SpawnChar_desc_team"] = "Команда, в которой будет этот персонаж. 0 - Нету; 1 - Команда 1; 2 - Команда 2; 3 - Дружелюбные NPC."
+lang_files["CMD_SpawnChar_desc_pvp"] = "Изменяет поведение некоторых аргументов, чтобы соответствовать PVP режиму (например PVP наборы профессий)."
+lang_files["CMD_SpawnChar_desc_client"] = "Задаёт клиента для управления персонажем. Если клиент не указан, исполнитель будет этим клиентом."
 lang_files["CMD_SpawnChar_desc_cancel"] = "Вручную отменяет создание персонажа."
 lang_files["CMD_SpawnChar_desc_pos"] = "Изменяет место появления."
 

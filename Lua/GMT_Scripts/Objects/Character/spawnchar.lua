@@ -46,7 +46,7 @@ GMT.AssignSharedCommand("spawnchar",function (args, interface)
         character_info = CharacterInfo(CharacterPrefab.HumanSpeciesName)
         info_prefab = CharacterPrefab.FindBySpeciesName(CharacterPrefab.HumanSpeciesName)
     end
-    local info = {prevent_spawn=false, id=id, prefab=prefab, info_prefab=info_prefab, character_info=character_info, pos=interface.cursor, seed="0", post_actions={}}
+    local info = {prevent_spawn=false, id=id, prefab=prefab, info_prefab=info_prefab, character_info=character_info, pos=interface.cursor, pvp_mode=false, seed="0", post_actions={}}
 
     -- Check if any arguments are present
     if #args > 1 then
@@ -585,11 +585,11 @@ newArg("jobloadout", function (info, args, interface)
         end
     end
 
-    local job = Job(jobPrefab)
+    local job = Job(jobPrefab, info.pvp_mode)
     job.Variant = variant
     
     table.insert(info.post_actions, function (char)
-        job.GiveJobItems(char)
+        job.GiveJobItems(char, info.pvp_mode)
     end)
 end, "CMD_SpawnChar_desc_jobloadout", "<job_id> [variant]")
 
@@ -615,7 +615,7 @@ newArg("job", function (info, args, interface)
         return
     end
 
-    local job = Job(jobPrefab)
+    local job = Job(jobPrefab, info.pvp_mode)
     
     info.character_info.Job = job
 end, "CMD_SpawnChar_desc_job", "<job_id>")
@@ -643,6 +643,46 @@ newArg("team", function (info, args, interface)
         info.character_info.TeamID = team
     end
 end, "CMD_SpawnChar_desc_team", "<team_id>")
+
+
+newArg("pvp", function (info, args, interface)
+    if args[1] == nil or args[1] == true then
+        info.pvp_mode = true
+    elseif args[1] == "false" then
+        info.pvp_mode = false
+    else
+        interface.showMessage("GMTools: "..GMT.Lang("CMD_SpawnChar_in_argument",{"pvp", GMT.Lang("Error_bad_boolean")}),Color(255,231,0,255))
+        return
+    end
+
+    
+end, "CMD_SpawnChar_desc_pvp", "[isPvp]")
+
+
+newArg("client", function (info, args, interface)
+    if args[1] == nil then
+        if interface.executor ~= nil then
+            table.insert(info.post_actions, function (char)
+                interface.executor.SetClientCharacter(char)
+            end)
+            return
+        else
+            interface.showMessage("GMTools: "..GMT.Lang("CMD_SpawnChar_in_argument",{"client", GMT.Lang("Error_NotEnoughArguments")}),Color(255,231,0,255))
+            return
+        end
+    end
+
+    local client = GMT.GetClientByString(args[1])
+    if client ~= nil then
+        table.insert(info.post_actions, function (char)
+            interface.executor.SetClientCharacter(char)
+        end)
+    else
+        interface.showMessage("GMTools: "..GMT.Lang("CMD_SpawnChar_in_argument",{"client", GMT.Lang("Error_PlayerNotFound")}),Color(255,231,0,255))
+    end
+    
+end, "CMD_SpawnChar_desc_client", "[client]")
+
 
 newArg("cancel", function (info, args, interface)
     info.prevent_spawn = true

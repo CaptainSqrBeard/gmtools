@@ -328,6 +328,8 @@ lang_files["CMD_SpawnChar_desc_beardcolor"] = "Changes facial hair color."
 lang_files["CMD_SpawnChar_desc_jobloadout"] = "Gives item set of specified job. Note that in vanilla only visible jobs have defined item sets."
 lang_files["CMD_SpawnChar_desc_job"] = "Gives character specified job. Use -jobloadout to give character items of job."
 lang_files["CMD_SpawnChar_desc_team"] = "Team that this character will be in. 0 - None; 1 - Team 1; 2 - Team 2; 3 - Friendly NPC."
+lang_files["CMD_SpawnChar_desc_pvp"] = "Changes behaviour of some arguments to match PVP gamemode (i.e. PVP loadouts for jobs)."
+lang_files["CMD_SpawnChar_desc_client"] = "Set client that controls this character. If client is not provided, executor will be set as client."
 lang_files["CMD_SpawnChar_desc_cancel"] = "Manually cancels spawn of character."
 lang_files["CMD_SpawnChar_desc_pos"] = "Changes spawn position."
 
