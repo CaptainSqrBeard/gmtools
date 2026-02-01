@@ -22,8 +22,10 @@ lang_files["Help_SubmarineList"] = "Показывает список подло
 lang_files["Help_SubmarineLock"] = "Блокирует позицию определённой подлодки"
 lang_files["Help_SubmarineTeleport"] = "Телепортирует определённую подлодку"
 lang_files["Help_SubmarineAddTurretAI"] = "Создаёт ИИ турелей на подлодке. Внимание: Это действие перманентно!"
+lang_files["Help_SubmarineThrow"] = "Изменяет физический вектор движения у заданной подлодки"
 lang_files["Help_HumanList"] = "Выдаёт список всех персонажей-людей на карте"
 lang_files["Help_CharData"] = "Выдаёт информацию о персонаже"
+lang_files["Help_SpawnChar"] = "Создаёт персонажа с информацией, заданной пользователем"
 lang_files["Help_Jobban"] = "Банит профессию у игрока, чтобы он не мог на ней играть"
 lang_files["Help_UnJobban"] = "Разбанивает профессии у игрока"
 lang_files["Help_GivePerm"] = "Дает разрешение игроку на использование команд GM-Tools"
@@ -87,12 +89,16 @@ lang_files["Args_NearChars_size"] = "Радиус поиска, в виде кр
 -- CharData
 lang_files["Args_CharData_character"] = "ID/Имя персонажа"
 
+-- SpawnChar
+lang_files["Args_SpawnChar_id"] = "ID вида для создания. Используйте \"-h\" или \"-help\" чтобы увидеть список аргументов"
+lang_files["Args_SpawnChar_args"] = "Аргументы при создании. Вы можете указать несколько аргументов. Например: \"-skincolor 2 -headtype 14 -haircolor 16\""
+
 -- SubData
 lang_files["Args_SubmarineData_submarine"] = "ID подлодки"
 
 -- SubData
 lang_files["Args_SubmarineTp_submarine"] = "ID подлодки"
-lang_files["Args_SubmarineTp_position"] = "Позиция для телепорта. Если не указана, то подлодка телепортируется на курсор. Принимает значения 'cursor', 'start', 'end' или X;Y."
+lang_files["Args_SubmarineTp_position"] = "Позиция для телепорта. Если не указана, то подлодка телепортируется на курсор. Принимает значения 'cursor', 'start', 'end' или вектор в формате X;Y."
 
 -- SubLock
 lang_files["Args_SubmarineLock_submarine"] = "ID подлодки"
@@ -102,8 +108,13 @@ lang_files["Args_SubmarineLock_axis"] = "Ось для блокировки. П�
 lang_files["Args_SubmarineGodmode_submarine"] = "ID подлодки"
 lang_files["Args_SubmarineGodmode_value"] = "Включает, выключает или переключает \"режим бога\" у подлодки. Принимает значения 'true', 'false' or 'switch'. Если не указано, то \"режим бога\" будет переключаться."
 
--- SubLock
+-- SubAddTurretAI
 lang_files["Args_SubmarineAddTurretAI_submarine"] = "ID подлодки"
+
+-- SubThrow
+lang_files["Args_SubmarineThrow_submarine"] = "ID подлодки"
+lang_files["Args_SubmarineThrow_vector"] = "Вектор движения. Принимает значения 'cursor', 'ncursor' или вектор в формате X;Y. 'cursor': Задаёт вектор по направлению курсора. Чем дальше курсор от подлодки, тем выше скорость. 'ncursor': Задаёт вектор по направлению курсора, но с фиксированной скоростью."
+lang_files["Args_SubmarineThrow_mode"] = "'set': (По умолчанию) перезаписывает текущий вектор движения новым, 'add': К текущему вектору движения добавится новый."
 
 -- Jobban
 lang_files["Args_Jobban_player"] = "Имя/ID/SteamID игрока"
@@ -117,7 +128,7 @@ lang_files["Args_UnJobban_job"] = "Профессия которая будет 
 
 -- GivePerm
 lang_files["Args_GivePerm_player"] = "Имя/ID/SteamID игрока"
-lang_files["Args_GivePerm_commands"] = "Выдать права на команду. Вы можете указать несколько команд вот так: \"giveperm 1 .adminpm .adminchat .smite\". Используйте \"all\" чтобы выдать весь доступ"
+lang_files["Args_GivePerm_commands"] = "Выдать права на команду. Используйте \"all\" для выдачи всех прав. Вы можете указать несколько команд таким образом: \"giveperm 1 .adminpm .adminchat .smite\". Используйте \"all\" чтобы выдать весь доступ"
 
 -- RevokePerm
 lang_files["Args_RevokePerm_player"] = "Имя/ID/SteamID игрока"
@@ -139,7 +150,7 @@ lang_files["Args_PermList_player"] = "Имя/ID/SteamID игрока. Остав
 
 -- Smite
 lang_files["Args_Smite_smite"] = "Вид наказания. Введите \".smite help\" чтобы получить список наказаний"
-lang_files["Args_Smite_client"] = "Кто будет страдать."
+lang_files["Args_Smite_character"] = "Персонаж, который будет страдать."
 
 ---- Errors
 lang_files["Error_NotEnoughPermissions"] = "У вас недостаточно прав для исполнения этой команды"
@@ -152,6 +163,9 @@ lang_files["Error_PlayerNotFound"] = "Игрок не найден"
 lang_files["Error_CharacterNotFound"] = "Персонаж не найден"
 lang_files["Error_SubmarineNotFound"] = "Подлодка не найдена"
 lang_files["Error_ItemNotFound"] = "Предмет не найден"
+lang_files["Error_UnknownJob"] = "Неизвестная профессия"
+lang_files["Error_OutOfRange"] = "Указанное число вне диапазона между {1} и {2}"
+lang_files["Error_OutOfRange_Less"] = "Указанное число меньше чем {1}"
 lang_files["Error_bad_id"] = "Указанный ID не является числом"
 lang_files["Error_bad_value"] = "Указанное значение не является числом"
 lang_files["Error_NoControlledChar"] = "Игрок не имеет персонажа под контролем"
@@ -159,7 +173,8 @@ lang_files["Error_bad_boolean"] = "Неверный аргумент. Парам
 lang_files["Error_bad_console"] = "Эта команда не работает в консоле"
 
 ---- Misc
-lang_files["Console"] = "Консоль"
+lang_files["Console"] = "ХОСТ"
+lang_files["Usage"] = "Использование: "
 
 -- Lang
 lang_files["Args_Lang_language"] = "Язык для смены. Используйте \".lang all\" чтобы посмотреть список всех языков"
@@ -225,7 +240,7 @@ lang_files["CMD_Help_list"] = "Список"
 lang_files["CMD_Help_chatlist"] = "Список (Чат)"
 
 lang_files["CMD_Help_help"] = "Хелп"
-lang_files["CMD_Help_line"] = "* Этот сервер запущен с модом \"GM-Tools\"\n* Введите \".help all\" если хотите получить список команд\n* Или введите \".help all chat\" чтобы получить список команд в чате."
+lang_files["CMD_Help_line"] = "* Этот сервер запущен с модом \"GM-Tools\"\n* Введите \".help all\" если хотите получить список команд\n* Введите \".help all chat\" чтобы получить список команд в чате.\n* Введите \".help <command>\" (без точки) чтобы получить больше информации об указанной команде."
 lang_files["CMD_Help_gmt"] = "Game Master Tools"
 
 -- NearChars
@@ -284,6 +299,48 @@ lang_files["CMD_CharData_inv_item"] = "* Предмет \'{1}\' ID {2}"
 lang_files["CMD_CharData_inv_iteminv"] = "* Предмет \'{1}\' ID {2} - Имеет свой инвентарь (.itemdata {2} see_inv)"
 
 lang_files["CMD_CharData_UnknownInput"] = "Неизвестный параметр во втором аргументе"
+
+-- SpawnChar
+lang_files["CMD_SpawnChar_help_header"] = "Список аргументов:"
+lang_files["CMD_SpawnChar_help_entry"] = "* -{1} {2}     >     {3}"
+lang_files["CMD_SpawnChar_help_entry_no_args"] = "* -{1}     >     {2}"
+
+lang_files["CMD_SpawnChar_result"] = "Создан персонаж \"{1}\" с ID {2}"
+
+lang_files["CMD_SpawnChar_error_unknown_species"] = "Неизвестные вид \"{1}\""
+lang_files["CMD_SpawnChar_error_bad_beginning"] = "Неверное начало аргументов"
+lang_files["CMD_SpawnChar_error_unknown_argument"] = "Неизвестный аргумент: {1}"
+lang_files["CMD_SpawnChar_in_argument"] = "Argument \"{1}\": {2}"
+lang_files["CMD_SpawnChar_no_character_info"] = "Сущность не имеет информации персонажа"
+lang_files["CMD_SpawnChar_unknown_type"] = "Неизвестный тип"
+lang_files["CMD_SpawnChar_no_pos"] = "Позиция не указана; Создание отменено"
+lang_files["CMD_SpawnChar_no_cursor"] = "Позиция курсора не может быть использована из консоли"
+lang_files["CMD_SpawnChar_spawn_cancelled"] = "Создание отменено"
+lang_files["CMD_SpawnChar_color_error"] = "Произошла ошибка при получении цвета"
+lang_files["CMD_SpawnChar_no_heads"] = "Вид не имеет разновидностей головы"
+lang_files["CMD_SpawnChar_no_color_skin"] = "Вид не имеет разновидностей цвета кожи"
+lang_files["CMD_SpawnChar_no_color_hair"] = "Вид не имеет разновидностей цвета волос"
+lang_files["CMD_SpawnChar_no_color_facial_hair"] = "Вид не имеет разновидностей цвета лицевой растительности"
+
+lang_files["CMD_SpawnChar_no_description"] = "Нет описания"
+lang_files["CMD_SpawnChar_desc_name"] = "Меняет имя персонажа."
+lang_files["CMD_SpawnChar_desc_addhumandata"] = "Добавляет персонажу информацию персонажа. Люди, в том числе заражённые хаском, имеют эту информацию по умолчанию. Работает необычно с нечеловеческими видами."
+lang_files["CMD_SpawnChar_desc_ai_seed"] = "Меняет сид ИИ у персонажа в случае если вы хотите чтобы ваши персонажи вели себя немного одинаково"
+lang_files["CMD_SpawnChar_desc_hairtype"] = "Вид причёски который будет у персонажа. Имейте ввиду, что каждый пол имеет разные виды волос"
+lang_files["CMD_SpawnChar_desc_beardtype"] = "Вид лицевой растительности который будет у персонажа. Имейте ввиду, что каждый пол имеет разные виды лицевой растительности (Например в ванилле у женщин нет лицевой растительности)."
+lang_files["CMD_SpawnChar_desc_headtype"] = "Вид головы который будет у персонажа. Также влияет на пол персонажа."
+lang_files["CMD_SpawnChar_desc_accessorytype"] = "Аксессуар который будет иметь персонаж. Имейте ввиду, что с модами, у разных полов могут быть разные аксессуары."
+lang_files["CMD_SpawnChar_desc_moustachetype"] = "Вид усов который будет у персонажа. Имейте ввиду, что усов нету в ванильном наборе контента так, как они устарели."
+lang_files["CMD_SpawnChar_desc_skincolor"] = "Меняет цвет кожи."
+lang_files["CMD_SpawnChar_desc_haircolor"] = "Меняет цвет волос."
+lang_files["CMD_SpawnChar_desc_beardcolor"] = "Меняет цвет лицевой растительности."
+lang_files["CMD_SpawnChar_desc_jobloadout"] = "Выдаёт набор предметов указанной профессии. Имейте ввиду что в ванилле, только видимые профессии имеют набор предметов"
+lang_files["CMD_SpawnChar_desc_job"] = "Выдаёт персонажу указанную профессию. Используйте -jobloadout для выдачи предметов профессии."
+lang_files["CMD_SpawnChar_desc_team"] = "Команда, в которой будет этот персонаж. 0 - Нету; 1 - Команда 1; 2 - Команда 2; 3 - Дружелюбные NPC."
+lang_files["CMD_SpawnChar_desc_pvp"] = "Изменяет поведение некоторых аргументов, чтобы соответствовать PVP режиму (например PVP наборы профессий)."
+lang_files["CMD_SpawnChar_desc_client"] = "Задаёт клиента для управления персонажем. Если клиент не указан, исполнитель будет этим клиентом."
+lang_files["CMD_SpawnChar_desc_cancel"] = "Вручную отменяет создание персонажа."
+lang_files["CMD_SpawnChar_desc_pos"] = "Изменяет место появления."
 
 -- ItemEdit
 lang_files["CMD_ItemEdit_c_header"] = "Компоненты \"{1}\" ID {2}"
@@ -347,6 +404,10 @@ lang_files["CMD_ItemEdit_PowerContainer_capacity_Help"] = "Изменяет вм
 lang_files["CMD_ItemEdit_PowerContainer_capacity_info"] = "Вместительность батареи {1} кВ"
 lang_files["CMD_ItemEdit_PowerContainer_capacity_set"] = "Теперь местительность батареи {1} кВ"
 lang_files["CMD_ItemEdit_PowerContainer_capacity_warn"] = "Внимание, рассинхронизация! Клиенты будут видеть оригинальную вместительность предмета"
+
+lang_files["CMD_ItemEdit_PowerContainer_speed_Help"] = "Изменяет скорость зарядки"
+lang_files["CMD_ItemEdit_PowerContainer_speed_info"] = "Текущая скорость зарядки {1} kW / мин."
+lang_files["CMD_ItemEdit_PowerContainer_speed_set"] = "Скорость зарядки теперь {1} kW / мин."
 
 lang_files["CMD_ItemEdit_PowerTransfer_canoverload_Help"] = "Переключает повреждения от перенапряжения"
 lang_files["CMD_ItemEdit_PowerTransfer_canoverload_on"] = "Теперь предмет может быть перегружен"
@@ -451,10 +512,17 @@ lang_files["CMD_SubmarineData_velocity"] = "* Скорость: ({1}; {2})"
 lang_files["CMD_SubmarineData_depth"] = "* Глубина в реальном мире: {1}m/{2}m"
 
 -- Subtp
-lang_files["CMD_SubmarineTp_Success"] = "Телепортирована {1} с позиции ({2}; {3}) на ({4}; {5})"
-lang_files["CMD_SubmarineTp_UnknownType"] = "Указана неизвестная позиция для телепортации"
+lang_files["CMD_SubmarineTp_Success"] = "Подлодка {1} телепортирована с позиции ({2}; {3}) на ({4}; {5})"
+lang_files["CMD_SubmarineTp_UnknownType"] = "Указан некорректный вектор или позиция для телепортации"
 lang_files["CMD_SubmarineTp_NoPosition"] = "Укажите позицию для телепортации (start, end, X;Y)"
 lang_files["CMD_SubmarineTp_NoCursor"] = "Позиция курсора не может быть использована с серверной консоли"
+
+-- SubThrow
+lang_files["CMD_SubmarineThrow_Set"] = "Задан вектор движения подлодки {1}: {2}; {3}"
+lang_files["CMD_SubmarineThrow_Add"] = "Добавлен вектор движения подлодки {1}: {2}; {3}"
+lang_files["CMD_SubmarineThrow_UnknownTypeVector"] = "Указан некорректный вектор или позиция"
+lang_files["CMD_SubmarineThrow_UnknownTypeMode"] = "Указан некорректный режим"
+lang_files["CMD_SubmarineThrow_NoCursor"] = "Позиция курсора не может быть использована с серверной консоли"
 
 -- Sublock
 lang_files["CMD_SubmarineLocked_FullLock"] = "Подлодка заблокирована на обеих осях"
@@ -484,6 +552,7 @@ lang_files["CMD_Smite_help"] = "Выдаёт список наказаний"
 lang_files["CMD_Smite_SmiteList"] = "Виды наказаний:"
 
 lang_files["CMD_Smite_Unknown"] = "Неизвестный вид наказания"
+lang_files["CMD_Smite_Applied"] = "Применено наказание \"{1}\" на персонажа \"{2}\""
 
 -- Jobban & Unjobban
 lang_files["CMD_Jobban_BanLowest"] = "Вы не можете забанить самую низкую профессию"
@@ -519,7 +588,7 @@ lang_files["CMD_PermList_header"] = "Доступные команды \"{1}\":"
 lang_files["CMD_PermList_item"] = "* {1}"
 
 -- Lang
-lang_files["CMD_Lang_changed"] = "Язык изменён на \"{1}\". Используйте команду \"reloadlua\" чтобы принять изменения"
+lang_files["CMD_Lang_changed"] = "Язык изменён на \"{1}\". Используйте команду \"reloadlua\" чтобы принять изменения\nВНИМАНИЕ: Это действие скорей-всего поломает другие Lua моды и сбросит блокировку подлодок."
 lang_files["CMD_Lang_unknown"] = "Неизвестный язык. Введите \".lang all\" чтобы получить список доступных языков."
 lang_files["CMD_Lang_header"] = "Список языков:"
 lang_files["CMD_Lang_element"] = "* {1}"
@@ -532,7 +601,7 @@ lang_files["Chat_Error_UnknownCommand"] = "Неизвестная команда
 lang_files["HelpChat_FixMe"] = "Пытается починить проблемы, которые могли возникнуть правами игрока."
 lang_files["Chat_FixMe_attempt"] = "Мы попытались починить ошибки. Надеюсь это помогло."
 
-lang_files["Chat_Help_help"] = "Почти все команды в GM-Tools исполняются из консоли (F3).\n\nИспользуйте эту команду в консоле, чтобы получить помощь по моду.\n\nЕсли она не работает, значит перед этим используйте \".fixme\" в чате."
+lang_files["Chat_Help_help"] = "Почти все команды в GM-Tools исполняются из консоли (F3).\n\nИспользуйте эту команду в консоле, чтобы получить помощь по моду.\n\nЕсли она не работает, значит используйте \".fixme\" в чате и попробуйте ещё раз."
 
 -- Help
 lang_files["HelpChat_Help"] = "Говорит, что вам нужно использовать эту команду в консоли"

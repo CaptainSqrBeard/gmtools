@@ -4,7 +4,17 @@ local utils = require("GMT_Scripts._UTILS.utils")
 
 GMT.AllCommands = {}
 
+function GMT.ListAllCommands()
+    local list = {}
+    for i, cmd in ipairs(GMT.AllCommands) do
+        table.insert(list, cmd)
+    end
+    return list
+end
+
 function module.SplitCommand(msg)
+    GMT.Expect(1, msg, "string")
+
     local split = {}
     local piece = ""
     
@@ -59,15 +69,30 @@ end
 * help_args: Arguments description in help <cmd> (Table)
 --]]
 function module.AddCommand(name,help,isCheat,func,help_args,getValidArgs)
-    if (utils.CheckFArgs(name,"string")) or
-    (utils.CheckFArgs(help,"string")) or
-    (utils.CheckFArgs(isCheat,"boolean",true)) or
-    (utils.CheckFArgs(help_args,"table",true))
-    then
-        utils.ThrowError("Bad Argument")
+    GMT.Expect(1, name, "string")
+    GMT.Expect(2, help, "string")
+    GMT.Expect(3, isCheat, "boolean", "nil")
+    GMT.Expect(4, func, "function", "nil")
+    GMT.Expect(5, help_args, "table", "nil")
+    GMT.Expect(6, usage, "string", "nil")
+
+    if usage == nil and help_args ~= nil then
+        if help_args[1].optional then
+            usage = "["..help_args[1].name.."]"
+        else
+            usage = "<"..help_args[1].name..">"
+        end
+
+        for i = 2, #help_args, 1 do
+            if help_args[i] then
+                usage = usage.." ["..help_args[i].name.."]"
+            else
+                usage = usage.." <"..help_args[i].name..">"
+            end
+        end
     end
 
-    GMT.HelpData[name] = {name=name,help=help,args=help_args}
+    GMT.HelpData[name] = {name=name, help=help, args=help_args, usage=usage}
     table.insert(GMT.AllCommands,"."..name)
 
     Game.AddCommand("."..name, help, function () end, getValidArgs, isCheat)
@@ -83,8 +108,11 @@ end
 * func: Function to execute (Function)
 --]]
 function module.AssignClientCommand(name,func)
-    if (utils.CheckFArgs(name,"string")) or
-    (utils.CheckFArgs(func,"function"))
+    GMT.Expect(1, name, "string")
+    GMT.Expect(2, func, "function")
+
+    if (GMT.CheckFArgs(name,"string")) or
+    (GMT.CheckFArgs(func,"function"))
     then
         utils.ThrowError("Bad Argument")
     end
@@ -98,16 +126,67 @@ end
 * func: Function to execute (Function)
 --]]
 function module.AssignServerCommand(name,func)
-    if (utils.CheckFArgs(name,"string")) or
-    (utils.CheckFArgs(func,"function"))
-    then
-        utils.ThrowError("Bad Argument")
-    end
+    GMT.Expect(1, name, "string")
+    GMT.Expect(2, func, "function")
 
     Game.AssignOnExecute("."..name, func) -- function(args) end
 end
 
+--[[ GMT.AssignSharedCommand
+"Assigns usage in both server console and client console."
+* name: Name of the command (String)
+* func: Function to execute (Function)
+--]]
+function GMT.AssignSharedCommand(name,func)
+    GMT.Expect(1, name, "string")
+    GMT.Expect(2, func, "function")
+    
+    if (GMT.CheckFArgs(name,"string")) or
+    (GMT.CheckFArgs(func,"function"))
+    then
+        GMT.ThrowError("Bad Argument")
+    end
 
+    Game.AssignOnClientRequestExecute("."..name, function (client,cursor,args)
+        local interface = GMT.NewClientCMDInterface(client,cursor)
+        func(args, interface)
+    end)
+
+    Game.AssignOnExecute("."..name, function (args)
+        local interface = GMT.NewServerCMDInterface()
+        func(args, interface)
+    end)
+end
+
+--[[ GMT.NewClientCMDInterface
+"Creates interface to use for clients"
+* client: Executor
+* cursor: World position of cursor
+--]]
+function GMT.NewClientCMDInterface(client,cursor)
+    return {
+        isServer = false,
+        executor = client,
+        cursor = cursor,
+        showMessage = function (text, color)
+            GMT.SendConsoleMessage(text, client, color)
+        end
+    }
+end
+
+--[[ GMT.NewServerCMDInterface
+"Creates interface to use for server console"
+--]]
+function GMT.NewServerCMDInterface()
+    return {
+        isServer = true,
+        executor = nil,
+        cursor = nil,
+        showMessage = function (text, color)
+            GMT.NewConsoleMessage(text, color)
+        end
+    }
+end
 
 --[[ command.AddChatCommand
 "Adds new command into chat"
@@ -116,22 +195,39 @@ end
 * func: Function to execute (Function)
 --]]
 function module.AddChatCommand(name,help,func)
-    if (utils.CheckFArgs(name,"string")) or
-    (utils.CheckFArgs(help,"string")) or
-    (utils.CheckFArgs(func,"function"))
-    then
-        utils.ThrowError("Bad Argument")
-    end
+    GMT.Expect(1, name, "string")
+    GMT.Expect(2, help, "string")
+    GMT.Expect(3, func, "function")
+    GMT.Expect(4, usage, "string", "nil")
 
-    GMT.ChatCommands["."..name] = {name=name,func=func,help=help}
+    GMT.ChatCommands["."..name] = {name=name,func=func,help=help,usage=usage}
 end
 
 function module.GetCommandByString(string)
-    for i_1, cmd in ipairs(Game.Commands) do
+    GMT.Expect(1, string, "string")
+
+    for i, cmd in ipairs(Game.Commands) do
         if cmd.names[1] == string then
             return cmd
         end
     end
 end
 
+function GMT.GetCommandUsageHelp(command)
+    GMT.Expect(1, command, "string")
+
+    if GMT.HelpData[command].usage == nil then
+        return GMT.Lang("Usage").."."..command
+    end
+    return GMT.Lang("Usage").."."..command.." "..GMT.HelpData[command].usage
+end
+
+function GMT.GetChatCommandUsageHelp(command)
+    GMT.Expect(1, command, "string")
+
+    if GMT.ChatCommands[command].usage == nil then
+        return GMT.Lang("Usage")..command
+    end
+    return GMT.Lang("Usage")..command.." "..GMT.ChatCommands[command].usage
+end
 return module

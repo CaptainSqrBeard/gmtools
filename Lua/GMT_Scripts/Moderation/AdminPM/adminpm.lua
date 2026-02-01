@@ -25,16 +25,10 @@ command.AddCommand("adminpm",lang.Lang("Help_AdminPM"),false,nil,{
 {name="target",desc=lang.Lang("Args_AdminPM_target")},
 {name="msg",desc=lang.Lang("Args_AdminPM_msg")}})
 
-
-command.AssignClientCommand("adminpm", function(client,cursor,args)
-    if #args < 2 then
-        utils.SendConsoleMessage("GMTools: "..lang.Lang("Error_NotEnoughArguments"),client,Color(255,0,0,255))
-        return
-    end
-
+command.AssignSharedCommand("adminpm",function (args, interface)
     local r_client = utils.GetClientByString(args[1])
     if r_client == nil then
-        utils.SendConsoleMessage("GMTools: "..lang.Lang("Error_PlayerNotFound"),client,Color(255,0,0,255))
+        interface.showMessage("GMTools: "..lang.Lang("Error_PlayerNotFound"),Color(255,0,0,255))
         return
     end
 
@@ -49,90 +43,46 @@ command.AssignClientCommand("adminpm", function(client,cursor,args)
         end
     end
     if string.len(msg) > 200 then
-        utils.SendConsoleMessage("GMTools: "..lang.Lang("Error_TooLongMessage"),client,Color(255,0,0,255))
+        interface.showMessage("GMTools: "..lang.Lang("Error_TooLongMessage"),Color(255,0,0,255))
         return
     end
     msg = msg:sub(1, msg:len()-1)
     if msg:len() == 0 then
-        utils.SendConsoleMessage("GMTools: "..lang.Lang("CMD_AdminPM_NoMessage"),client,Color(255,0,0,255))
+        interface.showMessage("GMTools: "..lang.Lang("CMD_AdminPM_NoMessage").."\n"..GMT.GetCommandUsageHelp("adminpm"),Color(255,0,0,255))
         return
     end
-
-    -- For sender
-    utils.SendConsoleMessage(lang.Lang("CMD_AdminPM_con_for_admin_L1",{client.Name,r_client.Name}),client,Color(255,0,0,255))
-    utils.SendConsoleMessage(lang.Lang("CMD_AdminPM_con_for_admin_L2",{msg}),client,Color(255,255,255,255))
-
-    -- For other admins
-    for i, cl in ipairs(Client.ClientList) do
-        if (cl.SessionId ~= client.SessionId and cl.SessionId ~= r_client.SessionId) and permissions.HasPermission(cl,".adminpm") then
-            utils.SendConsoleMessage(lang.Lang("CMD_AdminPM_con_to_other_L1",{client.Name,r_client.Name}),cl,Color(255,0,0,255))
-            utils.SendConsoleMessage(lang.Lang("CMD_AdminPM_con_to_other_L2",{msg}),cl,Color(255,255,255,255))
-        end
-    end
-
     
-    -- For recipient
-    sendAdminPMToPlayer(client,r_client,msg)
-    if GMT.ForcedLaunch == false and GMT.Config.Vars.do_bwoink == true then -- THE BWOINK SOUND
-        local bwoink_chr = r_client.Character
+    -- Custom event
+    -- gmtools.adminpm.sent(sender, target, message)
+    Hook.Call("gmtools.adminpm.sent", nil, r_client, msg)
 
-        -- It will works only if player controls character.
-        if bwoink_chr ~= nil and bwoink_chr.IsDead == false then
-            local bwoinkAff = AfflictionPrefab.Prefabs["gmtbwoink"]
-            r_client.Character.CharacterHealth.ApplyAffliction(bwoink_chr.AnimController.MainLimb, bwoinkAff.Instantiate(1))
-        end
-    end
-end)
+    -- Name of sender
+    local sender_name
 
-command.AssignServerCommand("adminpm", function(args)
-    local r_client = utils.GetClientByString(args[1])
-    if r_client == nil then
-        utils.NewConsoleMessage("GMTools: "..lang.Lang("Error_PlayerNotFound"),Color(255,0,0,255),false)
-        return
-    end
+    -- Differences between PM from host and client
+    if interface.executor ~= nil then
+        -- Set name of player
+        sender_name = interface.executor.Name
 
-    local msg = ""
-    for i = 2, #args, 1 do
-        msg = msg..args[i].." "
-    end
-    for i = 1, msg:len(), 1 do
-        if msg:sub(i,i) ~= " " then
-            msg = msg:sub(i, msg:len() )
-            break
-        end
-    end
-    if string.len(msg) > 200 then
-        utils.NewConsoleMessage("GMTools: "..lang.Lang("Error_TooLongMessage"),Color(255,0,0,255),false)
-        return
-    end
-    msg = msg:sub(1, msg:len()-1)
-    if msg:len() == 0 then
-        utils.NewConsoleMessage("GMTools: "..lang.Lang("CMD_AdminPM_NoMessage"),Color(255,0,0,255),false)
-        return
+        -- Message for recipient
+        sendAdminPMToPlayer(interface.executor,r_client,msg)
+    else
+        -- Set name of host
+        sender_name = lang.Lang("Console")
+
+        -- Message for recipient
+        sendConsolePMToPlayer(r_client,msg)
     end
 
-    -- For sender
-    utils.NewConsoleMessage(lang.Lang("CMD_AdminPM_con_for_admin_L1",{lang.Lang("Console"),r_client.Name}),Color(255,0,0,255),false)
-    utils.NewConsoleMessage(lang.Lang("CMD_AdminPM_con_for_admin_L2",{msg}),Color(255,255,255,255),false)
+    -- Message for sender
+    interface.showMessage(lang.Lang("CMD_AdminPM_con_for_admin_L1",{sender_name,r_client.Name}),Color(255,0,0,255))
+    interface.showMessage(lang.Lang("CMD_AdminPM_con_for_admin_L2",{msg}),Color(255,255,255,255))
 
-    -- For other admins
+    -- Message for other admins
     for i, cl in ipairs(Client.ClientList) do
-        if permissions.HasPermission(cl,".adminpm") then
-            utils.SendConsoleMessage(lang.Lang("CMD_AdminPM_con_to_other_L1",{lang.Lang("Console"),r_client.Name}),cl,Color(255,0,0,255))
-            utils.SendConsoleMessage(lang.Lang("CMD_AdminPM_con_to_other_L2",{msg}),cl,Color(255,255,255,255))
-        end
-    end
-
-    
-    -- For recipient
-    sendConsolePMToPlayer(r_client,msg)
-    if GMT.ForcedLaunch == false and GMT.Config.Vars.do_bwoink == true then -- THE BWOINK SOUND
-        local bwoink_chr = r_client.Character
-
-        -- It will works only if player controls character.
-        if bwoink_chr ~= nil and bwoink_chr.IsDead == false then
-            local bwoinkAff = AfflictionPrefab.Prefabs["gmtbwoink"]
-            r_client.Character.CharacterHealth.ApplyAffliction(bwoink_chr.AnimController.MainLimb, bwoinkAff.Instantiate(1))
+        if (interface.executor ~= nil and cl.SessionId ~= interface.executor.SessionId) and cl.SessionId ~= r_client.SessionId and GMT.HasPermission(cl, ".adminpm") then
+            GMT.SendConsoleMessage(lang.Lang("CMD_AdminPM_con_to_other_L1",{sender_name,r_client.Name}),cl,Color(255,0,0,255))
+            GMT.SendConsoleMessage(lang.Lang("CMD_AdminPM_con_to_other_L2",{msg}),cl,Color(255,255,255,255))
         end
     end
 end)

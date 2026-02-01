@@ -7,42 +7,18 @@ command.AddCommand("permlist",lang.Lang("Help_PermList"),false,nil,{
     {name="player",desc=lang.Lang("Args_PermList_player")}
 })
 
-command.AssignClientCommand("permlist",function (client,cursor,args)
+command.AssignSharedCommand("permlist",function (args, interface)
     -- Get client
     local r_client
     if args[1] == nil then
-        -- Player not specified, apply to yourself
-        r_client = client
-    else
-        -- Try to apply on specified player
-        r_client = utils.GetClientByString(args[1])
-        if r_client == nil then
-            utils.SendConsoleMessage("GMTools: "..lang.Lang("Error_PlayerNotFound"),client,Color(255,0,0,255))
-            return
-        end
-    end
-    playerdb.Create(r_client)
-
-    local perms = GMT.PlayerData.Players[r_client.SteamID].Permissions
-
-    utils.SendConsoleMessage(lang.Lang("CMD_PermList_header",{r_client.Name}),client,Color(255,0,255,255))
-    for i, cmd in ipairs(perms) do
-        utils.SendConsoleMessage(lang.Lang("CMD_PermList_item",{cmd}),client,Color(255,255,255,255))
-    end
-end)
-
-command.AssignServerCommand("permlist",function (args)
-    -- Get client
-    local r_client
-    if args[1] == nil then
-        -- Can't apply permlist on console
-        utils.NewConsoleMessage("GMTools: "..lang.Lang("Error_NotEnoughArguments"),Color(255,0,0,255),false)
+        -- Can't apply permlist on console :)
+        interface.showMessage("GMTools: "..lang.Lang("Error_NotEnoughArguments").."\n"..GMT.GetCommandUsageHelp("permlist"),Color(255,0,0,255))
         return
     else
         -- Try to apply on specified player
         r_client = utils.GetClientByString(args[1])
         if r_client == nil then
-            utils.NewConsoleMessage("GMTools: "..lang.Lang("Error_PlayerNotFound"),Color(255,0,0,255),false)
+            interface.showMessage("GMTools: "..lang.Lang("Error_PlayerNotFound"),Color(255,0,0,255))
             return
         end
     end
@@ -50,8 +26,8 @@ command.AssignServerCommand("permlist",function (args)
 
     local perms = GMT.PlayerData.Players[r_client.SteamID].Permissions
 
-    utils.NewConsoleMessage(lang.Lang("CMD_PermList_header",{r_client.Name}),Color(255,0,255,255),false)
+    interface.showMessage(lang.Lang("CMD_PermList_header",{r_client.Name}),Color(255,0,255,255))
     for i, cmd in ipairs(perms) do
-        utils.NewConsoleMessage(lang.Lang("CMD_PermList_item",{cmd}),Color(255,255,255,255),false)
+        interface.showMessage(lang.Lang("CMD_PermList_item",{cmd}),Color(255,255,255,255))
     end
 end)

@@ -2,6 +2,10 @@ local utils = require("GMT_Scripts._UTILS.utils")
 local command = require("GMT_Scripts._UTILS.command")
 local lang = require("GMT_Scripts._UTILS.lang")
 
+GMT.AddCommand("nearitems",GMT.Lang("Help_NearItems"),true,nil,{
+{name="size",desc=GMT.Lang("Args_NearItems_size"),optional=true},
+{name="ignore_wires",desc=GMT.Lang("Args_NearItems_ignorewires"),optional=true}})
+
 command.AddCommand("nearitems",lang.Lang("Help_NearItems"),true,nil,{
 {name="size",desc=lang.Lang("Args_NearItems_size")},
 {name="ignore_wires",desc=lang.Lang("Args_NearItems_ignorewires")}})
@@ -33,8 +37,8 @@ command.AssignClientCommand("nearitems",function(client,cursor,args)
     -- lying items
     for i, item in ipairs(Item.ItemList) do
         local pos = item.WorldPosition
-        if (utils.SquaredDistance(cursor.x,cursor.y,pos.x,pos.y) < size*size) and
-        (not utils.IsWire(item) or not ignore_wires)
+        if (GMT.SquaredDistance(cursor.x,cursor.y,pos.x,pos.y) < size*size) and
+        (not GMT.IsAttachedWire(item) or not ignore_wires)
         then
             -- Getting items in containers
             if item.ParentInventory ~= nil then
@@ -69,6 +73,6 @@ command.AssignClientCommand("nearitems",function(client,cursor,args)
     end
 end)
 
-command.AssignServerCommand("nearitems",function(args)
-    utils.NewConsoleMessage("GMTools: "..lang.Lang("Error_bad_console"),Color(255,0,0,255),false)
+GMT.AssignServerCommand("nearitems",function(args)
+    GMT.NewConsoleMessage("GMTools: "..GMT.Lang("Error_bad_console"),Color(255,0,0,255))
 end)

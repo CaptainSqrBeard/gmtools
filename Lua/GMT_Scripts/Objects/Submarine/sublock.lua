@@ -1,87 +1,79 @@
+GMT.SubLocks = {}
+
 local utils = require("GMT_Scripts._UTILS.utils")
 local command = require("GMT_Scripts._UTILS.command")
 local lang = require("GMT_Scripts._UTILS.lang")
 
-command.AddCommand("sublock",lang.Lang("Help_SubmarineLock"),true,nil,{
+GMT.AddCommand("sublock",lang.Lang("Help_SubmarineLock"),true,nil,{
     {name="submarine",desc=lang.Lang("Args_SubmarineLock_submarine")},
-    {name="axis",desc=lang.Lang("Args_SubmarineLock_axis")}})
+    {name="axis",desc=lang.Lang("Args_SubmarineLock_axis"),optional=true}})
 
-command.AssignClientCommand("sublock",function(client,cursor,args)
+GMT.AssignSharedCommand("sublock",function (args, interface)
     if #args == 0 then
-        utils.SendConsoleMessage("GMTools: "..lang.Lang("Error_NotEnoughArguments"),client,Color(255,0,128,255))
+        interface.showMessage("GMTools: "..lang.Lang("Error_NotEnoughArguments").."\n"..GMT.GetCommandUsageHelp("sublock"),Color(255,0,128,255))
         return
     end
 
     local sub_id = tonumber(args[1])
     local sub = Submarine.Loaded[sub_id]
     if sub == nil then
-        utils.SendConsoleMessage("GMTools: "..lang.Lang("Error_SubmarineNotFound"),client,Color(255,0,128,255))
+        interface.showMessage("GMTools: "..lang.Lang("Error_SubmarineNotFound"),Color(255,0,128,255))
         return
     end
 
+    if GMT.SubLocks[sub] == nil then
+        GMT.SubLocks[sub] = {x = false, y = false}
+    end
+
     if args[2] == nil or args[2] == "xy" then
-        if sub.LockX and sub.LockY then
-            sub.LockX = false
-            sub.LockY = false
-            utils.SendConsoleMessage(lang.Lang("CMD_SubmarineLocked_FullUnlock"),client,Color(255,0,255,255))
+        if GMT.SubLocks[sub].x and GMT.SubLocks[sub].y then
+            GMT.SubLocks[sub].x = false
+            GMT.SubLocks[sub].y = false
+            interface.showMessage(lang.Lang("CMD_SubmarineLocked_FullUnlock"),Color(255,0,255,255))
         else
-            sub.LockX = true
-            sub.LockY = true
-            utils.SendConsoleMessage(lang.Lang("CMD_SubmarineLocked_FullLock"),client,Color(255,0,255,255))
+            GMT.SubLocks[sub].x = true
+            GMT.SubLocks[sub].y = true
+            interface.showMessage(lang.Lang("CMD_SubmarineLocked_FullLock"),Color(255,0,255,255))
         end
     elseif args[2] == "x" then
-        sub.LockX = not sub.LockX
-        if sub.LockX then
-            utils.SendConsoleMessage(lang.Lang("CMD_SubmarineLocked_XLock"),client,Color(255,0,255,255))
+        GMT.SubLocks[sub].x = not GMT.SubLocks[sub].x
+        if GMT.SubLocks[sub].x then
+            interface.showMessage(lang.Lang("CMD_SubmarineLocked_XLock"),Color(255,0,255,255))
         else
-            utils.SendConsoleMessage(lang.Lang("CMD_SubmarineLocked_XUnlock"),client,Color(255,0,255,255))
+            interface.showMessage(lang.Lang("CMD_SubmarineLocked_XUnlock"),Color(255,0,255,255))
         end
     elseif args[2] == "y" then
-        sub.LockY = not sub.LockY
-        if sub.LockY then
-            utils.SendConsoleMessage(lang.Lang("CMD_SubmarineLocked_YLock"),client,Color(255,0,255,255))
+        GMT.SubLocks[sub].y = not GMT.SubLocks[sub].y
+        if GMT.SubLocks[sub].y then
+            interface.showMessage(lang.Lang("CMD_SubmarineLocked_YLock"),Color(255,0,255,255))
         else
-            utils.SendConsoleMessage(lang.Lang("CMD_SubmarineLocked_YUnlock"),client,Color(255,0,255,255))
+            interface.showMessage(lang.Lang("CMD_SubmarineLocked_YUnlock"),Color(255,0,255,255))
         end
     end
 end)
 
-command.AssignServerCommand("sublock",function(args)
-    if #args == 0 then
-        utils.NewConsoleMessage("GMTools: "..lang.Lang("Error_NotEnoughArguments"),Color(255,0,128,255))
-        return
-    end
-
-    local sub_id = tonumber(args[1])
-    local sub = Submarine.Loaded[sub_id]
-    if sub == nil then
-        utils.NewConsoleMessage("GMTools: "..lang.Lang("Error_SubmarineNotFound"),Color(255,0,128,255))
-        return
-    end
-
-    if args[2] == nil or args[2] == "xy" then
-        if sub.LockX and sub.LockY then
-            sub.LockX = false
-            sub.LockY = false
-            utils.NewConsoleMessage(lang.Lang("CMD_SubmarineLocked_FullUnlock"),Color(255,0,255,255))
-        else
-            sub.LockX = true
-            sub.LockY = true
-            utils.NewConsoleMessage(lang.Lang("CMD_SubmarineLocked_FullLock"),Color(255,0,255,255))
-        end
-    elseif args[2] == "x" then
-        sub.LockX = not sub.LockX
-        if sub.LockX then
-            utils.NewConsoleMessage(lang.Lang("CMD_SubmarineLocked_XLock"),Color(255,0,255,255))
-        else
-            utils.NewConsoleMessage(lang.Lang("CMD_SubmarineLocked_XUnlock"),Color(255,0,255,255))
-        end
-    elseif args[2] == "y" then
-        sub.LockY = not sub.LockY
-        if sub.LockY then
-            utils.NewConsoleMessage(lang.Lang("CMD_SubmarineLocked_YLock"),Color(255,0,255,255))
-        else
-            utils.NewConsoleMessage(lang.Lang("CMD_SubmarineLocked_YUnlock"),Color(255,0,255,255))
-        end
-    end
+Hook.Add("roundEnd", "gmtools.on_round_end", function ()
+    GMT.SubLocks = {}
 end)
+
+Hook.Patch("Barotrauma.SubmarineBody", "CalculateBuoyancy", function (instance, ptable)
+    if GMT.SubLocks[instance.Submarine] ~= nil and GMT.SubLocks[instance.Submarine].y == true then
+        ptable.PreventExecution = true
+        return Vector2.Zero
+    end
+end, Hook.HookMethodType.Before)
+
+
+Hook.Patch("Barotrauma.Submarine", "Update", function (instance, ptable)
+    if GMT.SubLocks[instance] ~= nil then
+        local patched_x = instance.subBody.Body.LinearVelocity.x
+        local patched_y = instance.subBody.Body.LinearVelocity.y
+        if GMT.SubLocks[instance].x == true then
+            patched_x = 0
+        end
+        if GMT.SubLocks[instance].y == true then
+            patched_y = 0
+        end
+        instance.subBody.Body.LinearVelocity = Vector2(patched_x, patched_y)
+    end
+end, Hook.HookMethodType.After)

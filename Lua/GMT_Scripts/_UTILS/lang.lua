@@ -1,8 +1,12 @@
+
+
 local module = {}
 
 local lang_files = {}
 
 function module.Load(lang)
+    GMT.Expect(1, lang, "string")
+
     if lang == "en" then
         lang_files = dofile(GMT_PATH.."/Lua/LangFiles/en.lua")
     elseif lang == "ru" then
@@ -13,8 +17,20 @@ function module.Load(lang)
     end
 end
 
+function GMT.LangFiles.ListUnspecifiedKeys()
+    local baseLang = dofile(GMT_PATH.."/Lua/LangFiles/en.lua")
+
+    for k, text in pairs(baseLang) do
+        if lang_files[k] == nil then
+            print('Key is unspecified in current language: "'..k..'"')
+        end
+    end
+end
 
 function module.Lang(text,vars)
+    GMT.Expect(1, text, "string")
+    GMT.Expect(1, vars, "table", "nil")
+
     if vars ~= nil and #vars ~= 0 then
         if lang_files[text] == nil then
             return text

@@ -48,7 +48,7 @@ end,{{name="status",desc=lang.Lang("Args_SeeGhostChat_status")},
 {name="target",desc=lang.Lang("Args_SeeGhostChat_target")}})
 
 
-
+--[[
 command.AddCommand("deadmsg",lang.Lang("Help_DeadMsg"),false,function(client,cursor,args)
     if not Game.RoundStarted then
         utils.SendConsoleMessage("GMTools: "..lang.Lang("CMD_DeadMsg_inround"),client,Color(255,0,0,255))
@@ -89,7 +89,63 @@ command.AddCommand("deadmsg",lang.Lang("Help_DeadMsg"),false,function(client,cur
         
     end
 end,{{name="msg",desc=lang.Lang("Args_DeadMsg_msg")}})
+]]
 
+command.AddCommand("deadmsg",lang.Lang("Help_DeadMsg"),false,nil,{{name="msg",desc=lang.Lang("Args_DeadMsg_msg")}})
+
+command.AssignSharedCommand("deadmsg",function (args, interface)
+    if not Game.RoundStarted then
+        interface.showMessage("GMTools: "..lang.Lang("CMD_DeadMsg_inround"),Color(255,0,0,255))
+        return
+    end
+
+    local msg = ""
+    for i = 1, #args, 1 do
+        msg = msg..args[i].." "
+    end
+    for i = 1, msg:len(), 1 do
+        if msg:sub(i,i) ~= " " then
+            msg = msg:sub(i, msg:len() )
+            break
+        end
+    end
+    if string.len(msg) > 200 then
+        interface.showMessage("GMTools: "..lang.Lang("Error_TooLongMessage"),Color(255,0,0,255))
+        return
+    end
+    if msg:len() == 0 then
+        interface.showMessage("GMTools: "..lang.Lang("CMD_AdminPM_NoMessage").."\n"..GMT.GetCommandUsageHelp("deadmsg"),Color(255,0,0,255))
+        return
+    end
+
+    -- For sender
+    if interface.executor ~= nil then
+        local chatMsg = ChatMessage.Create(nil, msg, ChatMessageType.Dead, interface.executor.Character, interface.executor)
+        Game.SendDirectChatMessage(chatMsg, interface.executor)
+        Game.Server.AddChatMessage(chatMsg)
+    else
+        local chatMsg = ChatMessage.Create(lang.Lang("Console"), msg, ChatMessageType.Dead, nil, nil)
+        Game.Server.AddChatMessage(chatMsg)
+    end
+
+    -- For ghosts
+    for i, cl in ipairs(Client.ClientList) do
+        if interface.executor ~= nil then
+            if cl.SessionId ~= interface.executor.SessionId then
+                if cl.Character == nil or cl.Character.IsDead or GMT.Player.CanSeeGhostChat(cl) then
+                    local chatMsg = ChatMessage.Create(nil, msg, ChatMessageType.Dead, interface.executor.Character, interface.executor)
+                    Game.SendDirectChatMessage(chatMsg, cl)
+                end
+            end
+        else
+            if cl.Character == nil or cl.Character.IsDead or GMT.Player.CanSeeGhostChat(cl) then
+                local chatMsg = ChatMessage.Create(lang.Lang("Console"), msg, ChatMessageType.Dead, nil, nil)
+                Game.SendDirectChatMessage(chatMsg, cl)
+            end
+        end
+        
+    end
+end)
 
 command.AddChatCommand("dead",lang.Lang("Help_DeadMsg"),function (client,args)
     if not permissions.HasPermission(client,".deadmsg") then
@@ -119,7 +175,7 @@ command.AddChatCommand("dead",lang.Lang("Help_DeadMsg"),function (client,args)
         return
     end
     if msg:len() == 0 then
-        local chatMsg = ChatMessage.Create("GM-Tools",utils.FormattedText(lang.Lang("Error_NoMessage"),{{name="color",value="#b1cbfc"}}), ChatMessageType.Dead, nil, nil)
+        local chatMsg = ChatMessage.Create("GM-Tools",GMT.FormattedText(lang.Lang("Error_NoMessage").."\n"..GMT.GetChatCommandUsageHelp(".dead"),{{name="color",value="#b1cbfc"}}), ChatMessageType.Dead, nil, nil)
         Game.SendDirectChatMessage(chatMsg, client)
         return
     end
@@ -127,6 +183,7 @@ command.AddChatCommand("dead",lang.Lang("Help_DeadMsg"),function (client,args)
     -- For sender
     local chatMsg = ChatMessage.Create(nil, msg, ChatMessageType.Dead, client.Character, client)
     Game.SendDirectChatMessage(chatMsg, client)
+    Game.Server.AddChatMessage(chatMsg)
 
     -- For ghosts
     for i, cl in ipairs(Client.ClientList) do
@@ -136,6 +193,5 @@ command.AddChatCommand("dead",lang.Lang("Help_DeadMsg"),function (client,args)
                 Game.SendDirectChatMessage(chatMsg, cl)
             end
         end
-        
     end
-end)
+end,"<msg>")

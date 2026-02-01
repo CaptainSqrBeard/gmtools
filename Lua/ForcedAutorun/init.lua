@@ -52,8 +52,10 @@ if SERVER then
             local msg = ChatMessage.Create("", "Launching GMTools in force mod...", ChatMessageType.Console, nil, nil, nil, Color(255,0,255,255))
             Game.SendDirectChatMessage(msg, cl)
         end
+
         require("Autorun.gmtools_init")
         GMT.ForcedLaunch = true
+        Hook.Call("gmtools.loaded", {})
     end)
 
     Game.AssignOnExecute(".gmtools_forcedrun", function (args)
@@ -67,7 +69,9 @@ if SERVER then
             local msg = ChatMessage.Create("", "Launching GMTools in force mod...", ChatMessageType.Console, nil, nil, nil, Color(255,0,255,255))
             Game.SendDirectChatMessage(msg, cl)
         end
+        
         require("Autorun.gmtools_init")
         GMT.ForcedLaunch = true
+        Hook.Call("gmtools.loaded", {})
     end)
 end

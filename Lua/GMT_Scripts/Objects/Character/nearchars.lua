@@ -4,6 +4,9 @@ local lang = require("GMT_Scripts._UTILS.lang")
 local gameInfo = require("GMT_Scripts._UTILS.gameInfo")
 
 command.AddCommand("nearchars",lang.Lang("Help_NearChars"),true,nil,{
+{name="size",desc=lang.Lang("Args_NearChars_size"),optional=true}})
+
+command.AddCommand("nearchars",lang.Lang("Help_NearChars"),true,nil,{
 {name="size",desc=lang.Lang("Args_NearChars_size")}})
 
 command.AssignClientCommand("nearchars",function(client,cursor,args)
@@ -27,6 +30,6 @@ command.AssignClientCommand("nearchars",function(client,cursor,args)
     end
 end)
 
-command.AssignServerCommand("nearchars",function(args)
-    utils.NewConsoleMessage("GMTools: "..lang.Lang("Error_bad_console"),Color(255,0,0,255),false)
+GMT.AssignServerCommand("nearchars",function(args)
+    GMT.NewConsoleMessage("GMTools: "..lang.Lang("Error_bad_console"),Color(255,0,0,255))
 end)

@@ -26,7 +26,7 @@ command.AssignClientCommand("ahelp",function(client,cursor,args)
     end
 
     if #args == 0 then
-        utils.SendConsoleMessage("GMTools: "..lang.Lang("CMD_AdminPM_NoMessage"),client,Color(255,0,0,255))
+        GMT.SendConsoleMessage("GMTools: "..lang.Lang("CMD_AdminPM_NoMessage").."\n"..GMT.GetCommandUsageHelp("ahelp"),client,Color(255,0,0,255))
         return
     end
 
@@ -62,8 +62,8 @@ command.AssignClientCommand("ahelp",function(client,cursor,args)
     end
 end)
 
-command.AssignServerCommand("ahelp",function(args)
-    utils.NewConsoleMessage("GMTools: "..lang.Lang("Error_bad_console"),Color(255,0,0,255),false) -- how you will adminPM something that isn't a client?
+GMT.AssignServerCommand("ahelp",function(args)
+    GMT.NewConsoleMessage("GMTools: "..lang.Lang("Error_bad_console"),Color(255,0,0,255)) -- how you will adminPM something that isn't a client?
 end)
 
 
@@ -78,7 +78,8 @@ command.AddChatCommand("ahelp",lang.Lang("Help_AHelp"),function (client,args)
     end
 
     if #args == 0 then
-        utils.SendConsoleMessage("GMTools: "..lang.Lang("CMD_AdminPM_NoMessage"),client,Color(255,0,0,255))
+        local chatMsg = ChatMessage.Create("ADMIN HELP",lang.Lang("CMD_AdminPM_NoMessage").."\n"..GMT.GetChatCommandUsageHelp(".ahelp"), ChatMessageType.Error, nil, nil)
+        Game.SendDirectChatMessage(chatMsg, client)
         return
     end
 
@@ -87,7 +88,8 @@ command.AddChatCommand("ahelp",lang.Lang("Help_AHelp"),function (client,args)
         msg = msg..args[i].." "
     end
     if string.len(msg) > 200 then
-        utils.SendConsoleMessage("GMTools: Message is too big!",client,Color(255,0,128,255))
+        local chatMsg = ChatMessage.Create("ADMIN HELP",lang.Lang("Error_TooLongMessage"), ChatMessageType.Error, nil, nil)
+        Game.SendDirectChatMessage(chatMsg, client)
     end
     msg = msg:sub(1, msg:len()-1)
 
@@ -105,4 +107,4 @@ command.AddChatCommand("ahelp",lang.Lang("Help_AHelp"),function (client,args)
             sendAHelpToAdmins(client,cl,msg)
         end
     end
-end)
+end,"<msg>")

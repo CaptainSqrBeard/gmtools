@@ -8,7 +8,7 @@ end
 
 function module.ThrowError(text,level)
     if level == nil then level = 0 end
-    error("GM-Tools Custom Error: "..text,3+level)
+    error("GM-Tools Error: "..text,3+level)
 end
 
 function module.SendConsoleMessage(text,client,color)
@@ -41,7 +41,17 @@ function module.CheckFArgs(value,vtype,canBeNil)
     end
 end
 
-function module.GetClientByString(string)
+function GMT.Expect(index, value, ...)
+    local types = {...}
+    local type = type(value)
+    if not GMT.Contains(types, type) then
+        GMT.ThrowError("Bad argument #"..index.." ("..GMT.ConcatStringTable(types, " or ").." expected, got "..type..")", 1)
+    end
+end
+
+function GMT.GetClientByString(string)
+    GMT.Expect(1, string, "string", "nil")
+
     if string == nil then
         return nil
     end
@@ -60,6 +70,8 @@ function module.GetClientByString(string)
 end
 
 function module.GetCharacterByString(string)
+    GMT.Expect(1, string, "string", "nil")
+
     if string == nil then
         return nil
     end
@@ -84,6 +96,8 @@ function module.GetCharacterByString(string)
 end
 
 function module.GetCharacterClient(id)
+    GMT.Expect(1, id, "number")
+
     for i, cl in ipairs(Client.ClientList) do
         if cl.Character ~= nil and cl.Character.ID == id then
             return cl
@@ -91,11 +105,34 @@ function module.GetCharacterClient(id)
     end
 end
 
+function GMT.GetVector2FromString(string)
+    GMT.Expect(1, string, "string")
+
+    local split = GMT.Split(string, ";")
+    if #split == 2 then
+        local x = tonumber(split[1])
+        local y = tonumber(split[2])
+        if x == nil or y == nil then
+            return nil
+        else
+            return Vector2(x, y)
+        end
+    else
+        return nil
+    end
+end
+
 function module.RandomFloat(min,max)
+    GMT.Expect(1, min, "number")
+    GMT.Expect(2, max, "number")
+
     return math.random()*(max-min)+min
 end
 
 function module.FormattedText(text, tags)
+    GMT.Expect(1, text, "string")
+    GMT.Expect(2, tags, "table")
+
     local out = "‖"
     if #tags > 0 then
         for i = 1, #tags-1, 1 do
@@ -119,6 +156,8 @@ function module.FormattedText(text, tags)
 end
 
 function module.BoolReturn(bool,tru,fals)
+    GMT.Expect(1, bool, "boolean")
+
     if bool == true then
         return tru
     else
@@ -149,11 +188,9 @@ function module.ClientLogName(client, name)
 end
 
 function module.IsWire(item)
-    if (item.Prefab.Identifier.Value == "redwire") or
-    (item.Prefab.Identifier.Value == "bluewire") or
-    (item.Prefab.Identifier.Value == "orangewire") or
-    (item.Prefab.Identifier.Value == "redwire")
-    then
+    local component = item.GetComponentString('Wire')
+
+    if component ~= nil and (component.Connections[1] ~= nil or component.Connections[2] ~= nil or #component.GetNodes() > 0) then
         return true
     end
     return false
@@ -167,6 +204,9 @@ function module.Contains(array,item)
 end
 
 function module.Union(array1,array2)
+    GMT.Expect(1, array1, "table")
+    GMT.Expect(2, array2, "table")
+
     for i, item in ipairs(array2) do
         if not module.Contains(array1,item) then
             table.insert(array1,item)
@@ -176,6 +216,8 @@ function module.Union(array1,array2)
 end
 
 function module.Filter(array,filter)
+    GMT.Expect(1, array, "table")
+
     local output = {}
 
     for i, item in ipairs(array) do
@@ -188,6 +230,7 @@ function module.Filter(array,filter)
 end
 
 function module.GetItemByID(id)
+    GMT.Expect(1, id, "number")
     for i, item in ipairs(Item.ItemList) do
         if item.ID == id then
             return item
@@ -197,6 +240,7 @@ function module.GetItemByID(id)
 end
 
 function module.GetCharacterByID(id)
+    GMT.Expect(1, id, "number")
     for i, char in ipairs(Character.CharacterList) do
         if char.ID == id then
             return char
@@ -206,6 +250,10 @@ function module.GetCharacterByID(id)
 end
 
 function module.InRange(value,min,max)
+    GMT.Expect(1, value, "number")
+    GMT.Expect(2, min, "number")
+    GMT.Expect(3, max, "number")
+
     if value <= max and value >= min then
         return true
     end
@@ -224,6 +272,9 @@ function module.CanSpeakGhost(char)
 end
 
 function module.Split (line, separator)
+    GMT.Expect(1, line, "string")
+    GMT.Expect(2, separator, "string")
+
     if separator == nil then
         module.ThrowError("Separator can't be nil")
     end
@@ -233,6 +284,25 @@ function module.Split (line, separator)
         table.insert(list, str)
     end
     return list
+end
+
+function GMT.ConcatStringTable(table, separator)
+    GMT.Expect(1, table, "table")
+    GMT.Expect(2, separator, "string")
+
+    local string = table[1]
+    for i = 2, #table, 1 do
+        string = string..separator..table[i]
+    end
+    return string
+end
+
+function GMT.GetJobPrefab(id)
+    if JobPrefab.Prefabs.ContainsKey(id) then
+        return JobPrefab.Prefabs[id]
+    else
+        return nil
+    end
 end
 
 function module.GetTimeString(time)
@@ -272,6 +342,100 @@ function module.IsRespawnShuttle(shuttle)
         end
     end
     return false
+end
+
+function GMT.Trim2(string)
+    if string == '' then
+        return string
+    else
+        local startPos = 1
+        local endPos   = #string
+    
+        while (startPos < endPos and string:byte(startPos) <= 32) do
+            startPos = startPos + 1
+        end
+    
+        if startPos >= endPos then
+            return ''
+        else
+            while (endPos > 0 and string:byte(endPos) <= 32) do
+                endPos = endPos - 1
+            end
+    
+            return string:sub(startPos, endPos)
+        end
+    end
+end
+
+function GMT.Trim(string)
+    return (string.gsub(string, "^%s*(.-)%s*$", "%1"))
+  end
+
+function GMT.ParseTuple(tuple, default)
+    tuple = GMT.Trim(tuple)
+
+    if tuple:sub(1, 1) ~= '(' or tuple:sub(-1, -1) ~= ')' then
+        return default
+    end
+
+    tuple = tuple:sub(2, -2)
+
+    local array = GMT.Split(tuple, ',')
+
+    if #array ~= 2 then
+        return default
+    end
+
+    return GMT.Trim(array[1]), GMT.Trim(array[2])
+end
+
+function GMT.ParseTupleArray(tupleArray, default)
+    local tuples = GMT.Split(tupleArray, ";")
+    local result = {}
+
+    for i, tuple in ipairs(tuples) do
+        table.insert(result, {GMT.ParseTuple(tuple, default)})
+    end
+
+    return result
+end
+
+function GMT.ColorFromStrings(in_r, in_g, in_b, in_a)
+    ---- Color assembly
+    -- Red
+    local r = tonumber(in_r)
+    if r == nil then r = 255 end
+    -- Green (or *Saul*)
+    local g = tonumber(in_g)
+    if g == nil then g = 255 end
+    -- Blue
+    local b = tonumber(in_b)
+    if b == nil then b = 255 end
+    -- Alpha
+    local a = tonumber(in_a)
+    if a == nil then a = 255 end
+
+    return Color(r, g, b, a)
+end
+
+function GMT.ParseHexColor(hex)
+    GMT.Expect(1, hex, "string")
+
+    local length = string.len(hex)
+    if length == 6 then
+        local r = tonumber(string.sub(hex, 1, 2), 16)
+        local g = tonumber(string.sub(hex, 3, 4), 16)
+        local b = tonumber(string.sub(hex, 5, 6), 16)
+        return Color(r, g, b)
+    elseif length == 8 then
+        local r = tonumber(string.sub(hex, 1, 2), 16)
+        local g = tonumber(string.sub(hex, 3, 4), 16)
+        local b = tonumber(string.sub(hex, 5, 6), 16)
+        local a = tonumber(string.sub(hex, 7, 8), 16)
+        return Color(r, g, b, a)
+    else
+        return nil
+    end
 end
 
 return module
