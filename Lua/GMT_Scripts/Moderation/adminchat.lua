@@ -38,7 +38,7 @@ command.AddChatCommand("admin",lang.Lang("Help_AdminChat"),function (client,args
 
     Game.Log(ADMIN_CHAT_PREFIX..utils.ClientLogName(client)..": "..msg, ServerLogMessageType.Chat)
     for i, cl in ipairs(Client.ClientList) do
-        if GMT.HasGMTPermission(cl,".adminchat") then
+        if permissions.HasGMTPermission(cl,".adminchat") then
             local chatMsg = ChatMessage.Create(nil, utils.FormattedText(msg,{{name="color",value="#cc4a4e"}}), ChatMessageType.Error, client.Character, client)
             Game.SendDirectChatMessage(chatMsg, cl)
         end
@@ -70,7 +70,7 @@ command.AssignSharedCommand("adminchat",function (args, interface)
     if interface.executor ~= nil then
         Game.Log(ADMIN_CHAT_PREFIX..GMT.ClientLogName(interface.executor)..": "..msg, ServerLogMessageType.Chat)
         for i, cl in ipairs(Client.ClientList) do
-            if GMT.HasGMTPermission(cl,".adminchat") then
+            if permissions.HasGMTPermission(cl,".adminchat") then
                 local chatMsg = ChatMessage.Create(nil, GMT.FormattedText(msg,{{name="color",value="#cc4a4e"}}), ChatMessageType.Error, interface.executor.Character, interface.executor)
                 Game.SendDirectChatMessage(chatMsg, cl)
             end
@@ -78,7 +78,7 @@ command.AssignSharedCommand("adminchat",function (args, interface)
     else
         Game.Log(ADMIN_CHAT_PREFIX.."HOST: "..msg, ServerLogMessageType.Chat)
         for i, cl in ipairs(Client.ClientList) do
-            if GMT.HasGMTPermission(cl,".adminchat") then
+            if permissions.HasGMTPermission(cl,".adminchat") then
                 local chatMsg = ChatMessage.Create(lang.Lang("Console"), GMT.FormattedText(msg,{{name="color",value="#cc4a4e"}}), ChatMessageType.Error, nil, nil)
                 Game.SendDirectChatMessage(chatMsg, cl)
             end

@@ -35,8 +35,8 @@ function module.RestorePerms(client)
     client.SetPermissions(client.Permissions, utils.Union(output_list, add_list))
 end
 
-function module.HasPermission(client,command)
-    utils.Expect(2, command, "string")
+function module.HasPermission(client, requiredCommand)
+    utils.Expect(2, requiredCommand, "string")
 
     -- Host has permission to everything
     if not Game.IsDedicated and client.SessionId == 1 then
@@ -45,18 +45,18 @@ function module.HasPermission(client,command)
 
     local playerCommands = GMT.Config.Vars.player_commands
 
-    if utils.Contains(playerCommands,command) then return true end
+    if utils.Contains(playerCommands, requiredCommand) then return true end
 
     if not client.HasPermission(ClientPermissions.ConsoleCommands) then return false end
 
     for cmd in client.PermittedConsoleCommands do
-        if cmd == command.GetCommandByString(command) then return true end
+        if cmd == command.GetCommandByString(requiredCommand) then return true end
     end
     return false
 end
 
-function module.HasGMTPermission(client,command)
-    utils.Expect(2, command, "string")
+function module.HasGMTPermission(client, requiredCommand)
+    utils.Expect(2, requiredCommand, "string")
 
     -- Host has permission to everything
     if not Game.IsDedicated and client.SessionId == 1 then
@@ -65,24 +65,24 @@ function module.HasGMTPermission(client,command)
 
     local playerCommands = GMT.Config.Vars.player_commands
 
-    if utils.Contains(playerCommands,command) then return true end
+    if utils.Contains(playerCommands, requiredCommand) then return true end
     
     if not client.HasPermission(ClientPermissions.ConsoleCommands) then return false end
 
     playerdb.Create(client)
-    if utils.Contains(GMT.PlayerData.Players[client.SteamID].Permissions, command) then return true end
+    if utils.Contains(GMT.PlayerData.Players[client.SteamID].Permissions, requiredCommand) then return true end
     return false
 end
 
-function module.HasGMTPermissionOffline(steamid,command)
-    utils.Expect(2, command, "string")
+function module.HasGMTPermissionOffline(steamid, requiredCommand)
+    utils.Expect(2, requiredCommand, "string")
     
     local playerCommands = GMT.Config.Vars.player_commands
 
-    if utils.Contains(playerCommands,command) then return true end
+    if utils.Contains(playerCommands, requiredCommand) then return true end
 
     playerdb.CreateSteam("Unknown", steamid)
-    if utils.Contains(GMT.PlayerData.Players[steamid].Permissions, command) then return true end
+    if utils.Contains(GMT.PlayerData.Players[steamid].Permissions, requiredCommand) then return true end
     return false
 end
 

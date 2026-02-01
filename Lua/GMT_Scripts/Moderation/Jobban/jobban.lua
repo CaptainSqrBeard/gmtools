@@ -2,6 +2,7 @@ local utils = require("GMT_Scripts._UTILS.utils")
 local command = require("GMT_Scripts._UTILS.command")
 local playerdb = require("GMT_Scripts._UTILS.playerdb")
 local lang = require("GMT_Scripts._UTILS.lang")
+local permissions = require("GMT_Scripts._UTILS.permissions")
 
 local STEAM_ID_LENGTH = 17
 
@@ -38,13 +39,13 @@ command.AssignSharedCommand("jobban",function (args, interface)
     end
 
     -- Can't jobban player with permission to jobban
-    if GMT.HasGMTPermissionOffline(steam_id, ".jobban") then
+    if permissions.HasGMTPermissionOffline(steam_id, ".jobban") then
         interface.showMessage("GMTools: "..lang.Lang("CMD_Jobban_AdminIssue"),Color(255,0,0,255))
         return
     end
 
     -- Checking job
-    if GMT.GetJobPrefab(job) == nil then
+    if utils.GetJobPrefab(job) == nil then
         interface.showMessage("GMTools: "..lang.Lang("CMD_Jobban_UnknownJob"),Color(255,0,0,255))
         return
     end
@@ -87,10 +88,10 @@ command.AssignSharedCommand("jobban",function (args, interface)
     end
     
     if player ~= nil then
-        interface.showMessage(lang.Lang("CMD_Jobban_ConsoleOut",{job,player.Name,reason,GMT.GetTimeString(duration)}),Color(255,0,128,255))
-        GMT.PlayerData.JobBan(player,job,duration,reason)
+        interface.showMessage(lang.Lang("CMD_Jobban_ConsoleOut",{job,player.Name,reason,lang.GetTimeString(duration)}),Color(255,0,128,255))
+        playerdb.JobBan(player,job,duration,reason)
     elseif steam_id ~= nil then
-        interface.showMessage(lang.Lang("CMD_Jobban_ConsoleOut",{job,steam_id,reason,GMT.GetTimeString(duration)}),Color(255,0,128,255))
-        GMT.PlayerData.JobBanSteam(steam_id,job,duration,reason)
+        interface.showMessage(lang.Lang("CMD_Jobban_ConsoleOut",{job,steam_id,reason,lang.GetTimeString(duration)}),Color(255,0,128,255))
+        playerdb.JobBanSteam(steam_id,job,duration,reason)
     end
 end)

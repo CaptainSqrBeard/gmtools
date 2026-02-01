@@ -9,7 +9,6 @@ Hook.Add("client.connected", "GMT.client_connect", function(client)
     if not Game.IsDedicated and client.SessionId == 1 then
         -- All perms to host
         GMT.PlayerData.Players[client.SteamID].Permissions = GMT.AllCommands
-        print(GMT.PlayerData.Players)
         playerdb.Save()
     end
 
@@ -79,7 +78,7 @@ end)
 
 Hook.Add("tryChangeClientName", "GMT.character_change", function(client,newName,newJob,newTeam)
     if client.PreferredJob ~= newJob then
-        local hasBan, expiresAt, reason = GMT.PlayerData.GetJobBanInfo(client,newJob.Value)
+        local hasBan, expiresAt, reason = playerdb.GetJobBanInfo(client,newJob.Value)
         if hasBan then
             local time
             if expiresAt == 0 then

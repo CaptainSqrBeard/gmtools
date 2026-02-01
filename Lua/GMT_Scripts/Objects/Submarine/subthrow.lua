@@ -43,7 +43,7 @@ command.AssignSharedCommand("subthrow",function (args, interface)
             vector = Vector2.Normalize(interface.cursor - sub.WorldPosition)*15
         end
     else
-        local vectorFromString = GMT.GetVector2FromString(args[2])
+        local vectorFromString = utils.GetVector2FromString(args[2])
         if vectorFromString == nil then
             interface.showMessage("GMTools: "..lang.Lang("CMD_SubmarineThrow_UnknownTypeVector"),Color(255,0,128,255))
             return

@@ -3,8 +3,6 @@ local module = {}
 local utils = require("GMT_Scripts._UTILS.utils")
 local lang = require("GMT_Scripts._UTILS.lang")
 
-GMT.Player = {}
-
 function module.AddInMemory(client)
     if GMT.PlayerData[client.SessionId] == nil then
         GMT.PlayerData[client.SessionId] = {SeeGhostChat=false, Cooldown=Timer.Time, Spam=0}

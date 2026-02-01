@@ -60,7 +60,7 @@ command.AssignSharedCommand("subtp",function (args, interface)
             endPos.y = endPos.y - (sub.Borders.Height + Level.Loaded.EndOutpost.Borders.Height) / 2;
         end
     else
-        local vector2 = GMT.GetVector2FromString(args[2])
+        local vector2 = utils.GetVector2FromString(args[2])
         if vector2 == nil then
             interface.showMessage("GMTools: "..lang.Lang("CMD_SubmarineTp_UnknownType"),Color(255,0,128,255))
             return

@@ -60,7 +60,7 @@ end)
 
 -- Holdable
 newAction("Holdable", "pick", lang.Lang("CMD_ItemEdit_Holdable_pick_Help"),function (interface, item, component, args)
-    local char = GMT.GetCharacterByString(args[1])
+    local char = utils.GetCharacterByString(args[1])
     if char == nil then
         interface.showMessage("GMTools: "..lang.Lang("Error_CharacterNotFound"),Color(255,0,255,255))
         return

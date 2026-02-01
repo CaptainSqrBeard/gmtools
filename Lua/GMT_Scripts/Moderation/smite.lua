@@ -70,7 +70,7 @@ command.AssignSharedCommand("smite",function (args, interface)
     
     local char
     if args[2] ~= nil then
-        char = GMT.GetCharacterByString(args[2])
+        char = utils.GetCharacterByString(args[2])
         if char == nil or char.IsDead then
             interface.showMessage("GM-Tools: "..lang.Lang("Error_CharacterNotFound"),Color(255,0,0,255))
             return

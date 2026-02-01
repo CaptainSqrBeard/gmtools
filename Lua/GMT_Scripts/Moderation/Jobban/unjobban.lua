@@ -30,7 +30,7 @@ command.AssignSharedCommand("unjobban",function (args, interface)
     end
 
     -- Checking job
-    if job ~= nil and GMT.GetJobPrefab(job) == nil then
+    if job ~= nil and utils.GetJobPrefab(job) == nil then
         interface.showMessage("GMTools: "..lang.Lang("CMD_Jobban_UnknownJob"),Color(255,0,0,255))
         return
     end

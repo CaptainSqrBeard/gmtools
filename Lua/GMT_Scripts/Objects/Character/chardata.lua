@@ -20,7 +20,7 @@ command.AssignSharedCommand("chardata",function (args, interface)
     end
 
     if args[2] == nil then
-        interface.showMessage(lang.Lang("CMD_CharData_header",{char.Name,char.ID}),Color(255,0,255,255))
+        interface.showMessage(lang.Lang("CMD_CharData_header",{char.ID,char.Name}),Color(255,0,255,255))
         interface.showMessage(lang.Lang("CMD_CharData_main_species",{char.SpeciesName.Value}),Color(255,255,255,255))
         interface.showMessage(lang.Lang("CMD_CharData_main_team",{gameInfo.GetLocalizedTeam(char.TeamID)}),Color(255,255,255,255))
         interface.showMessage(lang.Lang("CMD_CharData_main_health",{char.Vitality, char.MaxVitality}),Color(255,255,255,255))
@@ -41,7 +41,7 @@ command.AssignSharedCommand("chardata",function (args, interface)
             return
         end
 
-        interface.showMessage(lang.Lang("CMD_CharData_inv_header",{char.Name,char.ID}),Color(255,0,255,255))
+        interface.showMessage(lang.Lang("CMD_CharData_inv_header",{char.Name, char.ID}),Color(255,0,255,255))
         for item in char.Inventory.AllItems do
             if item.OwnInventory ~= nil then
                 interface.showMessage(lang.Lang("CMD_CharData_inv_iteminv",{item.Prefab.Identifier.Value, item.ID}),Color(255,220,255,255))

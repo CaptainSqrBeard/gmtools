@@ -389,25 +389,25 @@ newArg("skincolor", function (info, args, interface)
             return
         end
 
-        local data = GMT.ParseTupleArray(attribute.Value, {"#ffffff", 100})
+        local data = utils.ParseTupleArray(attribute.Value, {"#ffffff", 100})
         if not GMT.InRange(index, 1, #data) then
             interface.showMessage("GMTools: "..lang.Lang("CMD_SpawnChar_in_argument",{"skincolor", lang.Lang("Error_OutOfRange", {'1', #data})}),Color(255,0,0,255))
             info.prevent_spawn = true
             return
         end
 
-        local new_color = GMT.ParseHexColor(string.sub(data[index][1], 2))
+        local new_color = utils.ParseHexColor(string.sub(data[index][1], 2))
         if new_color == nil then
             interface.showMessage("GMTools: "..lang.Lang("CMD_SpawnChar_in_argument",{"skincolor", lang.Lang("Error_BadArgument",{'#1'})}),Color(255,0,0,255))
             info.prevent_spawn = true
         else
-            info.character_info.Head.SkinColor = GMT.ParseHexColor(string.sub(data[index][1], 2))
+            info.character_info.Head.SkinColor = utils.ParseHexColor(string.sub(data[index][1], 2))
         end
         
         return
     elseif #args > 1 and #args <= 3 then
         ---- Color assembly
-        info.character_info.Head.SkinColor = GMT.ColorFromStrings(args[1], args[2], args[3])
+        info.character_info.Head.SkinColor = utils.ColorFromStrings(args[1], args[2], args[3])
     else
         interface.showMessage("GMTools: "..lang.Lang("CMD_SpawnChar_in_argument",{"skincolor", lang.Lang("Error_BadArgument",{'#1'})}),Color(255,0,0,255))
         info.prevent_spawn = true
@@ -441,25 +441,25 @@ newArg("haircolor", function (info, args, interface)
             return
         end
 
-        local data = GMT.ParseTupleArray(attribute.Value, {"#ffffff", 100})
+        local data = utils.ParseTupleArray(attribute.Value, {"#ffffff", 100})
         if not GMT.InRange(index, 1, #data) then
             interface.showMessage("GMTools: "..lang.Lang("CMD_SpawnChar_in_argument",{"haircolor", lang.Lang("Error_OutOfRange", {'1', #data})}),Color(255,0,0,255))
             info.prevent_spawn = true
             return
         end
 
-        local new_color = GMT.ParseHexColor(string.sub(data[index][1], 2))
+        local new_color = utils.ParseHexColor(string.sub(data[index][1], 2))
         if new_color == nil then
             interface.showMessage("GMTools: "..lang.Lang("CMD_SpawnChar_in_argument",{"haircolor", lang.Lang("Error_BadArgument",{'#1'})}),Color(255,0,0,255))
             info.prevent_spawn = true
         else
-            info.character_info.Head.HairColor = GMT.ParseHexColor(string.sub(data[index][1], 2))
+            info.character_info.Head.HairColor = utils.ParseHexColor(string.sub(data[index][1], 2))
         end
         
         return
     elseif #args > 1 and #args <= 3 then
         ---- Color assembly
-        info.character_info.Head.HairColor = GMT.ColorFromStrings(args[1], args[2], args[3])
+        info.character_info.Head.HairColor = utils.ColorFromStrings(args[1], args[2], args[3])
     else
         interface.showMessage("GMTools: "..lang.Lang("CMD_SpawnChar_in_argument",{"haircolor", lang.Lang("Error_BadArgument",{'#1'})}),Color(255,0,0,255))
         info.prevent_spawn = true
@@ -493,25 +493,25 @@ newArg("beardcolor", function (info, args, interface)
             return
         end
 
-        local data = GMT.ParseTupleArray(attribute.Value, {"#ffffff", 100})
+        local data = utils.ParseTupleArray(attribute.Value, {"#ffffff", 100})
         if not GMT.InRange(index, 1, #data) then
             interface.showMessage("GMTools: "..lang.Lang("CMD_SpawnChar_in_argument",{"beardcolor", lang.Lang("Error_OutOfRange", {'1', #data})}),Color(255,0,0,255))
             info.prevent_spawn = true
             return
         end
 
-        local new_color = GMT.ParseHexColor(string.sub(data[index][1], 2))
+        local new_color = utils.ParseHexColor(string.sub(data[index][1], 2))
         if new_color == nil then
             interface.showMessage("GMTools: "..lang.Lang("CMD_SpawnChar_in_argument",{"beardcolor", lang.Lang("Error_BadArgument",{'#1'})}),Color(255,0,0,255))
             info.prevent_spawn = true
         else
-            info.character_info.Head.FacialHairColor = GMT.ParseHexColor(string.sub(data[index][1], 2))
+            info.character_info.Head.FacialHairColor = utils.ParseHexColor(string.sub(data[index][1], 2))
         end
         
         return
     elseif #args > 1 and #args <= 3 then
         ---- Color assembly
-        info.character_info.Head.FacialHairColor = GMT.ColorFromStrings(args[1], args[2], args[3])
+        info.character_info.Head.FacialHairColor = utils.ColorFromStrings(args[1], args[2], args[3])
     else
         interface.showMessage("GMTools: "..lang.Lang("CMD_SpawnChar_in_argument",{"beardcolor", lang.Lang("Error_BadArgument",{'#1'})}),Color(255,0,0,255))
         info.prevent_spawn = true
@@ -545,7 +545,7 @@ newArg("pos", function (info, args, interface)
         end
         info.cursor = interface.cursor
     else
-        local vector2 = GMT.GetVector2FromString(args[2])
+        local vector2 = utils.GetVector2FromString(args[2])
         if vector2 == nil then
             interface.showMessage("GMTools: "..lang.Lang("CMD_SpawnChar_in_argument",{"pos", lang.Lang("CMD_SpawnChar_unknown_type")}),Color(255,0,0,255))
             return
@@ -564,7 +564,7 @@ newArg("jobloadout", function (info, args, interface)
     end
 
     -- Get job
-    local jobPrefab = GMT.GetJobPrefab(args[1])
+    local jobPrefab = utils.GetJobPrefab(args[1])
     if jobPrefab == nil then
         interface.showMessage("GMTools: "..lang.Lang("CMD_SpawnChar_in_argument",{"jobloadout", lang.Lang("Error_UnknownJob")}),Color(255,0,0,255))
         info.prevent_spawn = true
@@ -612,7 +612,7 @@ newArg("job", function (info, args, interface)
     end
 
     -- Get job
-    local jobPrefab = GMT.GetJobPrefab(args[1])
+    local jobPrefab = utils.GetJobPrefab(args[1])
     if jobPrefab == nil then
         interface.showMessage("GMTools: "..lang.Lang("CMD_SpawnChar_in_argument",{"job", lang.Lang("Error_UnknownJob")}),Color(255,0,0,255))
         info.prevent_spawn = true

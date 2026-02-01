@@ -43,7 +43,7 @@ function module.Expect(index, value, ...)
     local types = {...}
     local type = type(value)
     if not module.Contains(types, type) then
-        module.ThrowError("Bad argument #"..index.." ("..GMT.ConcatStringTable(types, " or ").." expected, got "..type..")", 1)
+        module.ThrowError("Bad argument #"..index.." ("..module.ConcatStringTable(types, " or ").." expected, got "..type..")", 1)
     end
 end
 
@@ -103,10 +103,10 @@ function module.GetCharacterClient(id)
     end
 end
 
-function GMT.GetVector2FromString(string)
+function module.GetVector2FromString(string)
     module.Expect(1, string, "string")
 
-    local split = GMT.Split(string, ";")
+    local split = module.Split(string, ";")
     if #split == 2 then
         local x = tonumber(split[1])
         local y = tonumber(split[2])
@@ -269,7 +269,7 @@ function module.CanSpeakGhost(char)
     return false
 end
 
-function module.Split (line, separator)
+function module.Split(line, separator)
     module.Expect(1, line, "string")
     module.Expect(2, separator, "string")
 
@@ -284,7 +284,7 @@ function module.Split (line, separator)
     return list
 end
 
-function GMT.ConcatStringTable(table, separator)
+function module.ConcatStringTable(table, separator)
     module.Expect(1, table, "table")
     module.Expect(2, separator, "string")
 
@@ -295,7 +295,7 @@ function GMT.ConcatStringTable(table, separator)
     return string
 end
 
-function GMT.GetJobPrefab(id)
+function module.GetJobPrefab(id)
     if JobPrefab.Prefabs.ContainsKey(id) then
         return JobPrefab.Prefabs[id]
     else
@@ -303,16 +303,7 @@ function GMT.GetJobPrefab(id)
     end
 end
 
-function module.IsRespawnShuttle(shuttle)
-    for sub in Game.RespawnManager.RespawnShuttles do
-        if shuttle == sub then
-            return true
-        end
-    end
-    return false
-end
-
-function GMT.Trim2(string)
+function module.Trim2(string)
     if string == '' then
         return string
     else
@@ -335,12 +326,12 @@ function GMT.Trim2(string)
     end
 end
 
-function GMT.Trim(string)
+function module.Trim(string)
     return (string.gsub(string, "^%s*(.-)%s*$", "%1"))
   end
 
-function GMT.ParseTuple(tuple, default)
-    tuple = GMT.Trim(tuple)
+function module.ParseTuple(tuple, default)
+    tuple = module.Trim(tuple)
 
     if tuple:sub(1, 1) ~= '(' or tuple:sub(-1, -1) ~= ')' then
         return default
@@ -348,27 +339,27 @@ function GMT.ParseTuple(tuple, default)
 
     tuple = tuple:sub(2, -2)
 
-    local array = GMT.Split(tuple, ',')
+    local array = module.Split(tuple, ',')
 
     if #array ~= 2 then
         return default
     end
 
-    return GMT.Trim(array[1]), GMT.Trim(array[2])
+    return module.Trim(array[1]), module.Trim(array[2])
 end
 
-function GMT.ParseTupleArray(tupleArray, default)
-    local tuples = GMT.Split(tupleArray, ";")
+function module.ParseTupleArray(tupleArray, default)
+    local tuples = module.Split(tupleArray, ";")
     local result = {}
 
     for i, tuple in ipairs(tuples) do
-        table.insert(result, {GMT.ParseTuple(tuple, default)})
+        table.insert(result, {module.ParseTuple(tuple, default)})
     end
 
     return result
 end
 
-function GMT.ColorFromStrings(in_r, in_g, in_b, in_a)
+function module.ColorFromStrings(in_r, in_g, in_b, in_a)
     ---- Color assembly
     -- Red
     local r = tonumber(in_r)
@@ -386,7 +377,7 @@ function GMT.ColorFromStrings(in_r, in_g, in_b, in_a)
     return Color(r, g, b, a)
 end
 
-function GMT.ParseHexColor(hex)
+function module.ParseHexColor(hex)
     module.Expect(1, hex, "string")
 
     local length = string.len(hex)
