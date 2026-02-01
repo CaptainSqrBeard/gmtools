@@ -1,3 +1,5 @@
+local module = {}
+
 local lang_files = {}
 GMT.LangFiles = {}
 
@@ -13,7 +15,7 @@ function GMT.LangFiles.Load(lang)
 end
 
 
-function GMT.Lang(text,vars)
+function module.Lang(text,vars)
     if vars ~= nil and #vars ~= 0 then
         if lang_files[text] == nil then
             return text
@@ -32,8 +34,8 @@ function GMT.Lang(text,vars)
     end
 end
 
---function GMT.Lang(text,vars) return "TEST" end
-
-function GMT.Array()
-    return lang_files
+function module.AvailableLanguages()
+    return {"en", "ru"}
 end
+
+return module

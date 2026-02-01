@@ -2,6 +2,7 @@ local utils = require("GMT_Scripts._UTILS.utils")
 local player = require("GMT_Scripts._UTILS.player")
 local playerdb = require("GMT_Scripts._UTILS.playerdb")
 local permissions = require("GMT_Scripts._UTILS.permissions")
+local lang = require("GMT_Scripts._UTILS.lang")
 
 Hook.Add("client.connected", "GMT.client_connect", function(client)
     if not Game.IsDedicated and client.SessionId == 1 then
@@ -28,7 +29,7 @@ Hook.Add("chatMessage", "GMT.chatmessage", function(msg, client)
         local command = GMT.ChatCommands[split[1]]
 
         if command == nil or command.func == nil then
-            local chatMsg = ChatMessage.Create("GM-Tools",GMT.Lang("Chat_Error_UnknownCommand",{split[1]}), ChatMessageType.Error, nil, nil)
+            local chatMsg = ChatMessage.Create("GM-Tools",lang.Lang("Chat_Error_UnknownCommand",{split[1]}), ChatMessageType.Error, nil, nil)
             Game.SendDirectChatMessage(chatMsg, client)
             return true
         end
@@ -86,7 +87,7 @@ Hook.Add("tryChangeClientName", "GMT.character_change", function(client,newName,
                 time = utils.GetTimeString(expiresAt-os.time())
             end
             
-            local chatMessage = ChatMessage.Create("", GMT.Lang("CMD_Jobban_Reminder",{time,reason,GMT.Config.Vars.lowest_job}), ChatMessageType.MessageBox, nil, nil)
+            local chatMessage = ChatMessage.Create("", lang.Lang("CMD_Jobban_Reminder",{time,reason,GMT.Config.Vars.lowest_job}), ChatMessageType.MessageBox, nil, nil)
             chatMessage.Color = Color(255, 60, 60, 255)
             Game.SendDirectChatMessage(chatMessage, client)
             return false
@@ -99,7 +100,7 @@ Hook.Add("jobsAssigned", "GMT.jobs_assigned", function ()
     for key, value in pairs(Client.ClientList) do
         if value.AssignedJob ~= nil and playerdb.HasJobBan(value, value.AssignedJob.Prefab.Identifier.Value) then
             value.AssignedJob = JobVariant(JobPrefab.Get(GMT.Config.Vars.lowest_job), 0)
-            local chatMsg = ChatMessage.Create("JOB-BAN",GMT.Lang("CMD_Jobban_ForcedPlay",{GMT.Config.Vars.lowest_job}), ChatMessageType.Error, nil, nil)
+            local chatMsg = ChatMessage.Create("JOB-BAN",lang.Lang("CMD_Jobban_ForcedPlay",{GMT.Config.Vars.lowest_job}), ChatMessageType.Error, nil, nil)
             Game.SendDirectChatMessage(chatMsg, value)
         end
         

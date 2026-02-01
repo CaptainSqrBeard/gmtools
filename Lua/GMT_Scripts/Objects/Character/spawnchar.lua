@@ -1,5 +1,6 @@
 local utils = require("GMT_Scripts._UTILS.utils")
 local command = require("GMT_Scripts._UTILS.command")
+local lang = require("GMT_Scripts._UTILS.lang")
 
 local functionArgs = {}
 
@@ -11,23 +12,23 @@ local function newArg(id, func, help, args)
 end
 
 
-command.AddCommand("spawnchar",GMT.Lang("Help_SpawnChar"),true,nil,{
-{name="id",desc=GMT.Lang("Args_SpawnChar_id")}})
+command.AddCommand("spawnchar",lang.Lang("Help_SpawnChar"),true,nil,{
+{name="id",desc=lang.Lang("Args_SpawnChar_id")}})
 
 
 command.AssignClientCommand("spawnchar",function(client,cursor,args)
     if #args < 1 then
-        utils.SendConsoleMessage("GMTools: "..GMT.Lang("Error_NotEnoughArguments"),client,Color(255,0,128,255))
+        utils.SendConsoleMessage("GMTools: "..lang.Lang("Error_NotEnoughArguments"),client,Color(255,0,128,255))
         return
     end
 
     if args[1] == "-help" or args[1] == "-h" then
-        utils.SendConsoleMessage(GMT.Lang("CMD_SpawnChar_help_header"),client,Color(255,0,255,255))
+        utils.SendConsoleMessage(lang.Lang("CMD_SpawnChar_help_header"),client,Color(255,0,255,255))
         for k, arg in pairs(functionArgs) do
             if arg.args ~= nil then
-                utils.SendConsoleMessage(GMT.Lang("CMD_SpawnChar_help_entry", {k, arg.args, GMT.Lang(arg.help)}),client,Color(255,255,255,255))
+                utils.SendConsoleMessage(lang.Lang("CMD_SpawnChar_help_entry", {k, arg.args, lang.Lang(arg.help)}),client,Color(255,255,255,255))
             else
-                utils.SendConsoleMessage(GMT.Lang("CMD_SpawnChar_help_entry_no_args", {k, GMT.Lang(arg.help)}),client,Color(255,255,255,255))
+                utils.SendConsoleMessage(lang.Lang("CMD_SpawnChar_help_entry_no_args", {k, lang.Lang(arg.help)}),client,Color(255,255,255,255))
             end
         end
         return
@@ -38,7 +39,7 @@ command.AssignClientCommand("spawnchar",function(client,cursor,args)
     local prefab = CharacterPrefab.FindBySpeciesName(id)
     local character_info = nil
     if prefab == nil then
-        utils.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_SpawnChar_error_unknown_species"),client,Color(255,0,128,255))
+        utils.SendConsoleMessage("GMTools: "..lang.Lang("CMD_SpawnChar_error_unknown_species"),client,Color(255,0,128,255))
         return
     end
     if id == "humanhusk" or id == "human" then
@@ -51,7 +52,7 @@ command.AssignClientCommand("spawnchar",function(client,cursor,args)
         -- Check if first argument is a header of argument
         local first_sym = string.sub(args[2], 1, 1)
         if first_sym ~= "-" then
-            utils.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_SpawnChar_error_bad_beginning"),client,Color(255,0,128,255))
+            utils.SendConsoleMessage("GMTools: "..lang.Lang("CMD_SpawnChar_error_bad_beginning"),client,Color(255,0,128,255))
             return
         end
 
@@ -60,7 +61,7 @@ command.AssignClientCommand("spawnchar",function(client,cursor,args)
         local arg_string = string.sub(args[2], 2, #args[2])
         last_arg.func = functionArgs[arg_string].func
         if last_arg.func == nil then
-            utils.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_SpawnChar_error_unknown_argument", {arg_string}),client,Color(255,0,128,255))
+            utils.SendConsoleMessage("GMTools: "..lang.Lang("CMD_SpawnChar_error_unknown_argument", {arg_string}),client,Color(255,0,128,255))
             return
         end
         spawn_args[1] = last_arg
@@ -73,7 +74,7 @@ command.AssignClientCommand("spawnchar",function(client,cursor,args)
                 local arg_string_loop = string.sub(args[i], 2, #args[i])
                 last_arg = {func = functionArgs[arg_string_loop].func, sub_args = {}}
                 if last_arg.func == nil then
-                    utils.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_SpawnChar_error_unknown_argument", {arg_string_loop}),client,Color(255,0,128,255))
+                    utils.SendConsoleMessage("GMTools: "..lang.Lang("CMD_SpawnChar_error_unknown_argument", {arg_string_loop}),client,Color(255,0,128,255))
                     return
                 end
             else
@@ -92,7 +93,7 @@ command.AssignClientCommand("spawnchar",function(client,cursor,args)
                 info = temp_info
             end
             if info.prevent_spawn then
-                utils.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_SpawnChar_spawn_cancelled"),client,Color(255,231,0,255))
+                utils.SendConsoleMessage("GMTools: "..lang.Lang("CMD_SpawnChar_spawn_cancelled"),client,Color(255,231,0,255))
                 return
             end
         end
@@ -108,7 +109,7 @@ command.AssignClientCommand("spawnchar",function(client,cursor,args)
             
         end
     else
-        utils.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_SpawnChar_spawn_cancelled"),client,Color(255,231,0,255))
+        utils.SendConsoleMessage("GMTools: "..lang.Lang("CMD_SpawnChar_spawn_cancelled"),client,Color(255,231,0,255))
     end
 end)
 
@@ -122,13 +123,13 @@ newArg("name", function (input_info, args, client)
 
     -- Check for character data
     if info.character_info == nil then
-        utils.SendPotentiallyServerConsoleMessage("GMTools: "..GMT.Lang("CMD_SpawnChar_in_argument",{"name", GMT.Lang("CMD_SpawnChar_no_character_info")}),client,Color(255,231,0,255))
+        utils.SendPotentiallyServerConsoleMessage("GMTools: "..lang.Lang("CMD_SpawnChar_in_argument",{"name", lang.Lang("CMD_SpawnChar_no_character_info")}),client,Color(255,231,0,255))
         return
     end
 
     -- Check for arguments
     if #args == 0 then
-        utils.SendPotentiallyServerConsoleMessage("GMTools: "..GMT.Lang("CMD_SpawnChar_in_argument",{"name", GMT.Lang("Error_NotEnoughArguments")}),client,Color(255,0,0,255))
+        utils.SendPotentiallyServerConsoleMessage("GMTools: "..lang.Lang("CMD_SpawnChar_in_argument",{"name", lang.Lang("Error_NotEnoughArguments")}),client,Color(255,0,0,255))
         info.prevent_spawn = true
         return
     end
@@ -151,13 +152,13 @@ newArg("hairtype", function (input_info, args, client)
 
     -- Check for character data
     if info.character_info == nil then
-        utils.SendPotentiallyServerConsoleMessage("GMTools: "..GMT.Lang("CMD_SpawnChar_in_argument",{"hairtype", GMT.Lang("CMD_SpawnChar_no_character_info")}),client,Color(255,231,0,255))
+        utils.SendPotentiallyServerConsoleMessage("GMTools: "..lang.Lang("CMD_SpawnChar_in_argument",{"hairtype", lang.Lang("CMD_SpawnChar_no_character_info")}),client,Color(255,231,0,255))
         return
     end
 
     -- Check for arguments
     if #args == 0 then
-        utils.SendPotentiallyServerConsoleMessage("GMTools: "..GMT.Lang("CMD_SpawnChar_in_argument",{"hairtype", GMT.Lang("Error_NotEnoughArguments")}),client,Color(255,0,0,255))
+        utils.SendPotentiallyServerConsoleMessage("GMTools: "..lang.Lang("CMD_SpawnChar_in_argument",{"hairtype", lang.Lang("Error_NotEnoughArguments")}),client,Color(255,0,0,255))
         info.prevent_spawn = true
         return
     end
@@ -165,7 +166,7 @@ newArg("hairtype", function (input_info, args, client)
     -- Get index
     local index = tonumber(args[1])
     if index == nil then
-        utils.SendPotentiallyServerConsoleMessage("GMTools: "..GMT.Lang("CMD_SpawnChar_in_argument",{"hairtype", GMT.Lang("Error_BadArgument")}),client,Color(255,0,0,255))
+        utils.SendPotentiallyServerConsoleMessage("GMTools: "..lang.Lang("CMD_SpawnChar_in_argument",{"hairtype", lang.Lang("Error_BadArgument")}),client,Color(255,0,0,255))
         info.prevent_spawn = true
         return
     end
@@ -173,7 +174,7 @@ newArg("hairtype", function (input_info, args, client)
 
     -- Check range
     if index < 0 or index+1 > #info.character_info.Hairs then
-        utils.SendPotentiallyServerConsoleMessage("GMTools: "..GMT.Lang("CMD_SpawnChar_in_argument",{"hairtype", GMT.Lang("Error_OutOfRange")}),client,Color(255,0,0,255))
+        utils.SendPotentiallyServerConsoleMessage("GMTools: "..lang.Lang("CMD_SpawnChar_in_argument",{"hairtype", lang.Lang("Error_OutOfRange")}),client,Color(255,0,0,255))
         info.prevent_spawn = true
         return
     end
@@ -189,13 +190,13 @@ newArg("beardtype", function (input_info, args, client)
 
     -- Check for character data
     if info.character_info == nil then
-        utils.SendPotentiallyServerConsoleMessage("GMTools: "..GMT.Lang("CMD_SpawnChar_in_argument",{"beardtype", GMT.Lang("CMD_SpawnChar_no_character_info")}),client,Color(255,231,0,255))
+        utils.SendPotentiallyServerConsoleMessage("GMTools: "..lang.Lang("CMD_SpawnChar_in_argument",{"beardtype", lang.Lang("CMD_SpawnChar_no_character_info")}),client,Color(255,231,0,255))
         return
     end
 
     -- Check for arguments
     if #args == 0 then
-        utils.SendPotentiallyServerConsoleMessage("GMTools: "..GMT.Lang("CMD_SpawnChar_in_argument",{"beardtype", GMT.Lang("Error_NotEnoughArguments")}),client,Color(255,0,0,255))
+        utils.SendPotentiallyServerConsoleMessage("GMTools: "..lang.Lang("CMD_SpawnChar_in_argument",{"beardtype", lang.Lang("Error_NotEnoughArguments")}),client,Color(255,0,0,255))
         info.prevent_spawn = true
         return
     end
@@ -203,7 +204,7 @@ newArg("beardtype", function (input_info, args, client)
     -- Get index
     local index = tonumber(args[1])
     if index == nil then
-        utils.SendPotentiallyServerConsoleMessage("GMTools: "..GMT.Lang("CMD_SpawnChar_in_argument",{"beardtype", GMT.Lang("Error_BadArgument")}),client,Color(255,0,0,255))
+        utils.SendPotentiallyServerConsoleMessage("GMTools: "..lang.Lang("CMD_SpawnChar_in_argument",{"beardtype", lang.Lang("Error_BadArgument")}),client,Color(255,0,0,255))
         info.prevent_spawn = true
         return
     end
@@ -211,7 +212,7 @@ newArg("beardtype", function (input_info, args, client)
 
     -- Check range
     if index < 0 or index+1 > #info.character_info.Beards then
-        utils.SendPotentiallyServerConsoleMessage("GMTools: "..GMT.Lang("CMD_SpawnChar_in_argument",{"beardtype", GMT.Lang("Error_OutOfRange")}),client,Color(255,0,0,255))
+        utils.SendPotentiallyServerConsoleMessage("GMTools: "..lang.Lang("CMD_SpawnChar_in_argument",{"beardtype", lang.Lang("Error_OutOfRange")}),client,Color(255,0,0,255))
         info.prevent_spawn = true
         return
     end
@@ -227,13 +228,13 @@ newArg("moustachetype", function (input_info, args, client)
 
     -- Check for character data
     if info.character_info == nil then
-        utils.SendPotentiallyServerConsoleMessage("GMTools: "..GMT.Lang("CMD_SpawnChar_in_argument",{"moustachetype", GMT.Lang("CMD_SpawnChar_no_character_info")}),client,Color(255,231,0,255))
+        utils.SendPotentiallyServerConsoleMessage("GMTools: "..lang.Lang("CMD_SpawnChar_in_argument",{"moustachetype", lang.Lang("CMD_SpawnChar_no_character_info")}),client,Color(255,231,0,255))
         return
     end
 
     -- Check for arguments
     if #args == 0 then
-        utils.SendPotentiallyServerConsoleMessage("GMTools: "..GMT.Lang("CMD_SpawnChar_in_argument",{"moustachetype", GMT.Lang("Error_NotEnoughArguments")}),client,Color(255,0,0,255))
+        utils.SendPotentiallyServerConsoleMessage("GMTools: "..lang.Lang("CMD_SpawnChar_in_argument",{"moustachetype", lang.Lang("Error_NotEnoughArguments")}),client,Color(255,0,0,255))
         info.prevent_spawn = true
         return
     end
@@ -241,7 +242,7 @@ newArg("moustachetype", function (input_info, args, client)
     -- Get index
     local index = tonumber(args[1])
     if index == nil then
-        utils.SendPotentiallyServerConsoleMessage("GMTools: "..GMT.Lang("CMD_SpawnChar_in_argument",{"moustachetype", GMT.Lang("Error_BadArgument")}),client,Color(255,0,0,255))
+        utils.SendPotentiallyServerConsoleMessage("GMTools: "..lang.Lang("CMD_SpawnChar_in_argument",{"moustachetype", lang.Lang("Error_BadArgument")}),client,Color(255,0,0,255))
         info.prevent_spawn = true
         return
     end
@@ -249,7 +250,7 @@ newArg("moustachetype", function (input_info, args, client)
 
     -- Check range
     if index < 0 or index+1 > #info.character_info.Moustaches then
-        utils.SendPotentiallyServerConsoleMessage("GMTools: "..GMT.Lang("CMD_SpawnChar_in_argument",{"moustachetype", GMT.Lang("Error_OutOfRange")}),client,Color(255,0,0,255))
+        utils.SendPotentiallyServerConsoleMessage("GMTools: "..lang.Lang("CMD_SpawnChar_in_argument",{"moustachetype", lang.Lang("Error_OutOfRange")}),client,Color(255,0,0,255))
         info.prevent_spawn = true
         return
     end
@@ -264,7 +265,7 @@ newArg("skincolor", function (input_info, args, client)
     local info = input_info
 
     if #args == 0 then
-        utils.SendPotentiallyServerConsoleMessage("GMTools: "..GMT.Lang("CMD_SpawnChar_in_argument",{"skincolor", GMT.Lang("Error_NotEnoughArguments")}),client,Color(255,0,0,255))
+        utils.SendPotentiallyServerConsoleMessage("GMTools: "..lang.Lang("CMD_SpawnChar_in_argument",{"skincolor", lang.Lang("Error_NotEnoughArguments")}),client,Color(255,0,0,255))
         info.prevent_spawn = true
         return
     elseif #args == 1 then
@@ -284,7 +285,7 @@ newArg("skincolor", function (input_info, args, client)
         info.character_info.Head.SkinColor = Color(r, g, b, 255)
         return info
     else
-        utils.SendPotentiallyServerConsoleMessage("GMTools: "..GMT.Lang("CMD_SpawnChar_in_argument",{"skincolor", GMT.Lang("Error_BadArgument")}),client,Color(255,0,0,255))
+        utils.SendPotentiallyServerConsoleMessage("GMTools: "..lang.Lang("CMD_SpawnChar_in_argument",{"skincolor", lang.Lang("Error_BadArgument")}),client,Color(255,0,0,255))
         info.prevent_spawn = true
         return
     end
@@ -299,7 +300,7 @@ newArg("seed", function (input_info, args, client)
     local info = input_info
 
     if #args == 0 then
-        utils.SendPotentiallyServerConsoleMessage("GMTools: "..GMT.Lang("CMD_SpawnChar_in_argument",{"seed", GMT.Lang("Error_NotEnoughArguments")}),client,Color(255,0,0,255))
+        utils.SendPotentiallyServerConsoleMessage("GMTools: "..lang.Lang("CMD_SpawnChar_in_argument",{"seed", lang.Lang("Error_NotEnoughArguments")}),client,Color(255,0,0,255))
         info.prevent_spawn = true
         return
     end

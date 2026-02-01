@@ -1,7 +1,8 @@
 local utils = require("GMT_Scripts._UTILS.utils")
 local command = require("GMT_Scripts._UTILS.command")
+local lang = require("GMT_Scripts._UTILS.lang")
 
-command.AddCommand("see_ghostchat",GMT.Lang("Help_SeeGhostChat"),false,function(client,cursor,args)
+command.AddCommand("see_ghostchat",lang.Lang("Help_SeeGhostChat"),false,function(client,cursor,args)
     local target
 
     -- Getting Target
@@ -26,7 +27,7 @@ command.AddCommand("see_ghostchat",GMT.Lang("Help_SeeGhostChat"),false,function(
         elseif args[1] == "switch" then
             status = not status
         else
-            utils.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_SeeGhostchat_badargument"),client,Color(255,0,0,255))
+            utils.SendConsoleMessage("GMTools: "..lang.Lang("CMD_SeeGhostchat_badargument"),client,Color(255,0,0,255))
             return
         end
     else
@@ -41,14 +42,14 @@ command.AddCommand("see_ghostchat",GMT.Lang("Help_SeeGhostChat"),false,function(
         utils.SendConsoleMessage("GM-Tools: Forced Ghost Chat DISABLED for "..target.Name,client,Color(255,0,255,255))
     end
     
-end,{{name="status",desc=GMT.Lang("Args_SeeGhostChat_status")},
-{name="target",desc=GMT.Lang("Args_SeeGhostChat_target")}})
+end,{{name="status",desc=lang.Lang("Args_SeeGhostChat_status")},
+{name="target",desc=lang.Lang("Args_SeeGhostChat_target")}})
 
 
 
-command.AddCommand("deadmsg",GMT.Lang("Help_DeadMsg"),false,function(client,cursor,args)
+command.AddCommand("deadmsg",lang.Lang("Help_DeadMsg"),false,function(client,cursor,args)
     if not Game.RoundStarted then
-        utils.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_DeadMsg_inround"),client,Color(255,0,0,255))
+        utils.SendConsoleMessage("GMTools: "..lang.Lang("CMD_DeadMsg_inround"),client,Color(255,0,0,255))
         return
     end
 
@@ -63,11 +64,11 @@ command.AddCommand("deadmsg",GMT.Lang("Help_DeadMsg"),false,function(client,curs
         end
     end
     if string.len(msg) > 200 then
-        utils.SendConsoleMessage("GMTools: "..GMT.Lang("Error_TooLongMessage"),client,Color(255,0,0,255))
+        utils.SendConsoleMessage("GMTools: "..lang.Lang("Error_TooLongMessage"),client,Color(255,0,0,255))
         return
     end
     if msg:len() == 0 then
-        utils.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_AdminPM_NoMessage"),client,Color(255,0,0,255))
+        utils.SendConsoleMessage("GMTools: "..lang.Lang("CMD_AdminPM_NoMessage"),client,Color(255,0,0,255))
         return
     end
 
@@ -85,17 +86,17 @@ command.AddCommand("deadmsg",GMT.Lang("Help_DeadMsg"),false,function(client,curs
         end
         
     end
-end,{{name="msg",desc=GMT.Lang("Args_DeadMsg_msg")}})
+end,{{name="msg",desc=lang.Lang("Args_DeadMsg_msg")}})
 
 
-command.AddChatCommand("dead",GMT.Lang("Help_DeadMsg"),function (client,args)
+command.AddChatCommand("dead",lang.Lang("Help_DeadMsg"),function (client,args)
     if not GMT.HasPermission(client,".deadmsg") then
-        local chatMsg = ChatMessage.Create("GM-Tools",utils.FormattedText(GMT.Lang("Error_NotEnoughPermissions"),{{name="color",value="#b1cbfc"}}), ChatMessageType.Dead, nil, nil)
+        local chatMsg = ChatMessage.Create("GM-Tools",utils.FormattedText(lang.Lang("Error_NotEnoughPermissions"),{{name="color",value="#b1cbfc"}}), ChatMessageType.Dead, nil, nil)
         Game.SendDirectChatMessage(chatMsg, client)
         return
     end
     if not Game.RoundStarted then
-        local chatMsg = ChatMessage.Create("GM-Tools",utils.FormattedText(GMT.Lang("CMD_DeadMsg_inround"),{{name="color",value="#b1cbfc"}}), ChatMessageType.Dead, nil, nil)
+        local chatMsg = ChatMessage.Create("GM-Tools",utils.FormattedText(lang.Lang("CMD_DeadMsg_inround"),{{name="color",value="#b1cbfc"}}), ChatMessageType.Dead, nil, nil)
         Game.SendDirectChatMessage(chatMsg, client)
         return
     end
@@ -111,12 +112,12 @@ command.AddChatCommand("dead",GMT.Lang("Help_DeadMsg"),function (client,args)
         end
     end
     if string.len(msg) > 200 then
-        local chatMsg = ChatMessage.Create("GM-Tools",utils.FormattedText(GMT.Lang("Error_TooLongMessage"),{{name="color",value="#b1cbfc"}}), ChatMessageType.Dead, nil, nil)
+        local chatMsg = ChatMessage.Create("GM-Tools",utils.FormattedText(lang.Lang("Error_TooLongMessage"),{{name="color",value="#b1cbfc"}}), ChatMessageType.Dead, nil, nil)
         Game.SendDirectChatMessage(chatMsg, client)
         return
     end
     if msg:len() == 0 then
-        local chatMsg = ChatMessage.Create("GM-Tools",utils.FormattedText(GMT.Lang("Error_NoMessage"),{{name="color",value="#b1cbfc"}}), ChatMessageType.Dead, nil, nil)
+        local chatMsg = ChatMessage.Create("GM-Tools",utils.FormattedText(lang.Lang("Error_NoMessage"),{{name="color",value="#b1cbfc"}}), ChatMessageType.Dead, nil, nil)
         Game.SendDirectChatMessage(chatMsg, client)
         return
     end

@@ -1,27 +1,28 @@
 local utils = require("GMT_Scripts._UTILS.utils")
 local command = require("GMT_Scripts._UTILS.command")
 local playerdb = require("GMT_Scripts._UTILS.playerdb")
+local lang = require("GMT_Scripts._UTILS.lang")
 
 local STEAM_ID_LENGTH = 17
 
-command.AddCommand("jobban",GMT.Lang("Help_Jobban"),false,nil,{
-{name="player",desc=GMT.Lang("Args_Jobban_player")},
-{name="job",desc=GMT.Lang("Args_Jobban_job")},
-{name="duration",desc=GMT.Lang("Args_Jobban_duration")},
-{name="reason",desc=GMT.Lang("Args_Jobban_reason")}
+command.AddCommand("jobban",lang.Lang("Help_Jobban"),false,nil,{
+{name="player",desc=lang.Lang("Args_Jobban_player")},
+{name="job",desc=lang.Lang("Args_Jobban_job")},
+{name="duration",desc=lang.Lang("Args_Jobban_duration")},
+{name="reason",desc=lang.Lang("Args_Jobban_reason")}
 
 })
 
 command.AssignClientCommand("jobban",function(client,cursor,args)
     if #args < 2 then
-        utils.SendConsoleMessage("GMTools: "..GMT.Lang("Error_NotEnoughArguments"),client,Color(255,0,0,255))
+        utils.SendConsoleMessage("GMTools: "..lang.Lang("Error_NotEnoughArguments"),client,Color(255,0,0,255))
             return
     end
 
     local player = utils.GetClientByString(args[1])
     local job = args[2]
     local duration = 0
-    local reason = GMT.Lang("CMD_Jobban_NoReason")
+    local reason = lang.Lang("CMD_Jobban_NoReason")
     
     local steam_id
 
@@ -29,7 +30,7 @@ command.AssignClientCommand("jobban",function(client,cursor,args)
     if player == nil then
         steam_id = string.match(args[1],'%d+')
         if steam_id:len() ~= STEAM_ID_LENGTH then
-            utils.SendConsoleMessage("GMTools: "..GMT.Lang("Error_PlayerNotFound"),client,Color(255,0,0,255))
+            utils.SendConsoleMessage("GMTools: "..lang.Lang("Error_PlayerNotFound"),client,Color(255,0,0,255))
             return
         end
     else
@@ -38,17 +39,17 @@ command.AssignClientCommand("jobban",function(client,cursor,args)
 
     -- Can't jobban player with permission to jobban
     if GMT.HasGMTPermissionOffline(steam_id, ".jobban") then
-        utils.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_Jobban_AdminIssue"),client,Color(255,0,0,255))
+        utils.SendConsoleMessage("GMTools: "..lang.Lang("CMD_Jobban_AdminIssue"),client,Color(255,0,0,255))
         return
     end
 
     -- Checking job
     if JobPrefab.Get(job) == nil then
-        utils.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_Jobban_UnknownJob"),client,Color(255,0,0,255))
+        utils.SendConsoleMessage("GMTools: "..lang.Lang("CMD_Jobban_UnknownJob"),client,Color(255,0,0,255))
         return
     end
     if job == GMT.Config.Vars.lowest_job then
-        utils.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_Jobban_BanLowest"),client,Color(255,0,0,255))
+        utils.SendConsoleMessage("GMTools: "..lang.Lang("CMD_Jobban_BanLowest"),client,Color(255,0,0,255))
         return
     end
 
@@ -86,24 +87,24 @@ command.AssignClientCommand("jobban",function(client,cursor,args)
     end
     
     if player ~= nil then
-        utils.SendConsoleMessage(GMT.Lang("CMD_Jobban_ConsoleOut",{job,player.Name,reason,utils.GetTimeString(duration)}),client,Color(255,0,128,255))
+        utils.SendConsoleMessage(lang.Lang("CMD_Jobban_ConsoleOut",{job,player.Name,reason,utils.GetTimeString(duration)}),client,Color(255,0,128,255))
         playerdb.JobBan(player,job,duration,reason)
     elseif steam_id ~= nil then
-        utils.SendConsoleMessage(GMT.Lang("CMD_Jobban_ConsoleOut",{job,steam_id,reason,utils.GetTimeString(duration)}),client,Color(255,0,128,255))
+        utils.SendConsoleMessage(lang.Lang("CMD_Jobban_ConsoleOut",{job,steam_id,reason,utils.GetTimeString(duration)}),client,Color(255,0,128,255))
         playerdb.JobBanSteam(steam_id,job,duration,reason)
     end
 end)
 
 command.AssignServerCommand("jobban",function(args)
     if #args < 2 then
-        utils.NewConsoleMessage("GMTools: "..GMT.Lang("Error_NotEnoughArguments"),Color(255,0,0,255),false)
+        utils.NewConsoleMessage("GMTools: "..lang.Lang("Error_NotEnoughArguments"),Color(255,0,0,255),false)
             return
     end
 
     local player = utils.GetClientByString(args[1])
     local job = args[2]
     local duration = 0
-    local reason = GMT.Lang("CMD_Jobban_NoReason")
+    local reason = lang.Lang("CMD_Jobban_NoReason")
     
     local steam_id
 
@@ -111,7 +112,7 @@ command.AssignServerCommand("jobban",function(args)
     if player == nil then
         steam_id = string.match(args[1],'%d+')
         if steam_id:len() ~= STEAM_ID_LENGTH then
-            utils.NewConsoleMessage("GMTools: "..GMT.Lang("Error_PlayerNotFound"),Color(255,0,0,255),false)
+            utils.NewConsoleMessage("GMTools: "..lang.Lang("Error_PlayerNotFound"),Color(255,0,0,255),false)
             return
         end
     else
@@ -120,17 +121,17 @@ command.AssignServerCommand("jobban",function(args)
 
     -- Can't jobban player with permission to jobban
     if GMT.HasGMTPermissionOffline(steam_id, ".jobban") then
-        utils.NewConsoleMessage("GMTools: "..GMT.Lang("CMD_Jobban_AdminIssue"),Color(255,0,0,255),false)
+        utils.NewConsoleMessage("GMTools: "..lang.Lang("CMD_Jobban_AdminIssue"),Color(255,0,0,255),false)
         return
     end
 
     -- Checking job
     if JobPrefab.Get(job) == nil then
-        utils.NewConsoleMessage("GMTools: "..GMT.Lang("CMD_Jobban_UnknownJob"),Color(255,0,0,255),false)
+        utils.NewConsoleMessage("GMTools: "..lang.Lang("CMD_Jobban_UnknownJob"),Color(255,0,0,255),false)
         return
     end
     if job == GMT.Config.Vars.lowest_job then
-        utils.NewConsoleMessage("GMTools: "..GMT.Lang("CMD_Jobban_BanLowest"),Color(255,0,0,255),false)
+        utils.NewConsoleMessage("GMTools: "..lang.Lang("CMD_Jobban_BanLowest"),Color(255,0,0,255),false)
         return
     end
 
@@ -168,10 +169,10 @@ command.AssignServerCommand("jobban",function(args)
     end
     
     if player ~= nil then
-        utils.NewConsoleMessage(GMT.Lang("CMD_Jobban_ConsoleOut",{job,player.Name,reason,utils.GetTimeString(duration)}),Color(255,0,128,255),false)
+        utils.NewConsoleMessage(lang.Lang("CMD_Jobban_ConsoleOut",{job,player.Name,reason,utils.GetTimeString(duration)}),Color(255,0,128,255),false)
         playerdb.JobBan(player,job,duration,reason)
     elseif steam_id ~= nil then
-        utils.NewConsoleMessage(GMT.Lang("CMD_Jobban_ConsoleOut",{job,steam_id,reason,utils.GetTimeString(duration)}),Color(255,0,128,255),false)
+        utils.NewConsoleMessage(lang.Lang("CMD_Jobban_ConsoleOut",{job,steam_id,reason,utils.GetTimeString(duration)}),Color(255,0,128,255),false)
         playerdb.JobBanSteam(steam_id,job,duration,reason)
     end
 end)

@@ -11,15 +11,17 @@ GMT.HelpData = {}
 GMT.ChatCommands = {}
 
 if SERVER then
+    local lang = require("GMT_Scripts._UTILS.lang")
     local player = require("GMT_Scripts._UTILS.player")
     local playerdb = require("GMT_Scripts._UTILS.playerdb")
     local config = require("GMT_Scripts._UTILS.config")
     local permissions = require("GMT_Scripts._UTILS.permissions")
     config.CheckFiles()
 
+    print(lang.Lang("aaaaa"))
+
     -- Base
     require("GMT_Scripts._UTILS.data")
-    require("GMT_Scripts._UTILS.lang")
     --require("GMT_Scripts._UTILS.utils")
     require("GMT_Scripts._UTILS.command")
     require("GMT_Scripts.hooks")

@@ -1,6 +1,7 @@
 local module = {}
 
 local utils = require("GMT_Scripts._UTILS.utils")
+local lang = require("GMT_Scripts._UTILS.lang")
 
 GMT.Player = {}
 
@@ -30,18 +31,18 @@ function module.ProcessCooldown(client,time,warn_msg,kick_msg)
     -- If Client spamming too much
     if GMT.PlayerData[client.SessionId].Spam >= 5 then
         GMT.PlayerData[client.SessionId].Spam = 0
-        if kick_msg == nil then kick_msg = GMT.Lang("CD_Warn_CMDSpam_Kick") end
+        if kick_msg == nil then kick_msg = lang.Lang("CD_Warn_CMDSpam_Kick") end
         client.Kick("GMTools: "..kick_msg)
         return true
     end
 
     -- If Client triggered CD more than 3 times
     if GMT.PlayerData[client.SessionId].Spam >= 3 then
-        if warn_msg == nil then warn_msg = GMT.Lang("CD_Warn_CMDSpam") end
-        local chatMessage = ChatMessage.Create("", GMT.Lang("CD_Warn",{warn_msg}), ChatMessageType.MessageBox, nil, nil)
+        if warn_msg == nil then warn_msg = lang.Lang("CD_Warn_CMDSpam") end
+        local chatMessage = ChatMessage.Create("", lang.Lang("CD_Warn",{warn_msg}), ChatMessageType.MessageBox, nil, nil)
         chatMessage.Color = Color(255, 60, 60, 255)
         Game.SendDirectChatMessage(chatMessage, client)
-        utils.SendConsoleMessage(GMT.Lang("CD_Warn",{warn_msg}),client,Color(255, 60, 60, 255))
+        utils.SendConsoleMessage(lang.Lang("CD_Warn",{warn_msg}),client,Color(255, 60, 60, 255))
         return true
     end
 

@@ -1,5 +1,7 @@
 local module = {}
 
+local lang = require("GMT_Scripts._UTILS.lang")
+
 function module.NewConsoleMessage(msg, color, isError)
     DebugConsole.NewMessage(msg, color, isError)
 end
@@ -235,7 +237,7 @@ end
 
 function module.GetTimeString(time)
     if time == 0 then
-        return GMT.Lang("Permanent")
+        return lang.Lang("Permanent")
     end
     local days = 0
     local hours = 0
@@ -246,19 +248,19 @@ function module.GetTimeString(time)
 
     -- 1 day = 86400 sec
     days = math.floor(time/86400)
-    if days ~= 0 then table.insert(out,days.." "..GMT.Lang("Days")) end
+    if days ~= 0 then table.insert(out,days.." "..lang.Lang("Days")) end
 
     -- 1 hour = 3600 sec
     hours = math.floor((time/3600)-(days*24))
-    if days ~= 0 then table.insert(out,hours.." "..GMT.Lang("Hours")) end
+    if days ~= 0 then table.insert(out,hours.." "..lang.Lang("Hours")) end
 
     -- 1 minute = 60000 ms
     minutes = math.floor((time/60)-(hours*60 + days*1440))
-    if minutes ~= 0 then table.insert(out,minutes.." "..GMT.Lang("Minutes")) end
+    if minutes ~= 0 then table.insert(out,minutes.." "..lang.Lang("Minutes")) end
 
     -- 1 second = 0,01666666666666666666666666666667 minutes
     secnds = math.floor(time-(minutes*60+hours*3600+days*86400))
-    if secnds ~= 0 then table.insert(out,secnds.." "..GMT.Lang("Seconds")) end
+    if secnds ~= 0 then table.insert(out,secnds.." "..lang.Lang("Seconds")) end
 
     return table.concat(out,", ")
 end

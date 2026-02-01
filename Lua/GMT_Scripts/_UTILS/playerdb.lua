@@ -5,6 +5,7 @@ GMT.PlayerData.Players = {}
 
 local utils = require("GMT_Scripts._UTILS.utils")
 local config = require("GMT_Scripts._UTILS.config")
+local lang = require("GMT_Scripts._UTILS.lang")
 
 --[[ Example
 &csqrb;76561199036509221
@@ -170,7 +171,7 @@ function module.JobBan(client,job_id,period,reason)
         table.insert(GMT.PlayerData.Players[client.SteamID].Jobbans, {job=job_id,expiresAt=expiresAt,reason=reason})
     end
 
-    local chatMessage = ChatMessage.Create("", GMT.Lang("CMD_Jobban_Box",{job_id,utils.GetTimeString(period),reason}), ChatMessageType.MessageBox, nil, nil)
+    local chatMessage = ChatMessage.Create("", lang.Lang("CMD_Jobban_Box",{job_id,utils.GetTimeString(period),reason}), ChatMessageType.MessageBox, nil, nil)
     chatMessage.Color = Color(255, 60, 60, 255)
     Game.SendDirectChatMessage(chatMessage, client)
     module.Save()
