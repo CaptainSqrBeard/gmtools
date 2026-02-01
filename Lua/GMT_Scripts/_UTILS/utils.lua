@@ -1,7 +1,5 @@
 local module = {}
 
-local lang = require("GMT_Scripts._UTILS.lang")
-
 function module.NewConsoleMessage(msg, color, isError)
     DebugConsole.NewMessage(msg, color, isError)
 end
@@ -41,16 +39,16 @@ function module.CheckFArgs(value,vtype,canBeNil)
     end
 end
 
-function GMT.Expect(index, value, ...)
+function module.Expect(index, value, ...)
     local types = {...}
     local type = type(value)
-    if not GMT.Contains(types, type) then
-        GMT.ThrowError("Bad argument #"..index.." ("..GMT.ConcatStringTable(types, " or ").." expected, got "..type..")", 1)
+    if not module.Contains(types, type) then
+        module.ThrowError("Bad argument #"..index.." ("..GMT.ConcatStringTable(types, " or ").." expected, got "..type..")", 1)
     end
 end
 
-function GMT.GetClientByString(string)
-    GMT.Expect(1, string, "string", "nil")
+function module.GetClientByString(string)
+    module.Expect(1, string, "string", "nil")
 
     if string == nil then
         return nil
@@ -70,7 +68,7 @@ function GMT.GetClientByString(string)
 end
 
 function module.GetCharacterByString(string)
-    GMT.Expect(1, string, "string", "nil")
+    module.Expect(1, string, "string", "nil")
 
     if string == nil then
         return nil
@@ -96,7 +94,7 @@ function module.GetCharacterByString(string)
 end
 
 function module.GetCharacterClient(id)
-    GMT.Expect(1, id, "number")
+    module.Expect(1, id, "number")
 
     for i, cl in ipairs(Client.ClientList) do
         if cl.Character ~= nil and cl.Character.ID == id then
@@ -106,7 +104,7 @@ function module.GetCharacterClient(id)
 end
 
 function GMT.GetVector2FromString(string)
-    GMT.Expect(1, string, "string")
+    module.Expect(1, string, "string")
 
     local split = GMT.Split(string, ";")
     if #split == 2 then
@@ -123,15 +121,15 @@ function GMT.GetVector2FromString(string)
 end
 
 function module.RandomFloat(min,max)
-    GMT.Expect(1, min, "number")
-    GMT.Expect(2, max, "number")
+    module.Expect(1, min, "number")
+    module.Expect(2, max, "number")
 
     return math.random()*(max-min)+min
 end
 
 function module.FormattedText(text, tags)
-    GMT.Expect(1, text, "string")
-    GMT.Expect(2, tags, "table")
+    module.Expect(1, text, "string")
+    module.Expect(2, tags, "table")
 
     local out = "‖"
     if #tags > 0 then
@@ -156,7 +154,7 @@ function module.FormattedText(text, tags)
 end
 
 function module.BoolReturn(bool,tru,fals)
-    GMT.Expect(1, bool, "boolean")
+    module.Expect(1, bool, "boolean")
 
     if bool == true then
         return tru
@@ -204,8 +202,8 @@ function module.Contains(array,item)
 end
 
 function module.Union(array1,array2)
-    GMT.Expect(1, array1, "table")
-    GMT.Expect(2, array2, "table")
+    module.Expect(1, array1, "table")
+    module.Expect(2, array2, "table")
 
     for i, item in ipairs(array2) do
         if not module.Contains(array1,item) then
@@ -216,7 +214,7 @@ function module.Union(array1,array2)
 end
 
 function module.Filter(array,filter)
-    GMT.Expect(1, array, "table")
+    module.Expect(1, array, "table")
 
     local output = {}
 
@@ -230,7 +228,7 @@ function module.Filter(array,filter)
 end
 
 function module.GetItemByID(id)
-    GMT.Expect(1, id, "number")
+    module.Expect(1, id, "number")
     for i, item in ipairs(Item.ItemList) do
         if item.ID == id then
             return item
@@ -240,7 +238,7 @@ function module.GetItemByID(id)
 end
 
 function module.GetCharacterByID(id)
-    GMT.Expect(1, id, "number")
+    module.Expect(1, id, "number")
     for i, char in ipairs(Character.CharacterList) do
         if char.ID == id then
             return char
@@ -250,9 +248,9 @@ function module.GetCharacterByID(id)
 end
 
 function module.InRange(value,min,max)
-    GMT.Expect(1, value, "number")
-    GMT.Expect(2, min, "number")
-    GMT.Expect(3, max, "number")
+    module.Expect(1, value, "number")
+    module.Expect(2, min, "number")
+    module.Expect(3, max, "number")
 
     if value <= max and value >= min then
         return true
@@ -272,8 +270,8 @@ function module.CanSpeakGhost(char)
 end
 
 function module.Split (line, separator)
-    GMT.Expect(1, line, "string")
-    GMT.Expect(2, separator, "string")
+    module.Expect(1, line, "string")
+    module.Expect(2, separator, "string")
 
     if separator == nil then
         module.ThrowError("Separator can't be nil")
@@ -287,8 +285,8 @@ function module.Split (line, separator)
 end
 
 function GMT.ConcatStringTable(table, separator)
-    GMT.Expect(1, table, "table")
-    GMT.Expect(2, separator, "string")
+    module.Expect(1, table, "table")
+    module.Expect(2, separator, "string")
 
     local string = table[1]
     for i = 2, #table, 1 do
@@ -303,36 +301,6 @@ function GMT.GetJobPrefab(id)
     else
         return nil
     end
-end
-
-function module.GetTimeString(time)
-    if time == 0 then
-        return lang.Lang("Permanent")
-    end
-    local days = 0
-    local hours = 0
-    local minutes = 0
-    local secnds = 0
-    
-    local out = {}
-
-    -- 1 day = 86400 sec
-    days = math.floor(time/86400)
-    if days ~= 0 then table.insert(out,days.." "..lang.Lang("Days")) end
-
-    -- 1 hour = 3600 sec
-    hours = math.floor((time/3600)-(days*24))
-    if days ~= 0 then table.insert(out,hours.." "..lang.Lang("Hours")) end
-
-    -- 1 minute = 60000 ms
-    minutes = math.floor((time/60)-(hours*60 + days*1440))
-    if minutes ~= 0 then table.insert(out,minutes.." "..lang.Lang("Minutes")) end
-
-    -- 1 second = 0,01666666666666666666666666666667 minutes
-    secnds = math.floor(time-(minutes*60+hours*3600+days*86400))
-    if secnds ~= 0 then table.insert(out,secnds.." "..lang.Lang("Seconds")) end
-
-    return table.concat(out,", ")
 end
 
 function module.IsRespawnShuttle(shuttle)
@@ -419,7 +387,7 @@ function GMT.ColorFromStrings(in_r, in_g, in_b, in_a)
 end
 
 function GMT.ParseHexColor(hex)
-    GMT.Expect(1, hex, "string")
+    module.Expect(1, hex, "string")
 
     local length = string.len(hex)
     if length == 6 then

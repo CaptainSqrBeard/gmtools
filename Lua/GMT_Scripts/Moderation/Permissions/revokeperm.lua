@@ -11,7 +11,7 @@ command.AddCommand("revokeperm",lang.Lang("Help_RevokePerm"),false,nil,{
 
 command.AssignSharedCommand("revokeperm",function (args, interface)
     if #args < 2 then
-        interface.showMessage("GMTools: "..lang.Lang("Error_NotEnoughArguments").."\n"..GMT.GetCommandUsageHelp("revokeperm"),Color(255,0,0,255))
+        interface.showMessage("GMTools: "..lang.Lang("Error_NotEnoughArguments").."\n"..command.GetCommandUsageHelp("revokeperm"),Color(255,0,0,255))
         return
     end
 
@@ -41,7 +41,7 @@ command.AssignSharedCommand("revokeperm",function (args, interface)
         local found = false
 
         -- If not a GMTools command
-        if not GMT.Contains(GMT.AllCommands, cmd) then
+        if not utils.Contains(GMT.AllCommands, cmd) then
             interface.showMessage(lang.Lang("CMD_RevokePerm_notexists",{cmd}),Color(255,200,200,255))
         else
             -- Searching perms for current command

@@ -171,7 +171,7 @@ function module.JobBan(client,job_id,period,reason)
         table.insert(GMT.PlayerData.Players[client.SteamID].Jobbans, {job=job_id,expiresAt=expiresAt,reason=reason})
     end
 
-    local chatMessage = ChatMessage.Create("", lang.Lang("CMD_Jobban_Box",{job_id,utils.GetTimeString(period),reason}), ChatMessageType.MessageBox, nil, nil)
+    local chatMessage = ChatMessage.Create("", lang.Lang("CMD_Jobban_Box",{job_id,Lang.GetTimeString(period),reason}), ChatMessageType.MessageBox, nil, nil)
     chatMessage.Color = Color(255, 60, 60, 255)
     Game.SendDirectChatMessage(chatMessage, client)
     module.Save()

@@ -36,7 +36,7 @@ function module.RestorePerms(client)
 end
 
 function module.HasPermission(client,command)
-    GMT.Expect(2, command, "string")
+    utils.Expect(2, command, "string")
 
     -- Host has permission to everything
     if not Game.IsDedicated and client.SessionId == 1 then
@@ -56,7 +56,7 @@ function module.HasPermission(client,command)
 end
 
 function module.HasGMTPermission(client,command)
-    GMT.Expect(2, command, "string")
+    utils.Expect(2, command, "string")
 
     -- Host has permission to everything
     if not Game.IsDedicated and client.SessionId == 1 then
@@ -75,7 +75,7 @@ function module.HasGMTPermission(client,command)
 end
 
 function module.HasGMTPermissionOffline(steamid,command)
-    GMT.Expect(2, command, "string")
+    utils.Expect(2, command, "string")
     
     local playerCommands = GMT.Config.Vars.player_commands
 

@@ -15,7 +15,7 @@ command.AddCommand("jobban",lang.Lang("Help_Jobban"),false,nil,{
 
 command.AssignSharedCommand("jobban",function (args, interface)
     if #args < 2 then
-        interface.showMessage("GMTools: "..lang.Lang("Error_NotEnoughArguments").."\n"..GMT.GetCommandUsageHelp("jobban"),Color(255,0,0,255))
+        interface.showMessage("GMTools: "..lang.Lang("Error_NotEnoughArguments").."\n"..command.GetCommandUsageHelp("jobban"),Color(255,0,0,255))
             return
     end
 

@@ -25,7 +25,7 @@ command.AddChatCommand("admin",lang.Lang("Help_AdminChat"),function (client,args
     end
     
     if msg:len() == 0 then
-        local chatMsg = ChatMessage.Create("GM-Tools",GMT.FormattedText(lang.Lang("CMD_AdminPM_NoMessage").."\n"..GMT.GetChatCommandUsageHelp(".admin"),{{name="color",value="#ff8589"}}), ChatMessageType.Error, nil, nil)
+        local chatMsg = ChatMessage.Create("GM-Tools",GMT.FormattedText(lang.Lang("CMD_AdminPM_NoMessage").."\n"..command.GetChatCommandUsageHelp(".admin"),{{name="color",value="#ff8589"}}), ChatMessageType.Error, nil, nil)
         Game.SendDirectChatMessage(chatMsg, client)
         return
     end
@@ -59,7 +59,7 @@ command.AssignSharedCommand("adminchat",function (args, interface)
         end
     end
     if msg:len() == 0 then
-        interface.showMessage("GMTools: "..lang.Lang("CMD_AdminPM_NoMessage").."\n"..GMT.GetCommandUsageHelp("adminchat"),Color(255,0,0,255))
+        interface.showMessage("GMTools: "..lang.Lang("CMD_AdminPM_NoMessage").."\n"..command.GetCommandUsageHelp("adminchat"),Color(255,0,0,255))
         return
     end
 

@@ -26,7 +26,7 @@ command.AssignClientCommand("ahelp",function(client,cursor,args)
     end
 
     if #args == 0 then
-        GMT.SendConsoleMessage("GMTools: "..lang.Lang("CMD_AdminPM_NoMessage").."\n"..GMT.GetCommandUsageHelp("ahelp"),client,Color(255,0,0,255))
+        utils.SendConsoleMessage("GMTools: "..lang.Lang("CMD_AdminPM_NoMessage").."\n"..command.GetCommandUsageHelp("ahelp"),client,Color(255,0,0,255))
         return
     end
 
@@ -62,8 +62,8 @@ command.AssignClientCommand("ahelp",function(client,cursor,args)
     end
 end)
 
-GMT.AssignServerCommand("ahelp",function(args)
-    GMT.NewConsoleMessage("GMTools: "..lang.Lang("Error_bad_console"),Color(255,0,0,255)) -- how you will adminPM something that isn't a client?
+command.AssignServerCommand("ahelp",function(args)
+    utils.NewConsoleMessage("GMTools: "..lang.Lang("Error_bad_console"),Color(255,0,0,255)) -- how you will adminPM something that isn't a client?
 end)
 
 
@@ -78,7 +78,7 @@ command.AddChatCommand("ahelp",lang.Lang("Help_AHelp"),function (client,args)
     end
 
     if #args == 0 then
-        local chatMsg = ChatMessage.Create("ADMIN HELP",lang.Lang("CMD_AdminPM_NoMessage").."\n"..GMT.GetChatCommandUsageHelp(".ahelp"), ChatMessageType.Error, nil, nil)
+        local chatMsg = ChatMessage.Create("ADMIN HELP",lang.Lang("CMD_AdminPM_NoMessage").."\n"..command.GetChatCommandUsageHelp(".ahelp"), ChatMessageType.Error, nil, nil)
         Game.SendDirectChatMessage(chatMsg, client)
         return
     end

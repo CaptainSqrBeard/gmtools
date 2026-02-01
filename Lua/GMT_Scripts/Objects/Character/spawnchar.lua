@@ -19,7 +19,7 @@ command.AddCommand("spawnchar",lang.Lang("Help_SpawnChar"),true,nil,{
 
 command.AssignSharedCommand("spawnchar",function (args, interface)
     if #args < 1 then
-        interface.showMessage("GMTools: "..lang.Lang("Error_NotEnoughArguments").."\n"..GMT.GetCommandUsageHelp("spawnchar"),Color(255,0,0,255))
+        interface.showMessage("GMTools: "..lang.Lang("Error_NotEnoughArguments").."\n"..command.GetCommandUsageHelp("spawnchar"),Color(255,0,0,255))
         return
     end
 

@@ -3,6 +3,7 @@ local player = require("GMT_Scripts._UTILS.player")
 local playerdb = require("GMT_Scripts._UTILS.playerdb")
 local permissions = require("GMT_Scripts._UTILS.permissions")
 local lang = require("GMT_Scripts._UTILS.lang")
+local command = require("GMT_Scripts._UTILS.command")
 
 Hook.Add("client.connected", "GMT.client_connect", function(client)
     if not Game.IsDedicated and client.SessionId == 1 then
@@ -25,7 +26,7 @@ end)
 Hook.Add("chatMessage", "GMT.chatmessage", function(msg, client)
     -- Chat commands
     if msg:sub(1,1) == "." then
-        local split = utils.SplitCommand(msg)
+        local split = command.SplitCommand(msg)
         local command = GMT.ChatCommands[split[1]]
 
         if command == nil or command.func == nil then
@@ -82,9 +83,9 @@ Hook.Add("tryChangeClientName", "GMT.character_change", function(client,newName,
         if hasBan then
             local time
             if expiresAt == 0 then
-                time = utils.GetTimeString(0)
+                time = Lang.GetTimeString(0)
             else
-                time = utils.GetTimeString(expiresAt-os.time())
+                time = Lang.GetTimeString(expiresAt-os.time())
             end
             
             local chatMessage = ChatMessage.Create("", lang.Lang("CMD_Jobban_Reminder",{time,reason,GMT.Config.Vars.lowest_job}), ChatMessageType.MessageBox, nil, nil)

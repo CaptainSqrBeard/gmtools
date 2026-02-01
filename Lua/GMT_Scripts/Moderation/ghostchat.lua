@@ -114,7 +114,7 @@ command.AssignSharedCommand("deadmsg",function (args, interface)
         return
     end
     if msg:len() == 0 then
-        interface.showMessage("GMTools: "..lang.Lang("CMD_AdminPM_NoMessage").."\n"..GMT.GetCommandUsageHelp("deadmsg"),Color(255,0,0,255))
+        interface.showMessage("GMTools: "..lang.Lang("CMD_AdminPM_NoMessage").."\n"..command.GetCommandUsageHelp("deadmsg"),Color(255,0,0,255))
         return
     end
 
@@ -175,7 +175,7 @@ command.AddChatCommand("dead",lang.Lang("Help_DeadMsg"),function (client,args)
         return
     end
     if msg:len() == 0 then
-        local chatMsg = ChatMessage.Create("GM-Tools",GMT.FormattedText(lang.Lang("Error_NoMessage").."\n"..GMT.GetChatCommandUsageHelp(".dead"),{{name="color",value="#b1cbfc"}}), ChatMessageType.Dead, nil, nil)
+        local chatMsg = ChatMessage.Create("GM-Tools",GMT.FormattedText(lang.Lang("Error_NoMessage").."\n"..command.GetChatCommandUsageHelp(".dead"),{{name="color",value="#b1cbfc"}}), ChatMessageType.Dead, nil, nil)
         Game.SendDirectChatMessage(chatMsg, client)
         return
     end

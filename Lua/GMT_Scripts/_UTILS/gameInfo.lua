@@ -1,6 +1,7 @@
 local module = {}
 
 local lang = require("GMT_Scripts._UTILS.lang")
+local utils = require("GMT_Scripts._UTILS.utils")
 
 module.SubmarineTypes = {
     "Submarine_types_player",
@@ -25,21 +26,24 @@ module.CharacterTeams = {
 }
 
 function module.GetLocalizedSubmarineType(index)
-    if index >= 0 and index <= #module.SubmarineTypes-1 then
+    utils.Expect(1, index, "number")
+    if utils.InRange(index, 0, #module.SubmarineTypes-1) then
         return lang.Lang(module.SubmarineTypes[index+1])
     end
     return lang.Lang("Submarine_types_custom", {index})
 end
 
 function module.GetLocalizedSubmarineClass(index)
-    if index >= 0 and index <= #module.SubmarineClasses-1 then
+    utils.Expect(1, index, "number")
+    if utils.InRange(index, 0, #module.SubmarineClasses-1) then
         return lang.Lang(module.SubmarineClasses[index+1])
     end
     return lang.Lang("Submarine_classes_custom", {index})
 end
 
 function module.GetLocalizedTeam(index)
-    if index >= 0 and index <= #module.CharacterTeams-1 then
+    utils.Expect(1, index, "number")
+    if utils.InRange(index, 0, #module.CharacterTeams-1) then
         return lang.Lang(module.CharacterTeams[index+1])
     end
     return lang.Lang("CharacterTeams_custom", {index})

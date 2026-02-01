@@ -63,7 +63,7 @@ command.AssignClientCommand("clock",function(client,cursor,args)
     utils.SendConsoleMessage(clock,client,Color(255,250,204,255))
 end)
 
-GMT.AssignServerCommand("clock",function(args)
+command.AssignServerCommand("clock",function(args)
     local clock = ""..
     "   11 12 1\n"..
     " 10   ^    2\n"..
@@ -74,15 +74,17 @@ GMT.AssignServerCommand("clock",function(args)
 end)
 
 -- .lang
+command.AddCommand("lang", lang.Lang("Help_Lang"), false, nil, {{name="language",desc=lang.Lang("Args_Lang_language")}})
+
 local languages = lang.AvailableLanguages()
 
 command.AssignSharedCommand("lang",function (args, interface)
     if args[1] == nil or string.lower(args[1]) == "all" then
         interface.showMessage(lang.Lang("CMD_Lang_header"),Color(255,0,255,255))
-        for i, lan in ipairs(lang) do
+        for i, lan in ipairs(languages) do
             interface.showMessage(lang.Lang("CMD_Lang_element",{lan}),Color(255,255,255,255))
         end
-        interface.showMessage(GMT.GetCommandUsageHelp("revokeperm").."\n"..lang.Lang("CMD_Lang_suggest"),Color(255,255,255,255))
+        interface.showMessage(command.GetCommandUsageHelp("lang").."\n"..lang.Lang("CMD_Lang_suggest"),Color(255,255,255,255))
         return
     end
 

@@ -12,7 +12,7 @@ command.AssignSharedCommand("permlist",function (args, interface)
     local r_client
     if args[1] == nil then
         -- Can't apply permlist on console :)
-        interface.showMessage("GMTools: "..lang.Lang("Error_NotEnoughArguments").."\n"..GMT.GetCommandUsageHelp("permlist"),Color(255,0,0,255))
+        interface.showMessage("GMTools: "..lang.Lang("Error_NotEnoughArguments").."\n"..command.GetCommandUsageHelp("permlist"),Color(255,0,0,255))
         return
     else
         -- Try to apply on specified player

@@ -26,6 +26,6 @@ command.AddChatCommand("cls",lang.Lang("HelpChat_Cls"),function (client, args)
     for i = 1, 60, 1 do
         cls = cls.."\n"
     end
-    local chatMsg = ChatMessage.Create("", cls, ChatMessageType.Dead, nil, nil, Color(0,0,0,0))
+    local chatMsg = ChatMessage.Create("", cls, ChatMessageType.Dead, nil, nil, nil, Color(0,0,0,0))
     Game.SendDirectChatMessage(chatMsg, client)
 end)

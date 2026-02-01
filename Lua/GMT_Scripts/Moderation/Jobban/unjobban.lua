@@ -10,7 +10,7 @@ command.AddCommand("unjobban",lang.Lang("Help_UnJobban"),false,nil,{
 
 command.AssignSharedCommand("unjobban",function (args, interface)
     if #args == 0 then
-        interface.showMessage("GMTools: "..lang.Lang("Error_NotEnoughArguments").."\n"..GMT.GetCommandUsageHelp("unjobban"),Color(255,0,0,255))
+        interface.showMessage("GMTools: "..lang.Lang("Error_NotEnoughArguments").."\n"..command.GetCommandUsageHelp("unjobban"),Color(255,0,0,255))
         return
     end
 
@@ -48,7 +48,7 @@ command.AssignSharedCommand("unjobban",function (args, interface)
                 if player ~= nil then name = player.Name end
                 table.remove(GMT.PlayerData.Players[steam_id].Jobbans, i)
                 interface.showMessage("GMTools: "..lang.Lang("CMD_UnJobban_Job",{job,name}),Color(255,0,128,255))
-                GMT.PlayerData.Save()
+                playerdb.Save()
                 return
             end
         end

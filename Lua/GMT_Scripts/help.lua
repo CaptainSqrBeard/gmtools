@@ -4,9 +4,7 @@ local command = require("GMT_Scripts._UTILS.command")
 local player = require("GMT_Scripts._UTILS.player")
 local lang = require("GMT_Scripts._UTILS.lang")
 
-command.AddCommand("help",lang.Lang("Help_Help"),false,nil,{{name="command",desc=lang.Lang("Args_Help_command")}})
-
-GMT.AddCommand("help",lang.Lang("Help_Help"),false,nil,{{name="command",desc=lang.Lang("Args_Help_command"),optional=true}})
+command.AddCommand("help",lang.Lang("Help_Help"),false,nil,{{name="command",desc=lang.Lang("Args_Help_command"),optional=true}})
 
 command.AssignSharedCommand("help",function (args, interface)
     if #args == 1 and string.lower(args[1]) ~= "all" then
@@ -17,7 +15,7 @@ command.AssignSharedCommand("help",function (args, interface)
             -- Show info about command
             interface.showMessage("==== "..data.name.." ====",Color(255,0,255,255))
             interface.showMessage(lang.Lang("CMD_Help_desc")..":   "..data.help,Color(255,255,255,255))
-            interface.showMessage(GMT.GetCommandUsageHelp(command),Color(255,255,255,255))
+            interface.showMessage(command.GetCommandUsageHelp(command),Color(255,255,255,255))
 
             if data.args ~= nil then
                 local out = {}
@@ -47,9 +45,9 @@ command.AssignSharedCommand("help",function (args, interface)
             interface.showMessage("==== "..lang.Lang("CMD_Help_list").." ====",Color(255,0,255,255))
             for k, cmd in pairs(GMT.HelpData) do
                 if cmd.usage == nil then
-                    interface.showMessage("."..cmd.name.."   >        "..cmd.help,Color(255,255,255,255))
+                    interface.showMessage("."..cmd.name.."     -     "..cmd.help,Color(255,255,255,255))
                 else
-                    interface.showMessage("."..cmd.name.." "..cmd.usage.."   >        "..cmd.help,Color(255,255,255,255))
+                    interface.showMessage("."..cmd.name.." "..cmd.usage.."     -     "..cmd.help,Color(255,255,255,255))
                 end
             end
         end

@@ -48,7 +48,7 @@ command.AssignSharedCommand("adminpm",function (args, interface)
     end
     msg = msg:sub(1, msg:len()-1)
     if msg:len() == 0 then
-        interface.showMessage("GMTools: "..lang.Lang("CMD_AdminPM_NoMessage").."\n"..GMT.GetCommandUsageHelp("adminpm"),Color(255,0,0,255))
+        interface.showMessage("GMTools: "..lang.Lang("CMD_AdminPM_NoMessage").."\n"..command.GetCommandUsageHelp("adminpm"),Color(255,0,0,255))
         return
     end
     
@@ -81,8 +81,8 @@ command.AssignSharedCommand("adminpm",function (args, interface)
     -- Message for other admins
     for i, cl in ipairs(Client.ClientList) do
         if (interface.executor ~= nil and cl.SessionId ~= interface.executor.SessionId) and cl.SessionId ~= r_client.SessionId and GMT.HasPermission(cl, ".adminpm") then
-            GMT.SendConsoleMessage(lang.Lang("CMD_AdminPM_con_to_other_L1",{sender_name,r_client.Name}),cl,Color(255,0,0,255))
-            GMT.SendConsoleMessage(lang.Lang("CMD_AdminPM_con_to_other_L2",{msg}),cl,Color(255,255,255,255))
+            utils.SendConsoleMessage(lang.Lang("CMD_AdminPM_con_to_other_L1",{sender_name,r_client.Name}),cl,Color(255,0,0,255))
+            utils.SendConsoleMessage(lang.Lang("CMD_AdminPM_con_to_other_L2",{msg}),cl,Color(255,255,255,255))
         end
     end
 end)

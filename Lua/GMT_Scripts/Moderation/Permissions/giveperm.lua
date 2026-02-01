@@ -11,7 +11,7 @@ command.AddCommand("giveperm",lang.Lang("Help_GivePerm"),false,nil,{
 
 command.AssignSharedCommand("giveperm",function (args, interface)
     if #args < 2 then
-        interface.showMessage("GMTools: "..lang.Lang("Error_NotEnoughArguments").."\n"..GMT.GetCommandUsageHelp("giveperm"),Color(255,0,0,255))
+        interface.showMessage("GMTools: "..lang.Lang("Error_NotEnoughArguments").."\n"..command.GetCommandUsageHelp("giveperm"),Color(255,0,0,255))
         return
     end
     
@@ -27,8 +27,8 @@ command.AssignSharedCommand("giveperm",function (args, interface)
     if args[2] == "all" then
         interface.showMessage("GMTools: "..lang.Lang("CMD_GivePerm_all",{r_client.Name}),Color(255,0,255,255))
         GMT.PlayerData.Players[r_client.SteamID].Permissions = command.ListAllCommands()
-        GMT.RestorePerms(r_client)
-        GMT.PlayerData.Save()
+        permissions.RestorePerms(r_client)
+        playerdb.Save()
         return
     end
 
@@ -41,12 +41,12 @@ command.AssignSharedCommand("giveperm",function (args, interface)
         local error = false  -- World if Lua has 'continue'...
 
         -- If already has this command
-        if GMT.Contains(perms, cmd) then
+        if utils.Contains(perms, cmd) then
             interface.showMessage(lang.Lang("CMD_GivePerm_alreadyhas",{cmd}),Color(255,200,200,255))
             error = true
         end
         -- If not a GMTools command
-        if not error and not GMT.Contains(GMT.AllCommands, cmd) then
+        if not error and not utils.Contains(GMT.AllCommands, cmd) then
             interface.showMessage(lang.Lang("CMD_GivePerm_notexists",{cmd}),Color(255,200,200,255))
             error = true
         end

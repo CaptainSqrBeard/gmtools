@@ -4,13 +4,13 @@ local utils = require("GMT_Scripts._UTILS.utils")
 local command = require("GMT_Scripts._UTILS.command")
 local lang = require("GMT_Scripts._UTILS.lang")
 
-GMT.AddCommand("sublock",lang.Lang("Help_SubmarineLock"),true,nil,{
+command.AddCommand("sublock",lang.Lang("Help_SubmarineLock"),true,nil,{
     {name="submarine",desc=lang.Lang("Args_SubmarineLock_submarine")},
     {name="axis",desc=lang.Lang("Args_SubmarineLock_axis"),optional=true}})
 
-GMT.AssignSharedCommand("sublock",function (args, interface)
+command.AssignSharedCommand("sublock",function (args, interface)
     if #args == 0 then
-        interface.showMessage("GMTools: "..lang.Lang("Error_NotEnoughArguments").."\n"..GMT.GetCommandUsageHelp("sublock"),Color(255,0,128,255))
+        interface.showMessage("GMTools: "..lang.Lang("Error_NotEnoughArguments").."\n"..command.GetCommandUsageHelp("sublock"),Color(255,0,128,255))
         return
     end
 

@@ -2,9 +2,11 @@ local utils = require("GMT_Scripts._UTILS.utils")
 local command = require("GMT_Scripts._UTILS.command")
 local lang = require("GMT_Scripts._UTILS.lang")
 
+command.AddCommand("deleteitem",lang.Lang("Help_DeleteItem"),true,nil,{{name="id",desc=lang.Lang("Args_DeleteItem_id")}})
+
 command.AssignSharedCommand("deleteitem",function (args, interface)
     if #args == 0 then
-        interface.showMessage("GMTools: "..lang.Lang("Error_NotEnoughArguments").."\n"..GMT.GetCommandUsageHelp("deleteitem"),Color(255,0,128,255))
+        interface.showMessage("GMTools: "..lang.Lang("Error_NotEnoughArguments").."\n"..command.GetCommandUsageHelp("deleteitem"),Color(255,0,128,255))
         return
     end
 

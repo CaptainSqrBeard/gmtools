@@ -3,9 +3,12 @@ local command = require("GMT_Scripts._UTILS.command")
 local lang = require("GMT_Scripts._UTILS.lang")
 local gameInfo = require("GMT_Scripts._UTILS.gameInfo")
 
+command.AddCommand("chardata",lang.Lang("Help_CharData"),true,nil,{
+    {name="character",desc=lang.Lang("Args_CharData_character")}})
+
 command.AssignSharedCommand("chardata",function (args, interface)
     if #args == 0 then
-        interface.showMessage("GMTools: "..lang.Lang("Error_NotEnoughArguments").."\n"..GMT.GetCommandUsageHelp("chardata"),Color(255,0,128,255))
+        interface.showMessage("GMTools: "..lang.Lang("Error_NotEnoughArguments").."\n"..command.GetCommandUsageHelp("chardata"),Color(255,0,128,255))
         return
     end
 
@@ -19,9 +22,9 @@ command.AssignSharedCommand("chardata",function (args, interface)
     if args[2] == nil then
         interface.showMessage(lang.Lang("CMD_CharData_header",{char.Name,char.ID}),Color(255,0,255,255))
         interface.showMessage(lang.Lang("CMD_CharData_main_species",{char.SpeciesName.Value}),Color(255,255,255,255))
-        interface.showMessage(lang.Lang("CMD_CharData_main_team",{GMT.GetLocalizedTeam(char.TeamID)}),Color(255,255,255,255))
+        interface.showMessage(lang.Lang("CMD_CharData_main_team",{gameInfo.GetLocalizedTeam(char.TeamID)}),Color(255,255,255,255))
         interface.showMessage(lang.Lang("CMD_CharData_main_health",{char.Vitality, char.MaxVitality}),Color(255,255,255,255))
-        local cl = GMT.GetCharacterClient(char.ID)
+        local cl = utils.GetCharacterClient(char.ID)
         if cl ~= nil then
             interface.showMessage(lang.Lang("CMD_CharData_main_controlled",{cl.Name, cl.SessionId}),Color(255,255,255,255))
         else
