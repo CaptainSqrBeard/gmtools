@@ -10,7 +10,7 @@ command.AssignSharedCommand("help",function (args, interface)
     if #args == 1 and string.lower(args[1]) ~= "all" then
         -- Show list of commands
         local command = args[1]
-        local data = GMT.HelpData[command]
+        local data = command.GetHelpData(command)
         if data ~= nil then
             -- Show info about command
             interface.showMessage("==== "..data.name.." ====",Color(255,0,255,255))
@@ -43,7 +43,7 @@ command.AssignSharedCommand("help",function (args, interface)
         else
             -- Show list of commands
             interface.showMessage("==== "..lang.Lang("CMD_Help_list").." ====",Color(255,0,255,255))
-            for k, cmd in pairs(GMT.HelpData) do
+            for k, cmd in pairs(command.GetAllHelpData()) do
                 if cmd.usage == nil then
                     interface.showMessage("."..cmd.name.."     -     "..cmd.help,Color(255,255,255,255))
                 else

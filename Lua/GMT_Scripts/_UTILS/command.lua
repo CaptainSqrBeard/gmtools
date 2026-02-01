@@ -3,7 +3,17 @@ local module = {}
 local utils = require("GMT_Scripts._UTILS.utils")
 local lang = require("GMT_Scripts._UTILS.lang")
 
+local helpData = {}
+
 GMT.AllCommands = {}
+
+function module.GetHelpData(command)
+    return helpData[command]
+end
+
+function module.GetAllHelpData()
+    return helpData
+end
 
 function module.ListAllCommands()
     local list = {}
@@ -93,7 +103,7 @@ function module.AddCommand(name,help,isCheat,func,help_args,getValidArgs,usage)
         end
     end
 
-    GMT.HelpData[name] = {name=name, help=help, args=help_args, usage=usage}
+    helpData[name] = {name=name, help=help, args=help_args, usage=usage}
     table.insert(GMT.AllCommands,"."..name)
 
     Game.AddCommand("."..name, help, function () end, getValidArgs, isCheat)
@@ -205,10 +215,10 @@ end
 function module.GetCommandUsageHelp(command)
     utils.Expect(1, command, "string")
 
-    if GMT.HelpData[command].usage == nil then
+    if helpData[command].usage == nil then
         return lang.Lang("Usage").."."..command
     end
-    return lang.Lang("Usage").."."..command.." "..GMT.HelpData[command].usage
+    return lang.Lang("Usage").."."..command.." "..helpData[command].usage
 end
 
 function module.GetChatCommandUsageHelp(command)
