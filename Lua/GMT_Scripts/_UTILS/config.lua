@@ -8,6 +8,7 @@
 -- File.Delete('LocalMods/Test')
 -- File.Write('LocalMods/Test')
 -- File.Exists('LocalMods/Test')
+local module = {}
 
 local utils = require("GMT_Scripts._UTILS.utils")
 
@@ -22,7 +23,7 @@ GMT.Config = {}
 GMT.Config.Vars = {}
 local path = "LocalMods/_GMT_Config/"
 
-function GMT.Config.CheckFiles()
+function module.CheckFiles()
     if not File.DirectoryExists(path) then
         File.CreateDirectory(path)
         File.Write(path.."config.txt", default)
@@ -39,7 +40,6 @@ function GMT.Config.CheckFiles()
     end
     return false
 end
-GMT.Config.CheckFiles()
 
 local parameter_load = {}
 local parameter_save = {}
@@ -117,11 +117,11 @@ end
 
 
 
-function GMT.Config.CreateConfig()
+function module.CreateConfig()
     File.Write(path.."config.txt", default)
 end
 
-function GMT.Config.LoadDefault()
+function module.LoadDefault()
     GMT.Config.Vars = {}
     GMT.Config.Vars.player_commands = {".list",".help",".ping",".ahelp",".cls",".clock"}
     GMT.Config.Vars.ahelp_enabled = true
@@ -151,10 +151,10 @@ end
 
 
 
-function GMT.Config.Load()
-    GMT.Config.LoadDefault()
+function module.Load()
+    module.LoadDefault()
 
-    if GMT.Config.CheckFiles() then
+    if module.CheckFiles() then
         return
     end
     if File.Exists(path.."config.txt") then
@@ -166,7 +166,7 @@ function GMT.Config.Load()
                     utils.SendConsoleMessage('GM-Tools: Syntax Error in config. Loading default one',client,Color(255,0,0,255))
                     return false
                 end
-                GMT.Config.LoadDefault()
+                module.LoadDefault()
             end
             if parameter ~= nil then
                 --GMT.Config.Vars[parameter] = value
@@ -182,8 +182,8 @@ function GMT.Config.Load()
 
         end
     else
-        GMT.Config.CreateConfig()
-        GMT.Config.LoadDefault()
+        module.CreateConfig()
+        module.LoadDefault()
         for i, client in ipairs(Client.ClientList) do
             utils.SendConsoleMessage('GM-Tools: Config is not exists. Creating default one',client,Color(255,0,0,255))
         end
@@ -194,8 +194,8 @@ end
 
 
 
-function GMT.Config.Save()
-    GMT.Config.CheckFiles()
+function module.Save()
+    module.CheckFiles()
     local txt = ""
     for k, val in pairs(GMT.Config.Vars) do
         txt = txt..k..":"..parameter_save[k]().."\n"
@@ -205,7 +205,7 @@ end
 
 
 
-function GMT.CheckPlayerCommands()
+function module.CheckPlayerCommands()
     local out = {}
     for i, cmd in ipairs(GMT.Config.Vars.player_commands) do
         if utils.Contains(GMT.AllCommands,cmd) then
@@ -218,3 +218,5 @@ function GMT.CheckPlayerCommands()
     end
     GMT.Config.Vars.player_commands = out
 end
+
+return module

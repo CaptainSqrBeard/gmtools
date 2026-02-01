@@ -4,6 +4,7 @@ GMT.PlayerData = {}
 GMT.PlayerData.Players = {}
 
 local utils = require("GMT_Scripts._UTILS.utils")
+local config = require("GMT_Scripts._UTILS.config")
 
 --[[ Example
 &csqrb;76561199036509221
@@ -67,7 +68,7 @@ local function get_category(line)
 end
 
 function module.Load()
-    GMT.Config.CheckFiles()
+    config.CheckFiles()
     if File.Exists(path.."players.txt") then
         local lines = utils.Split(File.Read(path.."players.txt"),'\n')
         local category_reader = nil
@@ -106,7 +107,7 @@ function module.Load()
 end
 
 function module.Save()
-    GMT.Config.CheckFiles()
+    config.CheckFiles()
     local txt = ""
     for k, player in pairs(GMT.PlayerData.Players) do
         txt = txt.."&"..k..";"..player.Name.."\n!permissions\n"
@@ -122,7 +123,7 @@ function module.Save()
 end
 
 function module.Create(client)
-    GMT.Config.CheckFiles()
+    config.CheckFiles()
     if GMT.PlayerData.Players[client.SteamID] == nil then
         GMT.PlayerData.Players[client.SteamID] = {Name=client.Name,Permissions={},Jobbans={}}
         return true
@@ -131,7 +132,7 @@ function module.Create(client)
 end
 
 function module.CreateSteam(name, steam)
-    GMT.Config.CheckFiles()
+    config.CheckFiles()
     if GMT.PlayerData.Players[steam] == nil then
         GMT.PlayerData.Players[steam] = {Name=name,Permissions={},Jobbans={}}
         return true
@@ -142,7 +143,7 @@ end
 
 
 function module.JobBan(client,job_id,period,reason)
-    GMT.Config.CheckFiles()
+    config.CheckFiles()
     if job_id == GMT.Config.Vars.lowest_job then
         return false
     end

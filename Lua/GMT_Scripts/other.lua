@@ -1,5 +1,6 @@
 local utils = require("GMT_Scripts._UTILS.utils")
 local command = require("GMT_Scripts._UTILS.command")
+local config = require("GMT_Scripts._UTILS.config")
 
 command.AddCommand("cls",GMT.Lang("Help_Cls"),false,function(client,cursor,args)
     if GMT.Player.ProcessCooldown(client,4) then
@@ -94,7 +95,7 @@ command.AssignClientCommand("lang",function(client,cursor,args)
     local input = string.lower(args[1])
     if utils.Contains(lang,input) then
         GMT.Config.Vars.language = input
-        GMT.Config.Save()
+        config.Save()
         utils.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_Lang_changed",{input}),client,Color(255,0,255,255))
     else
         utils.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_Lang_unknown"),client,Color(255,0,0,255))
@@ -114,7 +115,7 @@ command.AssignServerCommand("lang",function(args)
     local input = string.lower(args[1])
     if utils.Contains(lang,input) then
         GMT.Config.Vars.language = input
-        GMT.Config.Save()
+        config.Save()
         utils.NewConsoleMessage("GMTools: "..GMT.Lang("CMD_Lang_changed",{input}),Color(255,0,255,255))
     else
         utils.NewConsoleMessage("GMTools: "..GMT.Lang("CMD_Lang_unknown"),Color(255,0,0,255))

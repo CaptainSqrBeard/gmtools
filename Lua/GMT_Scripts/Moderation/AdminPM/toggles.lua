@@ -1,5 +1,6 @@
 local utils = require("GMT_Scripts._UTILS.utils")
 local command = require("GMT_Scripts._UTILS.command")
+local config = require("GMT_Scripts._UTILS.config")
 
 command.AddCommand("toggle_ahelp",GMT.Lang("Help_ToggleAHelp"),false,nil,{{name="status",desc=GMT.Lang("Args_ToggleAHelp_status")}})
 
@@ -24,7 +25,7 @@ command.AssignClientCommand("toggle_ahelp", function(client,cursor,args)
         utils.SendConsoleMessage("GM-Tools: "..GMT.Lang("CMD_ToggleAHelp_disabled"),client,Color(255,0,255,255))
     end
     
-    GMT.Config.Save()
+    config.Save()
 end)
 
 command.AssignServerCommand("toggle_ahelp", function(args)
@@ -48,7 +49,7 @@ command.AssignServerCommand("toggle_ahelp", function(args)
         utils.NewConsoleMessage("GM-Tools: "..GMT.Lang("CMD_ToggleAHelp_disabled"),Color(255,0,255,255),false)
     end
     
-    GMT.Config.Save()
+    config.Save()
 end)
 
 
@@ -77,7 +78,7 @@ command.AssignClientCommand("toggle_bwoink",function(client,cursor,args)
         utils.SendConsoleMessage("GM-Tools: "..GMT.Lang("CMD_ToggleBwoink_disabled"),client,Color(255,0,255,255))
     end
     
-    GMT.Config.Save()
+    config.Save()
 end)
 
 command.AssignServerCommand("toggle_bwoink",function(args)
@@ -101,5 +102,5 @@ command.AssignServerCommand("toggle_bwoink",function(args)
         utils.NewConsoleMessage("GM-Tools: "..GMT.Lang("CMD_ToggleBwoink_disabled"),Color(255,0,255,255),false)
     end
     
-    GMT.Config.Save()
+    config.Save()
 end)

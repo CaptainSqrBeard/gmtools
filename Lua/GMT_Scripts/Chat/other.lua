@@ -4,7 +4,7 @@ local player = require("GMT_Scripts._UTILS.player")
 
 command.AddChatCommand("fixme",GMT.Lang("HelpChat_FixMe"),function (client, args)
     if GMT.Player.ProcessCooldown(client,3) then return end
-    player.GetCommandByString(client)
+    player.AddInMemory(client)
     GMT.RestorePerms(client)
 
     local chatMsg = ChatMessage.Create("GM-Tools", GMT.Lang("Chat_FixMe_attempt"), ChatMessageType.Server, nil, nil)

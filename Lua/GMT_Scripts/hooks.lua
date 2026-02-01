@@ -11,7 +11,7 @@ Hook.Add("client.connected", "GMT.client_connect", function(client)
     end
 
     GMT.RestorePerms(client)
-    player.GetCommandByString(client)
+    player.AddInMemory(client)
 
 end)
 

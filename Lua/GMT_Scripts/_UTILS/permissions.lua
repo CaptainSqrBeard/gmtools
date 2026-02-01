@@ -1,13 +1,15 @@
 
 local utils = require("GMT_Scripts._UTILS.utils")
 local command = require("GMT_Scripts._UTILS.command")
+local player = require("GMT_Scripts._UTILS.player")
+local playerdb = require("GMT_Scripts._UTILS.playerdb")
 
 function GMT.RestorePerms(client)
     local playerCommands = GMT.Config.Vars.player_commands
     local list = {}
     local add_list = {}
 
-    GMT.PlayerData.Create(client)
+    playerdb.Create(client)
 
     for i, cmd in ipairs(Game.Commands) do
         if utils.Contains(playerCommands, cmd.names[1]) or utils.Contains(GMT.PlayerData.Players[client.SteamID].Permissions, cmd.names[1]) then
