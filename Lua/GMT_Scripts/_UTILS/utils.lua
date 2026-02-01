@@ -265,4 +265,13 @@ function module.GetTimeString(time)
     return table.concat(out,", ")
 end
 
+function module.IsRespawnShuttle(shuttle)
+    for sub in Game.RespawnManager.RespawnShuttles do
+        if shuttle == sub then
+            return true
+        end
+    end
+    return false
+end
+
 return module

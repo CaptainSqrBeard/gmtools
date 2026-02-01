@@ -9,7 +9,7 @@ command.AssignClientCommand("sublist",function(client,cursor,args)
     utils.SendConsoleMessage(lang.Lang("CMD_SubmarineList_header"),client,Color(255,0,255,255))
     for i, sub in ipairs(Submarine.Loaded) do
         local tags = gameInfo.GetLocalizedSubmarineType(sub.Info.Type)
-        if sub == Game.RespawnManager.RespawnShuttle then
+        if utils.IsRespawnShuttle(sub) then
             tags = tags..", "..lang.Lang("CMD_SubmarineList_respawn_shuttle")
         end
         if sub == Submarine.MainSub then
@@ -23,7 +23,7 @@ command.AssignServerCommand("sublist",function(args)
     utils.NewConsoleMessage(lang.Lang("CMD_SubmarineList_header"),Color(255,0,255,255))
     for i, sub in ipairs(Submarine.Loaded) do
         local tags = gameInfo.GetLocalizedSubmarineType(sub.Info.Type)
-        if sub == Game.RespawnManager.RespawnShuttle then
+        if utils.IsRespawnShuttle(sub) then
             tags = tags..", "..lang.Lang("CMD_SubmarineList_respawn_shuttle")
         end
         if sub == Submarine.MainSub then
