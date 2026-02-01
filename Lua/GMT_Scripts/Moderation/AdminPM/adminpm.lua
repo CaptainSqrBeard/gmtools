@@ -1,6 +1,7 @@
 local utils = require("GMT_Scripts._UTILS.utils")
 local command = require("GMT_Scripts._UTILS.command")
 local lang = require("GMT_Scripts._UTILS.lang")
+local permissions = require("GMT_Scripts._UTILS.permissions")
 
 local function sendAdminPMToPlayer(sender,recipient,msg)
     local chatMsg = ChatMessage.Create(lang.Lang("CMD_AdminPM_msg_for_player_name",{sender.Name}), lang.Lang("CMD_AdminPM_msg_for_player_text",{sender.SteamID,sender.Name,recipient.SteamID,recipient.Name,msg}), ChatMessageType.Error, nil, nil)
@@ -63,7 +64,7 @@ command.AssignClientCommand("adminpm", function(client,cursor,args)
 
     -- For other admins
     for i, cl in ipairs(Client.ClientList) do
-        if (cl.SessionId ~= client.SessionId and cl.SessionId ~= r_client.SessionId) and GMT.HasPermission(cl,".adminpm") then
+        if (cl.SessionId ~= client.SessionId and cl.SessionId ~= r_client.SessionId) and permissions.HasPermission(cl,".adminpm") then
             utils.SendConsoleMessage(lang.Lang("CMD_AdminPM_con_to_other_L1",{client.Name,r_client.Name}),cl,Color(255,0,0,255))
             utils.SendConsoleMessage(lang.Lang("CMD_AdminPM_con_to_other_L2",{msg}),cl,Color(255,255,255,255))
         end
@@ -116,7 +117,7 @@ command.AssignServerCommand("adminpm", function(args)
 
     -- For other admins
     for i, cl in ipairs(Client.ClientList) do
-        if GMT.HasPermission(cl,".adminpm") then
+        if permissions.HasPermission(cl,".adminpm") then
             utils.SendConsoleMessage(lang.Lang("CMD_AdminPM_con_to_other_L1",{lang.Lang("Console"),r_client.Name}),cl,Color(255,0,0,255))
             utils.SendConsoleMessage(lang.Lang("CMD_AdminPM_con_to_other_L2",{msg}),cl,Color(255,255,255,255))
         end

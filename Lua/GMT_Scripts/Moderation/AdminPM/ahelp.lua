@@ -2,6 +2,7 @@ local utils = require("GMT_Scripts._UTILS.utils")
 local command = require("GMT_Scripts._UTILS.command")
 local player = require("GMT_Scripts._UTILS.player")
 local lang = require("GMT_Scripts._UTILS.lang")
+local permissions = require("GMT_Scripts._UTILS.permissions")
 
 local function sendAHelpToAdmins(sender,recipient,msg)
     utils.SendConsoleMessage(lang.Lang("CMD_AHelp_con_for_admin_L1",{sender.Name}),recipient,Color(255,0,0,255))
@@ -55,7 +56,7 @@ command.AssignClientCommand("ahelp",function(client,cursor,args)
 
     -- For recipients
     for i, cl in ipairs(Client.ClientList) do
-        if GMT.HasPermission(cl,".adminpm") then
+        if permissions.HasPermission(cl,".adminpm") then
             sendAHelpToAdmins(client,cl,msg)
         end
     end
@@ -100,7 +101,7 @@ command.AddChatCommand("ahelp",lang.Lang("Help_AHelp"),function (client,args)
 
     -- For recipients
     for i, cl in ipairs(Client.ClientList) do
-        if GMT.HasPermission(cl,".adminpm") then
+        if permissions.HasPermission(cl,".adminpm") then
             sendAHelpToAdmins(client,cl,msg)
         end
     end

@@ -1,6 +1,8 @@
 local utils = require("GMT_Scripts._UTILS.utils")
 local command = require("GMT_Scripts._UTILS.command")
 local lang = require("GMT_Scripts._UTILS.lang")
+local player = require("GMT_Scripts._UTILS.player")
+local permissions = require("GMT_Scripts._UTILS.permissions")
 
 command.AddCommand("see_ghostchat",lang.Lang("Help_SeeGhostChat"),false,function(client,cursor,args)
     local target
@@ -16,7 +18,7 @@ command.AddCommand("see_ghostchat",lang.Lang("Help_SeeGhostChat"),false,function
         target = client
     end
     
-    local status = GMT.Player.CanSeeGhostChat(target)
+    local status = player.CanSeeGhostChat(target)
 
     -- Getting Status
     if args[1] ~= nil then
@@ -79,7 +81,7 @@ command.AddCommand("deadmsg",lang.Lang("Help_DeadMsg"),false,function(client,cur
     -- For ghosts
     for i, cl in ipairs(Client.ClientList) do
         if cl.SessionId ~= client.SessionId then
-            if cl.Character == nil or cl.Character.IsDead or GMT.Player.CanSeeGhostChat(cl) then
+            if cl.Character == nil or cl.Character.IsDead or player.CanSeeGhostChat(cl) then
                 local chatMsg = ChatMessage.Create(nil, msg, ChatMessageType.Dead, client.Character, client)
                 Game.SendDirectChatMessage(chatMsg, cl)
             end
@@ -90,7 +92,7 @@ end,{{name="msg",desc=lang.Lang("Args_DeadMsg_msg")}})
 
 
 command.AddChatCommand("dead",lang.Lang("Help_DeadMsg"),function (client,args)
-    if not GMT.HasPermission(client,".deadmsg") then
+    if not permissions.HasPermission(client,".deadmsg") then
         local chatMsg = ChatMessage.Create("GM-Tools",utils.FormattedText(lang.Lang("Error_NotEnoughPermissions"),{{name="color",value="#b1cbfc"}}), ChatMessageType.Dead, nil, nil)
         Game.SendDirectChatMessage(chatMsg, client)
         return
@@ -129,7 +131,7 @@ command.AddChatCommand("dead",lang.Lang("Help_DeadMsg"),function (client,args)
     -- For ghosts
     for i, cl in ipairs(Client.ClientList) do
         if cl.SessionId ~= client.SessionId then
-            if cl.Character == nil or cl.Character.IsDead or GMT.Player.CanSeeGhostChat(cl) then
+            if cl.Character == nil or cl.Character.IsDead or player.CanSeeGhostChat(cl) then
                 local chatMsg = ChatMessage.Create(nil, msg, ChatMessageType.Dead, client.Character, client)
                 Game.SendDirectChatMessage(chatMsg, cl)
             end

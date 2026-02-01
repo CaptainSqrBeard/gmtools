@@ -1,11 +1,12 @@
 local utils = require("GMT_Scripts._UTILS.utils")
 local command = require("GMT_Scripts._UTILS.command")
 local lang = require("GMT_Scripts._UTILS.lang")
+local permissions = require("GMT_Scripts._UTILS.permissions")
 
 local ADMIN_CHAT_PREFIX = "[GMT ADMIN CHAT] "
 
 command.AddChatCommand("admin",lang.Lang("Help_AdminChat"),function (client,args)
-    if not GMT.HasPermission(client,".adminchat") then
+    if not permissions.HasPermission(client,".adminchat") then
         local chatMsg = ChatMessage.Create("GM-Tools",utils.FormattedText(lang.Lang("Error_NotEnoughPermissions"),{{name="color",value="#ff8589"}}), ChatMessageType.Error, nil, nil)
         Game.SendDirectChatMessage(chatMsg, client)
         return

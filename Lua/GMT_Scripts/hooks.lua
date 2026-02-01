@@ -67,7 +67,7 @@ Hook.Add("chatMessage", "GMT.chatmessage", function(msg, client)
         end
 
         for i, cl in ipairs(Client.ClientList) do
-            if (cl.Character ~= nil and not cl.Character.IsDead) and (GMT.Player.CanSeeGhostChat(cl)) then
+            if (cl.Character ~= nil and not cl.Character.IsDead) and (player.CanSeeGhostChat(cl)) then
                 local chatMsg = ChatMessage.Create(nil, out_msg, ChatMessageType.Dead, client.Character, client)
                 Game.SendDirectChatMessage(chatMsg, cl)
             end
