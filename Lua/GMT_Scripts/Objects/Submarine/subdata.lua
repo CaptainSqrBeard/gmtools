@@ -1,6 +1,7 @@
 local utils = require("GMT_Scripts._UTILS.utils")
 local command = require("GMT_Scripts._UTILS.command")
 local lang = require("GMT_Scripts._UTILS.lang")
+local gameInfo = require("GMT_Scripts._UTILS.gameInfo")
 
 command.AddCommand("subdata",lang.Lang("Help_SubmarineData"),true,nil,{
     {name="submarine",desc=lang.Lang("Args_SubmarineData_submarine")}})
@@ -26,9 +27,9 @@ command.AssignClientCommand("subdata",function(client,cursor,args)
     if sub == Submarine.MainSub then
         utils.SendConsoleMessage(lang.Lang("CMD_SubmarineData_mainsub"),client,Color(255,255,255,255))
     end
-    utils.SendConsoleMessage(lang.Lang("CMD_SubmarineData_team", {GMT.GetLocalizedTeam(sub.TeamID)}),client,Color(255,255,255,255))
-    utils.SendConsoleMessage(lang.Lang("CMD_SubmarineData_type", {GMT.GetLocalizedSubmarineType(sub.Info.Type)}),client,Color(255,255,255,255))
-    utils.SendConsoleMessage(lang.Lang("CMD_SubmarineData_class", {GMT.GetLocalizedSubmarineClass(sub.Info.SubmarineClass)}),client,Color(255,255,255,255))
+    utils.SendConsoleMessage(lang.Lang("CMD_SubmarineData_team", {gameInfo.GetLocalizedTeam(sub.TeamID)}),client,Color(255,255,255,255))
+    utils.SendConsoleMessage(lang.Lang("CMD_SubmarineData_type", {gameInfo.GetLocalizedSubmarineType(sub.Info.Type)}),client,Color(255,255,255,255))
+    utils.SendConsoleMessage(lang.Lang("CMD_SubmarineData_class", {gameInfo.GetLocalizedSubmarineClass(sub.Info.SubmarineClass)}),client,Color(255,255,255,255))
     utils.SendConsoleMessage(lang.Lang("CMD_SubmarineData_velocity", {math.floor(sub.Velocity.x), math.floor(sub.Velocity.y)}),client,Color(255,255,255,255))
     if sub.LockX or sub.LockY then
         local lockedText = ""
@@ -63,9 +64,9 @@ command.AssignServerCommand("subdata",function(args)
     if sub == Submarine.MainSub then
         utils.NewConsoleMessage(lang.Lang("CMD_SubmarineData_mainsub"),Color(255,255,255,255))
     end
-    utils.NewConsoleMessage(lang.Lang("CMD_SubmarineData_team", {GMT.GetLocalizedTeam(sub.TeamID)}),Color(255,255,255,255))
-    utils.NewConsoleMessage(lang.Lang("CMD_SubmarineData_type", {GMT.GetLocalizedSubmarineType(sub.Info.Type)}),Color(255,255,255,255))
-    utils.NewConsoleMessage(lang.Lang("CMD_SubmarineData_class", {GMT.GetLocalizedSubmarineClass(sub.Info.SubmarineClass)}),Color(255,255,255,255))
+    utils.NewConsoleMessage(lang.Lang("CMD_SubmarineData_team", {gameInfo.GetLocalizedTeam(sub.TeamID)}),Color(255,255,255,255))
+    utils.NewConsoleMessage(lang.Lang("CMD_SubmarineData_type", {gameInfo.GetLocalizedSubmarineType(sub.Info.Type)}),Color(255,255,255,255))
+    utils.NewConsoleMessage(lang.Lang("CMD_SubmarineData_class", {gameInfo.GetLocalizedSubmarineClass(sub.Info.SubmarineClass)}),Color(255,255,255,255))
     utils.NewConsoleMessage(lang.Lang("CMD_SubmarineData_velocity", {math.floor(sub.Velocity.x), math.floor(sub.Velocity.y)}),Color(255,255,255,255))
     utils.NewConsoleMessage(lang.Lang("CMD_SubmarineData_position", {math.floor(sub.WorldPosition.x), math.floor(sub.WorldPosition.y)}),Color(255,255,255,255))
     utils.NewConsoleMessage(lang.Lang("CMD_SubmarineData_depth", {math.floor(sub.RealWorldDepth), sub.RealWorldCrushDepth}),Color(255,255,255,255))

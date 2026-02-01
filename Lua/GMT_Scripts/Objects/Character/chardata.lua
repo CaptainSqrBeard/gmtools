@@ -1,6 +1,7 @@
 local utils = require("GMT_Scripts._UTILS.utils")
 local command = require("GMT_Scripts._UTILS.command")
 local lang = require("GMT_Scripts._UTILS.lang")
+local gameInfo = require("GMT_Scripts._UTILS.gameInfo")
 
 command.AddCommand("chardata",lang.Lang("Help_CharData"),true,nil,{
     {name="character",desc=lang.Lang("Args_CharData_character")}})
@@ -21,7 +22,7 @@ command.AssignClientCommand("chardata",function(client,cursor,args)
     if args[2] == nil then
         utils.SendConsoleMessage(lang.Lang("CMD_CharData_header",{char.Name,char.ID}),client,Color(255,0,255,255))
         utils.SendConsoleMessage(lang.Lang("CMD_CharData_main_species",{char.SpeciesName.Value}),client,Color(255,255,255,255))
-        utils.SendConsoleMessage(lang.Lang("CMD_CharData_main_team",{GMT.GetLocalizedTeam(char.TeamID)}),client,Color(255,255,255,255))
+        utils.SendConsoleMessage(lang.Lang("CMD_CharData_main_team",{gameInfo.GetLocalizedTeam(char.TeamID)}),client,Color(255,255,255,255))
         utils.SendConsoleMessage(lang.Lang("CMD_CharData_main_health",{char.Vitality, char.MaxVitality}),client,Color(255,255,255,255))
         local cl = utils.GetCharacterClient(char.ID)
         if cl ~= nil then

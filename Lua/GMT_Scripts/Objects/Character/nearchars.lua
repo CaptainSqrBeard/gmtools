@@ -1,6 +1,7 @@
 local utils = require("GMT_Scripts._UTILS.utils")
 local command = require("GMT_Scripts._UTILS.command")
 local lang = require("GMT_Scripts._UTILS.lang")
+local gameInfo = require("GMT_Scripts._UTILS.gameInfo")
 
 command.AddCommand("nearchars",lang.Lang("Help_NearChars"),true,nil,{
 {name="size",desc=lang.Lang("Args_NearChars_size")}})
@@ -21,7 +22,7 @@ command.AssignClientCommand("nearchars",function(client,cursor,args)
     for i, char in ipairs(Character.CharacterList) do
         local pos = char.WorldPosition
         if (utils.SquaredDistance(cursor.x,cursor.y,pos.x,pos.y) < size*size) then
-            utils.SendConsoleMessage(lang.Lang("CMD_NearChars_char",{char.Name, char.ID, GMT.GetLocalizedTeam(char.TeamID)}),client,Color(255,255,255,255))
+            utils.SendConsoleMessage(lang.Lang("CMD_NearChars_char",{char.Name, char.ID, gameInfo.GetLocalizedTeam(char.TeamID)}),client,Color(255,255,255,255))
         end
     end
 end)

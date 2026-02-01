@@ -18,17 +18,15 @@ if SERVER then
     local permissions = require("GMT_Scripts._UTILS.permissions")
     config.CheckFiles()
 
-    print(lang.Lang("aaaaa"))
-
     -- Base
-    require("GMT_Scripts._UTILS.data")
+    require("GMT_Scripts._UTILS.gameInfo")
     --require("GMT_Scripts._UTILS.utils")
     require("GMT_Scripts._UTILS.command")
     require("GMT_Scripts.hooks")
 
     -- Load config and lang
     config.Load()
-    GMT.LangFiles.Load(GMT.Config.Vars.language)
+    lang.Load(GMT.Config.Vars.language)
 
     -- Console commands
     require("GMT_Scripts.help")

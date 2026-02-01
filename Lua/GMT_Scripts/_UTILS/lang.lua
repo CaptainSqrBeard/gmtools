@@ -1,9 +1,8 @@
 local module = {}
 
 local lang_files = {}
-GMT.LangFiles = {}
 
-function GMT.LangFiles.Load(lang)
+function module.Load(lang)
     if lang == "en" then
         lang_files = dofile(GMT_PATH.."/Lua/LangFiles/en.lua")
     elseif lang == "ru" then

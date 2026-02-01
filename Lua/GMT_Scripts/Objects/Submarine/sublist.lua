@@ -1,13 +1,14 @@
 local utils = require("GMT_Scripts._UTILS.utils")
 local command = require("GMT_Scripts._UTILS.command")
 local lang = require("GMT_Scripts._UTILS.lang")
+local gameInfo = require("GMT_Scripts._UTILS.gameInfo")
 
 command.AddCommand("sublist",lang.Lang("Help_SubmarineList"),true,nil)
 
 command.AssignClientCommand("sublist",function(client,cursor,args)
     utils.SendConsoleMessage(lang.Lang("CMD_SubmarineList_header"),client,Color(255,0,255,255))
     for i, sub in ipairs(Submarine.Loaded) do
-        local tags = lang.Lang(GMT.SubmarineTypes[sub.Info.Type+1])
+        local tags = gameInfo.GetLocalizedSubmarineType(sub.Info.Type)
         if sub == Game.RespawnManager.RespawnShuttle then
             tags = tags..", "..lang.Lang("CMD_SubmarineList_respawn_shuttle")
         end
@@ -21,7 +22,7 @@ end)
 command.AssignServerCommand("sublist",function(args)
     utils.NewConsoleMessage(lang.Lang("CMD_SubmarineList_header"),Color(255,0,255,255))
     for i, sub in ipairs(Submarine.Loaded) do
-        local tags = lang.Lang(GMT.SubmarineTypes[sub.Info.Type+1])
+        local tags = gameInfo.GetLocalizedSubmarineType(sub.Info.Type)
         if sub == Game.RespawnManager.RespawnShuttle then
             tags = tags..", "..lang.Lang("CMD_SubmarineList_respawn_shuttle")
         end

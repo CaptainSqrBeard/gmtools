@@ -1,7 +1,8 @@
+local module = {}
 
 local lang = require("GMT_Scripts._UTILS.lang")
 
-GMT.SubmarineTypes = {
+module.SubmarineTypes = {
     "Submarine_types_player",
     "Submarine_types_outpost",
     "Submarine_types_outpostmodule",
@@ -10,36 +11,38 @@ GMT.SubmarineTypes = {
     "Submarine_types_enemysubmarine",
     "Submarine_types_ruin"
 }
-GMT.SubmarineClasses = {
+module.SubmarineClasses = {
     "Submarine_classes_undefined",
     "Submarine_classes_scout",
     "Submarine_classes_attack",
     "Submarine_classes_transport"
 }
-GMT.CharacterTeams = {
+module.CharacterTeams = {
     "CharacterTeams_none",
     "CharacterTeams_team1",
     "CharacterTeams_team2",
     "CharacterTeams_friendlynpc"
 }
 
-function GMT.GetLocalizedSubmarineType(index)
-    if index >= 0 and index <= #GMT.SubmarineTypes-1 then
-        return lang.Lang(GMT.SubmarineTypes[index+1])
+function module.GetLocalizedSubmarineType(index)
+    if index >= 0 and index <= #module.SubmarineTypes-1 then
+        return lang.Lang(module.SubmarineTypes[index+1])
     end
     return lang.Lang("Submarine_types_custom", {index})
 end
 
-function GMT.GetLocalizedSubmarineClass(index)
-    if index >= 0 and index <= #GMT.SubmarineClasses-1 then
-        return lang.Lang(GMT.SubmarineClasses[index+1])
+function module.GetLocalizedSubmarineClass(index)
+    if index >= 0 and index <= #module.SubmarineClasses-1 then
+        return lang.Lang(module.SubmarineClasses[index+1])
     end
     return lang.Lang("Submarine_classes_custom", {index})
 end
 
-function GMT.GetLocalizedTeam(index)
-    if index >= 0 and index <= #GMT.CharacterTeams-1 then
-        return lang.Lang(GMT.CharacterTeams[index+1])
+function module.GetLocalizedTeam(index)
+    if index >= 0 and index <= #module.CharacterTeams-1 then
+        return lang.Lang(module.CharacterTeams[index+1])
     end
     return lang.Lang("CharacterTeams_custom", {index})
 end
+
+return module
