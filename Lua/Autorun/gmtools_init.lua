@@ -11,13 +11,15 @@ GMT.HelpData = {}
 GMT.ChatCommands = {}
 
 if SERVER then
+    local player = require("GMT_Scripts._UTILS.player")
+    local playerdb = require("GMT_Scripts._UTILS.playerdb")
+
     -- Base
     require("GMT_Scripts._UTILS.data")
     require("GMT_Scripts._UTILS.lang")
-    require("GMT_Scripts._UTILS.utils")
+    --require("GMT_Scripts._UTILS.utils")
     require("GMT_Scripts._UTILS.command")
     require("GMT_Scripts._UTILS.config")
-    require("GMT_Scripts._UTILS.player")
     require("GMT_Scripts._UTILS.playerdb")
     require("GMT_Scripts._UTILS.permissions")
     require("GMT_Scripts.hooks")
@@ -72,7 +74,7 @@ if SERVER then
     --require("GMT_Scripts.debug")
 
     -- Load playerdata
-    GMT.PlayerData.Load()
+    playerdb.Load()
 
     -- Checking Player Commands in config after adding them
     GMT.CheckPlayerCommands()
@@ -88,7 +90,7 @@ if SERVER then
         } 
         -- Add all connected clients
         for i, cl in ipairs(Client.ClientList) do
-            GMT.Player.AddInMemory(cl)
+            player.GetCommandByString(cl)
             GMT.RestorePerms(cl)
         end
         print("\n"..table.concat(init,"\n").."\n ")

@@ -1,6 +1,10 @@
+local module = {}
+
+local utils = require("GMT_Scripts._UTILS.utils")
+
 GMT.AllCommands = {}
 
-function GMT.SplitCommand(msg)
+function module.SplitCommand(msg)
     local split = {}
     local piece = ""
     
@@ -46,7 +50,7 @@ function GMT.SplitCommand(msg)
 end
 
 
---[[ GMT.AddCommand
+--[[ command.AddCommand
 "Adds new command into console"
 * name: Name of the command (String)
 * help: Help Text in help (String)
@@ -54,13 +58,13 @@ end
 * func: Function to execute (Function)
 * help_args: Arguments description in help <cmd> (Table)
 --]]
-function GMT.AddCommand(name,help,isCheat,func,help_args,getValidArgs)
-    if (GMT.CheckFArgs(name,"string")) or
-    (GMT.CheckFArgs(help,"string")) or
-    (GMT.CheckFArgs(isCheat,"boolean",true)) or
-    (GMT.CheckFArgs(help_args,"table",true))
+function module.AddCommand(name,help,isCheat,func,help_args,getValidArgs)
+    if (utils.CheckFArgs(name,"string")) or
+    (utils.CheckFArgs(help,"string")) or
+    (utils.CheckFArgs(isCheat,"boolean",true)) or
+    (utils.CheckFArgs(help_args,"table",true))
     then
-        GMT.ThrowError("Bad Argument")
+        utils.ThrowError("Bad Argument")
     end
 
     GMT.HelpData[name] = {name=name,help=help,args=help_args}
@@ -68,36 +72,36 @@ function GMT.AddCommand(name,help,isCheat,func,help_args,getValidArgs)
 
     Game.AddCommand("."..name, help, function () end, getValidArgs, isCheat)
     if type(func) == "function" then
-        GMT.AssignClientCommand(name, func) -- function(client,cursor,args) end
+        module.AssignClientCommand(name, func) -- function(client,cursor,args) end
     end
 end
 
 
---[[ GMT.AssignClientCommand
+--[[ command.AssignClientCommand
 "Assigns client usage in console"
 * name: Name of the command (String)
 * func: Function to execute (Function)
 --]]
-function GMT.AssignClientCommand(name,func)
-    if (GMT.CheckFArgs(name,"string")) or
-    (GMT.CheckFArgs(func,"function"))
+function module.AssignClientCommand(name,func)
+    if (utils.CheckFArgs(name,"string")) or
+    (utils.CheckFArgs(func,"function"))
     then
-        GMT.ThrowError("Bad Argument")
+        utils.ThrowError("Bad Argument")
     end
 
     Game.AssignOnClientRequestExecute("."..name, func) -- function(args) end
 end
 
---[[ GMT.AssignServerCommand
+--[[ command.AssignServerCommand
 "Assigns server usage in server console (For dedicated servers)"
 * name: Name of the command (String)
 * func: Function to execute (Function)
 --]]
-function GMT.AssignServerCommand(name,func)
-    if (GMT.CheckFArgs(name,"string")) or
-    (GMT.CheckFArgs(func,"function"))
+function module.AssignServerCommand(name,func)
+    if (utils.CheckFArgs(name,"string")) or
+    (utils.CheckFArgs(func,"function"))
     then
-        GMT.ThrowError("Bad Argument")
+        utils.ThrowError("Bad Argument")
     end
 
     Game.AssignOnExecute("."..name, func) -- function(args) end
@@ -105,27 +109,29 @@ end
 
 
 
---[[ GMT.AddChatCommand
+--[[ command.AddChatCommand
 "Adds new command into chat"
 * name: Name of the command (String)
 * help: Help Text in .help (String)
 * func: Function to execute (Function)
 --]]
-function GMT.AddChatCommand(name,help,func)
-    if (GMT.CheckFArgs(name,"string")) or
-    (GMT.CheckFArgs(help,"string")) or
-    (GMT.CheckFArgs(func,"function"))
+function module.AddChatCommand(name,help,func)
+    if (utils.CheckFArgs(name,"string")) or
+    (utils.CheckFArgs(help,"string")) or
+    (utils.CheckFArgs(func,"function"))
     then
-        GMT.ThrowError("Bad Argument")
+        utils.ThrowError("Bad Argument")
     end
 
     GMT.ChatCommands["."..name] = {name=name,func=func,help=help}
 end
 
-function GMT.GetCommandByString(string)
+function module.GetCommandByString(string)
     for i_1, cmd in ipairs(Game.Commands) do
         if cmd.names[1] == string then
             return cmd
         end
     end
 end
+
+return module

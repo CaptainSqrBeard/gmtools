@@ -1,5 +1,9 @@
+local module = {}
+
 GMT.PlayerData = {}
 GMT.PlayerData.Players = {}
+
+local utils = require("GMT_Scripts._UTILS.utils")
 
 --[[ Example
 &csqrb;76561199036509221
@@ -16,7 +20,7 @@ engineer;123456789;using drugs
 local path = "LocalMods/_GMT_Config/"
 local readers = {}
 readers["permissions"] = function (target,line)
-    if GMT.Contains(GMT.AllCommands,line) then
+    if utils.Contains(GMT.AllCommands,line) then
         table.insert(GMT.PlayerData.Players[target].Permissions,line)
     end
 end
@@ -62,10 +66,10 @@ local function get_category(line)
     return func
 end
 
-function GMT.PlayerData.Load()
+function module.Load()
     GMT.Config.CheckFiles()
     if File.Exists(path.."players.txt") then
-        local lines = GMT.Split(File.Read(path.."players.txt"),'\n')
+        local lines = utils.Split(File.Read(path.."players.txt"),'\n')
         local category_reader = nil
 
         local target = 0
@@ -83,7 +87,7 @@ function GMT.PlayerData.Load()
                         category_reader(target,line)
                     else
                         for i, client in ipairs(Client.ClientList) do
-                            GMT.SendConsoleMessage('GM-Tools: Syntax Error in player database. Loading empty one',client,Color(255,0,0,255))
+                            utils.SendConsoleMessage('GM-Tools: Syntax Error in player database. Loading empty one',client,Color(255,0,0,255))
                             return false
                         end
                     end
@@ -94,14 +98,14 @@ function GMT.PlayerData.Load()
     else
         File.Write(path.."players.txt")
         for i, client in ipairs(Client.ClientList) do
-            GMT.SendConsoleMessage('GM-Tools: players.txt is not exists. Creating default one',client,Color(255,0,0,255))
+            utils.SendConsoleMessage('GM-Tools: players.txt is not exists. Creating default one',client,Color(255,0,0,255))
         end
         return false
     end
     return true
 end
 
-function GMT.PlayerData.Save()
+function module.Save()
     GMT.Config.CheckFiles()
     local txt = ""
     for k, player in pairs(GMT.PlayerData.Players) do
@@ -117,7 +121,7 @@ function GMT.PlayerData.Save()
     File.Write(path.."players.txt",txt)
 end
 
-function GMT.PlayerData.Create(client)
+function module.Create(client)
     GMT.Config.CheckFiles()
     if GMT.PlayerData.Players[client.SteamID] == nil then
         GMT.PlayerData.Players[client.SteamID] = {Name=client.Name,Permissions={},Jobbans={}}
@@ -126,7 +130,7 @@ function GMT.PlayerData.Create(client)
     return false
 end
 
-function GMT.PlayerData.CreateSteam(name, steam)
+function module.CreateSteam(name, steam)
     GMT.Config.CheckFiles()
     if GMT.PlayerData.Players[steam] == nil then
         GMT.PlayerData.Players[steam] = {Name=name,Permissions={},Jobbans={}}
@@ -137,7 +141,7 @@ end
 
 
 
-function GMT.PlayerData.JobBan(client,job_id,period,reason)
+function module.JobBan(client,job_id,period,reason)
     GMT.Config.CheckFiles()
     if job_id == GMT.Config.Vars.lowest_job then
         return false
@@ -165,14 +169,14 @@ function GMT.PlayerData.JobBan(client,job_id,period,reason)
         table.insert(GMT.PlayerData.Players[client.SteamID].Jobbans, {job=job_id,expiresAt=expiresAt,reason=reason})
     end
 
-    local chatMessage = ChatMessage.Create("", GMT.Lang("CMD_Jobban_Box",{job_id,GMT.GetTimeString(period),reason}), ChatMessageType.MessageBox, nil, nil)
+    local chatMessage = ChatMessage.Create("", GMT.Lang("CMD_Jobban_Box",{job_id,utils.GetTimeString(period),reason}), ChatMessageType.MessageBox, nil, nil)
     chatMessage.Color = Color(255, 60, 60, 255)
     Game.SendDirectChatMessage(chatMessage, client)
-    GMT.PlayerData.Save()
+    module.Save()
     return true
 end
 
-function GMT.PlayerData.JobBanSteam(client_steam,job_id,period,reason)
+function module.JobBanSteam(client_steam,job_id,period,reason)
     if job_id == GMT.Config.Vars.lowest_job then
         return false
     end
@@ -180,7 +184,7 @@ function GMT.PlayerData.JobBanSteam(client_steam,job_id,period,reason)
         return false
     end
 
-    GMT.PlayerData.CreateSteam("Unknown",client_steam)
+    module.CreateSteam("Unknown",client_steam)
     if reason == nil then reason = "No reason" end
     local expiresAt
     if period ~= nil and period ~= 0 then
@@ -202,11 +206,11 @@ function GMT.PlayerData.JobBanSteam(client_steam,job_id,period,reason)
         table.insert(GMT.PlayerData.Players[client_steam].Jobbans, {job=job_id,expiresAt=expiresAt,reason=reason})
     end
 
-    GMT.PlayerData.Save()
+    module.Save()
     return true
 end
 
-function GMT.PlayerData.HasJobBan(client,job_id)
+function module.HasJobBan(client,job_id)
     if job_id == GMT.Config.Vars.lowest_job then
         return false,nil,nil,nil
     end
@@ -225,11 +229,11 @@ function GMT.PlayerData.HasJobBan(client,job_id)
     end
 end
 
-function GMT.PlayerData.GetJobBanInfo(client,job_id)
+function module.GetJobBanInfo(client,job_id)
     if job_id == GMT.Config.Vars.lowest_job then
         return false,nil,nil,nil
     end
-    if GMT.PlayerData.Create(client) then
+    if module.Create(client) then
         return false,nil,nil,nil
     end
 
@@ -243,3 +247,5 @@ function GMT.PlayerData.GetJobBanInfo(client,job_id)
         end
     end
 end
+
+return module

@@ -1,29 +1,31 @@
-function GMT.NewConsoleMessage(msg, color, isError)
+local module = {}
+
+function module.NewConsoleMessage(msg, color, isError)
     DebugConsole.NewMessage(msg, color, isError)
 end
 
-function GMT.ThrowError(text,level)
+function module.ThrowError(text,level)
     if level == nil then level = 0 end
     error("GM-Tools Custom Error: "..text,3+level)
 end
 
-function GMT.SendConsoleMessage(text,client,color)
+function module.SendConsoleMessage(text,client,color)
     local msg = ChatMessage.Create("", text, ChatMessageType.Console, nil, nil, nil, color)
     Game.SendDirectChatMessage(msg, client)
 end
 
 -- This also checks if client is null and if it is - shows message in server console
-function GMT.SendPotentiallyServerConsoleMessage(text,client,color)
+function module.SendPotentiallyServerConsoleMessage(text,client,color)
     if client ~= nil then
         local msg = ChatMessage.Create("", text, ChatMessageType.Console, nil, nil, nil, color)
         Game.SendDirectChatMessage(msg, client)
     else
-        GMT.NewConsoleMessage(text, color, false)
+        module.NewConsoleMessage(text, color, false)
     end
     
 end
 
-function GMT.CheckFArgs(value,vtype,canBeNil)
+function module.CheckFArgs(value,vtype,canBeNil)
     if type(value) == vtype then
         --print("match "..tostring(value))
         return false
@@ -37,7 +39,7 @@ function GMT.CheckFArgs(value,vtype,canBeNil)
     end
 end
 
-function GMT.GetClientByString(string)
+function module.GetClientByString(string)
     if string == nil then
         return nil
     end
@@ -55,7 +57,7 @@ function GMT.GetClientByString(string)
     end
 end
 
-function GMT.GetCharacterByString(string)
+function module.GetCharacterByString(string)
     if string == nil then
         return nil
     end
@@ -70,7 +72,7 @@ function GMT.GetCharacterByString(string)
         end
     end
     -- Checking client for character
-    local client = GMT.GetClientByString(string)
+    local client = module.GetClientByString(string)
     if client == nil then
         return nil
     end
@@ -79,7 +81,7 @@ function GMT.GetCharacterByString(string)
     end
 end
 
-function GMT.GetCharacterClient(id)
+function module.GetCharacterClient(id)
     for i, cl in ipairs(Client.ClientList) do
         if cl.Character ~= nil and cl.Character.ID == id then
             return cl
@@ -87,11 +89,11 @@ function GMT.GetCharacterClient(id)
     end
 end
 
-function GMT.RandomFloat(min,max)
+function module.RandomFloat(min,max)
     return math.random()*(max-min)+min
 end
 
-function GMT.FormattedText(text, tags)
+function module.FormattedText(text, tags)
     local out = "‖"
     if #tags > 0 then
         for i = 1, #tags-1, 1 do
@@ -114,7 +116,7 @@ function GMT.FormattedText(text, tags)
     return '‖'..table.concat(itags,';')..'‖'..text.."‖end‖"]]
 end
 
-function GMT.BoolReturn(bool,tru,fals)
+function module.BoolReturn(bool,tru,fals)
     if bool == true then
         return tru
     else
@@ -122,7 +124,7 @@ function GMT.BoolReturn(bool,tru,fals)
     end
 end
 
-function GMT.ClientLogName(client, name)
+function module.ClientLogName(client, name)
     if (client == nil) then return name end
         local retVal = "‖"
         if (client.Karma < 40.0) then
@@ -144,7 +146,7 @@ function GMT.ClientLogName(client, name)
         return retVal
 end
 
-function GMT.IsWire(item)
+function module.IsWire(item)
     if (item.Prefab.Identifier.Value == "redwire") or
     (item.Prefab.Identifier.Value == "bluewire") or
     (item.Prefab.Identifier.Value == "orangewire") or
@@ -155,27 +157,27 @@ function GMT.IsWire(item)
     return false
 end
 
-function GMT.Contains(array,item)
+function module.Contains(array,item)
     for i, value in ipairs(array) do
         if value == item then return true end
     end
     return false
 end
 
-function GMT.Union(array1,array2)
+function module.Union(array1,array2)
     for i, item in ipairs(array2) do
-        if not GMT.Contains(array1,item) then
+        if not module.Contains(array1,item) then
             table.insert(array1,item)
         end
     end
     return array1
 end
 
-function GMT.Filter(array,filter)
+function module.Filter(array,filter)
     local output = {}
 
     for i, item in ipairs(array) do
-        if not GMT.Contains(filter,item) then
+        if not module.Contains(filter,item) then
             table.insert(output,item)
         end
     end
@@ -183,7 +185,7 @@ function GMT.Filter(array,filter)
     return output
 end
 
-function GMT.GetItemByID(id)
+function module.GetItemByID(id)
     for i, item in ipairs(Item.ItemList) do
         if item.ID == id then
             return item
@@ -192,7 +194,7 @@ function GMT.GetItemByID(id)
     return nil
 end
 
-function GMT.GetCharacterByID(id)
+function module.GetCharacterByID(id)
     for i, char in ipairs(Character.CharacterList) do
         if char.ID == id then
             return char
@@ -201,27 +203,27 @@ function GMT.GetCharacterByID(id)
     return nil
 end
 
-function GMT.InRange(value,min,max)
+function module.InRange(value,min,max)
     if value <= max and value >= min then
         return true
     end
     return false
 end
 
-function GMT.SquaredDistance(x1,y1,x2,y2)
+function module.SquaredDistance(x1,y1,x2,y2)
     return (x2-x1)^2+(y2-y1)^2
 end
 
-function GMT.CanSpeakGhost(char)
+function module.CanSpeakGhost(char)
     if char == nil or char.IsRagdolled or char.IsKnockedDown or char.IsDead or not char.CanSpeak then
         return true
     end
     return false
 end
 
-function GMT.Split (line, separator)
+function module.Split (line, separator)
     if separator == nil then
-        GMT.ThrowError("Separator can't be nil")
+        module.ThrowError("Separator can't be nil")
     end
     local list = {}
     
@@ -231,7 +233,7 @@ function GMT.Split (line, separator)
     return list
 end
 
-function GMT.GetTimeString(time)
+function module.GetTimeString(time)
     if time == 0 then
         return GMT.Lang("Permanent")
     end
@@ -260,3 +262,5 @@ function GMT.GetTimeString(time)
 
     return table.concat(out,", ")
 end
+
+return module

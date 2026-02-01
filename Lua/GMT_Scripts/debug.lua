@@ -1,10 +1,12 @@
+local utils = require("GMT_Scripts._UTILS.utils")
+local command = require("GMT_Scripts._UTILS.command")
 
-GMT.AddCommand("con","DEBUG: Calls 'client.connected' hook",false,function(client,cursor,args)
+command.AddCommand("con","DEBUG: Calls 'client.connected' hook",false,function(client,cursor,args)
     Hook.Call("client.connected",client)
 end)
 
-GMT.AddCommand("clicktext","DEBUG: clickable text",false,function(client,cursor,args)
-    local chatMsg = ChatMessage.Create("gmt",GMT.FormattedText("Text",{color="color:#ffffff"}), ChatMessageType.Error, nil, nil)
+command.AddCommand("clicktext","DEBUG: clickable text",false,function(client,cursor,args)
+    local chatMsg = ChatMessage.Create("gmt",utils.FormattedText("Text",{color="color:#ffffff"}), ChatMessageType.Error, nil, nil)
     Game.SendDirectChatMessage(chatMsg, client)
 end)
 
@@ -36,12 +38,12 @@ local function text(text, tags)
     return out
 end
 
-GMT.AddCommand("tfunc","DEBUG: clickable text",false,function(client,cursor,args)
-    GMT.SendConsoleMessage(test(client),client)
+command.AddCommand("tfunc","DEBUG: clickable text",false,function(client,cursor,args)
+    utils.SendConsoleMessage(test(client),client)
 end)
 
-GMT.AddCommand("tfunctext","DEBUG: clickable text",false,function(client,cursor,args)
-    GMT.SendConsoleMessage("t "..text("text",{{name="color",value="#ffffff"},{name="metadata",value=client.SteamID}}),client)
-    local chatMsg = ChatMessage.Create("gmt",GMT.FormattedText("Text",{{name="color",value="#ff00ff"},{name="metadata",value=client.SteamID}}), ChatMessageType.Error, nil, nil)
+command.AddCommand("tfunctext","DEBUG: clickable text",false,function(client,cursor,args)
+    utils.SendConsoleMessage("t "..text("text",{{name="color",value="#ffffff"},{name="metadata",value=client.SteamID}}),client)
+    local chatMsg = ChatMessage.Create("gmt",utils.FormattedText("Text",{{name="color",value="#ff00ff"},{name="metadata",value=client.SteamID}}), ChatMessageType.Error, nil, nil)
     Game.SendDirectChatMessage(chatMsg, client)
 end)

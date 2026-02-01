@@ -9,6 +9,8 @@
 -- File.Write('LocalMods/Test')
 -- File.Exists('LocalMods/Test')
 
+local utils = require("GMT_Scripts._UTILS.utils")
+
 local default = 
 "ahelp_enabled:true\n"..
 "player_commands:.list;.help;.ping;.ahelp;.cls\n"..
@@ -51,13 +53,13 @@ parameter_load["ahelp_enabled"] = function (line)
     else
         GMT.Config.Vars.ahelp_enabled = true
         for i, client in ipairs(Client.ClientList) do
-            GMT.SendConsoleMessage('GM-Tools: Warning! Unknown value in config at parameter "ahelp_enabled". Using default value',client,Color(255,64,0,255))
+            utils.SendConsoleMessage('GM-Tools: Warning! Unknown value in config at parameter "ahelp_enabled". Using default value',client,Color(255,64,0,255))
             return false
         end
     end
 end
 parameter_load["player_commands"] = function (line)
-    local list = GMT.Split(line,";")
+    local list = utils.Split(line,";")
     local out = {}
     for i, cmd in ipairs(list) do
         table.insert(out,cmd)
@@ -82,7 +84,7 @@ parameter_load["do_bwoink"] = function (line)
     else
         GMT.Config.Vars.do_bwoink = true
         for i, client in ipairs(Client.ClientList) do
-            GMT.SendConsoleMessage('GM-Tools: Warning! Unknown value in config at parameter "do_bwoink". Using default value',client,Color(255,64,0,255))
+            utils.SendConsoleMessage('GM-Tools: Warning! Unknown value in config at parameter "do_bwoink". Using default value',client,Color(255,64,0,255))
             return false
         end
     end
@@ -156,12 +158,12 @@ function GMT.Config.Load()
         return
     end
     if File.Exists(path.."config.txt") then
-        local lines = GMT.Split(File.Read(path.."config.txt"),'\n')
+        local lines = utils.Split(File.Read(path.."config.txt"),'\n')
         for i, line in ipairs(lines) do
             local parameter, value = read_value(line)
             if parameter == false then
                 for i, client in ipairs(Client.ClientList) do
-                    GMT.SendConsoleMessage('GM-Tools: Syntax Error in config. Loading default one',client,Color(255,0,0,255))
+                    utils.SendConsoleMessage('GM-Tools: Syntax Error in config. Loading default one',client,Color(255,0,0,255))
                     return false
                 end
                 GMT.Config.LoadDefault()
@@ -173,7 +175,7 @@ function GMT.Config.Load()
                     func(value)
                 else
                     for i, client in ipairs(Client.ClientList) do
-                        GMT.SendConsoleMessage('GM-Tools: Warning! Unknown parameter in config "'..parameter..'". Skipping it',client,Color(255,64,0,255))
+                        utils.SendConsoleMessage('GM-Tools: Warning! Unknown parameter in config "'..parameter..'". Skipping it',client,Color(255,64,0,255))
                     end
                 end
             end
@@ -183,7 +185,7 @@ function GMT.Config.Load()
         GMT.Config.CreateConfig()
         GMT.Config.LoadDefault()
         for i, client in ipairs(Client.ClientList) do
-            GMT.SendConsoleMessage('GM-Tools: Config is not exists. Creating default one',client,Color(255,0,0,255))
+            utils.SendConsoleMessage('GM-Tools: Config is not exists. Creating default one',client,Color(255,0,0,255))
         end
         return false
     end
@@ -206,11 +208,11 @@ end
 function GMT.CheckPlayerCommands()
     local out = {}
     for i, cmd in ipairs(GMT.Config.Vars.player_commands) do
-        if GMT.Contains(GMT.AllCommands,cmd) then
+        if utils.Contains(GMT.AllCommands,cmd) then
             table.insert(out,cmd)
         else
             for i, client in ipairs(Client.ClientList) do
-                GMT.SendConsoleMessage('GM-Tools: Warning! Unknown GM-Tools command "'..cmd..'" in config at parameter "player_commands". Ignoring it.',client,Color(255,64,0,255))
+                utils.SendConsoleMessage('GM-Tools: Warning! Unknown GM-Tools command "'..cmd..'" in config at parameter "player_commands". Ignoring it.',client,Color(255,64,0,255))
             end
         end
     end

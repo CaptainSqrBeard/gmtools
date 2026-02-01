@@ -1,6 +1,9 @@
+local utils = require("GMT_Scripts._UTILS.utils")
+local command = require("GMT_Scripts._UTILS.command")
+
 local STEAM_ID_LENGTH = 17
 
-GMT.AddCommand("jobban",GMT.Lang("Help_Jobban"),false,nil,{
+command.AddCommand("jobban",GMT.Lang("Help_Jobban"),false,nil,{
 {name="player",desc=GMT.Lang("Args_Jobban_player")},
 {name="job",desc=GMT.Lang("Args_Jobban_job")},
 {name="duration",desc=GMT.Lang("Args_Jobban_duration")},
@@ -8,13 +11,13 @@ GMT.AddCommand("jobban",GMT.Lang("Help_Jobban"),false,nil,{
 
 })
 
-GMT.AssignClientCommand("jobban",function(client,cursor,args)
+command.AssignClientCommand("jobban",function(client,cursor,args)
     if #args < 2 then
-        GMT.SendConsoleMessage("GMTools: "..GMT.Lang("Error_NotEnoughArguments"),client,Color(255,0,0,255))
+        utils.SendConsoleMessage("GMTools: "..GMT.Lang("Error_NotEnoughArguments"),client,Color(255,0,0,255))
             return
     end
 
-    local player = GMT.GetClientByString(args[1])
+    local player = utils.GetClientByString(args[1])
     local job = args[2]
     local duration = 0
     local reason = GMT.Lang("CMD_Jobban_NoReason")
@@ -25,7 +28,7 @@ GMT.AssignClientCommand("jobban",function(client,cursor,args)
     if player == nil then
         steam_id = string.match(args[1],'%d+')
         if steam_id:len() ~= STEAM_ID_LENGTH then
-            GMT.SendConsoleMessage("GMTools: "..GMT.Lang("Error_PlayerNotFound"),client,Color(255,0,0,255))
+            utils.SendConsoleMessage("GMTools: "..GMT.Lang("Error_PlayerNotFound"),client,Color(255,0,0,255))
             return
         end
     else
@@ -34,17 +37,17 @@ GMT.AssignClientCommand("jobban",function(client,cursor,args)
 
     -- Can't jobban player with permission to jobban
     if GMT.HasGMTPermissionOffline(steam_id, ".jobban") then
-        GMT.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_Jobban_AdminIssue"),client,Color(255,0,0,255))
+        utils.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_Jobban_AdminIssue"),client,Color(255,0,0,255))
         return
     end
 
     -- Checking job
     if JobPrefab.Get(job) == nil then
-        GMT.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_Jobban_UnknownJob"),client,Color(255,0,0,255))
+        utils.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_Jobban_UnknownJob"),client,Color(255,0,0,255))
         return
     end
     if job == GMT.Config.Vars.lowest_job then
-        GMT.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_Jobban_BanLowest"),client,Color(255,0,0,255))
+        utils.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_Jobban_BanLowest"),client,Color(255,0,0,255))
         return
     end
 
@@ -82,21 +85,21 @@ GMT.AssignClientCommand("jobban",function(client,cursor,args)
     end
     
     if player ~= nil then
-        GMT.SendConsoleMessage(GMT.Lang("CMD_Jobban_ConsoleOut",{job,player.Name,reason,GMT.GetTimeString(duration)}),client,Color(255,0,128,255))
+        utils.SendConsoleMessage(GMT.Lang("CMD_Jobban_ConsoleOut",{job,player.Name,reason,utils.GetTimeString(duration)}),client,Color(255,0,128,255))
         GMT.PlayerData.JobBan(player,job,duration,reason)
     elseif steam_id ~= nil then
-        GMT.SendConsoleMessage(GMT.Lang("CMD_Jobban_ConsoleOut",{job,steam_id,reason,GMT.GetTimeString(duration)}),client,Color(255,0,128,255))
+        utils.SendConsoleMessage(GMT.Lang("CMD_Jobban_ConsoleOut",{job,steam_id,reason,utils.GetTimeString(duration)}),client,Color(255,0,128,255))
         GMT.PlayerData.JobBanSteam(steam_id,job,duration,reason)
     end
 end)
 
-GMT.AssignServerCommand("jobban",function(args)
+command.AssignServerCommand("jobban",function(args)
     if #args < 2 then
-        GMT.NewConsoleMessage("GMTools: "..GMT.Lang("Error_NotEnoughArguments"),Color(255,0,0,255),false)
+        utils.NewConsoleMessage("GMTools: "..GMT.Lang("Error_NotEnoughArguments"),Color(255,0,0,255),false)
             return
     end
 
-    local player = GMT.GetClientByString(args[1])
+    local player = utils.GetClientByString(args[1])
     local job = args[2]
     local duration = 0
     local reason = GMT.Lang("CMD_Jobban_NoReason")
@@ -107,7 +110,7 @@ GMT.AssignServerCommand("jobban",function(args)
     if player == nil then
         steam_id = string.match(args[1],'%d+')
         if steam_id:len() ~= STEAM_ID_LENGTH then
-            GMT.NewConsoleMessage("GMTools: "..GMT.Lang("Error_PlayerNotFound"),Color(255,0,0,255),false)
+            utils.NewConsoleMessage("GMTools: "..GMT.Lang("Error_PlayerNotFound"),Color(255,0,0,255),false)
             return
         end
     else
@@ -116,17 +119,17 @@ GMT.AssignServerCommand("jobban",function(args)
 
     -- Can't jobban player with permission to jobban
     if GMT.HasGMTPermissionOffline(steam_id, ".jobban") then
-        GMT.NewConsoleMessage("GMTools: "..GMT.Lang("CMD_Jobban_AdminIssue"),Color(255,0,0,255),false)
+        utils.NewConsoleMessage("GMTools: "..GMT.Lang("CMD_Jobban_AdminIssue"),Color(255,0,0,255),false)
         return
     end
 
     -- Checking job
     if JobPrefab.Get(job) == nil then
-        GMT.NewConsoleMessage("GMTools: "..GMT.Lang("CMD_Jobban_UnknownJob"),Color(255,0,0,255),false)
+        utils.NewConsoleMessage("GMTools: "..GMT.Lang("CMD_Jobban_UnknownJob"),Color(255,0,0,255),false)
         return
     end
     if job == GMT.Config.Vars.lowest_job then
-        GMT.NewConsoleMessage("GMTools: "..GMT.Lang("CMD_Jobban_BanLowest"),Color(255,0,0,255),false)
+        utils.NewConsoleMessage("GMTools: "..GMT.Lang("CMD_Jobban_BanLowest"),Color(255,0,0,255),false)
         return
     end
 
@@ -164,10 +167,10 @@ GMT.AssignServerCommand("jobban",function(args)
     end
     
     if player ~= nil then
-        GMT.NewConsoleMessage(GMT.Lang("CMD_Jobban_ConsoleOut",{job,player.Name,reason,GMT.GetTimeString(duration)}),Color(255,0,128,255),false)
+        utils.NewConsoleMessage(GMT.Lang("CMD_Jobban_ConsoleOut",{job,player.Name,reason,utils.GetTimeString(duration)}),Color(255,0,128,255),false)
         GMT.PlayerData.JobBan(player,job,duration,reason)
     elseif steam_id ~= nil then
-        GMT.NewConsoleMessage(GMT.Lang("CMD_Jobban_ConsoleOut",{job,steam_id,reason,GMT.GetTimeString(duration)}),Color(255,0,128,255),false)
+        utils.NewConsoleMessage(GMT.Lang("CMD_Jobban_ConsoleOut",{job,steam_id,reason,utils.GetTimeString(duration)}),Color(255,0,128,255),false)
         GMT.PlayerData.JobBanSteam(steam_id,job,duration,reason)
     end
 end)
