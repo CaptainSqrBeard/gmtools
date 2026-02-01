@@ -1,10 +1,11 @@
 local utils = require("GMT_Scripts._UTILS.utils")
 local command = require("GMT_Scripts._UTILS.command")
+local player = require("GMT_Scripts._UTILS.player")
 
 command.AddCommand("help",GMT.Lang("Help_Help"),false,nil,{{name="command",desc=GMT.Lang("Args_Help_command")}})
 
 command.AssignClientCommand("help",function(client,cursor,args)
-    if GMT.Player.ProcessCooldown(client,3) then
+    if player.ProcessCooldown(client,3) then
         return
     end
 

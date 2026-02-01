@@ -148,7 +148,7 @@ function module.JobBan(client,job_id,period,reason)
         return false
     end
 
-    GMT.PlayerData.Create(client)
+    module.Create(client)
     if reason == nil then reason = "No reason" end
     local expiresAt
     if period ~= nil and period ~= 0 then
@@ -215,7 +215,7 @@ function module.HasJobBan(client,job_id)
     if job_id == GMT.Config.Vars.lowest_job then
         return false,nil,nil,nil
     end
-    if GMT.PlayerData.Create(client) then
+    if module.Create(client) then
         return false
     end
 

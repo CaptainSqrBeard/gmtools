@@ -1,9 +1,10 @@
 local utils = require("GMT_Scripts._UTILS.utils")
 local command = require("GMT_Scripts._UTILS.command")
 local config = require("GMT_Scripts._UTILS.config")
+local player = require("GMT_Scripts._UTILS.player")
 
 command.AddCommand("cls",GMT.Lang("Help_Cls"),false,function(client,cursor,args)
-    if GMT.Player.ProcessCooldown(client,4) then
+    if player.ProcessCooldown(client,4) then
         return
     end
     local cls = ""
@@ -17,7 +18,7 @@ end)
 command.AddCommand("ping",GMT.Lang("Help_Ping"),false,nil)
 
 command.AssignClientCommand("ping",function(client,cursor,args)
-    if GMT.Player.ProcessCooldown(client,1) then
+    if player.ProcessCooldown(client,1) then
         return
     end
     utils.SendConsoleMessage("GM-Tools: "..GMT.Lang("CMD_Ping_pong"),client,Color(255,200,255,255))
@@ -66,7 +67,7 @@ local clock = ""..
 command.AddCommand("clock",GMT.Lang("Help_Clock"),false,nil)
 
 command.AssignClientCommand("clock",function(client,cursor,args)
-    if GMT.Player.ProcessCooldown(client,3) then
+    if player.ProcessCooldown(client,3) then
         return
     end
     utils.SendConsoleMessage(clock,client,Color(255,250,204,255))

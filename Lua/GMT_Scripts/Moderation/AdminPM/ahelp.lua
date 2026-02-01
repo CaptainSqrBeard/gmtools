@@ -1,5 +1,6 @@
 local utils = require("GMT_Scripts._UTILS.utils")
 local command = require("GMT_Scripts._UTILS.command")
+local player = require("GMT_Scripts._UTILS.player")
 
 local function sendAHelpToAdmins(sender,recipient,msg)
     utils.SendConsoleMessage(GMT.Lang("CMD_AHelp_con_for_admin_L1",{sender.Name}),recipient,Color(255,0,0,255))
@@ -18,7 +19,7 @@ command.AssignClientCommand("ahelp",function(client,cursor,args)
         return
     end
 
-    if GMT.Player.ProcessCooldown(client,2) then
+    if player.ProcessCooldown(client,2) then
         return
     end
 
@@ -67,7 +68,7 @@ end)
 
 -- Chat Command
 command.AddChatCommand("ahelp",GMT.Lang("Help_AHelp"),function (client,args)
-    if GMT.Player.ProcessCooldown(client,2) then return end
+    if player.ProcessCooldown(client,2) then return end
     if GMT.Config.Vars.ahelp_enabled == false then
         local chatMsg = ChatMessage.Create("ADMIN HELP",GMT.Lang("CMD_AHelp_disabled"), ChatMessageType.Error, nil, nil)
         Game.SendDirectChatMessage(chatMsg, client)

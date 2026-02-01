@@ -39,7 +39,7 @@ command.AssignServerCommand("unjobban",function(args)
         if player ~= nil then name = player.Name end
         utils.NewConsoleMessage("GMTools: "..GMT.Lang("CMD_UnJobban_All",{name}),Color(255,0,128,255),false)
         GMT.PlayerData.Players[steam_id].Jobbans = {}
-        GMT.PlayerData.Save()
+        playerdb.Save()
     else
         for i, jb in ipairs(GMT.PlayerData.Players[steam_id].Jobbans) do
             if jb.job == job then
@@ -47,7 +47,7 @@ command.AssignServerCommand("unjobban",function(args)
                 if player ~= nil then name = player.Name end
                 table.remove(GMT.PlayerData.Players[steam_id].Jobbans, i)
                 utils.NewConsoleMessage("GMTools: "..GMT.Lang("CMD_UnJobban_Job",{job,name}),Color(255,0,128,255),false)
-                GMT.PlayerData.Save()
+                playerdb.Save()
                 return
             end
         end
@@ -87,7 +87,7 @@ command.AssignClientCommand("unjobban",function(client,cursor,args)
         if player ~= nil then name = player.Name end
         utils.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_UnJobban_All",{name}),client,Color(255,0,128,255))
         GMT.PlayerData.Players[steam_id].Jobbans = {}
-        GMT.PlayerData.Save()
+        playerdb.Save()
     else
         for i, jb in ipairs(GMT.PlayerData.Players[steam_id].Jobbans) do
             if jb.job == job then
@@ -97,7 +97,7 @@ command.AssignClientCommand("unjobban",function(client,cursor,args)
                 -- ТУТ Я ПОЕЛ
                 table.remove(GMT.PlayerData.Players[steam_id].Jobbans, i)
                 utils.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_UnJobban_Job",{job,name}),client,Color(255,0,128,255))
-                GMT.PlayerData.Save()
+                playerdb.Save()
                 return
             end
         end

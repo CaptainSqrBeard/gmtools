@@ -1,6 +1,7 @@
 local utils = require("GMT_Scripts._UTILS.utils")
 local command = require("GMT_Scripts._UTILS.command")
 local playerdb = require("GMT_Scripts._UTILS.playerdb")
+local permissions = require("GMT_Scripts._UTILS.permissions")
 
 command.AddCommand("giveperm",GMT.Lang("Help_GivePerm"),false,nil,{
     {name="player",desc=GMT.Lang("Args_GivePerm_player")},
@@ -19,14 +20,14 @@ command.AssignServerCommand("giveperm",function (args)
         utils.NewConsoleMessage("GMTools: "..GMT.Lang("Error_PlayerNotFound"),Color(255,0,0,255),false)
         return
     end
-    GMT.PlayerData.Create(r_client)
+    playerdb.Create(r_client)
 
     -- Granting all perms if parameter is 'all'
     if args[2] == "all" then
         utils.NewConsoleMessage("GMTools: "..GMT.Lang("CMD_GivePerm_all",{r_client.Name}),Color(255,0,255,255),false)
         GMT.PlayerData.Players[r_client.SteamID].Permissions = GMT.AllCommands
-        GMT.RestorePerms(r_client)
-        GMT.PlayerData.Save()
+        permissions.RestorePerms(r_client)
+        playerdb.Save()
         return
     end
 
@@ -57,8 +58,8 @@ command.AssignServerCommand("giveperm",function (args)
     end
 
     GMT.PlayerData.Players[r_client.SteamID].Permissions = perms
-    GMT.RestorePerms(r_client)
-    GMT.PlayerData.Save()
+    permissions.RestorePerms(r_client)
+    playerdb.Save()
 end)
 
 command.AssignClientCommand("giveperm",function (client,cursor,args)
@@ -73,14 +74,14 @@ command.AssignClientCommand("giveperm",function (client,cursor,args)
         utils.SendConsoleMessage("GMTools: "..GMT.Lang("Error_PlayerNotFound"),client,Color(255,0,0,255))
         return
     end
-    GMT.PlayerData.Create(r_client)
+    playerdb.Create(r_client)
 
     -- Granting all perms if parameter is 'all'
     if args[2] == "all" then
         utils.SendConsoleMessage("GMTools: "..GMT.Lang("CMD_GivePerm_all",{r_client.Name}),client,Color(255,0,255,255))
         GMT.PlayerData.Players[r_client.SteamID].Permissions = GMT.AllCommands
-        GMT.RestorePerms(r_client)
-        GMT.PlayerData.Save()
+        permissions.RestorePerms(r_client)
+        playerdb.Save()
         return
     end
 
@@ -111,6 +112,6 @@ command.AssignClientCommand("giveperm",function (client,cursor,args)
     end
 
     GMT.PlayerData.Players[r_client.SteamID].Permissions = perms
-    GMT.RestorePerms(r_client)
-    GMT.PlayerData.Save()
+    permissions.RestorePerms(r_client)
+    playerdb.Save()
 end)

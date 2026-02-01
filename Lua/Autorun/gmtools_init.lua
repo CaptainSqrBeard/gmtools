@@ -14,6 +14,7 @@ if SERVER then
     local player = require("GMT_Scripts._UTILS.player")
     local playerdb = require("GMT_Scripts._UTILS.playerdb")
     local config = require("GMT_Scripts._UTILS.config")
+    local permissions = require("GMT_Scripts._UTILS.permissions")
     config.CheckFiles()
 
     -- Base
@@ -21,7 +22,6 @@ if SERVER then
     require("GMT_Scripts._UTILS.lang")
     --require("GMT_Scripts._UTILS.utils")
     require("GMT_Scripts._UTILS.command")
-    require("GMT_Scripts._UTILS.permissions")
     require("GMT_Scripts.hooks")
 
     -- Load config and lang
@@ -91,7 +91,7 @@ if SERVER then
         -- Add all connected clients
         for i, cl in ipairs(Client.ClientList) do
             player.AddInMemory(cl)
-            GMT.RestorePerms(cl)
+            permissions.RestorePerms(cl)
         end
         print("\n"..table.concat(init,"\n").."\n ")
     end, 1000)

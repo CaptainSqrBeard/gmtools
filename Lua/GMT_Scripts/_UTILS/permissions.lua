@@ -1,10 +1,11 @@
+local module = {}
 
 local utils = require("GMT_Scripts._UTILS.utils")
 local command = require("GMT_Scripts._UTILS.command")
 local player = require("GMT_Scripts._UTILS.player")
 local playerdb = require("GMT_Scripts._UTILS.playerdb")
 
-function GMT.RestorePerms(client)
+function module.RestorePerms(client)
     local playerCommands = GMT.Config.Vars.player_commands
     local list = {}
     local add_list = {}
@@ -34,7 +35,7 @@ function GMT.RestorePerms(client)
     client.SetPermissions(client.Permissions, utils.Union(output_list, add_list))
 end
 
-function GMT.HasPermission(client,command)
+function module.HasPermission(client,command)
     -- Host has permission to everything
     if not Game.IsDedicated and client.SessionId == 1 then
         return true
@@ -52,7 +53,7 @@ function GMT.HasPermission(client,command)
     return false
 end
 
-function GMT.HasGMTPermission(client,command)
+function module.HasGMTPermission(client,command)
     -- Host has permission to everything
     if not Game.IsDedicated and client.SessionId == 1 then
         return true
@@ -64,17 +65,19 @@ function GMT.HasGMTPermission(client,command)
     
     if not client.HasPermission(ClientPermissions.ConsoleCommands) then return false end
 
-    GMT.PlayerData.Create(client)
+    playerdb.Create(client)
     if utils.Contains(GMT.PlayerData.Players[client.SteamID].Permissions, command) then return true end
     return false
 end
 
-function GMT.HasGMTPermissionOffline(steamid,command)
+function module.HasGMTPermissionOffline(steamid,command)
     local playerCommands = GMT.Config.Vars.player_commands
 
     if utils.Contains(playerCommands,command) then return true end
 
-    GMT.PlayerData.CreateSteam("Unknown", steamid)
+    playerdb.CreateSteam("Unknown", steamid)
     if utils.Contains(GMT.PlayerData.Players[steamid].Permissions, command) then return true end
     return false
 end
+
+return module

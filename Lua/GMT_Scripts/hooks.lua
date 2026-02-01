@@ -1,22 +1,23 @@
 local utils = require("GMT_Scripts._UTILS.utils")
 local player = require("GMT_Scripts._UTILS.player")
 local playerdb = require("GMT_Scripts._UTILS.playerdb")
+local permissions = require("GMT_Scripts._UTILS.permissions")
 
 Hook.Add("client.connected", "GMT.client_connect", function(client)
     if not Game.IsDedicated and client.SessionId == 1 then
         -- All perms to host
         GMT.PlayerData.Players[client.SteamID].Permissions = GMT.AllCommands
         print(GMT.PlayerData.Players)
-        GMT.PlayerData.Save()
+        playerdb.Save()
     end
 
-    GMT.RestorePerms(client)
+    permissions.RestorePerms(client)
     player.AddInMemory(client)
 
 end)
 
 Hook.Add("client.disconnected", "GMT.client_disconnect", function(client)
-    GMT.Player.DeleteFromMemory(client)
+    player.DeleteFromMemory(client)
 end)
 
 
@@ -96,7 +97,7 @@ end)
 
 Hook.Add("jobsAssigned", "GMT.jobs_assigned", function ()
     for key, value in pairs(Client.ClientList) do
-        if value.AssignedJob ~= nil and GMT.PlayerData.HasJobBan(value, value.AssignedJob.Prefab.Identifier.Value) then
+        if value.AssignedJob ~= nil and playerdb.HasJobBan(value, value.AssignedJob.Prefab.Identifier.Value) then
             value.AssignedJob = JobVariant(JobPrefab.Get(GMT.Config.Vars.lowest_job), 0)
             local chatMsg = ChatMessage.Create("JOB-BAN",GMT.Lang("CMD_Jobban_ForcedPlay",{GMT.Config.Vars.lowest_job}), ChatMessageType.Error, nil, nil)
             Game.SendDirectChatMessage(chatMsg, value)

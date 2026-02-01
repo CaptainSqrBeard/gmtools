@@ -1,5 +1,6 @@
 local utils = require("GMT_Scripts._UTILS.utils")
 local command = require("GMT_Scripts._UTILS.command")
+local playerdb = require("GMT_Scripts._UTILS.playerdb")
 
 local STEAM_ID_LENGTH = 17
 
@@ -86,10 +87,10 @@ command.AssignClientCommand("jobban",function(client,cursor,args)
     
     if player ~= nil then
         utils.SendConsoleMessage(GMT.Lang("CMD_Jobban_ConsoleOut",{job,player.Name,reason,utils.GetTimeString(duration)}),client,Color(255,0,128,255))
-        GMT.PlayerData.JobBan(player,job,duration,reason)
+        playerdb.JobBan(player,job,duration,reason)
     elseif steam_id ~= nil then
         utils.SendConsoleMessage(GMT.Lang("CMD_Jobban_ConsoleOut",{job,steam_id,reason,utils.GetTimeString(duration)}),client,Color(255,0,128,255))
-        GMT.PlayerData.JobBanSteam(steam_id,job,duration,reason)
+        playerdb.JobBanSteam(steam_id,job,duration,reason)
     end
 end)
 
@@ -168,9 +169,9 @@ command.AssignServerCommand("jobban",function(args)
     
     if player ~= nil then
         utils.NewConsoleMessage(GMT.Lang("CMD_Jobban_ConsoleOut",{job,player.Name,reason,utils.GetTimeString(duration)}),Color(255,0,128,255),false)
-        GMT.PlayerData.JobBan(player,job,duration,reason)
+        playerdb.JobBan(player,job,duration,reason)
     elseif steam_id ~= nil then
         utils.NewConsoleMessage(GMT.Lang("CMD_Jobban_ConsoleOut",{job,steam_id,reason,utils.GetTimeString(duration)}),Color(255,0,128,255),false)
-        GMT.PlayerData.JobBanSteam(steam_id,job,duration,reason)
+        playerdb.JobBanSteam(steam_id,job,duration,reason)
     end
 end)

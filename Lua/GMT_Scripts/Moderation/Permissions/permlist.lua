@@ -1,5 +1,6 @@
 local utils = require("GMT_Scripts._UTILS.utils")
 local command = require("GMT_Scripts._UTILS.command")
+local playerdb = require("GMT_Scripts._UTILS.playerdb")
 
 command.AddCommand("permlist",GMT.Lang("Help_PermList"),false,nil,{
     {name="player",desc=GMT.Lang("Args_PermList_player")}
@@ -19,7 +20,7 @@ command.AssignClientCommand("permlist",function (client,cursor,args)
             return
         end
     end
-    GMT.PlayerData.Create(r_client)
+    playerdb.Create(r_client)
 
     local perms = GMT.PlayerData.Players[r_client.SteamID].Permissions
 
@@ -44,7 +45,7 @@ command.AssignServerCommand("permlist",function (args)
             return
         end
     end
-    GMT.PlayerData.Create(r_client)
+    playerdb.Create(r_client)
 
     local perms = GMT.PlayerData.Players[r_client.SteamID].Permissions
 
