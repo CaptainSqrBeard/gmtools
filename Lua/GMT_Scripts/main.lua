@@ -1,0 +1,115 @@
+local module = {}
+module.initialized = false
+
+function module.initialize(contentPackage, forcedLaunch, path)
+    if module.initialized then
+        return
+    end
+
+    module.initialized = true
+
+    module.contentPackage = contentPackage
+    module.forcedLaunch = forcedLaunch
+    module.path = path
+
+
+    -- Base
+    local lang = require("GMT_Scripts._UTILS.lang")
+    local player = require("GMT_Scripts._UTILS.player")
+    local playerdb = require("GMT_Scripts._UTILS.playerdb")
+    local config = require("GMT_Scripts._UTILS.config")
+    local permissions = require("GMT_Scripts._UTILS.permissions")
+    local gameInfo = require("GMT_Scripts._UTILS.gameInfo")
+    local command = require("GMT_Scripts._UTILS.command")
+    config.CheckFiles()
+    
+    require("GMT_Scripts.hooks").initialize()
+
+    -- Load config and lang
+    config.Load()
+    playerdb.Load()
+    lang.Load(GMT.Config.Vars.language)
+
+    -- Console commands
+    require("GMT_Scripts.help")
+
+    require("GMT_Scripts.Objects.Item.deleteitem").initialize()
+    require("GMT_Scripts.Objects.Item.itemdata").initialize()
+    require("GMT_Scripts.Objects.Item.itemedit").initialize()
+    require("GMT_Scripts.Objects.Item.nearitems").initialize()
+
+    require("GMT_Scripts.Objects.Character.chardata").initialize()
+    require("GMT_Scripts.Objects.Character.spawnchar").initialize()
+    require("GMT_Scripts.Objects.Character.humanlist").initialize()
+    require("GMT_Scripts.Objects.Character.nearchars").initialize()
+    
+    require("GMT_Scripts.Objects.Submarine.sublist").initialize()
+    require("GMT_Scripts.Objects.Submarine.subteleport").initialize()
+    require("GMT_Scripts.Objects.Submarine.subdata").initialize()
+    require("GMT_Scripts.Objects.Submarine.sublock").initialize()
+    require("GMT_Scripts.Objects.Submarine.subgodmode").initialize()
+    require("GMT_Scripts.Objects.Submarine.subaddturretai").initialize()
+    require("GMT_Scripts.Objects.Submarine.subthrow").initialize()
+
+    require("GMT_Scripts.Moderation.AdminPM.ahelp").initialize()
+    require("GMT_Scripts.Moderation.AdminPM.adminpm").initialize()
+    require("GMT_Scripts.Moderation.AdminPM.toggles").initialize()
+
+    require("GMT_Scripts.Moderation.adminchat").initialize()
+    require("GMT_Scripts.Moderation.ghostchat").initialize()
+
+    require("GMT_Scripts.Moderation.Permissions.giveperm").initialize()
+    require("GMT_Scripts.Moderation.Permissions.revokeperm").initialize()
+    require("GMT_Scripts.Moderation.Permissions.permlist").initialize()
+
+    require("GMT_Scripts.Moderation.Jobban.jobban").initialize()
+    require("GMT_Scripts.Moderation.Jobban.unjobban").initialize()
+
+    require("GMT_Scripts.Moderation.smite").initialize()
+    require("GMT_Scripts.config").initialize()
+    require("GMT_Scripts.other").initialize()
+
+    require("GMT_Scripts.Api.addons")
+
+    -- Chat commands
+    require("GMT_Scripts.Chat.other")
+
+    -- Debug
+    --require("GMT_Scripts.debug")
+
+    -- Checking Player Commands in config after adding them
+    config.CheckPlayerCommands()
+
+    Timer.Wait(function ()
+        -- Init message
+        local init = {
+            "======== GM-Tools ========",
+            "* By CSQRB",
+            "Print '.help' to get info",
+        } 
+
+        -- List addons
+        if #GMT.Addons > 0 then
+            table.insert(init, "\nList of addons:")
+            for i, addon in ipairs(GMT.Addons) do
+                table.insert(init, "- \""..addon.ContentPackage.Name.."\" Ver: "..addon.ContentPackage.ModVersion)
+            end
+        end
+
+        -- End init message
+        table.insert(init, "=========================")
+        
+        -- Send message
+        print("\n"..table.concat(init,"\n").."\n ")
+
+        -- Add all connected clients
+        for i, cl in ipairs(Client.ClientList) do
+            player.AddInMemory(cl)
+            permissions.RestorePerms(cl)
+        end
+    end, 1000)
+    
+    Hook.Call("gmtools.loaded", {contentPackage, forcedLaunch})
+end
+
+return module

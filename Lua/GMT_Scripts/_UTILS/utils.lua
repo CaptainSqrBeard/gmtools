@@ -194,6 +194,15 @@ function module.IsWire(item)
     return false
 end
 
+function module.IsAttachedWire(item)
+    local component = item.GetComponentString('Wire')
+
+    if component ~= nil and (component.Connections[1] ~= nil or component.Connections[2] ~= nil or #component.GetNodes() > 0) then
+        return true
+    end
+    return false
+end
+
 function module.Contains(array,item)
     for i, value in ipairs(array) do
         if value == item then return true end

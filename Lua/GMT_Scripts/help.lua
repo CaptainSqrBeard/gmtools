@@ -9,13 +9,13 @@ command.AddCommand("help",lang.Lang("Help_Help"),false,nil,{{name="command",desc
 command.AssignSharedCommand("help",function (args, interface)
     if #args == 1 and string.lower(args[1]) ~= "all" then
         -- Show list of commands
-        local command = args[1]
-        local data = command.GetHelpData(command)
+        local cmd = args[1]
+        local data = command.GetHelpData(cmd)
         if data ~= nil then
             -- Show info about command
             interface.showMessage("==== "..data.name.." ====",Color(255,0,255,255))
             interface.showMessage(lang.Lang("CMD_Help_desc")..":   "..data.help,Color(255,255,255,255))
-            interface.showMessage(command.GetCommandUsageHelp(command),Color(255,255,255,255))
+            interface.showMessage(command.GetCommandUsageHelp(cmd),Color(255,255,255,255))
 
             if data.args ~= nil then
                 local out = {}
@@ -27,7 +27,7 @@ command.AssignSharedCommand("help",function (args, interface)
             end
 
         else
-            interface.showMessage("GMTools: "..lang.Lang("CMD_Help_unknown",{command}),Color(255,0,128,255))
+            interface.showMessage("GMTools: "..lang.Lang("CMD_Help_unknown",{cmd}),Color(255,0,128,255))
         end
     elseif args[1] ~= nil and string.lower(args[1]) == "all" then
         if args[2] == "chat" then

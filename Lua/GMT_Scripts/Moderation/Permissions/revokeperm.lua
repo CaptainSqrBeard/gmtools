@@ -1,67 +1,73 @@
+local module = {}
+
 local utils = require("GMT_Scripts._UTILS.utils")
 local command = require("GMT_Scripts._UTILS.command")
 local playerdb = require("GMT_Scripts._UTILS.playerdb")
 local permissions = require("GMT_Scripts._UTILS.permissions")
 local lang = require("GMT_Scripts._UTILS.lang")
 
-command.AddCommand("revokeperm",lang.Lang("Help_RevokePerm"),false,nil,{
-    {name="player",desc=lang.Lang("Args_RevokePerm_player")},
-    {name="commands",desc=lang.Lang("Args_RevokePerm_commands")}
-})
+function module.initialize()
+    command.AddCommand("revokeperm",lang.Lang("Help_RevokePerm"),false,nil,{
+        {name="player",desc=lang.Lang("Args_RevokePerm_player")},
+        {name="commands",desc=lang.Lang("Args_RevokePerm_commands")}
+    })
 
-command.AssignSharedCommand("revokeperm",function (args, interface)
-    if #args < 2 then
-        interface.showMessage("GMTools: "..lang.Lang("Error_NotEnoughArguments").."\n"..command.GetCommandUsageHelp("revokeperm"),Color(255,0,0,255))
-        return
-    end
+    command.AssignSharedCommand("revokeperm",function (args, interface)
+        if #args < 2 then
+            interface.showMessage("GMTools: "..lang.Lang("Error_NotEnoughArguments").."\n"..command.GetCommandUsageHelp("revokeperm"),Color(255,0,0,255))
+            return
+        end
 
-    -- Get client
-    local r_client = utils.GetClientByString(args[1])
-    if r_client == nil then
-        interface.showMessage("GM-Tools: "..lang.Lang("Error_PlayerNotFound"),Color(255,0,0,255))
-        return
-    end
-    playerdb.Create(r_client)
+        -- Get client
+        local r_client = utils.GetClientByString(args[1])
+        if r_client == nil then
+            interface.showMessage("GM-Tools: "..lang.Lang("Error_PlayerNotFound"),Color(255,0,0,255))
+            return
+        end
+        playerdb.Create(r_client)
 
-    -- Revoking all perms if parameter is 'all'
-    if args[2] == "all" then
-        interface.showMessage("GM-Tools: "..lang.Lang("CMD_RevokePerm_all",{r_client.Name}),Color(255,0,255,255))
-        GMT.PlayerData.Players[r_client.SteamID].Permissions = {}
+        -- Revoking all perms if parameter is 'all'
+        if args[2] == "all" then
+            interface.showMessage("GM-Tools: "..lang.Lang("CMD_RevokePerm_all",{r_client.Name}),Color(255,0,255,255))
+            GMT.PlayerData.Players[r_client.SteamID].Permissions = {}
+            permissions.RestorePerms(r_client)
+            playerdb.Save()
+            return
+        end
+
+        local perms = GMT.PlayerData.Players[r_client.SteamID].Permissions
+
+        interface.showMessage(lang.Lang("CMD_RevokePerm_header",{r_client.Name}),Color(255,0,255,255))
+        -- Getting perms
+        for i = 2, #args, 1 do
+            local cmd = args[i]
+            local found = false
+
+            -- If not a GMTools command
+            if not utils.Contains(GMT.AllCommands, cmd) then
+                interface.showMessage(lang.Lang("CMD_RevokePerm_notexists",{cmd}),Color(255,200,200,255))
+            else
+                -- Searching perms for current command
+                for pi, pcmd in ipairs(perms) do
+                    if pcmd == cmd then
+                        table.remove(perms,pi)
+                        found = true
+                        interface.showMessage(lang.Lang("CMD_RevokePerm_revoked",{cmd}),Color(255,255,255,255))
+                        break
+                    end
+                end
+
+                if not found then
+                    interface.showMessage(lang.Lang("CMD_RevokePerm_donthave",{cmd}),Color(255,200,200,255))
+                end
+
+            end
+        end
+
+        GMT.PlayerData.Players[r_client.SteamID].Permissions = perms
         permissions.RestorePerms(r_client)
         playerdb.Save()
-        return
-    end
+    end)
+end
 
-    local perms = GMT.PlayerData.Players[r_client.SteamID].Permissions
-
-    interface.showMessage(lang.Lang("CMD_RevokePerm_header",{r_client.Name}),Color(255,0,255,255))
-    -- Getting perms
-    for i = 2, #args, 1 do
-        local cmd = args[i]
-        local found = false
-
-        -- If not a GMTools command
-        if not utils.Contains(GMT.AllCommands, cmd) then
-            interface.showMessage(lang.Lang("CMD_RevokePerm_notexists",{cmd}),Color(255,200,200,255))
-        else
-            -- Searching perms for current command
-            for pi, pcmd in ipairs(perms) do
-                if pcmd == cmd then
-                    table.remove(perms,pi)
-                    found = true
-                    interface.showMessage(lang.Lang("CMD_RevokePerm_revoked",{cmd}),Color(255,255,255,255))
-                    break
-                end
-            end
-            
-            if not found then
-                interface.showMessage(lang.Lang("CMD_RevokePerm_donthave",{cmd}),Color(255,200,200,255))
-            end
-
-        end
-    end
-
-    GMT.PlayerData.Players[r_client.SteamID].Permissions = perms
-    permissions.RestorePerms(r_client)
-    playerdb.Save()
-end)
+return module

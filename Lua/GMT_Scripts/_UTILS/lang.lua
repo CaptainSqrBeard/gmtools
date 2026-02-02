@@ -1,5 +1,6 @@
 
 local utils = require("GMT_Scripts._UTILS.utils")
+local main = require("GMT_Scripts.main")
 
 local module = {}
 
@@ -9,17 +10,17 @@ function module.Load(lang)
     utils.Expect(1, lang, "string")
 
     if lang == "en" then
-        lang_files = dofile(GMT_PATH.."/Lua/LangFiles/en.lua")
+        lang_files = dofile(main.path.."/Lua/LangFiles/en.lua")
     elseif lang == "ru" then
-        lang_files = dofile(GMT_PATH.."/Lua/LangFiles/ru.lua")
+        lang_files = dofile(main.path.."/Lua/LangFiles/ru.lua")
     else
         -- Unknown language
-        lang_files = dofile(GMT_PATH.."/Lua/LangFiles/en.lua")
+        lang_files = dofile(main.path.."/Lua/LangFiles/en.lua")
     end
 end
 
 function module.ListUnspecifiedKeys()
-    local baseLang = dofile(GMT_PATH.."/Lua/LangFiles/en.lua")
+    local baseLang = dofile(main.path.."/Lua/LangFiles/en.lua")
 
     for k, text in pairs(baseLang) do
         if lang_files[k] == nil then
