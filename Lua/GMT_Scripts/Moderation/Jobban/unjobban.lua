@@ -42,14 +42,14 @@ function module.initialize()
             local name = steam_id
             if player ~= nil then name = player.Name end
             interface.showMessage("GMTools: "..lang.Lang("CMD_UnJobban_All",{name}),Color(255,0,128,255))
-            GMT.PlayerData.Players[steam_id].Jobbans = {}
+            playerdb.playerDatabase[steam_id].Jobbans = {}
             playerdb.Save()
         else
-            for i, jb in ipairs(GMT.PlayerData.Players[steam_id].Jobbans) do
+            for i, jb in ipairs(playerdb.playerDatabase[steam_id].Jobbans) do
                 if jb.job == job then
                     local name = steam_id
                     if player ~= nil then name = player.Name end
-                    table.remove(GMT.PlayerData.Players[steam_id].Jobbans, i)
+                    table.remove(playerdb.playerDatabase[steam_id].Jobbans, i)
                     interface.showMessage("GMTools: "..lang.Lang("CMD_UnJobban_Job",{job,name}),Color(255,0,128,255))
                     playerdb.Save()
                     return

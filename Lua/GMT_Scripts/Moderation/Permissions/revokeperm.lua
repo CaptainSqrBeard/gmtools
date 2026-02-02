@@ -29,13 +29,13 @@ function module.initialize()
         -- Revoking all perms if parameter is 'all'
         if args[2] == "all" then
             interface.showMessage("GM-Tools: "..lang.Lang("CMD_RevokePerm_all",{r_client.Name}),Color(255,0,255,255))
-            GMT.PlayerData.Players[r_client.SteamID].Permissions = {}
+            playerdb.playerDatabase[r_client.SteamID].Permissions = {}
             permissions.RestorePerms(r_client)
             playerdb.Save()
             return
         end
 
-        local perms = GMT.PlayerData.Players[r_client.SteamID].Permissions
+        local perms = playerdb.playerDatabase[r_client.SteamID].Permissions
 
         interface.showMessage(lang.Lang("CMD_RevokePerm_header",{r_client.Name}),Color(255,0,255,255))
         -- Getting perms
@@ -44,7 +44,7 @@ function module.initialize()
             local found = false
 
             -- If not a GMTools command
-            if not utils.Contains(GMT.AllCommands, cmd) then
+            if not utils.Contains(command.ConsoleCommands, cmd) then
                 interface.showMessage(lang.Lang("CMD_RevokePerm_notexists",{cmd}),Color(255,200,200,255))
             else
                 -- Searching perms for current command
@@ -64,7 +64,7 @@ function module.initialize()
             end
         end
 
-        GMT.PlayerData.Players[r_client.SteamID].Permissions = perms
+        playerdb.playerDatabase[r_client.SteamID].Permissions = perms
         permissions.RestorePerms(r_client)
         playerdb.Save()
     end)

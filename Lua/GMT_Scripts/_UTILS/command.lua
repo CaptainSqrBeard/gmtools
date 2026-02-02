@@ -5,7 +5,8 @@ local lang = require("GMT_Scripts._UTILS.lang")
 
 local helpData = {}
 
-GMT.AllCommands = {}
+module.ConsoleCommands = {}
+module.ChatCommands = {}
 
 function module.GetHelpData(command)
     return helpData[command]
@@ -17,7 +18,7 @@ end
 
 function module.ListAllCommands()
     local list = {}
-    for i, cmd in ipairs(GMT.AllCommands) do
+    for i, cmd in ipairs(module.ConsoleCommands) do
         table.insert(list, cmd)
     end
     return list
@@ -104,7 +105,7 @@ function module.AddCommand(name,help,isCheat,func,help_args,getValidArgs,usage)
     end
 
     helpData[name] = {name=name, help=help, args=help_args, usage=usage}
-    table.insert(GMT.AllCommands,"."..name)
+    table.insert(module.ConsoleCommands,"."..name)
 
     Game.AddCommand("."..name, help, function () end, getValidArgs, isCheat)
     if type(func) == "function" then
@@ -137,7 +138,7 @@ function module.AssignServerCommand(name,func)
     Game.AssignOnExecute("."..name, func) -- function(args) end
 end
 
---[[ GMT.AssignSharedCommand
+--[[ command.AssignSharedCommand
 "Assigns usage in both server console and client console."
 * name: Name of the command (String)
 * func: Function to execute (Function)
@@ -157,7 +158,7 @@ function module.AssignSharedCommand(name,func)
     end)
 end
 
---[[ GMT.NewClientCMDInterface
+--[[ command.NewClientCMDInterface
 "Creates interface to use for clients"
 * client: Executor
 * cursor: World position of cursor
@@ -173,7 +174,7 @@ function module.NewClientCMDInterface(client,cursor)
     }
 end
 
---[[ GMT.NewServerCMDInterface
+--[[ command.NewServerCMDInterface
 "Creates interface to use for server console"
 --]]
 function module.NewServerCMDInterface()
@@ -199,7 +200,7 @@ function module.AddChatCommand(name,help,func)
     utils.Expect(3, func, "function")
     utils.Expect(4, usage, "string", "nil")
 
-    GMT.ChatCommands["."..name] = {name=name,func=func,help=help,usage=usage}
+    module.ChatCommands["."..name] = {name=name,func=func,help=help,usage=usage}
 end
 
 function module.GetCommandByString(string)
@@ -224,9 +225,9 @@ end
 function module.GetChatCommandUsageHelp(command)
     utils.Expect(1, command, "string")
 
-    if GMT.ChatCommands[command].usage == nil then
+    if module.ChatCommands[command].usage == nil then
         return lang.Lang("Usage")..command
     end
-    return lang.Lang("Usage")..command.." "..GMT.ChatCommands[command].usage
+    return lang.Lang("Usage")..command.." "..module.ChatCommands[command].usage
 end
 return module

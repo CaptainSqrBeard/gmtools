@@ -21,6 +21,7 @@ function module.initialize(contentPackage, forcedLaunch, path)
     local permissions = require("GMT_Scripts._UTILS.permissions")
     local gameInfo = require("GMT_Scripts._UTILS.gameInfo")
     local command = require("GMT_Scripts._UTILS.command")
+    local addons = require("GMT_Scripts.addons")
     config.CheckFiles()
     
     require("GMT_Scripts.hooks").initialize()
@@ -28,7 +29,7 @@ function module.initialize(contentPackage, forcedLaunch, path)
     -- Load config and lang
     config.Load()
     playerdb.Load()
-    lang.Load(GMT.Config.Vars.language)
+    lang.Load(config.configValues.language)
 
     -- Console commands
     require("GMT_Scripts.help")
@@ -68,11 +69,10 @@ function module.initialize(contentPackage, forcedLaunch, path)
     require("GMT_Scripts.Moderation.smite").initialize()
     require("GMT_Scripts.config").initialize()
     require("GMT_Scripts.other").initialize()
-
-    require("GMT_Scripts.Api.addons")
-
+    
     -- Chat commands
-    require("GMT_Scripts.Chat.other")
+    require("GMT_Scripts.Chat.other").initialize()
+
 
     -- Debug
     --require("GMT_Scripts.debug")
@@ -89,9 +89,9 @@ function module.initialize(contentPackage, forcedLaunch, path)
         } 
 
         -- List addons
-        if #GMT.Addons > 0 then
+        if #addons.InstalledAddons > 0 then
             table.insert(init, "\nList of addons:")
-            for i, addon in ipairs(GMT.Addons) do
+            for i, addon in ipairs(addons.InstalledAddons) do
                 table.insert(init, "- \""..addon.ContentPackage.Name.."\" Ver: "..addon.ContentPackage.ModVersion)
             end
         end
@@ -108,8 +108,17 @@ function module.initialize(contentPackage, forcedLaunch, path)
             permissions.RestorePerms(cl)
         end
     end, 1000)
-    
-    Hook.Call("gmtools.loaded", {contentPackage, forcedLaunch})
+
+    -- Addons API: Call event so addons can register
+    if not forcedLaunch then
+        -- We call an event only after all mods are loaded so addons could see it
+        Hook.Add("loaded", "gmt_loaded", function ()
+            Hook.Call("gmtools.loaded", {contentPackage, forcedLaunch})
+        end)
+    else
+        -- Addons are already loaded so we just call an event
+        Hook.Call("gmtools.loaded", {contentPackage, forcedLaunch})
+    end
 end
 
 return module

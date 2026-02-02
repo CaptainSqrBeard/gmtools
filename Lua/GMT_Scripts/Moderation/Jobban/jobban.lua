@@ -5,6 +5,7 @@ local command = require("GMT_Scripts._UTILS.command")
 local playerdb = require("GMT_Scripts._UTILS.playerdb")
 local lang = require("GMT_Scripts._UTILS.lang")
 local permissions = require("GMT_Scripts._UTILS.permissions")
+local config = require("GMT_Scripts._UTILS.config")
 
 local STEAM_ID_LENGTH = 17
 
@@ -52,7 +53,7 @@ function module.initialize()
             interface.showMessage("GMTools: "..lang.Lang("CMD_Jobban_UnknownJob"),Color(255,0,0,255))
             return
         end
-        if job == GMT.Config.Vars.lowest_job then
+        if job == config.configValues.lowest_job then
             interface.showMessage("GMTools: "..lang.Lang("CMD_Jobban_BanLowest"),Color(255,0,0,255))
             return
         end

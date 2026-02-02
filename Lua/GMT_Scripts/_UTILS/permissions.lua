@@ -4,16 +4,17 @@ local utils = require("GMT_Scripts._UTILS.utils")
 local command = require("GMT_Scripts._UTILS.command")
 local player = require("GMT_Scripts._UTILS.player")
 local playerdb = require("GMT_Scripts._UTILS.playerdb")
+local config = require("GMT_Scripts._UTILS.config")
 
 function module.RestorePerms(client)
-    local playerCommands = GMT.Config.Vars.player_commands
+    local playerCommands = config.configValues.player_commands
     local list = {}
     local add_list = {}
 
     playerdb.Create(client)
 
     for i, cmd in ipairs(Game.Commands) do
-        if utils.Contains(playerCommands, cmd.names[1]) or utils.Contains(GMT.PlayerData.Players[client.SteamID].Permissions, cmd.names[1]) then
+        if utils.Contains(playerCommands, cmd.names[1]) or utils.Contains(playerdb.playerDatabase[client.SteamID].Permissions, cmd.names[1]) then
             table.insert(add_list,cmd)
         end
     end
@@ -26,7 +27,7 @@ function module.RestorePerms(client)
     -- Filter out all GMT commands.
     local output_list = {}
     for i, cmd in ipairs(list) do
-        if not utils.Contains(GMT.AllCommands,cmd.names[1]) then
+        if not utils.Contains(command.ConsoleCommands,cmd.names[1]) then
             table.insert(output_list,cmd)
         end
     end
@@ -43,7 +44,7 @@ function module.HasPermission(client, requiredCommand)
         return true
     end
 
-    local playerCommands = GMT.Config.Vars.player_commands
+    local playerCommands = config.configValues.player_commands
 
     if utils.Contains(playerCommands, requiredCommand) then return true end
 
@@ -63,26 +64,26 @@ function module.HasGMTPermission(client, requiredCommand)
         return true
     end
 
-    local playerCommands = GMT.Config.Vars.player_commands
+    local playerCommands = config.configValues.player_commands
 
     if utils.Contains(playerCommands, requiredCommand) then return true end
     
     if not client.HasPermission(ClientPermissions.ConsoleCommands) then return false end
 
     playerdb.Create(client)
-    if utils.Contains(GMT.PlayerData.Players[client.SteamID].Permissions, requiredCommand) then return true end
+    if utils.Contains(playerdb.playerDatabase[client.SteamID].Permissions, requiredCommand) then return true end
     return false
 end
 
 function module.HasGMTPermissionOffline(steamid, requiredCommand)
     utils.Expect(2, requiredCommand, "string")
     
-    local playerCommands = GMT.Config.Vars.player_commands
+    local playerCommands = config.configValues.player_commands
 
     if utils.Contains(playerCommands, requiredCommand) then return true end
 
     playerdb.CreateSteam("Unknown", steamid)
-    if utils.Contains(GMT.PlayerData.Players[steamid].Permissions, requiredCommand) then return true end
+    if utils.Contains(playerdb.playerDatabase[steamid].Permissions, requiredCommand) then return true end
     return false
 end
 

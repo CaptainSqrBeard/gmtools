@@ -9,6 +9,7 @@
 local module = {}
 
 local utils = require("GMT_Scripts._UTILS.utils")
+local command = require("GMT_Scripts._UTILS.command")
 
 local default = 
 "ahelp_enabled:true\n"..
@@ -17,8 +18,7 @@ local default =
 "language:en\n"..
 "do_bwoink:true"
 
-GMT.Config = {}
-GMT.Config.Vars = {}
+module.configValues = {}
 local path = "LocalMods/_GMT_Config/"
 
 function module.CheckFiles()
@@ -45,11 +45,11 @@ local parameter_save = {}
 -- For loading values from file
 parameter_load["ahelp_enabled"] = function (line)
     if line == "false" then
-        GMT.Config.Vars.ahelp_enabled = false
+        module.configValues.ahelp_enabled = false
     elseif line == "true" then
-        GMT.Config.Vars.ahelp_enabled = true
+        module.configValues.ahelp_enabled = true
     else
-        GMT.Config.Vars.ahelp_enabled = true
+        module.configValues.ahelp_enabled = true
         for i, client in ipairs(Client.ClientList) do
             utils.SendConsoleMessage('GM-Tools: Warning! Unknown value in config at parameter "ahelp_enabled". Using default value',client,Color(255,64,0,255))
             return false
@@ -62,25 +62,25 @@ parameter_load["player_commands"] = function (line)
     for i, cmd in ipairs(list) do
         table.insert(out,cmd)
     end
-    GMT.Config.Vars.player_commands = out
+    module.configValues.player_commands = out
 end
 parameter_load["lowest_job"] = function (line)
     if line == "" then
-        GMT.Config.Vars.lowest_job = "assistant"
+        module.configValues.lowest_job = "assistant"
         return
     end
-    GMT.Config.Vars.lowest_job = line
+    module.configValues.lowest_job = line
 end
 parameter_load["language"] = function (line)
-    GMT.Config.Vars.language = line
+    module.configValues.language = line
 end
 parameter_load["do_bwoink"] = function (line)
     if line == "false" then
-        GMT.Config.Vars.do_bwoink = false
+        module.configValues.do_bwoink = false
     elseif line == "true" then
-        GMT.Config.Vars.do_bwoink = true
+        module.configValues.do_bwoink = true
     else
-        GMT.Config.Vars.do_bwoink = true
+        module.configValues.do_bwoink = true
         for i, client in ipairs(Client.ClientList) do
             utils.SendConsoleMessage('GM-Tools: Warning! Unknown value in config at parameter "do_bwoink". Using default value',client,Color(255,64,0,255))
             return false
@@ -90,23 +90,23 @@ end
 
 -- For saving files
 parameter_save["ahelp_enabled"] = function ()
-    if GMT.Config.Vars.ahelp_enabled == true then
+    if module.configValues.ahelp_enabled == true then
         return "true"
     else
         return "false"
     end
 end
 parameter_save["player_commands"] = function ()
-    return table.concat(GMT.Config.Vars.player_commands,';')
+    return table.concat(module.configValues.player_commands,';')
 end
 parameter_save["lowest_job"] = function ()
-    return GMT.Config.Vars.lowest_job
+    return module.configValues.lowest_job
 end
 parameter_save["language"] = function ()
-    return GMT.Config.Vars.language
+    return module.configValues.language
 end
 parameter_save["do_bwoink"] = function ()
-    if GMT.Config.Vars.do_bwoink == true then
+    if module.configValues.do_bwoink == true then
         return "true"
     else
         return "false"
@@ -120,12 +120,12 @@ function module.CreateConfig()
 end
 
 function module.LoadDefault()
-    GMT.Config.Vars = {}
-    GMT.Config.Vars.player_commands = {".list",".help",".ping",".ahelp",".cls",".clock"}
-    GMT.Config.Vars.ahelp_enabled = true
-    GMT.Config.Vars.lowest_job = "assistant"
-    GMT.Config.Vars.language = "en"
-    GMT.Config.Vars.do_bwoink = true
+    module.configValues = {}
+    module.configValues.player_commands = {".list",".help",".ping",".ahelp",".cls",".clock"}
+    module.configValues.ahelp_enabled = true
+    module.configValues.lowest_job = "assistant"
+    module.configValues.language = "en"
+    module.configValues.do_bwoink = true
 end
 
 local function read_value(line)
@@ -167,7 +167,7 @@ function module.Load()
                 module.LoadDefault()
             end
             if parameter ~= nil then
-                --GMT.Config.Vars[parameter] = value
+                --module.configValues[parameter] = value
                 local func = parameter_load[parameter]
                 if func ~= nil then
                     func(value)
@@ -195,7 +195,7 @@ end
 function module.Save()
     module.CheckFiles()
     local txt = ""
-    for k, val in pairs(GMT.Config.Vars) do
+    for k, val in pairs(module.configValues) do
         txt = txt..k..":"..parameter_save[k]().."\n"
     end
     File.Write(path.."config.txt",txt)
@@ -205,8 +205,8 @@ end
 
 function module.CheckPlayerCommands()
     local out = {}
-    for i, cmd in ipairs(GMT.Config.Vars.player_commands) do
-        if utils.Contains(GMT.AllCommands,cmd) then
+    for i, cmd in ipairs(module.configValues.player_commands) do
+        if utils.Contains(command.ConsoleCommands,cmd) then
             table.insert(out,cmd)
         else
             for i, client in ipairs(Client.ClientList) do
@@ -214,7 +214,7 @@ function module.CheckPlayerCommands()
             end
         end
     end
-    GMT.Config.Vars.player_commands = out
+    module.configValues.player_commands = out
 end
 
 return module

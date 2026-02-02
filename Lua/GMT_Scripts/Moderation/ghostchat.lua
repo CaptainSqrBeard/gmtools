@@ -40,10 +40,10 @@ function module.initialize()
         end
 
         if status == true then
-            GMT.PlayerData[target.SessionId].SeeGhostChat = true
+            player.playerMemory[target.SessionId].SeeGhostChat = true
             utils.SendConsoleMessage("GM-Tools: Forced Ghost Chat ENABLED for "..target.Name,client,Color(255,0,255,255))
         elseif status == false then
-            GMT.PlayerData[target.SessionId].SeeGhostChat = false
+            player.playerMemory[target.SessionId].SeeGhostChat = false
             utils.SendConsoleMessage("GM-Tools: Forced Ghost Chat DISABLED for "..target.Name,client,Color(255,0,255,255))
         end
 
@@ -91,13 +91,13 @@ function module.initialize()
         for i, cl in ipairs(Client.ClientList) do
             if interface.executor ~= nil then
                 if cl.SessionId ~= interface.executor.SessionId then
-                    if cl.Character == nil or cl.Character.IsDead or GMT.Player.CanSeeGhostChat(cl) then
+                    if cl.Character == nil or cl.Character.IsDead or player.CanSeeGhostChat(cl) then
                         local chatMsg = ChatMessage.Create(nil, msg, ChatMessageType.Dead, interface.executor.Character, interface.executor)
                         Game.SendDirectChatMessage(chatMsg, cl)
                     end
                 end
             else
-                if cl.Character == nil or cl.Character.IsDead or GMT.Player.CanSeeGhostChat(cl) then
+                if cl.Character == nil or cl.Character.IsDead or player.CanSeeGhostChat(cl) then
                     local chatMsg = ChatMessage.Create(lang.Lang("Console"), msg, ChatMessageType.Dead, nil, nil)
                     Game.SendDirectChatMessage(chatMsg, cl)
                 end
@@ -134,7 +134,7 @@ function module.initialize()
             return
         end
         if msg:len() == 0 then
-            local chatMsg = ChatMessage.Create("GM-Tools",GMT.FormattedText(lang.Lang("Error_NoMessage").."\n"..command.GetChatCommandUsageHelp(".dead"),{{name="color",value="#b1cbfc"}}), ChatMessageType.Dead, nil, nil)
+            local chatMsg = ChatMessage.Create("GM-Tools",utils.FormattedText(lang.Lang("Error_NoMessage").."\n"..command.GetChatCommandUsageHelp(".dead"),{{name="color",value="#b1cbfc"}}), ChatMessageType.Dead, nil, nil)
             Game.SendDirectChatMessage(chatMsg, client)
             return
         end

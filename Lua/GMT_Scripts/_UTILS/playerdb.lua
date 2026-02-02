@@ -1,16 +1,12 @@
 local module = {}
 
--- Here is temporary memory!
-GMT.PlayerData = {}
-
--- Here is saved memory!
-GMT.PlayerData.Players = {}
-
--- You may wonder why it is that way. I don't know.
+module.playerDatabase = {}
 
 local utils = require("GMT_Scripts._UTILS.utils")
 local config = require("GMT_Scripts._UTILS.config")
 local lang = require("GMT_Scripts._UTILS.lang")
+local command = require("GMT_Scripts._UTILS.command")
+local config = require("GMT_Scripts._UTILS.config")
 
 --[[ Example
 &csqrb;76561199036509221
@@ -27,8 +23,8 @@ engineer;123456789;using drugs
 local path = "LocalMods/_GMT_Config/"
 local readers = {}
 readers["permissions"] = function (target,line)
-    if utils.Contains(GMT.AllCommands,line) then
-        table.insert(GMT.PlayerData.Players[target].Permissions,line)
+    if utils.Contains(command.ConsoleCommands,line) then
+        table.insert(module.playerDatabase[target].Permissions,line)
     end
 end
 readers["jobbans"] = function (target,line)
@@ -52,7 +48,7 @@ readers["jobbans"] = function (target,line)
     -- Reason
     reason = line:sub(job:len()+expiresAt:len()+3, line:len())
 
-    table.insert(GMT.PlayerData.Players[target].Jobbans,{job=job,reason=reason,expiresAt=tonumber(expiresAt)})
+    table.insert(module.playerDatabase[target].Jobbans,{job=job,reason=reason,expiresAt=tonumber(expiresAt)})
 end
 
 local function read_header(line)
@@ -85,7 +81,7 @@ function module.Load()
             if not (line == "" and line == nil) then
                 if line:sub(1,1) == '&' then
                     target, name = read_header(line)
-                    GMT.PlayerData.Players[target] = {Name=name,Permissions={},Jobbans={}}
+                    module.playerDatabase[target] = {Name=name,Permissions={},Jobbans={}}
                     category_reader = nil
                 elseif line:sub(1,1) == '!' then
                     category_reader = get_category(line)
@@ -115,7 +111,7 @@ end
 function module.Save()
     config.CheckFiles()
     local txt = ""
-    for k, player in pairs(GMT.PlayerData.Players) do
+    for k, player in pairs(module.playerDatabase) do
         txt = txt.."&"..k..";"..player.Name.."\n!permissions\n"
         for i, cmd in ipairs(player.Permissions) do
             txt = txt..cmd.."\n"
@@ -130,8 +126,8 @@ end
 
 function module.Create(client)
     config.CheckFiles()
-    if GMT.PlayerData.Players[client.SteamID] == nil then
-        GMT.PlayerData.Players[client.SteamID] = {Name=client.Name,Permissions={},Jobbans={}}
+    if module.playerDatabase[client.SteamID] == nil then
+        module.playerDatabase[client.SteamID] = {Name=client.Name,Permissions={},Jobbans={}}
         return true
     end
     return false
@@ -139,8 +135,8 @@ end
 
 function module.CreateSteam(name, steam)
     config.CheckFiles()
-    if GMT.PlayerData.Players[steam] == nil then
-        GMT.PlayerData.Players[steam] = {Name=name,Permissions={},Jobbans={}}
+    if module.playerDatabase[steam] == nil then
+        module.playerDatabase[steam] = {Name=name,Permissions={},Jobbans={}}
         return true
     end
     return false
@@ -150,7 +146,7 @@ end
 
 function module.JobBan(client,job_id,period,reason)
     config.CheckFiles()
-    if job_id == GMT.Config.Vars.lowest_job then
+    if job_id == config.configValues.lowest_job then
         return false
     end
 
@@ -165,15 +161,15 @@ function module.JobBan(client,job_id,period,reason)
     end
     
     local alreadyHaveJB = false
-    for i, jb in ipairs(GMT.PlayerData.Players[client.SteamID].Jobbans) do
+    for i, jb in ipairs(module.playerDatabase[client.SteamID].Jobbans) do
         if jb.job == job_id then
-            GMT.PlayerData.Players[client.SteamID].Jobbans[i] = {job=job_id,expiresAt=expiresAt,reason=reason}
+            module.playerDatabase[client.SteamID].Jobbans[i] = {job=job_id,expiresAt=expiresAt,reason=reason}
             alreadyHaveJB = true
             break
         end
     end
     if alreadyHaveJB == false then
-        table.insert(GMT.PlayerData.Players[client.SteamID].Jobbans, {job=job_id,expiresAt=expiresAt,reason=reason})
+        table.insert(module.playerDatabase[client.SteamID].Jobbans, {job=job_id,expiresAt=expiresAt,reason=reason})
     end
 
     local chatMessage = ChatMessage.Create("", lang.Lang("CMD_Jobban_Box",{job_id,lang.GetTimeString(period),reason}), ChatMessageType.MessageBox, nil, nil)
@@ -184,7 +180,7 @@ function module.JobBan(client,job_id,period,reason)
 end
 
 function module.JobBanSteam(client_steam,job_id,period,reason)
-    if job_id == GMT.Config.Vars.lowest_job then
+    if job_id == config.configValues.lowest_job then
         return false
     end
     if client_steam == nil then
@@ -202,15 +198,15 @@ function module.JobBanSteam(client_steam,job_id,period,reason)
     end
     
     local alreadyHaveJB = false
-    for i, jb in ipairs(GMT.PlayerData.Players[client_steam].Jobbans) do
+    for i, jb in ipairs(module.playerDatabase[client_steam].Jobbans) do
         if jb.job == job_id then
-            GMT.PlayerData.Players[client_steam].Jobbans[i] = {job=job_id,expiresAt=expiresAt,reason=reason}
+            module.playerDatabase[client_steam].Jobbans[i] = {job=job_id,expiresAt=expiresAt,reason=reason}
             alreadyHaveJB = true
             break
         end
     end
     if alreadyHaveJB == false then
-        table.insert(GMT.PlayerData.Players[client_steam].Jobbans, {job=job_id,expiresAt=expiresAt,reason=reason})
+        table.insert(module.playerDatabase[client_steam].Jobbans, {job=job_id,expiresAt=expiresAt,reason=reason})
     end
 
     module.Save()
@@ -218,17 +214,17 @@ function module.JobBanSteam(client_steam,job_id,period,reason)
 end
 
 function module.HasJobBan(client,job_id)
-    if job_id == GMT.Config.Vars.lowest_job then
+    if job_id == config.configValues.lowest_job then
         return false,nil,nil,nil
     end
     if module.Create(client) then
         return false
     end
 
-    for i, jb in ipairs(GMT.PlayerData.Players[client.SteamID].Jobbans) do
+    for i, jb in ipairs(module.playerDatabase[client.SteamID].Jobbans) do
         if jb.job == job_id then
             if jb.expiresAt ~= 0 and os.time() > jb.expiresAt then
-                table.remove(GMT.PlayerData.Players[client.SteamID].Jobbans, i)
+                table.remove(module.playerDatabase[client.SteamID].Jobbans, i)
                 return false
             end
             return true
@@ -237,17 +233,17 @@ function module.HasJobBan(client,job_id)
 end
 
 function module.GetJobBanInfo(client,job_id)
-    if job_id == GMT.Config.Vars.lowest_job then
+    if job_id == config.configValues.lowest_job then
         return false,nil,nil,nil
     end
     if module.Create(client) then
         return false,nil,nil,nil
     end
 
-    for i, jb in ipairs(GMT.PlayerData.Players[client.SteamID].Jobbans) do
+    for i, jb in ipairs(module.playerDatabase[client.SteamID].Jobbans) do
         if jb.job == job_id then
             if jb.expiresAt ~= 0 and os.time() > jb.expiresAt then
-                table.remove(GMT.PlayerData.Players[client.SteamID].Jobbans, i)
+                table.remove(module.playerDatabase[client.SteamID].Jobbans, i)
                 return false,nil,nil,nil
             end
             return true, jb.expiresAt, jb.reason

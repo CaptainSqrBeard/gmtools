@@ -92,7 +92,7 @@ function module.initialize()
 
         local input = string.lower(args[1])
         if utils.Contains(languages, input) then
-            GMT.Config.Vars.language = input
+            config.configValues.language = input
             config.Save()
             interface.showMessage("GMTools: "..lang.Lang("CMD_Lang_changed",{input}),Color(255,0,255,255))
         else

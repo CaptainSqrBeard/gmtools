@@ -4,12 +4,13 @@ local utils = require("GMT_Scripts._UTILS.utils")
 local command = require("GMT_Scripts._UTILS.command")
 local config = require("GMT_Scripts._UTILS.config")
 local lang = require("GMT_Scripts._UTILS.lang")
+local config = require("GMT_Scripts._UTILS.config")
 
 function module.initialize()
     command.AddCommand("toggle_ahelp",lang.Lang("Help_ToggleAHelp"),false,nil,{{name="status",desc=lang.Lang("Args_ToggleAHelp_status"),optional=true}})
     
     command.AssignSharedCommand("toggle_ahelp",function (args, interface)
-        local status = GMT.Config.Vars.ahelp_enabled
+        local status = config.configValues.ahelp_enabled
         -- Getting Status
         if args[1] == "true" then
             status = true
@@ -22,7 +23,7 @@ function module.initialize()
             return
         end
     
-        GMT.Config.Vars.ahelp_enabled = status
+        config.configValues.ahelp_enabled = status
         if status == true then
             interface.showMessage("GM-Tools: "..lang.Lang("CMD_ToggleAHelp_enabled"),Color(255,0,255,255))
         else

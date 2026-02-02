@@ -5,6 +5,7 @@ local command = require("GMT_Scripts._UTILS.command")
 local player = require("GMT_Scripts._UTILS.player")
 local lang = require("GMT_Scripts._UTILS.lang")
 local permissions = require("GMT_Scripts._UTILS.permissions")
+local config = require("GMT_Scripts._UTILS.config")
 
 function module.sendAHelpToAdmins(sender,recipient,msg)
     utils.SendConsoleMessage(lang.Lang("CMD_AHelp_con_for_admin_L1",{sender.Name}),recipient,Color(255,0,0,255))
@@ -19,7 +20,7 @@ function module.initialize()
     command.AddCommand("ahelp",lang.Lang("Help_AHelp"),false,nil,{{name="msg",desc=lang.Lang("Args_AHelp_msg")}})
 
     command.AssignClientCommand("ahelp",function(client,cursor,args)
-        if GMT.Config.Vars.ahelp_enabled == false then
+        if config.configValues.ahelp_enabled == false then
             utils.SendConsoleMessage("GMTools: "..lang.Lang("CMD_AHelp_disabled"),client,Color(255,0,0,255))
             return
         end
@@ -74,7 +75,7 @@ function module.initialize()
     -- Chat Command
     command.AddChatCommand("ahelp",lang.Lang("Help_AHelp"),function (client,args)
         if player.ProcessCooldown(client,2) then return end
-        if GMT.Config.Vars.ahelp_enabled == false then
+        if config.configValues.ahelp_enabled == false then
             local chatMsg = ChatMessage.Create("ADMIN HELP",lang.Lang("CMD_AHelp_disabled"), ChatMessageType.Error, nil, nil)
             Game.SendDirectChatMessage(chatMsg, client)
             return

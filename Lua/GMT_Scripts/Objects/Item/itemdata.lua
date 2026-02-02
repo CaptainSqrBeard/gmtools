@@ -58,7 +58,7 @@ function module.initialize()
         elseif args[2] == "tags" then
             interface.showMessage(lang.Lang("CMD_ItemData_tags",{id,item.Prefab.Identifier.Value}),Color(255,0,255,255))
             interface.showMessage(lang.Lang("CMD_ItemData_rawtags",{item.Tags}),Color(255,255,255,255))
-            for i, tag in ipairs(GMT.Split(item.Tags,",")) do
+            for i, tag in ipairs(utils.Split(item.Tags,",")) do
                 interface.showMessage(lang.Lang("CMD_ItemData_onetag",{i,tag}),Color(190,190,190,255))
             end
 

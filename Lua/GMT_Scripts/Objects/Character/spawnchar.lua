@@ -198,7 +198,7 @@ function module.initialize()
         index = math.floor(index)
 
         -- Check range
-        if not GMT.InRange(index, 1, #info.character_info.Hairs) then
+        if not utils.InRange(index, 1, #info.character_info.Hairs) then
             interface.showMessage("GMTools: "..lang.Lang("CMD_SpawnChar_in_argument",{"hairtype", lang.Lang("Error_OutOfRange", {'1', #info.character_info.Hairs})}),Color(255,0,0,255))
             info.prevent_spawn = true
             return
@@ -232,7 +232,7 @@ function module.initialize()
         index = math.floor(index)
 
         -- Check range
-        if not GMT.InRange(index, 1, #info.character_info.Beards) then
+        if not utils.InRange(index, 1, #info.character_info.Beards) then
             interface.showMessage("GMTools: "..lang.Lang("CMD_SpawnChar_in_argument",{"beardtype", lang.Lang("Error_OutOfRange", {'1', #info.character_info.Beards})}),Color(255,0,0,255))
             info.prevent_spawn = true
             return
@@ -266,7 +266,7 @@ function module.initialize()
         index = math.floor(index)
 
         -- Check range
-        if not GMT.InRange(index, 1, #info.character_info.FaceAttachments) then
+        if not utils.InRange(index, 1, #info.character_info.FaceAttachments) then
             interface.showMessage("GMTools: "..lang.Lang("CMD_SpawnChar_in_argument",{"accessorytype", lang.Lang("Error_OutOfRange", {'1', #info.character_info.FaceAttachments})}),Color(255,0,0,255))
             info.prevent_spawn = true
             return
@@ -300,7 +300,7 @@ function module.initialize()
         index = math.floor(index)
 
         -- Check range
-        if not GMT.InRange(index, 1, #info.character_info.Moustaches) then
+        if not utils.InRange(index, 1, #info.character_info.Moustaches) then
             interface.showMessage("GMTools: "..lang.Lang("CMD_SpawnChar_in_argument",{"moustachetype", lang.Lang("Error_OutOfRange", {'1', #info.character_info.Moustaches})}),Color(255,0,0,255))
             info.prevent_spawn = true
             return
@@ -417,7 +417,7 @@ function module.initialize()
             end
 
             local data = utils.ParseTupleArray(attribute.Value, {"#ffffff", 100})
-            if not GMT.InRange(index, 1, #data) then
+            if not utils.InRange(index, 1, #data) then
                 interface.showMessage("GMTools: "..lang.Lang("CMD_SpawnChar_in_argument",{"skincolor", lang.Lang("Error_OutOfRange", {'1', #data})}),Color(255,0,0,255))
                 info.prevent_spawn = true
                 return
@@ -469,7 +469,7 @@ function module.initialize()
             end
 
             local data = utils.ParseTupleArray(attribute.Value, {"#ffffff", 100})
-            if not GMT.InRange(index, 1, #data) then
+            if not utils.InRange(index, 1, #data) then
                 interface.showMessage("GMTools: "..lang.Lang("CMD_SpawnChar_in_argument",{"haircolor", lang.Lang("Error_OutOfRange", {'1', #data})}),Color(255,0,0,255))
                 info.prevent_spawn = true
                 return
@@ -521,7 +521,7 @@ function module.initialize()
             end
 
             local data = utils.ParseTupleArray(attribute.Value, {"#ffffff", 100})
-            if not GMT.InRange(index, 1, #data) then
+            if not utils.InRange(index, 1, #data) then
                 interface.showMessage("GMTools: "..lang.Lang("CMD_SpawnChar_in_argument",{"beardcolor", lang.Lang("Error_OutOfRange", {'1', #data})}),Color(255,0,0,255))
                 info.prevent_spawn = true
                 return
@@ -609,7 +609,7 @@ function module.initialize()
             end
 
             local count = #jobPrefab.ItemSets
-            if not GMT.InRange(variant, 0, count) then
+            if not utils.InRange(variant, 0, count) then
                 interface.showMessage("GMTools: "..lang.Lang("CMD_SpawnChar_in_argument",{"jobloadout", lang.Lang("Error_OutOfRange", {'0', count})}),Color(255,0,0,255))
                 info.prevent_spawn = true
                 return

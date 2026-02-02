@@ -27,7 +27,7 @@ function module.initialize()
         end
         playerdb.Create(r_client)
 
-        local perms = GMT.PlayerData.Players[r_client.SteamID].Permissions
+        local perms = playerdb.playerDatabase[r_client.SteamID].Permissions
 
         interface.showMessage(lang.Lang("CMD_PermList_header",{r_client.Name}),Color(255,0,255,255))
         for i, cmd in ipairs(perms) do

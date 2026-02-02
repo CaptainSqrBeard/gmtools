@@ -33,7 +33,7 @@ command.AssignSharedCommand("help",function (args, interface)
         if args[2] == "chat" then
             -- Show list of chat commands
             interface.showMessage("==== "..lang.Lang("CMD_Help_chatlist").." ====",Color(255,0,255,255))
-            for k, cmd in pairs(GMT.ChatCommands) do
+            for k, cmd in pairs(command.ChatCommands) do
                 if cmd.usage == nil then
                     interface.showMessage("."..cmd.name.."   >        "..cmd.help,Color(255,255,255,255))
                 else

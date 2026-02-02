@@ -1,8 +1,3 @@
-GMT_PATH = table.pack(...)[1]
-
-GMT = {}
-GMT.ChatCommands = {}
-
 if SERVER then
     local main = require("GMT_Scripts.main")
 
