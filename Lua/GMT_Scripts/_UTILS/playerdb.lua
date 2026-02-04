@@ -1,254 +1,224 @@
 local module = {}
 
-module.playerDatabase = {}
-
 local utils = require("GMT_Scripts._UTILS.utils")
-local config = require("GMT_Scripts._UTILS.config")
 local lang = require("GMT_Scripts._UTILS.lang")
 local command = require("GMT_Scripts._UTILS.command")
 local config = require("GMT_Scripts._UTILS.config")
+local files = require("GMT_Scripts._UTILS.files")
+local legacyPlayerdb = require("GMT_Scripts.Migration.legacyPlayerdb")
+local sanctions = require("GMT_Scripts._UTILS.sanctions")
 
---[[ Example
-&csqrb;76561199036509221
-!permissions
-.adminpm
-.cls
-!jobbans
-engineer;123456789;using drugs
-]]
+local legacyPlayersPath = files.getPath().."players.txt"
+local playerDataPath = files.getPath().."Players/"
 
--- honestly i hate how i made it
--- why it's not just json??
+local cachedPlayers = {}
 
-local path = "LocalMods/_GMT_Config/"
-local readers = {}
-readers["permissions"] = function (target,line)
-    if utils.Contains(command.ConsoleCommands,line) then
-        table.insert(module.playerDatabase[target].Permissions,line)
-    end
-end
-readers["jobbans"] = function (target,line)
-    local job
-    local expiresAt
-    local reason
-    -- Job
-    for i = 1, line:len(), 1 do
-        if line:sub(i,i) == ';' then
-            job = line:sub(1,i-1)
-            break
-        end
-    end
-    -- ExpiresAt
-    for i = job:len()+2, line:len(), 1 do
-        if line:sub(i,i) == ';' then
-            expiresAt = line:sub(job:len()+2, i-1)
-            break
-        end
-    end
-    -- Reason
-    reason = line:sub(job:len()+expiresAt:len()+3, line:len())
-
-    table.insert(module.playerDatabase[target].Jobbans,{job=job,reason=reason,expiresAt=tonumber(expiresAt)})
-end
-
-local function read_header(line)
-    for i = 2, line:len(), 1 do
-        if line:sub(i,i) == ';' then
-            return line:sub(2,i-1), line:sub(i+1,line:len())
-        end
-    end
-    return 0
-end
-
-local function get_category(line)
-    local name = line:sub(2,line:len())
-    local func = readers[name]
-    if func == nil then
-        func = function () end
-    end
-    return func
-end
-
+-- Loads player data
 function module.Load()
-    config.CheckFiles()
-    if File.Exists(path.."players.txt") then
-        local lines = utils.Split(File.Read(path.."players.txt"),'\n')
-        local category_reader = nil
+    files.validateFolder(playerDataPath)
 
-        local target = 0
-        local name = ""
-        for i, line in ipairs(lines) do
-            if not (line == "" and line == nil) then
-                if line:sub(1,1) == '&' then
-                    target, name = read_header(line)
-                    module.playerDatabase[target] = {Name=name,Permissions={},Jobbans={}}
-                    category_reader = nil
-                elseif line:sub(1,1) == '!' then
-                    category_reader = get_category(line)
-                else
-                    if category_reader ~= nil then
-                        category_reader(target,line)
-                    else
-                        for i, client in ipairs(Client.ClientList) do
-                            utils.SendConsoleMessage('GM-Tools: Syntax Error in player database. Loading empty one',client,Color(255,0,0,255))
-                            return false
-                        end
-                    end
-                end
+    -- Migration: Try to save old player data
+    if File.Exists(legacyPlayersPath) then
+        -- Load old data
+        utils.SendConsoleMessageAdminLevel('GM-Tools: Migrating from legacy player database',Color(255,128,0,255))
+        local oldPlayers = legacyPlayerdb.Load(File.Read(legacyPlayersPath))
 
+        -- Save data
+        if oldPlayers ~= nil then
+            for steamid, data in pairs(oldPlayers) do
+                File.Write(playerDataPath..steamid..".json", json.serialize(module.ValidatePlayerData(data)))
             end
         end
-    else
-        File.Write(path.."players.txt")
-        for i, client in ipairs(Client.ClientList) do
-            utils.SendConsoleMessage('GM-Tools: players.txt is not exists. Creating default one',client,Color(255,0,0,255))
+
+        -- Backup and delete old player data
+        files.backupFile(legacyPlayersPath)
+        File.Delete(legacyPlayersPath)
+    end
+
+    -- Cache every connected client
+    for i, client in ipairs(Client.ClientList) do
+        module.GetEntry(client.SteamID)
+    end
+end
+
+-- Creates table of default player data
+function module.GetDefaultPlayerData(name)
+    return {name=name,command_permissions={},sanctions={}}
+end
+
+-- Retrieves player data entry. Caches it too
+function module.GetEntry(steamid)
+    -- Try use cached entry if present
+    if cachedPlayers[steamid] == nil then
+        -- Load player data from file
+        local dataPath = playerDataPath..steamid..".json"
+        if File.Exists(dataPath) then
+            local parsedTable
+            local content = File.Read(dataPath)
+            local status, err = pcall(function ()
+                parsedTable = json.parse(content)
+            end)
+        
+            -- If parse failed, backup player data and load default one
+            if err ~= nil then
+                local backupName, backupPath = files.backupFile(dataPath, "Players")
+                utils.SendConsoleMessageAdminLevel('GM-Tools: Could not parse player data of '..steamid..'. Loading default player data:\n|   '..err..'\nBackup of old player data was made: '..backupPath..backupName,Color(255,128,0,255))
+                cachedPlayers[steamid] = module.GetDefaultPlayerData()
+            else
+                cachedPlayers[steamid] = module.ValidatePlayerData(parsedTable)
+            end
+        else
+            cachedPlayers[steamid] = module.GetDefaultPlayerData()
         end
-        return false
-    end
-    return true
-end
-
-function module.Save()
-    config.CheckFiles()
-    local txt = ""
-    for k, player in pairs(module.playerDatabase) do
-        txt = txt.."&"..k..";"..player.Name.."\n!permissions\n"
-        for i, cmd in ipairs(player.Permissions) do
-            txt = txt..cmd.."\n"
-        end
-        txt = txt.."!jobbans\n"
-        for i, jb in ipairs(player.Jobbans) do
-            txt = txt..jb.job..';'..jb.expiresAt..';'..jb.reason..'\n'
-        end
-    end
-    File.Write(path.."players.txt",txt)
-end
-
-function module.Create(client)
-    config.CheckFiles()
-    if module.playerDatabase[client.SteamID] == nil then
-        module.playerDatabase[client.SteamID] = {Name=client.Name,Permissions={},Jobbans={}}
-        return true
-    end
-    return false
-end
-
-function module.CreateSteam(name, steam)
-    config.CheckFiles()
-    if module.playerDatabase[steam] == nil then
-        module.playerDatabase[steam] = {Name=name,Permissions={},Jobbans={}}
-        return true
-    end
-    return false
-end
-
-
-
-function module.JobBan(client,job_id,period,reason)
-    config.CheckFiles()
-    if job_id == config.configValues.lowest_job then
-        return false
-    end
-
-    module.Create(client)
-    if reason == nil then reason = "No reason" end
-    local expiresAt
-    if period ~= nil and period ~= 0 then
-        expiresAt = math.floor(os.time()+period)
-    else
-        expiresAt = 0
-        period = 0
     end
     
-    local alreadyHaveJB = false
-    for i, jb in ipairs(module.playerDatabase[client.SteamID].Jobbans) do
-        if jb.job == job_id then
-            module.playerDatabase[client.SteamID].Jobbans[i] = {job=job_id,expiresAt=expiresAt,reason=reason}
-            alreadyHaveJB = true
-            break
+    return cachedPlayers[steamid]
+end
+
+-- Validates player data
+function module.ValidatePlayerData(playerData)
+    local validatedData = {}
+    validatedData.data_version = 1
+    validatedData.command_permissions = {}
+    validatedData.sanctions = {}
+
+    if type(playerData.name) == "string" then
+        validatedData.name = playerData.name
+    end
+
+    if playerData.command_permissions ~= nil then
+        for i, cmd in ipairs(playerData.command_permissions) do
+            if utils.Contains(command.ConsoleCommands, cmd) then
+                table.insert(validatedData.command_permissions, cmd)
+            end
         end
     end
-    if alreadyHaveJB == false then
-        table.insert(module.playerDatabase[client.SteamID].Jobbans, {job=job_id,expiresAt=expiresAt,reason=reason})
+
+    if playerData.sanctions ~= nil then
+        for i, sanction in ipairs(playerData.sanctions) do
+            local validatedSanction = sanctions.validateSanction(sanction)
+            if validatedSanction ~= nil then
+                table.insert(validatedData.sanctions, validatedSanction)
+            end
+        end
+    end
+
+    return validatedData
+end
+
+-- Saves all cached player data
+function module.Save()
+    for steamid, data in pairs(cachedPlayers) do
+        File.Write(playerDataPath..steamid..".json", json.serialize(data))
+    end
+end
+
+
+-- Saves data of one particular player
+function module.SavePlayer(steamid)
+    -- No changes in uncached player data
+    if cachedPlayers[steamid] == nil then
+        return
+    end
+    File.Write(playerDataPath..steamid..".json", json.serialize(cachedPlayers[steamid]))
+end
+
+-- Applies job ban to player
+function module.JobBan(client,job_id,period,reason)
+    if not module.JobBanSteam(client.SteamID, job_id, period, reason) then
+        return false
     end
 
     local chatMessage = ChatMessage.Create("", lang.Lang("CMD_Jobban_Box",{job_id,lang.GetTimeString(period),reason}), ChatMessageType.MessageBox, nil, nil)
     chatMessage.Color = Color(255, 60, 60, 255)
     Game.SendDirectChatMessage(chatMessage, client)
-    module.Save()
+
     return true
 end
 
+-- Applies job ban by steam id
 function module.JobBanSteam(client_steam,job_id,period,reason)
+    utils.Expect(1, client_steam, "string")
+    utils.Expect(2, job_id, "string")
+    utils.Expect(3, period, "number")
+    utils.Expect(4, reason, "string")
+    
     if job_id == config.configValues.lowest_job then
         return false
     end
-    if client_steam == nil then
-        return false
-    end
 
-    module.CreateSteam("Unknown",client_steam)
     if reason == nil then reason = "No reason" end
+
+    local entry = module.GetEntry(client_steam)
+
+    local currentTime = os.time()
+
     local expiresAt
     if period ~= nil and period ~= 0 then
-        expiresAt = math.floor(os.time()+period)
+        expiresAt = math.floor(currentTime + period)
     else
-        expiresAt = 0
-        period = 0
-    end
-    
-    local alreadyHaveJB = false
-    for i, jb in ipairs(module.playerDatabase[client_steam].Jobbans) do
-        if jb.job == job_id then
-            module.playerDatabase[client_steam].Jobbans[i] = {job=job_id,expiresAt=expiresAt,reason=reason}
-            alreadyHaveJB = true
-            break
-        end
-    end
-    if alreadyHaveJB == false then
-        table.insert(module.playerDatabase[client_steam].Jobbans, {job=job_id,expiresAt=expiresAt,reason=reason})
+        expiresAt = -1
     end
 
-    module.Save()
+    local oldJobban = module.GetJobBan(client_steam, job_id)
+    if config.configValues.stackJobBans and oldJobban ~= nil and oldJobban.expiresAt > 0 then
+        oldJobban.revoked = true
+        expiresAt = expiresAt + (oldJobban.expiresAt - currentTime)
+        reason = reason.." + "..oldJobban.additionalData.reason
+    end
+    
+    local sanction = sanctions.createSanction("job_ban", expiresAt, {reason=reason, job=job_id})
+    table.insert(entry.sanctions, sanction)
+
+    module.SavePlayer(client_steam)
     return true
 end
 
-function module.HasJobBan(client,job_id)
+-- Gets job ban on specified job
+function module.GetJobBan(client_steam,job_id)
     if job_id == config.configValues.lowest_job then
-        return false,nil,nil,nil
-    end
-    if module.Create(client) then
-        return false
+        return
     end
 
-    for i, jb in ipairs(module.playerDatabase[client.SteamID].Jobbans) do
-        if jb.job == job_id then
-            if jb.expiresAt ~= 0 and os.time() > jb.expiresAt then
-                table.remove(module.playerDatabase[client.SteamID].Jobbans, i)
-                return false
+    local entry = module.GetEntry(client_steam)
+    local active_jobbans = sanctions.getActiveSanctions(entry, "job_ban")
+
+    local longestBan
+
+    for i, jobban in ipairs(active_jobbans) do
+        if jobban.additionalData.job == job_id then
+            if longestBan == nil then
+                longestBan = jobban
+            elseif jobban.expiresAt == -1 then
+                return jobban
+            elseif jobban.expiresAt > longestBan.expiresAt then
+                longestBan = jobban
             end
-            return true
         end
     end
+
+    return longestBan
 end
 
-function module.GetJobBanInfo(client,job_id)
+-- Gets all job bans
+function module.GetJobBans(client_steam,job_id)
     if job_id == config.configValues.lowest_job then
-        return false,nil,nil,nil
-    end
-    if module.Create(client) then
-        return false,nil,nil,nil
+        return {}
     end
 
-    for i, jb in ipairs(module.playerDatabase[client.SteamID].Jobbans) do
-        if jb.job == job_id then
-            if jb.expiresAt ~= 0 and os.time() > jb.expiresAt then
-                table.remove(module.playerDatabase[client.SteamID].Jobbans, i)
-                return false,nil,nil,nil
-            end
-            return true, jb.expiresAt, jb.reason
+    local found = {}
+    local entry = module.GetEntry(client_steam)
+    local active_jobbans = sanctions.getActiveSanctions(entry, "job_ban")
+
+    local longestBan
+
+    for i, jobban in ipairs(active_jobbans) do
+        if jobban.additionalData.job == job_id then
+            table.insert(found, jobban)
         end
     end
+    
+    return found
 end
 
 return module

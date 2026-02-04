@@ -10,10 +10,12 @@ local config = require("GMT_Scripts._UTILS.config")
 
 function module.initialize()
     Hook.Add("client.connected", "GMT.client_connect", function(client)
+        local playerData = playerdb.GetEntry(client.SteamID)
+        
         if not Game.IsDedicated and client.SessionId == 1 then
             -- All perms to host
-            playerdb.playerDatabase[client.SteamID].Permissions = command.ListAllCommands()
-            playerdb.Save()
+            playerData.command_permissions = command.ListAllCommands()
+            playerdb.SavePlayer(client.SteamID)
         end
 
         permissions.RestorePerms(client)
@@ -81,17 +83,20 @@ function module.initialize()
     end)
 
     Hook.Add("tryChangeClientName", "GMT.character_change", function(client,newName,newJob,newTeam)
-        if client.PreferredJob ~= newJob then
-            local hasBan, expiresAt, reason = playerdb.GetJobBanInfo(client,newJob.Value)
-            if hasBan then
+        local playerData = player.playerMemory[client.SessionId]
+
+        if playerData.LastJob ~= newJob then
+            playerData.LastJob = newJob
+            local jobBan = playerdb.GetJobBan(client.SteamID, newJob.Value)
+            if jobBan ~= nil then
                 local time
-                if expiresAt == 0 then
-                    time = Lang.GetTimeString(0)
+                if jobBan.expiresAt == -1 then
+                    time = lang.GetTimeString(0)
                 else
-                    time = Lang.GetTimeString(expiresAt-os.time())
+                    time = lang.GetTimeString(jobBan.expiresAt - os.time())
                 end
 
-                local chatMessage = ChatMessage.Create("", lang.Lang("CMD_Jobban_Reminder",{time,reason,config.configValues.lowest_job}), ChatMessageType.MessageBox, nil, nil)
+                local chatMessage = ChatMessage.Create("", lang.Lang("CMD_Jobban_Reminder",{time,jobBan.additionalData.reason, config.configValues.lowest_job}), ChatMessageType.MessageBox, nil, nil)
                 chatMessage.Color = Color(255, 60, 60, 255)
                 Game.SendDirectChatMessage(chatMessage, client)
                 return false
@@ -101,7 +106,7 @@ function module.initialize()
 
     Hook.Add("jobsAssigned", "GMT.jobs_assigned", function ()
         for key, value in pairs(Client.ClientList) do
-            if value.AssignedJob ~= nil and playerdb.HasJobBan(value, value.AssignedJob.Prefab.Identifier.Value) then
+            if value.AssignedJob ~= nil and playerdb.GetJobBan(value.SteamID, value.AssignedJob.Prefab.Identifier.Value) ~= nil then
                 value.AssignedJob = JobVariant(JobPrefab.Get(config.configValues.lowest_job), 0)
                 local chatMsg = ChatMessage.Create("JOB-BAN",lang.Lang("CMD_Jobban_ForcedPlay",{config.configValues.lowest_job}), ChatMessageType.Error, nil, nil)
                 Game.SendDirectChatMessage(chatMsg, value)

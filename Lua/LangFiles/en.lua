@@ -554,12 +554,20 @@ lang_files["CMD_Jobban_AdminIssue"] = "You can't job-ban player with permission 
 lang_files["CMD_Jobban_ConsoleOut"] = "Job-banned \"{1}\" for \"{2}\".\nReason: {3}\nDuration: {4}"
 
 lang_files["CMD_UnJobban_All"] = "Removed all job-bans from player {1}"
-lang_files["CMD_UnJobban_Job"] = "Removed job-ban on \"{1}\" for {2}"
+lang_files["CMD_UnJobban_Job"] = "Removed job-ban on \"{1}\" for player {2}"
+lang_files["CMD_UnJobban_Id"] = "Removed job-ban #\"{1}\" for player {2}"
 lang_files["CMD_UnJobban_NoBan"] = "Player didn't had job-ban on this job"
+lang_files["CMD_UnJobban_BanInactive"] = "This ban is not active"
+lang_files["CMD_UnJobban_OutOfRange"] = "This ban does not exist"
 
 lang_files["CMD_Jobban_Box"] = "You have been job-banned!\n\nJob: \"{1}\"\nExpires in: {2}\nReason: \"{3}\"\n"
 lang_files["CMD_Jobban_Reminder"] = "You can't play on this job, because you have Job-Ban on it\n\nExpires in: {1}\"\nReason: \"{2}\"\n\nIf you anyways will pick this job, you will be forced to play on \"{3}\""
 lang_files["CMD_Jobban_ForcedPlay"] = "You have job-ban on job that you picked. You forced to play on \"{1}\""
+
+lang_files["CMD_JobbanList_header"] = "List of job-bans of player {1} (Job, Reason, Given at, Duration):"
+lang_files["CMD_JobbanList_Entry_Active"] = "{1}.  {2}  |  \"{3}\"  |  {4}  |  {5}"
+lang_files["CMD_JobbanList_Entry_Revoked"] = "{1}.  (REVOKED)  {2}  |  \"{3}\"  |  {4}  |  {5}"
+lang_files["CMD_JobbanList_Entry_Expired"] = "{1}.  (EXPIRED)  {2}  |  \"{3}\"  |  {4}  |  {5}"
 
 -- GivePerm
 lang_files["CMD_GivePerm_header"] = "Giving permissions to {1}:"

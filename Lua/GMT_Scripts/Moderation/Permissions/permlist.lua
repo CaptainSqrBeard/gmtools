@@ -25,9 +25,8 @@ function module.initialize()
                 return
             end
         end
-        playerdb.Create(r_client)
 
-        local perms = playerdb.playerDatabase[r_client.SteamID].Permissions
+        local perms = playerdb.GetEntry(r_client.SteamID).command_permissions
 
         interface.showMessage(lang.Lang("CMD_PermList_header",{r_client.Name}),Color(255,0,255,255))
         for i, cmd in ipairs(perms) do

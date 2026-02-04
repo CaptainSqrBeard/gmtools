@@ -14,6 +14,16 @@ function module.SendConsoleMessage(text,client,color)
     Game.SendDirectChatMessage(msg, client)
 end
 
+function module.SendConsoleMessageAdminLevel(text,color)
+    local msg = ChatMessage.Create("", text, ChatMessageType.Console, nil, nil, nil, color)
+
+    -- TODO: Show this only to admins
+    for i, client in ipairs(Client.ClientList) do
+        Game.SendDirectChatMessage(msg, client)
+        return
+    end
+end
+
 -- This also checks if client is null and if it is - shows message in server console
 function module.SendPotentiallyServerConsoleMessage(text,client,color)
     if client ~= nil then
@@ -45,6 +55,15 @@ function module.Expect(index, value, ...)
     if not module.Contains(types, type) then
         module.ThrowError("Bad argument #"..index.." ("..module.ConcatStringTable(types, " or ").." expected, got "..type..")", 1)
     end
+end
+
+function module.ValidateOrDefault(value, default, ...)
+    local types = {...}
+    local type = type(value)
+    if not module.Contains(types, type) then
+        return default
+    end
+    return value
 end
 
 function module.GetClientByString(string)
@@ -265,6 +284,20 @@ function module.InRange(value,min,max)
         return true
     end
     return false
+end
+
+function module.Clamp(value,min,max)
+    module.Expect(1, value, "number")
+    module.Expect(2, min, "number")
+    module.Expect(3, max, "number")
+
+    if value > max then
+        return max
+    elseif value > min then
+        return min
+    else
+        return value
+    end
 end
 
 function module.SquaredDistance(x1,y1,x2,y2)

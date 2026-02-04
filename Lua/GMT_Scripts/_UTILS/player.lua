@@ -8,7 +8,12 @@ module.playerMemory = {}
 
 function module.AddInMemory(client)
     if module.playerMemory[client.SessionId] == nil then
-        module.playerMemory[client.SessionId] = {SeeGhostChat=false, Cooldown=Timer.Time, Spam=0}
+        module.playerMemory[client.SessionId] = {
+            SeeGhostChat=false,
+            Cooldown=Timer.Time,
+            Spam=0,
+            LastJob=client.PreferredJob
+        }
         return true
     end
     return false
@@ -30,7 +35,7 @@ function module.ProcessCooldown(client,time,warn_msg,kick_msg)
 
     -- Doing cooldown things
     if time == nil then time = math.random()*2+2 end
-    module.playerMemory[client.SessionId].Cooldown = Timer.Time+time
+    module.playerMemory[client.SessionId].Cooldown = Timer.Time + time
     module.playerMemory[client.SessionId].Spam = module.playerMemory[client.SessionId].Spam+1
 
     -- If Client spamming too much

@@ -93,10 +93,10 @@ function module.initialize()
 
         if player ~= nil then
             interface.showMessage(lang.Lang("CMD_Jobban_ConsoleOut",{job,player.Name,reason,lang.GetTimeString(duration)}),Color(255,0,128,255))
-            playerdb.JobBan(player,job,duration,reason)
+            playerdb.JobBan(player, job, duration, reason)
         elseif steam_id ~= nil then
             interface.showMessage(lang.Lang("CMD_Jobban_ConsoleOut",{job,steam_id,reason,lang.GetTimeString(duration)}),Color(255,0,128,255))
-            playerdb.JobBanSteam(steam_id,job,duration,reason)
+            playerdb.JobBanSteam(steam_id, job, duration, reason)
         end
     end)
 end

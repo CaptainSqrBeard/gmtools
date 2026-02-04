@@ -22,13 +22,16 @@ function module.initialize(contentPackage, forcedLaunch, path)
     local gameInfo = require("GMT_Scripts._UTILS.gameInfo")
     local command = require("GMT_Scripts._UTILS.command")
     local addons = require("GMT_Scripts.addons")
-    config.CheckFiles()
+    local files = require("GMT_Scripts._UTILS.files")
+    local sanctions = require("GMT_Scripts._UTILS.sanctions")
     
     require("GMT_Scripts.hooks").initialize()
+    sanctions.initialize()
+
+    files.initialize(config.GetDefaultJSONConfig())
 
     -- Load config and lang
     config.Load()
-    playerdb.Load()
     lang.Load(config.configValues.language)
 
     -- Console commands
@@ -65,6 +68,7 @@ function module.initialize(contentPackage, forcedLaunch, path)
 
     require("GMT_Scripts.Moderation.Jobban.jobban").initialize()
     require("GMT_Scripts.Moderation.Jobban.unjobban").initialize()
+    require("GMT_Scripts.Moderation.Jobban.jobban_list").initialize()
 
     require("GMT_Scripts.Moderation.smite").initialize()
     require("GMT_Scripts.config").initialize()
@@ -72,12 +76,8 @@ function module.initialize(contentPackage, forcedLaunch, path)
     
     -- Chat commands
     require("GMT_Scripts.Chat.other").initialize()
-
-
-    -- Debug
-    --require("GMT_Scripts.debug")
-
-    -- Checking Player Commands in config after adding them
+    
+    playerdb.Load()
     config.CheckPlayerCommands()
 
     Timer.Wait(function ()

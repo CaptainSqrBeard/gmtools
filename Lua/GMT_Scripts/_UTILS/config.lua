@@ -1,207 +1,110 @@
 -- This is my first time that i doing something like this
 
--- How to do file things:
--- File.CreateDirectory('LocalMods/Test')
--- File.Read('LocalMods/Test')
--- File.Delete('LocalMods/Test')
--- File.Write('LocalMods/Test')
--- File.Exists('LocalMods/Test')
 local module = {}
 
 local utils = require("GMT_Scripts._UTILS.utils")
 local command = require("GMT_Scripts._UTILS.command")
-
-local default = 
-"ahelp_enabled:true\n"..
-"player_commands:.list;.help;.ping;.ahelp;.cls\n"..
-"lowest_job:assistant\n"..
-"language:en\n"..
-"do_bwoink:true"
+local files = require("GMT_Scripts._UTILS.files")
+local legacyConfig = require("GMT_Scripts.Migration.legacyConfig")
 
 module.configValues = {}
-local path = "LocalMods/_GMT_Config/"
+local configFilePath = files.getPath().."config.json"
+local legacyConfigFilePath = files.getPath().."config.txt"
 
-function module.CheckFiles()
-    if not File.DirectoryExists(path) then
-        File.CreateDirectory(path)
-        File.Write(path.."config.txt", default)
-        File.Write(path.."players.txt", '')
-        return true
-    end
-    if not File.Exists(path.."players.txt") then
-        File.Write(path.."players.txt", '')
-        return true
-    end
-    if not File.Exists(path.."config.txt") then
-        File.Write(path.."config.txt", default)
-        return true
-    end
-    return false
+local defaultConfig
+
+function module.GetDefaultConfig()
+    local newConfig = {}
+
+    newConfig.config_version = 1
+    newConfig.player_commands = {".list",".help",".ping",".ahelp",".cls",".clock"}
+    newConfig.ahelp_enabled = true
+    newConfig.lowest_job = "assistant"
+    newConfig.language = "en"
+    newConfig.stackJobBans = true
+
+    return newConfig
 end
 
-local parameter_load = {}
-local parameter_save = {}
+function module.GetDefaultJSONConfig()
+    return json.serialize(defaultConfig)
+end
 
--- For loading values from file
-parameter_load["ahelp_enabled"] = function (line)
-    if line == "false" then
-        module.configValues.ahelp_enabled = false
-    elseif line == "true" then
-        module.configValues.ahelp_enabled = true
+defaultConfig = module.GetDefaultConfig()
+
+function module.ValidateConfigTable(configTable)
+    local validatedTable = {}
+    
+    module.ValidateValue("config_version", "number", validatedTable, configTable)
+    module.ValidateValue("player_commands", "table", validatedTable, configTable)
+    module.ValidateValue("ahelp_enabled", "boolean", validatedTable, configTable)
+    module.ValidateValue("lowest_job", "string", validatedTable, configTable)
+    module.ValidateValue("language", "string", validatedTable, configTable)
+    module.ValidateValue("stackJobBans", "boolean", validatedTable, configTable)
+
+    return validatedTable
+    --module.ValidateValue(validatedTable, configTable, "do_bwoink", "bool")
+end
+
+function module.ValidateValue(name, parameterType, validatedTable, rawTable)
+    if rawTable[name] ~= nil and type(rawTable[name]) == parameterType then
+        validatedTable[name] = rawTable[name]
     else
-        module.configValues.ahelp_enabled = true
-        for i, client in ipairs(Client.ClientList) do
-            utils.SendConsoleMessage('GM-Tools: Warning! Unknown value in config at parameter "ahelp_enabled". Using default value',client,Color(255,64,0,255))
-            return false
-        end
+        validatedTable[name] = defaultConfig[name]
     end
-end
-parameter_load["player_commands"] = function (line)
-    local list = utils.Split(line,";")
-    local out = {}
-    for i, cmd in ipairs(list) do
-        table.insert(out,cmd)
-    end
-    module.configValues.player_commands = out
-end
-parameter_load["lowest_job"] = function (line)
-    if line == "" then
-        module.configValues.lowest_job = "assistant"
-        return
-    end
-    module.configValues.lowest_job = line
-end
-parameter_load["language"] = function (line)
-    module.configValues.language = line
-end
-parameter_load["do_bwoink"] = function (line)
-    if line == "false" then
-        module.configValues.do_bwoink = false
-    elseif line == "true" then
-        module.configValues.do_bwoink = true
-    else
-        module.configValues.do_bwoink = true
-        for i, client in ipairs(Client.ClientList) do
-            utils.SendConsoleMessage('GM-Tools: Warning! Unknown value in config at parameter "do_bwoink". Using default value',client,Color(255,64,0,255))
-            return false
-        end
-    end
-end
-
--- For saving files
-parameter_save["ahelp_enabled"] = function ()
-    if module.configValues.ahelp_enabled == true then
-        return "true"
-    else
-        return "false"
-    end
-end
-parameter_save["player_commands"] = function ()
-    return table.concat(module.configValues.player_commands,';')
-end
-parameter_save["lowest_job"] = function ()
-    return module.configValues.lowest_job
-end
-parameter_save["language"] = function ()
-    return module.configValues.language
-end
-parameter_save["do_bwoink"] = function ()
-    if module.configValues.do_bwoink == true then
-        return "true"
-    else
-        return "false"
-    end
-end
-
-
-
-function module.CreateConfig()
-    File.Write(path.."config.txt", default)
 end
 
 function module.LoadDefault()
-    module.configValues = {}
-    module.configValues.player_commands = {".list",".help",".ping",".ahelp",".cls",".clock"}
-    module.configValues.ahelp_enabled = true
-    module.configValues.lowest_job = "assistant"
-    module.configValues.language = "en"
-    module.configValues.do_bwoink = true
+    module.configValues = module.GetDefaultConfig()
 end
-
-local function read_value(line)
-    local parameter
-    local value
-    if line == '' or line:sub(1,2) == '##' then
-        return nil,nil
-    end
-    for i = 1, #line, 1 do
-        if line:sub(i,i) == ':' then
-            parameter = line:sub(1,i-1)
-            value = line:sub(i+1,#line)
-            return parameter,value
-        end
-    end
-    if parameter == nil or value == nil then
-        return false, nil
-    end
-    return parameter,nil
-end
-
-
 
 function module.Load()
-    module.LoadDefault()
-
-    if module.CheckFiles() then
+    -- When config is not present
+    if not File.Exists(configFilePath) then
+        -- Migration: Check if there's legacy config and try to migrate
+        if File.Exists(legacyConfigFilePath) then
+            local legacyConfigTable = legacyConfig.MigrateConfigLegacy(File.Read(legacyConfigFilePath))
+            if legacyConfigTable ~= nil then
+                utils.SendConsoleMessageAdminLevel('GM-Tools: Migrating from legacy config',Color(255,128,0,255))
+                module.configValues = module.ValidateConfigTable(legacyConfigTable)
+                module.Save()
+                files.backupFile(legacyConfigFilePath)
+                File.Delete(legacyConfigFilePath)
+                return
+            end
+        end
+        
+        -- Create default config
+        files.validateFile(configFilePath, module.GetDefaultJSONConfig())
+        module.configValues = module.GetDefaultConfig()
+        --utils.SendConsoleMessageAdminLevel('GM-Tools: Config file not present. Generating default config.',Color(255,64,0,255))
         return
     end
-    if File.Exists(path.."config.txt") then
-        local lines = utils.Split(File.Read(path.."config.txt"),'\n')
-        for i, line in ipairs(lines) do
-            local parameter, value = read_value(line)
-            if parameter == false then
-                for i, client in ipairs(Client.ClientList) do
-                    utils.SendConsoleMessage('GM-Tools: Syntax Error in config. Loading default one',client,Color(255,0,0,255))
-                    return false
-                end
-                module.LoadDefault()
-            end
-            if parameter ~= nil then
-                --module.configValues[parameter] = value
-                local func = parameter_load[parameter]
-                if func ~= nil then
-                    func(value)
-                else
-                    for i, client in ipairs(Client.ClientList) do
-                        utils.SendConsoleMessage('GM-Tools: Warning! Unknown parameter in config "'..parameter..'". Skipping it',client,Color(255,64,0,255))
-                    end
-                end
-            end
 
-        end
-    else
-        module.CreateConfig()
-        module.LoadDefault()
-        for i, client in ipairs(Client.ClientList) do
-            utils.SendConsoleMessage('GM-Tools: Config is not exists. Creating default one',client,Color(255,0,0,255))
-        end
-        return false
+
+    -- Try to parse config
+    local parsedTable
+    local content = File.Read(configFilePath)
+    local status, err = pcall(function ()
+        parsedTable = json.parse(content)
+    end)
+
+    -- If parse failed, backup config and load default one
+    if err ~= nil then
+        local backupName, backupPath = files.backupFile(configFilePath)
+        utils.SendConsoleMessageAdminLevel('GM-Tools: Could not parse config file. Loading default config:\n|   '..err..'\nBackup of old config was made: '..backupPath..backupName,Color(255,128,0,255))
+        module.configValues = module.GetDefaultConfig()
+        module.Save()
+        return
     end
-    return true
+
+    -- Validate and load config
+    module.configValues = module.ValidateConfigTable(parsedTable)
 end
-
-
 
 function module.Save()
-    module.CheckFiles()
-    local txt = ""
-    for k, val in pairs(module.configValues) do
-        txt = txt..k..":"..parameter_save[k]().."\n"
-    end
-    File.Write(path.."config.txt",txt)
+    File.Write(configFilePath, json.serialize(module.configValues))
 end
-
-
 
 function module.CheckPlayerCommands()
     local out = {}

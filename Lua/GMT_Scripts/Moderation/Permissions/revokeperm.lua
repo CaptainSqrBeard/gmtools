@@ -24,18 +24,19 @@ function module.initialize()
             interface.showMessage("GM-Tools: "..lang.Lang("Error_PlayerNotFound"),Color(255,0,0,255))
             return
         end
-        playerdb.Create(r_client)
+
+        local playerdata = playerdb.GetEntry(r_client.SteamID)
 
         -- Revoking all perms if parameter is 'all'
         if args[2] == "all" then
             interface.showMessage("GM-Tools: "..lang.Lang("CMD_RevokePerm_all",{r_client.Name}),Color(255,0,255,255))
-            playerdb.playerDatabase[r_client.SteamID].Permissions = {}
+            playerdata.command_permissions = {}
             permissions.RestorePerms(r_client)
             playerdb.Save()
             return
         end
 
-        local perms = playerdb.playerDatabase[r_client.SteamID].Permissions
+        local perms = playerdata.command_permissions
 
         interface.showMessage(lang.Lang("CMD_RevokePerm_header",{r_client.Name}),Color(255,0,255,255))
         -- Getting perms
@@ -64,9 +65,9 @@ function module.initialize()
             end
         end
 
-        playerdb.playerDatabase[r_client.SteamID].Permissions = perms
+        playerdata.command_permissions = perms
         permissions.RestorePerms(r_client)
-        playerdb.Save()
+        playerdb.SavePlayer(r_client.SteamID)
     end)
 end
 

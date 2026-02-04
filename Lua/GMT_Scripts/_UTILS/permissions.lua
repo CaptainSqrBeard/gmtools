@@ -11,10 +11,8 @@ function module.RestorePerms(client)
     local list = {}
     local add_list = {}
 
-    playerdb.Create(client)
-
     for i, cmd in ipairs(Game.Commands) do
-        if utils.Contains(playerCommands, cmd.names[1]) or utils.Contains(playerdb.playerDatabase[client.SteamID].Permissions, cmd.names[1]) then
+        if utils.Contains(playerCommands, cmd.names[1]) or utils.Contains(playerdb.GetEntry(client.SteamID).command_permissions, cmd.names[1]) then
             table.insert(add_list,cmd)
         end
     end
@@ -70,8 +68,7 @@ function module.HasGMTPermission(client, requiredCommand)
     
     if not client.HasPermission(ClientPermissions.ConsoleCommands) then return false end
 
-    playerdb.Create(client)
-    if utils.Contains(playerdb.playerDatabase[client.SteamID].Permissions, requiredCommand) then return true end
+    if utils.Contains(playerdb.GetEntry(client.SteamID).command_permissions, requiredCommand) then return true end
     return false
 end
 
@@ -82,8 +79,7 @@ function module.HasGMTPermissionOffline(steamid, requiredCommand)
 
     if utils.Contains(playerCommands, requiredCommand) then return true end
 
-    playerdb.CreateSteam("Unknown", steamid)
-    if utils.Contains(playerdb.playerDatabase[steamid].Permissions, requiredCommand) then return true end
+    if utils.Contains(playerdb.GetEntry(steamid).command_permissions, requiredCommand) then return true end
     return false
 end
 
