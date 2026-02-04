@@ -26,6 +26,7 @@ lang_files["Help_SubmarineThrow"] = "Changes physical movement vector of specifi
 lang_files["Help_HumanList"] = "Shows list of humans on map"
 lang_files["Help_CharData"] = "Show information about character"
 lang_files["Help_SpawnChar"] = "Spawns character with user-defined data."
+lang_files["Help_JobbanList"] = "Lists all job bans of a player."
 lang_files["Help_Jobban"] = "Bans job for player, so he can't play on it"
 lang_files["Help_UnJobban"] = "Un-Bans job for player"
 lang_files["Help_GivePerm"] = "Gives player permissions to GM-Tools commands"
@@ -124,7 +125,10 @@ lang_files["Args_Jobban_reason"] = "Reason, why player has been job-banned."
 
 -- UnJobban
 lang_files["Args_UnJobban_player"] = "Name/ID/SteamID of player"
-lang_files["Args_UnJobban_job"] = "Job that will be unbanned for this player. Leave empty to unban all jobs"
+lang_files["Args_UnJobban_job"] = "Job that will be unbanned for this player or ID of job ban to be pardoned. Leave empty to revoke all job bans"
+
+-- JobbanList
+lang_files["Args_JobbanList_player"] = "Name/ID/SteamID of player"
 
 -- GivePerm
 lang_files["Args_GivePerm_player"] = "Name/ID/SteamID of player"
