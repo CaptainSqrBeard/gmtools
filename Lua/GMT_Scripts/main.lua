@@ -12,7 +12,6 @@ function module.initialize(contentPackage, forcedLaunch, path)
     module.forcedLaunch = forcedLaunch
     module.path = path
 
-
     -- Base
     local lang = require("GMT_Scripts._UTILS.lang")
     local player = require("GMT_Scripts._UTILS.player")
@@ -24,6 +23,7 @@ function module.initialize(contentPackage, forcedLaunch, path)
     local addons = require("GMT_Scripts.addons")
     local files = require("GMT_Scripts._UTILS.files")
     local sanctions = require("GMT_Scripts._UTILS.sanctions")
+    local utils = require("GMT_Scripts._UTILS.utils")
     
     require("GMT_Scripts.hooks").initialize()
     sanctions.initialize()
@@ -32,6 +32,7 @@ function module.initialize(contentPackage, forcedLaunch, path)
 
     -- Load config and lang
     config.Load()
+    config.Save()
     lang.Load(config.configValues.language)
 
     -- Console commands
@@ -78,29 +79,35 @@ function module.initialize(contentPackage, forcedLaunch, path)
     require("GMT_Scripts.Chat.other").initialize()
     
     playerdb.Load()
+    playerdb.Save()
     config.CheckPlayerCommands()
 
-    Timer.Wait(function ()
-        -- Init message
-        local init = {
-            "======== GM-Tools ========",
-            "* By CSQRB",
-            "Print '.help' to get info",
-        } 
+    if config.configValues.debugMode then
+        require("GMT_Scripts.debug").initialize()
+    end
 
-        -- List addons
-        if #addons.InstalledAddons > 0 then
-            table.insert(init, "\nList of addons:")
-            for i, addon in ipairs(addons.InstalledAddons) do
-                table.insert(init, "- \""..addon.ContentPackage.Name.."\" Ver: "..addon.ContentPackage.ModVersion)
+    Timer.Wait(function ()
+        if config.configValues.startupMessage then
+            for i, client in ipairs(Client.ClientList) do
+                local startupMessage = lang.Lang("StartupMessage", {module.contentPackage.ModVersion})
+                if not string.find(startupMessage, "CSQRB", 1, true) then
+                    startupMessage = "|  By CSQRB\n|  Version: "..module.contentPackage.ModVersion
+                end
+
+                utils.SendConsoleMessage("===== GM-Tools =====", client, Color(255,128,255,255))
+                utils.SendConsoleMessage(startupMessage, client, Color(255,255,255,255))
+
+                -- List addons
+                if #addons.InstalledAddons > 0 then
+                    local modList = {}
+                    for i, addon in ipairs(addons.InstalledAddons) do
+                        table.insert(modList, "|  * \""..addon.ContentPackage.Name.."\" Ver: "..addon.ContentPackage.ModVersion)
+                    end
+                    utils.SendConsoleMessage(lang.Lang("StartupMessage_AddonList"), client, Color(255,128,255,255))
+                    utils.SendConsoleMessage(table.concat(modList, "\n").."\n", client, Color(255,255,255,255))
+                end
             end
         end
-
-        -- End init message
-        table.insert(init, "=========================")
-        
-        -- Send message
-        print("\n"..table.concat(init,"\n").."\n ")
 
         -- Add all connected clients
         for i, cl in ipairs(Client.ClientList) do

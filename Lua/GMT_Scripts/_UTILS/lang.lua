@@ -9,14 +9,37 @@ local lang_files = {}
 function module.Load(lang)
     utils.Expect(1, lang, "string")
 
-    if lang == "en" then
-        lang_files = dofile(main.path.."/Lua/LangFiles/en.lua")
-    elseif lang == "ru" then
-        lang_files = dofile(main.path.."/Lua/LangFiles/ru.lua")
+    local path
+    if utils.Contains(module.AvailableLanguages(), lang) then
+        path = main.path.."/LangFiles/"..lang..".json"
     else
-        -- Unknown language
-        lang_files = dofile(main.path.."/Lua/LangFiles/en.lua")
+        -- Fall back to unknown language
+        utils.SendConsoleMessageAdminLevel('GM-Tools: Trying to load unknown language: '..lang, Color(255,128,0,255))
+        path = main.path.."/LangFiles/en.json"
     end
+
+    
+    local localization
+    local status, err = pcall(function ()
+        localization = json.parse(File.Read(path))
+    end)
+
+    -- If parse failed, backup config and load default one
+    if err ~= nil then
+        if lang == "en" then
+            utils.SendConsoleMessageAdminLevel('GM-Tools: Could not load localization:\n|   '..err..'\nCURRENTLY NO LOCALIZATION IS LOADED!',Color(255,128,0,255))
+            return
+        end
+        utils.SendConsoleMessageAdminLevel('GM-Tools: Could not load localization:\n|   '..err..'\nTrying to load english localization instead',Color(255,128,0,255))
+        module.Load("en")
+        return
+    end
+
+    lang_files = localization
+end
+
+function module.GetLocalizationTable()
+    return lang_files
 end
 
 function module.ListUnspecifiedKeys()

@@ -1,49 +1,18 @@
+local module = {}
+
 local utils = require("GMT_Scripts._UTILS.utils")
 local command = require("GMT_Scripts._UTILS.command")
+local lang = require("GMT_Scripts._UTILS.lang")
+local files = require("GMT_Scripts._UTILS.files")
 
-command.AddCommand("con","DEBUG: Calls 'client.connected' hook",false,function(client,cursor,args)
-    Hook.Call("client.connected",client)
-end)
+function module.initialize()
+    command.AddCommand("json_language", "dump language to json", true, nil)
 
-command.AddCommand("clicktext","DEBUG: clickable text",false,function(client,cursor,args)
-    local chatMsg = ChatMessage.Create("gmt",utils.FormattedText("Text",{color="color:#ffffff"}), ChatMessageType.Error, nil, nil)
-    Game.SendDirectChatMessage(chatMsg, client)
-end)
+    command.AssignSharedCommand("json_language",function (args, interface)
+        interface.showMessage("Dumping all language to json in _GMT_Config")
 
-local function test(client, name)
-    if (client == nil) then return name end
-        local retVal = "|color:#ff9900;"
-
-        if client.SteamID ~= 0 then
-            retVal = retVal.."metadata:"..client.SteamID.."|"
-        else
-            retVal = retVal.."metadata:"..client.SessionId.."|"
-        end
-
-        if name ~= nil then
-            retVal = retVal..name:gsub("|","") .."|end|"
-        else
-            retVal = retVal..client.Name:gsub("|","").."|end|"
-        end
-
-        return retVal
+        File.Write(files.getPath().."language_dump.json", json.serialize(lang.GetLocalizationTable()))
+    end)
 end
 
-local function text(text, tags)
-    local out = "|"
-    for i = 1, #tags-1, 1 do
-        out = out..tags[i].name..":"..tags[i].value..";"
-    end
-    out = out..tags[#tags].name..":"..tags[#tags].value.."|"..text:gsub("|","").."|end|"
-    return out
-end
-
-command.AddCommand("tfunc","DEBUG: clickable text",false,function(client,cursor,args)
-    utils.SendConsoleMessage(test(client),client)
-end)
-
-command.AddCommand("tfunctext","DEBUG: clickable text",false,function(client,cursor,args)
-    utils.SendConsoleMessage("t "..text("text",{{name="color",value="#ffffff"},{name="metadata",value=client.SteamID}}),client)
-    local chatMsg = ChatMessage.Create("gmt",utils.FormattedText("Text",{{name="color",value="#ff00ff"},{name="metadata",value=client.SteamID}}), ChatMessageType.Error, nil, nil)
-    Game.SendDirectChatMessage(chatMsg, client)
-end)
+return module

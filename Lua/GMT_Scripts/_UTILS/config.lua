@@ -22,6 +22,8 @@ function module.GetDefaultConfig()
     newConfig.lowest_job = "assistant"
     newConfig.language = "en"
     newConfig.stackJobBans = true
+    newConfig.debugMode = false
+    newConfig.startupMessage = true
 
     return newConfig
 end
@@ -41,6 +43,8 @@ function module.ValidateConfigTable(configTable)
     module.ValidateValue("lowest_job", "string", validatedTable, configTable)
     module.ValidateValue("language", "string", validatedTable, configTable)
     module.ValidateValue("stackJobBans", "boolean", validatedTable, configTable)
+    module.ValidateValue("debugMode", "boolean", validatedTable, configTable)
+    module.ValidateValue("startupMessage", "boolean", validatedTable, configTable)
 
     return validatedTable
     --module.ValidateValue(validatedTable, configTable, "do_bwoink", "bool")

@@ -50,7 +50,7 @@ function module.initialize()
         for i, ban in ipairs(jobbans) do
             local bannedJob = ban.additionalData.job
             local banReason = ban.additionalData.reason
-            local givenTime = os.date("%d.%m.%y %H:%M:%S", ban.givenAt)
+            local givenTime = sanctions.getGiveTime(ban)
             local durationTime
             if ban.expiresAt == -1 then
                 durationTime = lang.GetTimeString(0)
