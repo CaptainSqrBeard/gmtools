@@ -7,6 +7,7 @@ local config = require("GMT_Scripts._UTILS.config")
 local files = require("GMT_Scripts._UTILS.files")
 local legacyPlayerdb = require("GMT_Scripts.Migration.legacyPlayerdb")
 local sanctions = require("GMT_Scripts._UTILS.sanctions")
+local main = require("GMT_Scripts.main")
 
 local legacyPlayersPath = files.getPath().."players.txt"
 local playerDataPath = files.getPath().."Players/"
@@ -43,7 +44,7 @@ end
 
 -- Creates table of default player data
 function module.GetDefaultPlayerData(name)
-    return {name=name,command_permissions={},sanctions={}}
+    return {name=name, command_permissions={}, permissions={}, sanctions={}}
 end
 
 -- Retrieves player data entry. Caches it too
@@ -62,7 +63,7 @@ function module.GetEntry(steamid)
             -- If parse failed, backup player data and load default one
             if err ~= nil then
                 local backupName, backupPath = files.backupFile(dataPath, "Players")
-                utils.SendConsoleMessageAdminLevel('GM-Tools: Could not parse player data of '..steamid..'. Loading default player data:\n|   '..err..'\nBackup of old player data was made: '..backupPath..backupName,Color(255,128,0,255))
+                main.SendWarningMessage('GM-Tools: Could not parse player data of '..steamid..'. Loading default player data:\n|   '..err..'\nBackup of old player data was made: '..backupPath..backupName)
                 cachedPlayers[steamid] = module.GetDefaultPlayerData()
             else
                 cachedPlayers[steamid] = module.ValidatePlayerData(parsedTable)
@@ -80,6 +81,7 @@ function module.ValidatePlayerData(playerData)
     local validatedData = {}
     validatedData.data_version = 1
     validatedData.command_permissions = {}
+    validatedData.permissions = {}
     validatedData.sanctions = {}
 
     if type(playerData.name) == "string" then
@@ -87,11 +89,11 @@ function module.ValidatePlayerData(playerData)
     end
 
     if playerData.command_permissions ~= nil then
-        for i, cmd in ipairs(playerData.command_permissions) do
-            if utils.Contains(command.ConsoleCommands, cmd) then
-                table.insert(validatedData.command_permissions, cmd)
-            end
-        end
+        validatedData.command_permissions = playerData.command_permissions
+    end
+
+    if playerData.permissions ~= nil then
+        validatedData.permissions = playerData.permissions
     end
 
     if playerData.sanctions ~= nil then
@@ -143,7 +145,7 @@ function module.JobBanSteam(client_steam,job_id,period,reason)
     utils.Expect(3, period, "number")
     utils.Expect(4, reason, "string")
     
-    if job_id == config.configValues.lowest_job then
+    if job_id == config.configValues.lowest_job or module.HasPermission(client_steam, "jobban_immune") then
         return false
     end
 
@@ -161,7 +163,7 @@ function module.JobBanSteam(client_steam,job_id,period,reason)
     end
 
     local oldJobban = module.GetJobBan(client_steam, job_id)
-    if config.configValues.stackJobBans and oldJobban ~= nil and oldJobban.expiresAt > 0 then
+    if config.configValues.stack_job_bans and oldJobban ~= nil and oldJobban.expiresAt > 0 then
         oldJobban.revoked = true
         expiresAt = expiresAt + (oldJobban.expiresAt - currentTime)
         reason = reason.." + "..oldJobban.additionalData.reason
@@ -176,7 +178,7 @@ end
 
 -- Gets job ban on specified job
 function module.GetJobBan(client_steam,job_id)
-    if job_id == config.configValues.lowest_job then
+    if job_id == config.configValues.lowest_job or module.HasPermission(client_steam, "jobban_immune") then
         return
     end
 
@@ -202,15 +204,14 @@ end
 
 -- Gets all job bans
 function module.GetJobBans(client_steam,job_id)
-    if job_id == config.configValues.lowest_job then
+    if job_id == config.configValues.lowest_job or module.HasPermission(client_steam, "jobban_immune") then
         return {}
     end
 
-    local found = {}
     local entry = module.GetEntry(client_steam)
-    local active_jobbans = sanctions.getActiveSanctions(entry, "job_ban")
 
-    local longestBan
+    local found = {}
+    local active_jobbans = sanctions.getActiveSanctions(entry, "job_ban")
 
     for i, jobban in ipairs(active_jobbans) do
         if jobban.additionalData.job == job_id then
@@ -219,6 +220,18 @@ function module.GetJobBans(client_steam,job_id)
     end
     
     return found
+end
+
+-- this method also exists in permissions module :|
+function module.HasPermission(steamid, requiredPermissions)
+    utils.Expect(2, requiredPermissions, "string")
+
+    local playerCommands = config.configValues.player_commands
+
+    if utils.Contains(playerCommands, requiredPermissions) then return true end
+
+    if utils.Contains(module.GetEntry(steamid).permissions, requiredPermissions) then return true end
+    return false
 end
 
 return module

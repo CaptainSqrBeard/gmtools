@@ -60,7 +60,7 @@ function module.initialize()
 
         -- For recipients
         for i, cl in ipairs(Client.ClientList) do
-            if permissions.HasPermission(cl,".adminpm") then
+            if permissions.HasCommandPermission(cl,".adminpm") then
                 module.sendAHelpToAdmins(client,cl,msg)
             end
         end
@@ -107,7 +107,7 @@ function module.initialize()
 
         -- For recipients
         for i, cl in ipairs(Client.ClientList) do
-            if permissions.HasPermission(cl,".adminpm") then
+            if permissions.HasCommandPermission(cl,".adminpm") then
                 module.sendAHelpToAdmins(client,cl,msg)
             end
         end

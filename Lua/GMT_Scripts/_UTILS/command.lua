@@ -194,7 +194,7 @@ end
 * help: Help Text in .help (String)
 * func: Function to execute (Function)
 --]]
-function module.AddChatCommand(name,help,func)
+function module.AddChatCommand(name,help,func,usage)
     utils.Expect(1, name, "string")
     utils.Expect(2, help, "string")
     utils.Expect(3, func, "function")

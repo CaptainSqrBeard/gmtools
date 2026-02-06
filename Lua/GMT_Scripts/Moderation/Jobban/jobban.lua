@@ -43,7 +43,7 @@ function module.initialize()
         end
 
         -- Can't jobban player with permission to jobban
-        if permissions.HasGMTPermissionOffline(steam_id, ".jobban") then
+        if permissions.HasPermission(steam_id, "jobban_immune") then
             interface.showMessage("GMTools: "..lang.Lang("CMD_Jobban_AdminIssue"),Color(255,0,0,255))
             return
         end

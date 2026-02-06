@@ -83,7 +83,7 @@ function module.initialize()
 
         -- Message for other admins
         for i, cl in ipairs(Client.ClientList) do
-            if (interface.executor ~= nil and cl.SessionId ~= interface.executor.SessionId) and cl.SessionId ~= r_client.SessionId and permissions.HasPermission(cl, ".adminpm") then
+            if (interface.executor ~= nil and cl.SessionId ~= interface.executor.SessionId) and cl.SessionId ~= r_client.SessionId and permissions.HasCommandPermission(cl, ".adminpm") then
                 utils.SendConsoleMessage(lang.Lang("CMD_AdminPM_con_to_other_L1",{sender_name,r_client.Name}),cl,Color(255,0,0,255))
                 utils.SendConsoleMessage(lang.Lang("CMD_AdminPM_con_to_other_L2",{msg}),cl,Color(255,255,255,255))
             end

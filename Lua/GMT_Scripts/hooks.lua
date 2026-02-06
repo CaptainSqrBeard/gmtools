@@ -15,6 +15,7 @@ function module.initialize()
         if not Game.IsDedicated and client.SessionId == 1 then
             -- All perms to host
             playerData.command_permissions = command.ListAllCommands()
+            playerData.permissions = permissions.ListAllPermissions()
             playerdb.SavePlayer(client.SteamID)
         end
 
@@ -73,7 +74,7 @@ function module.initialize()
             end
 
             for i, cl in ipairs(Client.ClientList) do
-                if (cl.Character ~= nil and not cl.Character.IsDead) and (player.CanSeeGhostChat(cl)) then
+                if (cl.Character ~= nil and not cl.Character.IsDead and cl.Character.SpeechImpediment < 100) and (player.CanSeeGhostChat(cl)) then
                     local chatMsg = ChatMessage.Create(nil, out_msg, ChatMessageType.Dead, client.Character, client)
                     Game.SendDirectChatMessage(chatMsg, cl)
                 end

@@ -107,7 +107,7 @@ function module.initialize()
     end)
 
     command.AddChatCommand("dead",lang.Lang("Help_DeadMsg"),function (client,args)
-        if not permissions.HasPermission(client,".deadmsg") then
+        if not permissions.HasCommandPermission(client,".deadmsg") then
             local chatMsg = ChatMessage.Create("GM-Tools",utils.FormattedText(lang.Lang("Error_NotEnoughPermissions"),{{name="color",value="#b1cbfc"}}), ChatMessageType.Dead, nil, nil)
             Game.SendDirectChatMessage(chatMsg, client)
             return

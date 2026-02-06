@@ -1,6 +1,7 @@
 local module = {}
 
 local utils = require("GMT_Scripts._UTILS.utils")
+local lang = require("GMT_Scripts._UTILS.lang")
 
 local registeredSanctions = {}
 
@@ -11,29 +12,60 @@ function module.initialize()
         validated.job = utils.ValidateOrDefault(data.job, nil, "string", "nil")
         return validated
     end,
-    function (data)
-
+    function (sanction)
+        local bannedJob = sanction.additionalData.job
+        local banReason = sanction.additionalData.reason
+        local givenTime = module.getGiveTime(sanction)
+        local durationTime
+        if sanction.expiresAt == -1 then
+            durationTime = lang.GetTimeString(0)
+        else
+            durationTime = lang.GetTimeString(sanction.expiresAt - sanction.givenAt)
+        end
+        return lang.Lang("Sanction_Jobban",{bannedJob, banReason, givenTime, durationTime}),Color(255,255,255,255)
     end)
     module.registerSanctionType("ahelp_ban", function (data)
         local validated = {}
         validated.reason = utils.ValidateOrDefault(data.reason, nil, "string", "nil")
         return validated
+    end,
+    function (sanction)
+        local banReason = sanction.additionalData.reason
+        local givenTime = module.getGiveTime(sanction)
+        local durationTime
+        if sanction.expiresAt == -1 then
+            durationTime = lang.GetTimeString(0)
+        else
+            durationTime = lang.GetTimeString(sanction.expiresAt - sanction.givenAt)
+        end
+        return lang.Lang("Sanction_Ahelp",{banReason, givenTime, durationTime}),Color(255,255,255,255)
     end)
     module.registerSanctionType("note", function (data)
         local validated = {}
         validated.text = utils.ValidateOrDefault(data.text, nil, "string", "nil")
-        validated.reason = utils.ValidateOrDefault(data.reason, nil, "string", "nil")
         validated.public = utils.ValidateOrDefault(data.public, false, "bool", "nil")
         local rate = utils.ValidateOrDefault(data.rating, nil, "number", "nil")
         if rate ~= nil then
             validated.rating = utils.Clamp(rate)
         end
         return validated
+    end,
+    function (sanction)
+        local durationTime
+        local givenTime = module.getGiveTime(sanction)
+        local note = sanction.additionalData.text
+        local rating = sanction.additionalData.rating
+        if sanction.expiresAt == -1 then
+            durationTime = lang.GetTimeString(0)
+        else
+            durationTime = lang.GetTimeString(sanction.expiresAt - sanction.givenAt)
+        end
+        return lang.Lang("Sanction_Note",{rating, note, givenTime, durationTime}),Color(255,255,255,255)
     end)
 end
 
-function module.registerSanctionType(id, validator, checker)
-    registeredSanctions[id] = {validator=validator}
+function module.registerSanctionType(id, validator, visualizer)
+    registeredSanctions[id] = {validator=validator, visualizer=visualizer}
 end
 
 function module.createSanction(sanctionType, expiresAt, additionalData, givenAt)
@@ -106,6 +138,15 @@ end
 function module.isActiveSanction(sanction)
     local curTime = os.time()
     return not sanction.revoked and (sanction.expiresAt == -1 or sanction.expiresAt > curTime)
+end
+
+function module.getAsString(sanction)
+    local type = sanction.type
+    local sanctionObj = registeredSanctions[type]
+    
+    if sanctionObj ~= nil and sanctionObj.visualizer ~= nil then
+        return sanctionObj.visualizer(sanction)
+    end
 end
 
 function module.getGiveTime(sanction)

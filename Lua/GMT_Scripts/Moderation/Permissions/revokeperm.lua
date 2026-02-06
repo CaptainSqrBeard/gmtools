@@ -27,6 +27,12 @@ function module.initialize()
 
         local playerdata = playerdb.GetEntry(r_client.SteamID)
 
+        -- Check if player is immune
+        if playerdb.HasPermission(r_client.SteamID, "jobban_immune") then
+            interface.showMessage("GM-Tools: "..lang.Lang("CMD_RevokePerm_AdminIssue"),Color(255,0,0,255))
+            return
+        end
+
         -- Revoking all perms if parameter is 'all'
         if args[2] == "all" then
             interface.showMessage("GM-Tools: "..lang.Lang("CMD_RevokePerm_all",{r_client.Name}),Color(255,0,255,255))

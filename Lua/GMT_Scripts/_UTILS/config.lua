@@ -1,11 +1,10 @@
--- This is my first time that i doing something like this
-
 local module = {}
 
 local utils = require("GMT_Scripts._UTILS.utils")
 local command = require("GMT_Scripts._UTILS.command")
 local files = require("GMT_Scripts._UTILS.files")
 local legacyConfig = require("GMT_Scripts.Migration.legacyConfig")
+local main = require("GMT_Scripts.main")
 
 module.configValues = {}
 local configFilePath = files.getPath().."config.json"
@@ -18,12 +17,14 @@ function module.GetDefaultConfig()
 
     newConfig.config_version = 1
     newConfig.player_commands = {".list",".help",".ping",".ahelp",".cls",".clock"}
+    newConfig.player_permissions = {}
     newConfig.ahelp_enabled = true
     newConfig.lowest_job = "assistant"
     newConfig.language = "en"
-    newConfig.stackJobBans = true
-    newConfig.debugMode = false
-    newConfig.startupMessage = true
+    newConfig.stack_job_bans = true
+    newConfig.debug_mode = false
+    newConfig.print_startup_message = true
+    newConfig.admin_warnings = false
 
     return newConfig
 end
@@ -39,12 +40,14 @@ function module.ValidateConfigTable(configTable)
     
     module.ValidateValue("config_version", "number", validatedTable, configTable)
     module.ValidateValue("player_commands", "table", validatedTable, configTable)
+    module.ValidateValue("player_permissions", "table", validatedTable, configTable)
     module.ValidateValue("ahelp_enabled", "boolean", validatedTable, configTable)
     module.ValidateValue("lowest_job", "string", validatedTable, configTable)
     module.ValidateValue("language", "string", validatedTable, configTable)
-    module.ValidateValue("stackJobBans", "boolean", validatedTable, configTable)
-    module.ValidateValue("debugMode", "boolean", validatedTable, configTable)
-    module.ValidateValue("startupMessage", "boolean", validatedTable, configTable)
+    module.ValidateValue("stack_job_bans", "boolean", validatedTable, configTable)
+    module.ValidateValue("debug_mode", "boolean", validatedTable, configTable)
+    module.ValidateValue("print_startup_message", "boolean", validatedTable, configTable)
+    module.ValidateValue("admin_warnings", "boolean", validatedTable, configTable)
 
     return validatedTable
     --module.ValidateValue(validatedTable, configTable, "do_bwoink", "bool")
@@ -96,7 +99,7 @@ function module.Load()
     -- If parse failed, backup config and load default one
     if err ~= nil then
         local backupName, backupPath = files.backupFile(configFilePath)
-        utils.SendConsoleMessageAdminLevel('GM-Tools: Could not parse config file. Loading default config:\n|   '..err..'\nBackup of old config was made: '..backupPath..backupName,Color(255,128,0,255))
+        main.SendWarningMessage('GM-Tools: Could not parse config file. Loading default config:\n|   '..err..'\nBackup of old config was made: '..backupPath..backupName)
         module.configValues = module.GetDefaultConfig()
         module.Save()
         return
@@ -108,20 +111,6 @@ end
 
 function module.Save()
     File.Write(configFilePath, json.serialize(module.configValues))
-end
-
-function module.CheckPlayerCommands()
-    local out = {}
-    for i, cmd in ipairs(module.configValues.player_commands) do
-        if utils.Contains(command.ConsoleCommands,cmd) then
-            table.insert(out,cmd)
-        else
-            for i, client in ipairs(Client.ClientList) do
-                utils.SendConsoleMessage('GM-Tools: Warning! Unknown GM-Tools command "'..cmd..'" in config at parameter "player_commands". Ignoring it.',client,Color(255,64,0,255))
-            end
-        end
-    end
-    module.configValues.player_commands = out
 end
 
 return module

@@ -2,6 +2,8 @@ local module = {}
 
 local utils = require("GMT_Scripts._UTILS.utils")
 local lang = require("GMT_Scripts._UTILS.lang")
+local config = require("GMT_Scripts._UTILS.config")
+local permissions = require("GMT_Scripts._UTILS.permissions")
 
 -- Here is temporary memory!
 module.playerMemory = {}

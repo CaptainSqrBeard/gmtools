@@ -7,7 +7,7 @@ local WARNING_TEXT = "It seems you didn't enabled GMTools in mod list\nIf you wa
 if CLIENT then return end
 
 if SERVER then
-    DebugConsole = LuaUserData.CreateStatic('Barotrauma.DebugConsole', true)
+    local DebugConsole = LuaUserData.CreateStatic('Barotrauma.DebugConsole', true)
 
     local mods = Game.GetEnabledContentPackages()
     local path = table.pack(...)[1]

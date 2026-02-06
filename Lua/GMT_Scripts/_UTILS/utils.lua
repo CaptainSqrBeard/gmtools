@@ -222,6 +222,14 @@ function module.IsAttachedWire(item)
     return false
 end
 
+function module.CopyTableSoft(array)
+    local copy = {}
+    for i, value in ipairs(array) do
+        table.insert(copy, value)
+    end
+    return copy
+end
+
 function module.Contains(array,item)
     for i, value in ipairs(array) do
         if value == item then return true end
@@ -233,12 +241,26 @@ function module.Union(array1,array2)
     module.Expect(1, array1, "table")
     module.Expect(2, array2, "table")
 
+    local out = module.CopyTableSoft(array1)
     for i, item in ipairs(array2) do
         if not module.Contains(array1,item) then
-            table.insert(array1,item)
+            table.insert(out, item)
         end
     end
-    return array1
+    return out
+end
+
+function module.Intersect(array1,array2)
+    module.Expect(1, array1, "table")
+    module.Expect(2, array2, "table")
+
+    local out = module.CopyTableSoft(array1)
+    for i, item in ipairs(array2) do
+        if module.Contains(array1,item) then
+            table.insert(out, item)
+        end
+    end
+    return out
 end
 
 function module.Filter(array,filter)

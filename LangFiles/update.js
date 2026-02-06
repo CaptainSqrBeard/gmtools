@@ -15,15 +15,15 @@ if (process.argv.length >= 3){
 
 function getPlaceholder(key, argAmount){
   if (hasPlaceholders && placeholders[key] !== undefined) {
-    return "!!! " + placeholders[key] + " !!!"
+    return " !!! " + placeholders[key] + " !!! "
   }
   else {
     if (argAmount === 2) {
-      return "!!! TRANSLATE w/ " + argAmount + " args !!!";
+      return " !!! TRANSLATE w/ " + argAmount + " args !!! ";
     }
     else
     {
-      return "!!! TRANSLATE !!!";
+      return " !!! TRANSLATE !!! ";
     }
   }
 }

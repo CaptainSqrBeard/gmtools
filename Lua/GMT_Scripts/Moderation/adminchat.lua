@@ -9,7 +9,7 @@ local ADMIN_CHAT_PREFIX = "[GMT ADMIN CHAT] "
 
 function module.initialize()
     command.AddChatCommand("admin",lang.Lang("Help_AdminChat"),function (client,args)
-        if not permissions.HasPermission(client,".adminchat") then
+        if not permissions.HasCommandPermission(client,".adminchat") then
             local chatMsg = ChatMessage.Create("GM-Tools",utils.FormattedText(lang.Lang("Error_NotEnoughPermissions"),{{name="color",value="#ff8589"}}), ChatMessageType.Error, nil, nil)
             Game.SendDirectChatMessage(chatMsg, client)
             return
@@ -41,7 +41,7 @@ function module.initialize()
 
         Game.Log(ADMIN_CHAT_PREFIX..utils.ClientLogName(client)..": "..msg, ServerLogMessageType.Chat)
         for i, cl in ipairs(Client.ClientList) do
-            if permissions.HasGMTPermission(cl,".adminchat") then
+            if permissions.HasCommandPermission(cl,".adminchat") then
                 local chatMsg = ChatMessage.Create(nil, utils.FormattedText(msg,{{name="color",value="#cc4a4e"}}), ChatMessageType.Error, client.Character, client)
                 Game.SendDirectChatMessage(chatMsg, cl)
             end
@@ -73,7 +73,7 @@ function module.initialize()
         if interface.executor ~= nil then
             Game.Log(ADMIN_CHAT_PREFIX..utils.ClientLogName(interface.executor)..": "..msg, ServerLogMessageType.Chat)
             for i, cl in ipairs(Client.ClientList) do
-                if permissions.HasGMTPermission(cl,".adminchat") then
+                if permissions.HasCommandPermission(cl,".adminchat") then
                     local chatMsg = ChatMessage.Create(nil, utils.FormattedText(msg,{{name="color",value="#cc4a4e"}}), ChatMessageType.Error, interface.executor.Character, interface.executor)
                     Game.SendDirectChatMessage(chatMsg, cl)
                 end
@@ -81,7 +81,7 @@ function module.initialize()
         else
             Game.Log(ADMIN_CHAT_PREFIX.."HOST: "..msg, ServerLogMessageType.Chat)
             for i, cl in ipairs(Client.ClientList) do
-                if permissions.HasGMTPermission(cl,".adminchat") then
+                if permissions.HasCommandPermission(cl,".adminchat") then
                     local chatMsg = ChatMessage.Create(lang.Lang("Console"), utils.FormattedText(msg,{{name="color",value="#cc4a4e"}}), ChatMessageType.Error, nil, nil)
                     Game.SendDirectChatMessage(chatMsg, cl)
                 end

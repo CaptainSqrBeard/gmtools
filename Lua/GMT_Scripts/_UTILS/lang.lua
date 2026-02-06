@@ -1,6 +1,7 @@
 
 local utils = require("GMT_Scripts._UTILS.utils")
 local main = require("GMT_Scripts.main")
+local messages = require("GMT_Scripts._UTILS.messages")
 
 local module = {}
 
@@ -14,7 +15,7 @@ function module.Load(lang)
         path = main.path.."/LangFiles/"..lang..".json"
     else
         -- Fall back to unknown language
-        utils.SendConsoleMessageAdminLevel('GM-Tools: Trying to load unknown language: '..lang, Color(255,128,0,255))
+        messages.SendWarningMessage('GM-Tools: Trying to load unknown language: '..lang)
         path = main.path.."/LangFiles/en.json"
     end
 
@@ -27,10 +28,10 @@ function module.Load(lang)
     -- If parse failed, backup config and load default one
     if err ~= nil then
         if lang == "en" then
-            utils.SendConsoleMessageAdminLevel('GM-Tools: Could not load localization:\n|   '..err..'\nCURRENTLY NO LOCALIZATION IS LOADED!',Color(255,128,0,255))
+            main.SendWarningMessage('GM-Tools: Could not load localization:\n|   '..err..'\nCURRENTLY NO LOCALIZATION IS LOADED!')
             return
         end
-        utils.SendConsoleMessageAdminLevel('GM-Tools: Could not load localization:\n|   '..err..'\nTrying to load english localization instead',Color(255,128,0,255))
+        main.SendWarningMessage('GM-Tools: Could not load localization:\n|   '..err..'\nTrying to load english localization instead')
         module.Load("en")
         return
     end
