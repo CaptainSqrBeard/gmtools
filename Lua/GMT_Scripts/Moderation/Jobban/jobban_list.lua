@@ -19,13 +19,6 @@ function module.initialize()
 
         local player = utils.GetClientByString(args[1])
         local steam_id
-        local job = args[2]
-        
-        -- Checking job
-        if job ~= nil and utils.GetJobPrefab(job) == nil then
-            interface.showMessage("GMTools: "..lang.Lang("CMD_Jobban_UnknownJob"),Color(255,0,0,255))
-            return
-        end
 
         -- Checking player
         if player == nil then

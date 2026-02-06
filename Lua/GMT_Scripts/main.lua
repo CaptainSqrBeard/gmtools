@@ -106,6 +106,9 @@ function module.initialize(contentPackage, forcedLaunch, path)
     require("GMT_Scripts.Moderation.Jobban.jobban").initialize()
     require("GMT_Scripts.Moderation.Jobban.unjobban").initialize()
     require("GMT_Scripts.Moderation.Jobban.jobban_list").initialize()
+    
+    require("GMT_Scripts.Moderation.Sanction.sanction_delete").initialize()
+    require("GMT_Scripts.Moderation.Sanction.sanction_list").initialize()
 
     require("GMT_Scripts.Moderation.smite").initialize()
     require("GMT_Scripts.config").initialize()
