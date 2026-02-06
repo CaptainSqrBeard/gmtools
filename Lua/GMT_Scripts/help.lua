@@ -1,19 +1,25 @@
-GMT.AddCommand("help",GMT.Lang("Help_Help"),false,nil,{{name="command",desc=GMT.Lang("Args_Help_command"),optional=true}})
 
-GMT.AssignSharedCommand("help",function (args, interface)
+local utils = require("GMT_Scripts._UTILS.utils")
+local command = require("GMT_Scripts._UTILS.command")
+local player = require("GMT_Scripts._UTILS.player")
+local lang = require("GMT_Scripts._UTILS.lang")
+
+command.AddCommand("help",lang.Lang("Help_Help"),false,nil,{{name="command",desc=lang.Lang("Args_Help_command"),optional=true}})
+
+command.AssignSharedCommand("help",function (args, interface)
     if #args == 1 and string.lower(args[1]) ~= "all" then
         -- Show list of commands
-        local command = args[1]
-        local data = GMT.HelpData[command]
+        local cmd = args[1]
+        local data = command.GetHelpData(cmd)
         if data ~= nil then
             -- Show info about command
             interface.showMessage("==== "..data.name.." ====",Color(255,0,255,255))
-            interface.showMessage(GMT.Lang("CMD_Help_desc")..":   "..data.help,Color(255,255,255,255))
-            interface.showMessage(GMT.GetCommandUsageHelp(command),Color(255,255,255,255))
+            interface.showMessage(lang.Lang("CMD_Help_desc")..":   "..data.help,Color(255,255,255,255))
+            interface.showMessage(command.GetCommandUsageHelp(cmd),Color(255,255,255,255))
 
             if data.args ~= nil then
                 local out = {}
-                interface.showMessage(GMT.Lang("CMD_Help_args")..":",Color(255,255,255,255))
+                interface.showMessage(lang.Lang("CMD_Help_args")..":",Color(255,255,255,255))
                 for i, arg in ipairs(data.args) do
                     table.insert(out,i..". '"..arg.name.."'   >   "..arg.desc)
                 end
@@ -21,13 +27,13 @@ GMT.AssignSharedCommand("help",function (args, interface)
             end
 
         else
-            interface.showMessage("GMTools: "..GMT.Lang("CMD_Help_unknown",{command}),Color(255,0,128,255))
+            interface.showMessage("GMTools: "..lang.Lang("CMD_Help_unknown",{cmd}),Color(255,0,128,255))
         end
     elseif args[1] ~= nil and string.lower(args[1]) == "all" then
         if args[2] == "chat" then
             -- Show list of chat commands
-            interface.showMessage("==== "..GMT.Lang("CMD_Help_chatlist").." ====",Color(255,0,255,255))
-            for k, cmd in pairs(GMT.ChatCommands) do
+            interface.showMessage("==== "..lang.Lang("CMD_Help_chatlist").." ====",Color(255,0,255,255))
+            for k, cmd in pairs(command.ChatCommands) do
                 if cmd.usage == nil then
                     interface.showMessage("."..cmd.name.."   >        "..cmd.help,Color(255,255,255,255))
                 else
@@ -36,19 +42,19 @@ GMT.AssignSharedCommand("help",function (args, interface)
             end
         else
             -- Show list of commands
-            interface.showMessage("==== "..GMT.Lang("CMD_Help_list").." ====",Color(255,0,255,255))
-            for k, cmd in pairs(GMT.HelpData) do
+            interface.showMessage("==== "..lang.Lang("CMD_Help_list").." ====",Color(255,0,255,255))
+            for k, cmd in pairs(command.GetAllHelpData()) do
                 if cmd.usage == nil then
-                    interface.showMessage("."..cmd.name.."   >        "..cmd.help,Color(255,255,255,255))
+                    interface.showMessage("."..cmd.name.."     -     "..cmd.help,Color(255,255,255,255))
                 else
-                    interface.showMessage("."..cmd.name.." "..cmd.usage.."   >        "..cmd.help,Color(255,255,255,255))
+                    interface.showMessage("."..cmd.name.." "..cmd.usage.."     -     "..cmd.help,Color(255,255,255,255))
                 end
             end
         end
     else
         -- Show help info
-        interface.showMessage("==== "..GMT.Lang("CMD_Help_help").." ====",Color(255,0,255,255))
-        interface.showMessage(GMT.Lang("CMD_Help_line"),Color(255,255,255,255))
-        interface.showMessage(GMT.Lang("CMD_Help_gmt"),Color(255,255,255,158))
+        interface.showMessage("==== "..lang.Lang("CMD_Help_help").." ====",Color(255,0,255,255))
+        interface.showMessage(lang.Lang("CMD_Help_line"),Color(255,255,255,255))
+        interface.showMessage(lang.Lang("CMD_Help_gmt"),Color(255,255,255,158))
     end
 end)

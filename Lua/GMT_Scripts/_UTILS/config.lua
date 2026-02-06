@@ -1,216 +1,116 @@
--- This is my first time that i doing something like this
+local module = {}
 
--- How to do file things:
--- File.CreateDirectory('LocalMods/Test')
--- File.Read('LocalMods/Test')
--- File.Delete('LocalMods/Test')
--- File.Write('LocalMods/Test')
--- File.Exists('LocalMods/Test')
+local utils = require("GMT_Scripts._UTILS.utils")
+local command = require("GMT_Scripts._UTILS.command")
+local files = require("GMT_Scripts._UTILS.files")
+local legacyConfig = require("GMT_Scripts.Migration.legacyConfig")
+local main = require("GMT_Scripts.main")
 
-local default = 
-"ahelp_enabled:true\n"..
-"player_commands:.list;.help;.ping;.ahelp;.cls\n"..
-"lowest_job:assistant\n"..
-"language:en\n"..
-"do_bwoink:true"
+module.configValues = {}
+local configFilePath = files.getPath().."config.json"
+local legacyConfigFilePath = files.getPath().."config.txt"
 
-GMT.Config = {}
-GMT.Config.Vars = {}
-local path = "LocalMods/_GMT_Config/"
+local defaultConfig
 
-function GMT.Config.CheckFiles()
-    if not File.DirectoryExists(path) then
-        File.CreateDirectory(path)
-        File.Write(path.."config.txt", default)
-        File.Write(path.."players.txt", '')
-        return true
-    end
-    if not File.Exists(path.."players.txt") then
-        File.Write(path.."players.txt", '')
-        return true
-    end
-    if not File.Exists(path.."config.txt") then
-        File.Write(path.."config.txt", default)
-        return true
-    end
-    return false
+function module.GetDefaultConfig()
+    local newConfig = {}
+
+    newConfig.config_version = 1
+    newConfig.player_commands = {".list",".help",".ping",".ahelp",".cls",".clock"}
+    newConfig.player_permissions = {}
+    newConfig.ahelp_enabled = true
+    newConfig.lowest_job = "assistant"
+    newConfig.language = "en"
+    newConfig.stack_job_bans = true
+    newConfig.debug_mode = false
+    newConfig.print_startup_message = true
+    newConfig.admin_warnings = false
+
+    return newConfig
 end
-GMT.Config.CheckFiles()
 
-local parameter_load = {}
-local parameter_save = {}
+function module.GetDefaultJSONConfig()
+    return json.serialize(defaultConfig)
+end
 
--- For loading values from file
-parameter_load["ahelp_enabled"] = function (line)
-    if line == "false" then
-        GMT.Config.Vars.ahelp_enabled = false
-    elseif line == "true" then
-        GMT.Config.Vars.ahelp_enabled = true
+defaultConfig = module.GetDefaultConfig()
+
+function module.ValidateConfigTable(configTable)
+    local validatedTable = {}
+    
+    module.ValidateValue("config_version", "number", validatedTable, configTable)
+    module.ValidateValue("player_commands", "table", validatedTable, configTable)
+    module.ValidateValue("player_permissions", "table", validatedTable, configTable)
+    module.ValidateValue("ahelp_enabled", "boolean", validatedTable, configTable)
+    module.ValidateValue("lowest_job", "string", validatedTable, configTable)
+    module.ValidateValue("language", "string", validatedTable, configTable)
+    module.ValidateValue("stack_job_bans", "boolean", validatedTable, configTable)
+    module.ValidateValue("debug_mode", "boolean", validatedTable, configTable)
+    module.ValidateValue("print_startup_message", "boolean", validatedTable, configTable)
+    module.ValidateValue("admin_warnings", "boolean", validatedTable, configTable)
+
+    return validatedTable
+    --module.ValidateValue(validatedTable, configTable, "do_bwoink", "bool")
+end
+
+function module.ValidateValue(name, parameterType, validatedTable, rawTable)
+    if rawTable[name] ~= nil and type(rawTable[name]) == parameterType then
+        validatedTable[name] = rawTable[name]
     else
-        GMT.Config.Vars.ahelp_enabled = true
-        for i, client in ipairs(Client.ClientList) do
-            GMT.SendConsoleMessage('GM-Tools: Warning! Unknown value in config at parameter "ahelp_enabled". Using default value',client,Color(255,64,0,255))
-            return false
+        validatedTable[name] = defaultConfig[name]
+    end
+end
+
+function module.LoadDefault()
+    module.configValues = module.GetDefaultConfig()
+end
+
+function module.Load()
+    -- When config is not present
+    if not File.Exists(configFilePath) then
+        -- Migration: Check if there's legacy config and try to migrate
+        if File.Exists(legacyConfigFilePath) then
+            local legacyConfigTable = legacyConfig.MigrateConfigLegacy(File.Read(legacyConfigFilePath))
+            if legacyConfigTable ~= nil then
+                utils.SendConsoleMessageAdminLevel('GM-Tools: Migrating from legacy config',Color(255,128,0,255))
+                module.configValues = module.ValidateConfigTable(legacyConfigTable)
+                module.Save()
+                files.backupFile(legacyConfigFilePath)
+                File.Delete(legacyConfigFilePath)
+                return
+            end
         end
-    end
-end
-parameter_load["player_commands"] = function (line)
-    local list = GMT.Split(line,";")
-    local out = {}
-    for i, cmd in ipairs(list) do
-        table.insert(out,cmd)
-    end
-    GMT.Config.Vars.player_commands = out
-end
-parameter_load["lowest_job"] = function (line)
-    if line == "" then
-        GMT.Config.Vars.lowest_job = "assistant"
+        
+        -- Create default config
+        files.validateFile(configFilePath, module.GetDefaultJSONConfig())
+        module.configValues = module.GetDefaultConfig()
+        --utils.SendConsoleMessageAdminLevel('GM-Tools: Config file not present. Generating default config.',Color(255,64,0,255))
         return
     end
-    GMT.Config.Vars.lowest_job = line
-end
-parameter_load["language"] = function (line)
-    GMT.Config.Vars.language = line
-end
-parameter_load["do_bwoink"] = function (line)
-    if line == "false" then
-        GMT.Config.Vars.do_bwoink = false
-    elseif line == "true" then
-        GMT.Config.Vars.do_bwoink = true
-    else
-        GMT.Config.Vars.do_bwoink = true
-        for i, client in ipairs(Client.ClientList) do
-            GMT.SendConsoleMessage('GM-Tools: Warning! Unknown value in config at parameter "do_bwoink". Using default value',client,Color(255,64,0,255))
-            return false
-        end
-    end
-end
-
--- For saving files
-parameter_save["ahelp_enabled"] = function ()
-    if GMT.Config.Vars.ahelp_enabled == true then
-        return "true"
-    else
-        return "false"
-    end
-end
-parameter_save["player_commands"] = function ()
-    return table.concat(GMT.Config.Vars.player_commands,';')
-end
-parameter_save["lowest_job"] = function ()
-    return GMT.Config.Vars.lowest_job
-end
-parameter_save["language"] = function ()
-    return GMT.Config.Vars.language
-end
-parameter_save["do_bwoink"] = function ()
-    if GMT.Config.Vars.do_bwoink == true then
-        return "true"
-    else
-        return "false"
-    end
-end
 
 
+    -- Try to parse config
+    local parsedTable
+    local content = File.Read(configFilePath)
+    local status, err = pcall(function ()
+        parsedTable = json.parse(content)
+    end)
 
-function GMT.Config.CreateConfig()
-    File.Write(path.."config.txt", default)
-end
-
-function GMT.Config.LoadDefault()
-    GMT.Config.Vars = {}
-    GMT.Config.Vars.player_commands = {".list",".help",".ping",".ahelp",".cls",".clock"}
-    GMT.Config.Vars.ahelp_enabled = true
-    GMT.Config.Vars.lowest_job = "assistant"
-    GMT.Config.Vars.language = "en"
-    GMT.Config.Vars.do_bwoink = true
-end
-
-local function read_value(line)
-    local parameter
-    local value
-    if line == '' or line:sub(1,2) == '##' then
-        return nil,nil
-    end
-    for i = 1, #line, 1 do
-        if line:sub(i,i) == ':' then
-            parameter = line:sub(1,i-1)
-            value = line:sub(i+1,#line)
-            return parameter,value
-        end
-    end
-    if parameter == nil or value == nil then
-        return false, nil
-    end
-    return parameter,nil
-end
-
-
-
-function GMT.Config.Load()
-    GMT.Config.LoadDefault()
-
-    if GMT.Config.CheckFiles() then
+    -- If parse failed, backup config and load default one
+    if err ~= nil then
+        local backupName, backupPath = files.backupFile(configFilePath)
+        main.SendWarningMessage('GM-Tools: Could not parse config file. Loading default config:\n|   '..err..'\nBackup of old config was made: '..backupPath..backupName)
+        module.configValues = module.GetDefaultConfig()
+        module.Save()
         return
     end
-    if File.Exists(path.."config.txt") then
-        local lines = GMT.Split(File.Read(path.."config.txt"),'\n')
-        for i, line in ipairs(lines) do
-            local parameter, value = read_value(line)
-            if parameter == false then
-                for i, client in ipairs(Client.ClientList) do
-                    GMT.SendConsoleMessage('GM-Tools: Syntax Error in config. Loading default one',client,Color(255,0,0,255))
-                    return false
-                end
-                GMT.Config.LoadDefault()
-            end
-            if parameter ~= nil then
-                --GMT.Config.Vars[parameter] = value
-                local func = parameter_load[parameter]
-                if func ~= nil then
-                    func(value)
-                else
-                    for i, client in ipairs(Client.ClientList) do
-                        GMT.SendConsoleMessage('GM-Tools: Warning! Unknown parameter in config "'..parameter..'". Skipping it',client,Color(255,64,0,255))
-                    end
-                end
-            end
 
-        end
-    else
-        GMT.Config.CreateConfig()
-        GMT.Config.LoadDefault()
-        for i, client in ipairs(Client.ClientList) do
-            GMT.SendConsoleMessage('GM-Tools: Config is not exists. Creating default one',client,Color(255,0,0,255))
-        end
-        return false
-    end
-    return true
+    -- Validate and load config
+    module.configValues = module.ValidateConfigTable(parsedTable)
 end
 
-
-
-function GMT.Config.Save()
-    GMT.Config.CheckFiles()
-    local txt = ""
-    for k, val in pairs(GMT.Config.Vars) do
-        txt = txt..k..":"..parameter_save[k]().."\n"
-    end
-    File.Write(path.."config.txt",txt)
+function module.Save()
+    File.Write(configFilePath, json.serialize(module.configValues))
 end
 
-
-
-function GMT.CheckPlayerCommands()
-    local out = {}
-    for i, cmd in ipairs(GMT.Config.Vars.player_commands) do
-        if GMT.Contains(GMT.AllCommands,cmd) then
-            table.insert(out,cmd)
-        else
-            for i, client in ipairs(Client.ClientList) do
-                GMT.SendConsoleMessage('GM-Tools: Warning! Unknown GM-Tools command "'..cmd..'" in config at parameter "player_commands". Ignoring it.',client,Color(255,64,0,255))
-            end
-        end
-    end
-    GMT.Config.Vars.player_commands = out
-end
+return module
