@@ -1,3 +1,5 @@
+local DebugConsole = LuaUserData.CreateStatic('Barotrauma.DebugConsole', true)
+
 local module = {}
 
 function module.NewConsoleMessage(msg, color, isError)

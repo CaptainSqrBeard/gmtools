@@ -149,7 +149,7 @@ function module.JobBanSteam(client_steam,job_id,period,reason)
         return false
     end
 
-    if reason == nil then reason = "No reason" end
+    if reason == nil then reason = "Unspecified" end
 
     local entry = module.GetEntry(client_steam)
 

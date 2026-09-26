@@ -9,10 +9,6 @@ function module.initialize()
     {name="size",desc=lang.Lang("Args_NearItems_size"),optional=true},
     {name="ignore_wires",desc=lang.Lang("Args_NearItems_ignorewires"),optional=true}})
 
-    command.AddCommand("nearitems",lang.Lang("Help_NearItems"),true,nil,{
-    {name="size",desc=lang.Lang("Args_NearItems_size")},
-    {name="ignore_wires",desc=lang.Lang("Args_NearItems_ignorewires")}})
-
     command.AssignClientCommand("nearitems",function(client,cursor,args)
         local size = 100
         local ignore_wires = true

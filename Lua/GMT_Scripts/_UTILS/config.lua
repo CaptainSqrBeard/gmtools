@@ -16,7 +16,7 @@ function module.GetDefaultConfig()
     local newConfig = {}
 
     newConfig.config_version = 1
-    newConfig.player_commands = {".list",".help",".ping",".ahelp",".cls",".clock"}
+    newConfig.player_commands = {".help",".ping",".ahelp",".cls",".clock"}
     newConfig.player_permissions = {}
     newConfig.ahelp_enabled = true
     newConfig.lowest_job = "assistant"
@@ -24,7 +24,7 @@ function module.GetDefaultConfig()
     newConfig.stack_job_bans = true
     newConfig.debug_mode = false
     newConfig.print_startup_message = true
-    newConfig.admin_warnings = false
+    newConfig.admin_warnings = true
     newConfig.patch_console = true
     newConfig.give_vanilla_permissions = false
     newConfig.give_command_permission = false

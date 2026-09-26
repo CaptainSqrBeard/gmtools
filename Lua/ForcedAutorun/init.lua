@@ -13,7 +13,7 @@ if SERVER then
     local path = table.pack(...)[1]
 
     for i, mod in ipairs(mods) do
-        if path.."/filelist.xml" == mod.Path then
+        if path == mod.Dir then
             return
         end
     end
@@ -21,8 +21,9 @@ if SERVER then
     if DEV_MODE then
         local contentPackage
         for i, mod in ipairs(Game.GetEnabledContentPackages()) do
-            if main.path.."/filelist.xml" == mod.Path then
+            if main.path == mod.Dir then
                 contentPackage = mod
+                break
             end
         end
 
@@ -31,11 +32,13 @@ if SERVER then
     end
 
     Timer.Wait(function ()
-        for key, client in pairs(Client.ClientList) do
-            local msg = ChatMessage.Create("", " \n"..WARNING_TEXT.."\n ", ChatMessageType.Console, nil, nil, nil, Color(255,0,255,255))
-            Game.SendDirectChatMessage(msg, client)
+        if not main.initialized then
+            for key, client in pairs(Client.ClientList) do
+                local msg = ChatMessage.Create("", " \n"..WARNING_TEXT.."\n ", ChatMessageType.Console, nil, nil, nil, Color(255,0,255,255))
+                Game.SendDirectChatMessage(msg, client)
 
-            DebugConsole.NewMessage("\n"..WARNING_TEXT.."\n", Color(255,0,255,255))
+                DebugConsole.NewMessage("\n"..WARNING_TEXT.."\n", Color(255,0,255,255))
+            end
         end
     end, 1000)
 
@@ -52,7 +55,7 @@ if SERVER then
 
         local contentPackage
         for i, mod in ipairs(Game.GetEnabledContentPackages()) do
-            if main.path.."/filelist.xml" == mod.Path then
+            if main.path == mod.Dir then
                 contentPackage = mod
             end
         end
@@ -81,7 +84,7 @@ if SERVER then
         
         local contentPackage
         for i, mod in ipairs(Game.GetEnabledContentPackages()) do
-            if main.path.."/filelist.xml" == mod.Path then
+            if main.path == mod.Dir then
                 contentPackage = mod
             end
         end

@@ -150,9 +150,8 @@ function module.initialize()
         if (command.IsGMTCommand(executedCommand)) then
             local givenCommand = command.GetCommandByName(executedCommand)
             if givenCommand ~= nil then
-                ptable.PreventExecution = true
-
                 if permissions.HasCommandPermission(client, givenCommand.names[1].value) then
+                    ptable.PreventExecution = true
                     local splitCommand = command.SplitCommand(consoleInput)
                     table.remove(splitCommand, 1)
                     
@@ -160,9 +159,6 @@ function module.initialize()
                         givenCommand.ServerExecuteOnClientRequest(client, cursor, splitCommand);
                         Game.Log("GM-Tools: Console command \"" .. consoleInput .. "\" executed by " .. utils.ClientLogName(client) .. ".", ServerLogMessageType.ConsoleUsage);
                     end)
-                else
-                    Game.Server.SendConsoleMessage("You are not permitted to use the command\"" .. givenCommand.names[1].value .. "\"!", client, Color.Red);
-                    Game.Log("GM-Tools: " .. utils.ClientLogName(client) .. " attempted to execute the console command \"" .. consoleInput .. "\" without a permission to use the command.", ServerLogMessageType.ConsoleUsage);
                 end
             end
         end

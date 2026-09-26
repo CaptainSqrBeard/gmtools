@@ -14,7 +14,7 @@ function module.initialize()
 
     command.AssignSharedCommand("sanction_delete",function (args, interface)
         if #args < 2 then
-            interface.showMessage("GMTools: "..lang.Lang("Error_NotEnoughArguments").."\n"..command.GetCommandUsageHelp("unjobban"),Color(255,0,0,255))
+            interface.showMessage("GMTools: "..lang.Lang("Error_NotEnoughArguments").."\n"..command.GetCommandUsageHelp("sanction_delete"),Color(255,0,0,255))
             return
         end
 
