@@ -123,6 +123,17 @@ function module.initialize(contentPackage, forcedLaunch, path)
     if config.configValues.debug_mode then
         require("GMT_Scripts.debug").initialize()
     end
+    
+    -- Addons API: Call event so addons can register
+    if not forcedLaunch then
+        -- We call the hook only after all mods are loaded so addons could see it
+        Hook.Add("loaded", "gmt_loaded", function ()
+            Hook.Call("gmtools.loaded", {contentPackage, forcedLaunch})
+        end)
+    else
+        -- Addons are already loaded so we just call an event
+        Hook.Call("gmtools.loaded", {contentPackage, forcedLaunch})
+    end
 
     -- Add all connected clients
     for i, cl in ipairs(Client.ClientList) do
@@ -159,17 +170,6 @@ function module.initialize(contentPackage, forcedLaunch, path)
             permissions.RestorePerms(cl)
         end
     end, 1000)
-
-    -- Addons API: Call event so addons can register
-    if not forcedLaunch then
-        -- We call the hook only after all mods are loaded so addons could see it
-        Hook.Add("loaded", "gmt_loaded", function ()
-            Hook.Call("gmtools.loaded", {contentPackage, forcedLaunch})
-        end)
-    else
-        -- Addons are already loaded so we just call an event
-        Hook.Call("gmtools.loaded", {contentPackage, forcedLaunch})
-    end
 end
 
 return module

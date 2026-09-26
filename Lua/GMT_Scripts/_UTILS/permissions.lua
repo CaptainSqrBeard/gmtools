@@ -25,6 +25,10 @@ function module.ListAllPermissions()
 end
 
 function module.RestorePerms(client)
+    if not config.configValues.give_vanilla_permissions then
+        return
+    end
+
     local playerCommands = config.configValues.player_commands
     local list = {}
     local add_list = {}
@@ -47,9 +51,12 @@ function module.RestorePerms(client)
             table.insert(output_list,cmd)
         end
     end
-
-    client.GivePermission(ClientPermissions.ConsoleCommands);
+    
     client.SetPermissions(client.Permissions, utils.Union(output_list, add_list))
+
+    if config.configValues.give_command_permission and #playerCommands > 0 then
+        client.GivePermission(ClientPermissions.ConsoleCommands)
+    end
 end
 
 -- Checks if player has permissions to do this command in vanilla terms
@@ -117,14 +124,14 @@ function module.HasCommandPermissionOffline(steamid, requiredCommand)
     return false
 end
 
-function module.HasPermission(steamid, requiredPermissions)
-    utils.Expect(2, requiredPermissions, "string")
+function module.HasPermission(steamid, requiredPermission)
+    utils.Expect(2, requiredPermission, "string")
 
-    local playerCommands = config.configValues.player_commands
+    local playerPerms = config.configValues.player_permissions
 
-    if utils.Contains(playerCommands, requiredPermissions) then return true end
+    if utils.Contains(playerPerms, requiredPermission) then return true end
 
-    if utils.Contains(playerdb.GetEntry(steamid).permissions, requiredPermissions) then return true end
+    if utils.Contains(playerdb.GetEntry(steamid).permissions, requiredPermission) then return true end
     return false
 end
 

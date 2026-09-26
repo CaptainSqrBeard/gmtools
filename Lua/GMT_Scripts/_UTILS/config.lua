@@ -25,6 +25,9 @@ function module.GetDefaultConfig()
     newConfig.debug_mode = false
     newConfig.print_startup_message = true
     newConfig.admin_warnings = false
+    newConfig.patch_console = true
+    newConfig.give_vanilla_permissions = false
+    newConfig.give_command_permission = false
 
     return newConfig
 end
@@ -48,6 +51,9 @@ function module.ValidateConfigTable(configTable)
     module.ValidateValue("debug_mode", "boolean", validatedTable, configTable)
     module.ValidateValue("print_startup_message", "boolean", validatedTable, configTable)
     module.ValidateValue("admin_warnings", "boolean", validatedTable, configTable)
+    module.ValidateValue("patch_console", "boolean", validatedTable, configTable)
+    module.ValidateValue("give_vanilla_permissions", "boolean", validatedTable, configTable)
+    module.ValidateValue("give_command_permission", "boolean", validatedTable, configTable)
 
     return validatedTable
     --module.ValidateValue(validatedTable, configTable, "do_bwoink", "bool")

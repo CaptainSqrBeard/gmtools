@@ -9,6 +9,8 @@ local command = require("GMT_Scripts._UTILS.command")
 local config = require("GMT_Scripts._UTILS.config")
 
 function module.initialize()
+    local DebugConsole = LuaUserData.CreateStatic('Barotrauma.DebugConsole', true)
+
     Hook.Add("client.connected", "GMT.client_connect", function(client)
         local playerData = playerdb.GetEntry(client.SteamID)
         
@@ -114,6 +116,105 @@ function module.initialize()
             end
         end
     end)
+
+    
+	-- Hook on GMTools load
+	Hook.Add("gmtools.loaded", "gmt_bwoink_load", function(contentPackage, forcedLaunch)
+		for i, mod in ipairs(Game.GetEnabledContentPackages()) do
+			-- Load only if registration was approved
+			if path == mod.Dir and addons.RegisterAddon(mod) then
+				loadAddon()
+				break
+			end
+		end
+	end)
+
+	Hook.Patch("Barotrauma.DebugConsole", "ExecuteClientCommand",
+	--[[{
+		"Barotrauma.Networking.Client",
+		"System.Numerics.Vector2",
+		"System.String"
+	},]]
+	function(instance, ptable)
+        if not config.configValues.patch_console then
+            return nil
+        end
+
+        local client = ptable["client"]
+        local cursor = ptable["cursorWorldPos"]
+        local consoleInput = ptable["command"]
+
+        local executedCommand = command.GetCommandFromConsoleInput(consoleInput)
+
+        -- Custom execution for our commands
+        if (command.IsGMTCommand(executedCommand)) then
+            local givenCommand = command.GetCommandByName(executedCommand)
+            if givenCommand ~= nil then
+                ptable.PreventExecution = true
+
+                if permissions.HasCommandPermission(client, givenCommand.names[1].value) then
+                    local splitCommand = command.SplitCommand(consoleInput)
+                    table.remove(splitCommand, 1)
+                    
+                    local success, err = pcall(function()
+                        givenCommand.ServerExecuteOnClientRequest(client, cursor, splitCommand);
+                        Game.Log("GM-Tools: Console command \"" .. consoleInput .. "\" executed by " .. utils.ClientLogName(client) .. ".", ServerLogMessageType.ConsoleUsage);
+                    end)
+                else
+                    Game.Server.SendConsoleMessage("You are not permitted to use the command\"" .. givenCommand.names[1].value .. "\"!", client, Color.Red);
+                    Game.Log("GM-Tools: " .. utils.ClientLogName(client) .. " attempted to execute the console command \"" .. consoleInput .. "\" without a permission to use the command.", ServerLogMessageType.ConsoleUsage);
+                end
+            end
+        end
+
+		return nil
+	end, Hook.HookMethodType.Before)
+
+    Hook.Patch("Barotrauma.Networking.GameServer", "ClientReadServerCommand",
+	function(instance, ptable)
+        if not config.configValues.patch_console then
+            return nil
+        end
+
+        local inc = ptable["inc"]
+
+        local sender
+        for i, client in ipairs(Game.Server.ConnectedClients) do
+            if client.Connection == inc.Sender then
+                sender = client
+                break
+            end
+        end
+
+        if sender == nil then
+            return nil
+        end
+
+        local cmd = ClientPermissions.None
+        local preCmdInitialPos = inc.BitPosition
+        cmd = inc.ReadUInt16()
+
+        -- Make our commands be executable without console command permissions
+        if cmd == ClientPermissions.ConsoleCommands then
+            local preInputInitialPos = inc.BitPosition
+            consoleInput = inc.ReadString()
+            inc.BitPosition = preInputInitialPos
+
+            local executedCommand = command.GetCommandFromConsoleInput(consoleInput)
+
+            local playerCommands = config.configValues.player_commands
+
+            if utils.Contains(playerCommands, executedCommand) and command.IsGMTCommand(executedCommand) then
+                ptable.PreventExecution = true
+                DebugConsole.ServerRead(inc, sender)
+            end
+        end
+
+        -- it is important to set bit position back, otherwise stuff will break
+        inc.BitPosition = preCmdInitialPos
+
+        return nil
+	end, Hook.HookMethodType.Before)
 end
 
 return module

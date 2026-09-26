@@ -2,7 +2,7 @@
 local DEV_MODE = false
 local main = require("GMT_Scripts.main")
 
-local WARNING_TEXT = "It seems you didn't enabled GMTools in mod list\nIf you want enable it by force, use command \".gmtools_forcedrun\"\nMod will be launched right now and will be hidden from players"
+local WARNING_TEXT = "It seems you didn't enabled GMTools in mod list\nIf you want enable it by force, use command \".gmtools_forcedrun\""
 
 if CLIENT then return end
 

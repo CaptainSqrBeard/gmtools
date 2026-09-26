@@ -44,7 +44,7 @@
     "Args_SubmarineLock_submarine": "ID of submarine",
     "Args_SubmarineThrow_mode": "'set': (Default) replaces current motion vector with new, 'add': Adds new motion vector to the current one.",
     "Args_SubmarineThrow_submarine": "ID of submarine",
-    "Args_SubmarineThrow_vector": "Motion vector. Can be 'cursor', 'ncursor' или вектор в формате X;Y. 'cursor': Set vector by cursor direction. The further the cursor, the faster the speed. 'ncursor': Set vector by cursor direction but with fixed speed.",
+    "Args_SubmarineThrow_vector": "Motion vector. Can be 'cursor', 'ncursor' or vector presented as X;Y. 'cursor': Set vector by cursor direction. The further the cursor, the faster the speed. 'ncursor': Set vector by cursor direction but with fixed speed.",
     "Args_SubmarineTp_position": "Position to teleport on. If unspecified, submarine will teleport on cursor. Can be 'cursor', 'start', 'end' or X;Y.",
     "Args_SubmarineTp_submarine": "ID of submarine",
     "Args_ToggleAHelp_status": "Can be 'true' (only enable), 'false' (only disable) or 'switch' (switch between on/off)",

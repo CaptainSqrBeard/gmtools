@@ -24,6 +24,20 @@ function module.ListAllCommands()
     return list
 end
 
+function module.GetCommandFromConsoleInput(consoleInput)
+    local firstWhitespace = string.find(consoleInput, " ", 1, true)
+
+    if firstWhitespace ~= nil then
+        return string.sub(consoleInput, 1, firstWhitespace-1)
+    else
+        return consoleInput
+    end
+end
+
+function module.IsGMTCommand(cmd)
+    return utils.Contains(module.ConsoleCommands, cmd)
+end
+
 function module.SplitCommand(msg)
     utils.Expect(1, msg, "string")
 
@@ -211,6 +225,15 @@ function module.GetCommandByString(string)
             return cmd
         end
     end
+end
+
+function module.GetCommandByName(cmdName)
+    for i, cmd in ipairs(Game.Commands) do
+        if utils.Contains(cmd.names, cmdName) then
+            return cmd
+        end
+    end
+    return nil
 end
 
 function module.GetCommandUsageHelp(command)

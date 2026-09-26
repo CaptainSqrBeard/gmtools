@@ -86,7 +86,7 @@ function module.initialize()
             for i, lan in ipairs(languages) do
                 interface.showMessage(lang.Lang("CMD_Lang_element",{lan}),Color(255,255,255,255))
             end
-            interface.showMessage(command.GetCommandUsageHelp("lang").."\n"..lang.Lang("CMD_Lang_suggest"),Color(255,255,255,255))
+            --interface.showMessage(command.GetCommandUsageHelp("lang").."\n"..lang.Lang("CMD_Lang_suggest"),Color(255,255,255,255))
             return
         end
 
