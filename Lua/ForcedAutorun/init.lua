@@ -66,9 +66,9 @@ if SERVER then
             return
         end
 
-        DebugConsole.NewMessage("Launching GMTools in force mod...", Color(255,0,255,255), false)
+        DebugConsole.NewMessage("Launching GMTools in forced mod...", Color(255,0,255,255), false)
 
-        local msg = ChatMessage.Create("", "Launching GMTools in force mod...", ChatMessageType.Console, nil, nil, nil, Color(255,0,255,255))
+        local msg = ChatMessage.Create("", "Launching GMTools in forced mod...", ChatMessageType.Console, nil, nil, nil, Color(255,0,255,255))
         Game.SendDirectChatMessage(msg, client)
 
         main.initialize(contentPackage, true, path)
@@ -80,7 +80,7 @@ if SERVER then
             return
         end
 
-        DebugConsole.NewMessage("Launching GMTools in force mod...", Color(255,0,255,255), false)
+        DebugConsole.NewMessage("Launching GMTools in forced mod...", Color(255,0,255,255), false)
         
         local contentPackage
         for i, mod in ipairs(Game.GetEnabledContentPackages()) do

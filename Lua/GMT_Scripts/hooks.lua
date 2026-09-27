@@ -130,11 +130,6 @@ function module.initialize()
 	end)
 
 	Hook.Patch("Barotrauma.DebugConsole", "ExecuteClientCommand",
-	--[[{
-		"Barotrauma.Networking.Client",
-		"System.Numerics.Vector2",
-		"System.String"
-	},]]
 	function(instance, ptable)
         if not config.configValues.patch_console then
             return nil
@@ -150,7 +145,7 @@ function module.initialize()
         if (command.IsGMTCommand(executedCommand)) then
             local givenCommand = command.GetCommandByName(executedCommand)
             if givenCommand ~= nil then
-                if permissions.HasCommandPermission(client, givenCommand.names[1].value) then
+                if permissions.HasGMTCommandPermission(client, givenCommand.names[1].value) then
                     ptable.PreventExecution = true
                     local splitCommand = command.SplitCommand(consoleInput)
                     table.remove(splitCommand, 1)

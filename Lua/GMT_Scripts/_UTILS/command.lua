@@ -217,7 +217,7 @@ function module.AddChatCommand(name,help,func,usage)
     module.ChatCommands["."..name] = {name=name,func=func,help=help,usage=usage}
 end
 
-function module.GetCommandByString(string)
+function module.GetCommandByFirstName(string)
     utils.Expect(1, string, "string")
 
     for i, cmd in ipairs(Game.Commands) do

@@ -43,16 +43,6 @@ function module.GetLocalizationTable()
     return lang_files
 end
 
-function module.ListUnspecifiedKeys()
-    local baseLang = dofile(main.path.."/Lua/LangFiles/en.lua")
-
-    for k, text in pairs(baseLang) do
-        if lang_files[k] == nil then
-            print('Key is unspecified in current language: "'..k..'"')
-        end
-    end
-end
-
 function module.Lang(text,vars)
     utils.Expect(1, text, "string")
     utils.Expect(1, vars, "table", "nil")

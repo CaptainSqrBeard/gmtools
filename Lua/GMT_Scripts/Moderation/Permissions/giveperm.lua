@@ -71,7 +71,7 @@ function module.initialize()
         -- Getting perms
         for i = 2, #args, 1 do
             local given_perm = args[i]
-            local error = false  -- World if Lua has 'continue'...
+            local error = false  -- World if Lua had 'continue'...
 
             if string.sub(given_perm, 1, 1) ~= "." then
                 -- If giver dont have permissions

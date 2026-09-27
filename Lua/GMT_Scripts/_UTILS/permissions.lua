@@ -75,7 +75,7 @@ function module.HasVanillaCommandPermission(client, requiredCommand)
     if not client.HasPermission(ClientPermissions.ConsoleCommands) then return false end
 
     for cmd in client.PermittedConsoleCommands do
-        if cmd == command.GetCommandByString(requiredCommand) then return true end
+        if cmd == command.GetCommandByFirstName(requiredCommand) then return true end
     end
     return false
 end
@@ -103,10 +103,33 @@ function module.HasCommandPermission(client, requiredCommand)
     -- Check if player has barotrauma permission to use command
     if client.HasPermission(ClientPermissions.ConsoleCommands) then
         for cmd in client.PermittedConsoleCommands do
-            if cmd == command.GetCommandByString(requiredCommand) then
+            if cmd == command.GetCommandByFirstName(requiredCommand) then
                 return true
             end
         end
+    end
+
+    return false
+end
+
+-- Checks if player has permission to use this command in gmtools terms
+function module.HasGMTCommandPermission(client, requiredCommand)
+    utils.Expect(2, requiredCommand, "string")
+
+    -- Host has permission to everything
+    if not Game.IsDedicated and client.SessionId == 1 then
+        return true
+    end
+
+    -- Check if command is accessible to everyone
+    local playerCommands = config.configValues.player_commands
+    if utils.Contains(playerCommands, requiredCommand) then
+        return true
+    end
+    
+    -- Check if command is in gmtools permissions
+    if utils.Contains(playerdb.GetEntry(client.SteamID).command_permissions, requiredCommand) then
+        return true
     end
 
     return false
