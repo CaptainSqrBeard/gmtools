@@ -26,8 +26,13 @@ function module.initialize()
             end
         end
 
-        local perms = playerdb.GetEntry(r_client.SteamID).command_permissions
+        local cmd_perms = playerdb.GetEntry(r_client.SteamID).command_permissions
+        local perms = playerdb.GetEntry(r_client.SteamID).permissions
 
+        interface.showMessage(lang.Lang("CMD_PermList_header_commands",{r_client.Name}),Color(255,0,255,255))
+        for i, cmd in ipairs(cmd_perms) do
+            interface.showMessage(lang.Lang("CMD_PermList_item",{cmd}),Color(255,255,255,255))
+        end
         interface.showMessage(lang.Lang("CMD_PermList_header",{r_client.Name}),Color(255,0,255,255))
         for i, cmd in ipairs(perms) do
             interface.showMessage(lang.Lang("CMD_PermList_item",{cmd}),Color(255,255,255,255))

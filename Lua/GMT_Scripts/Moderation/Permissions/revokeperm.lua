@@ -27,8 +27,10 @@ function module.initialize()
 
         local playerdata = playerdb.GetEntry(r_client.SteamID)
 
+        local ishost = interface.isServer or (not Game.IsDedicated and interface.executor.SessionId == 1)
+
         -- Check if player is immune
-        if playerdb.HasPermission(r_client.SteamID, "jobban_immune") then
+        if playerdb.HasPermission(r_client.SteamID, "jobban_immune") and not ishost then
             interface.showMessage("GM-Tools: "..lang.Lang("CMD_RevokePerm_AdminIssue"),Color(255,0,0,255))
             return
         end
@@ -42,36 +44,61 @@ function module.initialize()
             return
         end
 
-        local perms = playerdata.command_permissions
+        local command_perms = playerdata.command_permissions
+        local perms = playerdata.permissions
 
         interface.showMessage(lang.Lang("CMD_RevokePerm_header",{r_client.Name}),Color(255,0,255,255))
         -- Getting perms
         for i = 2, #args, 1 do
-            local cmd = args[i]
+            local removedPerm = args[i]
             local found = false
 
-            -- If not a GMTools command
-            if not utils.Contains(command.ConsoleCommands, cmd) then
-                interface.showMessage(lang.Lang("CMD_RevokePerm_notexists",{cmd}),Color(255,200,200,255))
-            else
-                -- Searching perms for current command
-                for pi, pcmd in ipairs(perms) do
-                    if pcmd == cmd then
-                        table.remove(perms,pi)
-                        found = true
-                        interface.showMessage(lang.Lang("CMD_RevokePerm_revoked",{cmd}),Color(255,255,255,255))
-                        break
+            if string.sub(removedPerm, 1, 1) ~= "." then
+                -- If not a GMTools command
+                if not permissions.availablePermissions[removedPerm] == nil then
+                    interface.showMessage(lang.Lang("CMD_RevokePerm_notexists",{removedPerm}),Color(255,200,200,255))
+                else
+                    -- Searching perms for current command
+                    for pi, foundPerm in ipairs(perms) do
+                        if foundPerm == removedPerm then
+                            table.remove(perms,pi)
+                            found = true
+                            interface.showMessage(lang.Lang("CMD_RevokePerm_revoked",{removedPerm}),Color(255,255,255,255))
+                            break
+                        end
                     end
-                end
 
-                if not found then
-                    interface.showMessage(lang.Lang("CMD_RevokePerm_donthave",{cmd}),Color(255,200,200,255))
-                end
+                    if not found then
+                        interface.showMessage(lang.Lang("CMD_RevokePerm_donthave",{removedPerm}),Color(255,200,200,255))
+                    end
 
+                end
+            else
+                -- If not a GMTools permission
+                if not utils.Contains(command.ConsoleCommands, removedPerm) then
+                    interface.showMessage(lang.Lang("CMD_RevokePerm_command_notexists",{removedPerm}),Color(255,200,200,255))
+                else
+                    -- Searching perms for current permission
+                    for pi, foundCmdPerm in ipairs(command_perms) do
+                        if foundCmdPerm == removedPerm then
+                            table.remove(command_perms,pi)
+                            found = true
+                            interface.showMessage(lang.Lang("CMD_RevokePerm_command_revoked",{removedPerm}),Color(255,255,255,255))
+                            break
+                        end
+                    end
+                
+                    if not found then
+                        interface.showMessage(lang.Lang("CMD_RevokePerm_command_donthave",{removedPerm}),Color(255,200,200,255))
+                    end
+                
+                end
             end
+
+            
         end
 
-        playerdata.command_permissions = perms
+        playerdata.command_permissions = command_perms
         permissions.RestorePerms(r_client)
         playerdb.SavePlayer(r_client.SteamID)
     end)

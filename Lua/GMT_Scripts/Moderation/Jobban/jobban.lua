@@ -34,7 +34,7 @@ function module.initialize()
         -- Checking player
         if player == nil then
             steam_id = string.match(args[1],'%d+')
-            if steam_id:len() ~= STEAM_ID_LENGTH then
+            if steam_id == nil or #steam_id ~= STEAM_ID_LENGTH then
                 interface.showMessage("GMTools: "..lang.Lang("Error_PlayerNotFound"),Color(255,0,0,255))
                 return
             end
