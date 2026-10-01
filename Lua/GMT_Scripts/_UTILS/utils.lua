@@ -233,7 +233,7 @@ function module.CopyTableSoft(array)
 end
 
 function module.Contains(array,item)
-    -- Do not use module.Expect() here as it will cause recursion
+    -- Do not use module.Expect() here as that method use this method (stack overflow)
     if type(array) ~= "table" then
         module.ThrowError("Bad argument #"..index.." ("..module.ConcatStringTable(types, " or ").." expected, got "..type..")", 1)
     end
