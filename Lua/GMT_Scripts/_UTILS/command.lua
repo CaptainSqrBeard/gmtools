@@ -229,7 +229,7 @@ end
 
 function module.GetCommandByName(cmdName)
     for i, cmd in ipairs(Game.Commands) do
-        if utils.Contains(cmd.names, cmdName) then
+        if utils.ContainsInIteratable(cmd.names, cmdName) then
             return cmd
         end
     end

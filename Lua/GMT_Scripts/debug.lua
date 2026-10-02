@@ -13,6 +13,14 @@ function module.initialize()
 
         File.Write(files.getPath().."language_dump.json", json.serialize(lang.GetLocalizationTable()))
     end)
+    
+    command.AddCommand("contains_test", "test error", true, nil)
+
+    command.AssignSharedCommand("contains_test",function (args, interface)
+        interface.showMessage("Testing")
+
+        utils.Contains(nil, 1)
+    end)
 end
 
 return module

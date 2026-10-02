@@ -144,8 +144,9 @@ function module.initialize()
         -- Custom execution for our commands
         if (command.IsGMTCommand(executedCommand)) then
             local givenCommand = command.GetCommandByName(executedCommand)
+            local firstName = utils.GetFirstElement(givenCommand.names)
             if givenCommand ~= nil then
-                if permissions.HasGMTCommandPermission(client, givenCommand.names[1].value) then
+                if permissions.HasGMTCommandPermission(client, firstName.value) then
                     ptable.PreventExecution = true
                     local splitCommand = command.SplitCommand(consoleInput)
                     table.remove(splitCommand, 1)

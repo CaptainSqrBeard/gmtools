@@ -232,9 +232,10 @@ function module.CopyTableSoft(array)
     return copy
 end
 
-function module.Contains(array,item)
+function module.Contains(array, item)
     -- Do not use module.Expect() here as that method use this method (stack overflow)
     if type(array) ~= "table" then
+        print("err: ", array)
         module.ThrowError("Bad argument #"..index.." ("..module.ConcatStringTable(types, " or ").." expected, got "..type..")", 1)
     end
 
@@ -242,6 +243,20 @@ function module.Contains(array,item)
         if value == item then return true end
     end
     return false
+end
+
+function module.ContainsInIteratable(array, item)
+    for value in array do
+        if value == item then return true end
+    end
+    return false
+end
+
+function module.GetFirstElement(array)
+    if array[0] ~= nil then
+        return array[0]
+    end
+    return array[1]
 end
 
 function module.Union(array1,array2)
